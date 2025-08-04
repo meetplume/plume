@@ -18,6 +18,7 @@
         "league/html-to-markdown": "^5.1",
         "mcamara/laravel-localization": "^2.3",
         "panphp/pan": "^0.1.8",
+        "phiki/phiki": "^1.1",
         "rawilk/laravel-settings": "^3.4"
     },
     "require-dev": {
