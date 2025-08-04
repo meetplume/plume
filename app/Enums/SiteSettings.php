@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use Rawilk\Settings\Support\Context;
 use Rawilk\Settings\Facades\Settings;
 
 enum SiteSettings: string
@@ -35,6 +36,9 @@ enum SiteSettings: string
     case MAIN_MENU_MORE = 'main_menu_more';
     case FOOTER_MENU = 'footer_menu';
     case PERMALINKS = 'permalinks';
+    case LANGUAGES = 'languages';
+    case DEFAULT_LANGUAGE = 'default_language';
+    case FALLBACK_LANGUAGE = 'fallback_language';
 
     /**
      * Get the default value for the setting
@@ -176,19 +180,44 @@ enum SiteSettings: string
                 ],
             ],
             self::PERMALINKS => collect(MainPages::cases())->mapWithKeys(fn(MainPages $page) => [$page->value => $page->getDefaultSlug()])->toArray(),
+            self::LANGUAGES => ['en'],
+            self::DEFAULT_LANGUAGE => 'en',
+            self::FALLBACK_LANGUAGE => 'en',
         };
     }
 
-    public function get(): mixed
+    public function get(array $context = []): mixed
     {
         if (app()->runningInConsole()){
             return $this->getDefaultValue();
         }
-        return Settings::get($this->value, $this->getDefaultValue());
+        if ($this->is_translatable() && empty($context)) {
+            $context = ['language' => app()->getLocale() ?? 'en'];
+        }
+        return Settings::context(new Context($context))->get($this->value, $this->getDefaultValue());
     }
 
-    public function set(mixed $value): void
+    public function set(mixed $value, array $context = []): void
     {
-        Settings::set($this->value, $value);
+        Settings::context(new Context($context))->set($this->value, $value);
+    }
+
+    public static function translatable(): array
+    {
+        $translatable = [
+            self::HERO_TITLE,
+            self::HERO_SUBTITLE,
+            self::ABOUT_TEXT,
+            self::ABOUT_TITLE,
+            self::FOOTER_TEXT,
+            self::COPYRIGHT_TEXT,
+        ];
+
+        return array_map(fn(self $setting) => $setting->value, $translatable);
+    }
+
+    public function is_translatable(): bool
+    {
+        return in_array($this->value, self::translatable());
     }
 }
