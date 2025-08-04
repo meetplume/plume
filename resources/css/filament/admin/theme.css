@@ -5,3 +5,18 @@
 @source '../../../../resources/views/filament/**/*';
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
+
+code:where(:not(.fi-not-prose, .fi-not-prose *)) {
+    @apply
+    font-mono
+    rounded-lg
+    px-1
+    py-0.5
+    font-normal
+    before:content-['']
+    after:content-['']
+    bg-primary-100
+    text-primary-600
+    dark:bg-white/20
+    dark:text-primary-100
+}
