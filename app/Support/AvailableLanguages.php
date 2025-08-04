@@ -12,14 +12,14 @@ class AvailableLanguages
         return array_intersect_key(self::all(), array_flip(SiteSettings::LANGUAGES->get()));
     }
 
-    public static function options(): array
+    public static function options(bool $simple = false): array
     {
-        return array_map(function ($language) { return ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::all());
+        return array_map(function ($language) use ($simple) { return $simple ? $language['name'] : ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::all());
     }
 
-    public static function availableOptions(): array
+    public static function availableOptions(bool $simple = false): array
     {
-        return array_map(function ($language) { return ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::get());
+        return array_map(function ($language) use ($simple) { return $simple ? $language['name'] : ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::get());
     }
 
     public static function all(): array

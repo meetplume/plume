@@ -9,8 +9,9 @@ use App\Enums\MainPages;
 use App\Enums\SiteSettings;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Filament\Actions\Action;
 use Filament\Support\Colors\Color;
-use LaravelLang\LocaleList\Locale;
+use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Toggle;
@@ -29,13 +30,14 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\ColorPicker;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Components\Repeater\TableColumn;
 
 class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
 
     public ?array $data = [];
+
+    public ?string $language;
 
     protected static string|null|\BackedEnum $navigationIcon  = 'heroicon-o-adjustments-vertical';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
@@ -45,15 +47,38 @@ class Settings extends Page implements HasForms
     protected static ?int $navigationSort  = 0;
     protected string $view = 'filament.pages.settings';
 
-    public function mount(): void
+
+    protected function loadFormData(): array
     {
         $formData = [];
-
         foreach (SiteSettings::cases() as $setting) {
-            $formData[ $setting->value ] = $setting->get();
+            if($setting->is_translatable() && $this->language){
+                $formData[$setting->value] = $setting->get(context: ['language' => $this->language]);
+            }
+            else{
+                $formData[$setting->value] = $setting->get();
+            }
         }
+        return $formData;
+    }
 
-        $this->form->fill($formData);
+    public function mount(): void
+    {
+        $this->language = SiteSettings::DEFAULT_LANGUAGE->get();
+        $this->form->fill($this->loadFormData());
+    }
+
+    protected function getHeaderActions(): array {
+        return [
+            SelectAction::make('language')
+                ->label(__('Change language'))
+                ->options(AvailableLanguages::availableOptions(simple: true))
+        ];
+    }
+
+    public function updatedLanguage(): void
+    {
+        $this->form->fill($this->loadFormData());
     }
 
     /**
@@ -158,10 +183,12 @@ class Settings extends Page implements HasForms
                     ->aside()
                     ->schema([
                         TextInput::make(SiteSettings::HERO_TITLE->value)
+                            ->live(onBlur: true)
                             ->label(__('Hero title'))
                             ->helperText(__('Wrap a word between two pipes to make it colored. E.g. "Welcome to my |personal| blog"')),
 
                         TextInput::make(SiteSettings::HERO_SUBTITLE->value)
+                            ->live(onBlur: true)
                             ->label(__('Hero subtitle')),
 
                         FileUpload::make(SiteSettings::HERO_IMAGE->value)
@@ -224,9 +251,11 @@ class Settings extends Page implements HasForms
                             ->label(__('Circular image?')),
 
                         TextInput::make(SiteSettings::ABOUT_TITLE->value)
+                            ->live(onBlur: true)
                             ->label(__('About title')),
 
                         RichEditor::make(SiteSettings::ABOUT_TEXT->value)
+                            ->live(onBlur: true)
                             ->toolbarButtons([
                                 ['bold', 'italic', 'underline', 'strike', 'link'],
                                 ['h2', 'h3'],
@@ -243,6 +272,7 @@ class Settings extends Page implements HasForms
                     ->aside()
                     ->schema([
                         RichEditor::make(SiteSettings::FOOTER_TEXT->value)
+                            ->live(onBlur: true)
                             ->toolbarButtons([
                                 ['bold', 'italic', 'underline', 'strike', 'link'],
                                 ['undo', 'redo'],
@@ -250,6 +280,7 @@ class Settings extends Page implements HasForms
                             ->label(__('Footer text')),
 
                         TextInput::make(SiteSettings::COPYRIGHT_TEXT->value)
+                            ->live(onBlur: true)
                             ->label(__('Copyright text'))
                             ->helperText(__('Use {year} to display the current year. E.g. ©{year} My Company.')),
 
@@ -480,7 +511,12 @@ class Settings extends Page implements HasForms
         }
 
         foreach (SiteSettings::cases() as $setting) {
-            $setting->set($state[ $setting->value ] ?? null);
+            if($setting->is_translatable() && $this->language){
+                $setting->set($state[ $setting->value ] ?? null, ['language' => $this->language]);
+            }
+            else {
+                $setting->set($state[ $setting->value ] ?? null);
+            }
         }
 
         Notification::make()->success()->title(__('Settings saved!'))->send();
