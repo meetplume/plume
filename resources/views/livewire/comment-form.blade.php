@@ -24,7 +24,7 @@
             primary
             :disabled="$this->form->isDisabled()"
             type="submit"
-            class="mt-2"
+            class="mt-4"
         >
             {{ __('Comment') }}
         </x-btn>

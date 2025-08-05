@@ -27,11 +27,11 @@ class UserPanelProvider extends PanelProvider
         return $panel
             ->id('user')
             ->path('user')
-            ->colors([
-                'primary' => Color::Amber,
-            ])
             ->login()
             ->registration()
+            ->brandLogo(fn () => view('components.logo'))
+            ->brandLogoHeight('auto')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\Filament\User\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\Filament\User\Pages')
             ->pages([
