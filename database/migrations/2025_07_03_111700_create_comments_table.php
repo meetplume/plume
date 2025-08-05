@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->index();
             $table->text('content');
             $table->datetime('modified_at')->nullable();
+            $table->datetime('approved_at')->nullable();
             $table->timestamps();
         });
     }

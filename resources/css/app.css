@@ -1,5 +1,29 @@
 @import 'tailwindcss';
 
+/* Required by all components */
+@import '../../vendor/filament/support/resources/css/index.css';
+
+/* Required by actions and tables */
+@import '../../vendor/filament/actions/resources/css/index.css';
+
+/* Required by actions, forms and tables */
+@import '../../vendor/filament/forms/resources/css/index.css';
+
+/* Required by actions and infolists */
+@import '../../vendor/filament/infolists/resources/css/index.css';
+
+/* Required by notifications */
+@import '../../vendor/filament/notifications/resources/css/index.css';
+
+/* Required by actions, infolists, forms, schemas and tables */
+@import '../../vendor/filament/schemas/resources/css/index.css';
+
+/* Required by tables */
+@import '../../vendor/filament/tables/resources/css/index.css';
+
+/* Required by widgets */
+@import '../../vendor/filament/widgets/resources/css/index.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -73,6 +97,21 @@ input[type="search"]::-webkit-search-results-decoration {
     prose-code:text-primary-600
     dark:prose-code:bg-white/20
     dark:prose-code:text-primary-100
+    prose-p:first-of-type:mt-0
+    prose-p:last-of-type:mb-0
+}
+
+.phiki-wrapper {
+    @apply rounded-lg overflow-x-auto;
+}
+
+.phiki-wrapper code {
+    /* Reset prose styles */
+    @apply m-0 p-0 list-none ring-0 border-0 text-inherit bg-inherit;
+}
+
+.phiki-wrapper .phiki {
+    @apply m-0 text-sm;
 }
 
 .toc-link {
@@ -83,6 +122,10 @@ input[type="search"]::-webkit-search-results-decoration {
     -ms-overflow-style: none;
     scrollbar-width: none;
     @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto;
+}
+
+.fi-fo-markdown-editor.fi-disabled {
+    min-height: 120px;
 }
 
 .colored {

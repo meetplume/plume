@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property-read ?\App\Models\User author
+ * @property-read ?\App\Models\Post post
+ * @property-read ?\App\Models\Comment parent
+ * @property-read \Illuminate\Database\Eloquent\Collection<\App\Models\Comment> children
+ */
 class Comment extends Model
 {
     /** @use HasFactory<\Database\Factories\CommentFactory> */

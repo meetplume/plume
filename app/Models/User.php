@@ -48,9 +48,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin();
+        return match($panel->getId()){
+            'admin' => $this->isAdmin(),
+            'user' => true,
+            default => false,
+        };
     }
 
     public function isAdmin(): bool
@@ -61,7 +68,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             return false;
         }
 
-        return in_array($emailDomain, AuthorizedDomains::get()) && $this->hasVerifiedEmail();
+        return in_array($emailDomain, AuthorizedDomains::get());
     }
 
     public function posts(): HasMany

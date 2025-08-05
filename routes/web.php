@@ -15,25 +15,28 @@ Route::group([
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
 ], function() {
 
-        // Home route
-        Route::get('' . data_get(SiteSettings::PERMALINKS->get(), MainPages::HOME->value), HomeController::class)->name('home');
+    // Livewire custom route, needed to avoid 404 errors caused by the locale prefix
+    Livewire::setUpdateRoute(fn($handle) => Route::post('/custom/livewire/update', $handle));
 
-        // Blog routes
-        Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::BLOG->value, 'blog'))->group(function () {
-            Route::get('', [PostController::class, 'index'])->name('posts.index');
-            Route::get('/{post:slug}', [PostController::class, 'show'])->name('posts.show');
-        });
+    // Home route
+    Route::get('' . data_get(SiteSettings::PERMALINKS->get(), MainPages::HOME->value), HomeController::class)->name('home');
 
-        // Categories routes
-        Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::CATEGORIES->value, 'categories'))->group(function () {
-            Route::get('', [CategoryController::class, 'index'])->name('categories.index');
-            Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
-        });
-
-        // Tags routes
-        Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::TAGS->value, 'tags'))->group(function () {
-            Route::get('', [TagController::class, 'index'])->name('tags.index');
-            Route::get('/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
-        });
-
+    // Blog routes
+    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::BLOG->value, 'blog'))->group(function () {
+        Route::get('', [PostController::class, 'index'])->name('posts.index');
+        Route::get('/{post:slug}', [PostController::class, 'show'])->name('posts.show');
     });
+
+    // Categories routes
+    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::CATEGORIES->value, 'categories'))->group(function () {
+        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
+    });
+
+    // Tags routes
+    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::TAGS->value, 'tags'))->group(function () {
+        Route::get('', [TagController::class, 'index'])->name('tags.index');
+        Route::get('/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
+    });
+
+});

@@ -117,10 +117,15 @@
             </article>
 
             @if ($post->comments_count)
-                <div class="mt-24">
+                <div class="mt-24 max-w-2xl m-auto">
                     <livewire:comments :post-id="$post->id" />
                 </div>
             @endif
+
+            <div class="mt-16 max-w-2xl m-auto">
+                <livewire:comment-form :post-id="$post->id" />
+            </div>
+
         </div>
 
     </div>

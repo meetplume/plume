@@ -33,8 +33,14 @@
     <meta name="twitter:description" content="{{ $description }}"/>
     <meta name="twitter:image" content="{{ $image }}"/>
 
-    <livewire:styles/>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
+    <livewire:styles/>
+    @filamentStyles
     @vite('resources/css/app.css')
 
     {{-- Fonts --}}
@@ -74,7 +80,7 @@
 
 </head>
 
-<body {{ $attributes->class('font-light text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900') }}>
+<body {{ $attributes->class('antialiased text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900') }}>
     <div class="flex flex-col min-h-screen">
 
         <header class="container mt-4 xl:max-w-(--breakpoint-lg)">
@@ -89,6 +95,8 @@
     </div>
 
     @livewireScriptConfig
+    @livewire('notifications')
+    @filamentScripts
 
     @vite('resources/js/app.js')
 </body>
