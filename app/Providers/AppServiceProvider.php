@@ -28,6 +28,16 @@ use Filament\Forms\Components\RichEditor\RichContentRenderer;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * Define the application's singletons.
+     *
+     * @var array<class-string, class-string>
+     */
+    public $singletons = [
+        \Filament\Auth\Http\Responses\Contracts\LoginResponse::class => \App\Auth\Http\Responses\UserPanelLoginResponse::class,
+        \Filament\Auth\Http\Responses\Contracts\LogoutResponse::class => \App\Auth\Http\Responses\UserPanelLogoutResponse::class,
+    ];
+
+    /**
      * Register any application services.
      */
     public function register(): void

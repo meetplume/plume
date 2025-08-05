@@ -7,19 +7,27 @@
                 <button type="submit" class="text-primary-600 hover:underline">{{ __("Log out?") }}</button>
             </form>
         @else
-            {{ __("You need to register or log in to comment ") }}
+            @php
+                app('redirect')->setIntendedUrl(url()->current());
+            @endphp
+            {{ __("You need to ") }}
+            <a href="{{ \Filament\Facades\Filament::getPanel('user')->getRegistrationUrl() }}" class="text-primary-600 dark:text-primary-500 hover:underline">{{ __("register") }}</a>
+            {{ __(" or ") }}
+            <a href="{{ \Filament\Facades\Filament::getPanel('user')->getLoginUrl() }}" class="text-primary-600 dark:text-primary-500 hover:underline">{{ __("log in") }}</a>
+            {{ __(" to comment") }}
         @endauth
     </div>
     <form wire:submit="create" class="mt-2">
         {{ $this->form }}
 
-        <button
-            :disabled="{{ $this->form->isDisabled() }}"
+        <x-btn
+            primary
+            :disabled="$this->form->isDisabled()"
             type="submit"
-            class="font-medium tracking-tight text-white bg-primary-600 rounded-xl transition-colors disabled:bg-gray-100 disabled:hover:bg-gray-100! disabled:text-gray-300! px-[1.3rem] py-[.65rem] hover:bg-primary-500 mt-6"
+            class="mt-2"
         >
             {{ __('Comment') }}
-        </button>
+        </x-btn>
 
     </form>
 
