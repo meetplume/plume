@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Comments\Tables;
 
+use App\Models\Comment;
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Colors\Color;
 use Filament\Actions\DeleteAction;
@@ -72,6 +74,16 @@ class CommentsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    BulkAction::make('approve')
+                    ->label(__('Approve'))
+                    ->color(Color::Green)
+                    ->icon(Heroicon::Check)
+                    ->action(fn($records) => $records->each(fn(Comment $record) => $record->update(['approved_at' => now()]))),
+                    BulkAction::make('disapprove')
+                    ->label(__('Disapprove'))
+                    ->color(Color::Red)
+                    ->icon(Heroicon::XMark)
+                    ->action(fn($records) => $records->each(fn(Comment $record) => $record->update(['approved_at' => null]))),
                 ]),
             ]);
     }
