@@ -46,7 +46,7 @@
         <a href="{{ route('posts.show', ['post' => $post]) }}#comments" class="group">
             <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg transition-colors hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100">
                 <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-1 opacity-75 size-5" />
-                {{ $post->comments_count }} {{ trans_choice('comment|comments', $post->comments_count) }}
+                {{ $post->approved_comments_count }} {{ trans_choice('comment|comments', $post->approved_comments_count) }}
             </div>
         </a>
 

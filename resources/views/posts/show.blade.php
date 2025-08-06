@@ -45,11 +45,11 @@
                         <a href="#comments" class="group">
                             <div @class([
                                 'flex-1 p-3 text-center transition-colors rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100',
-                                'text-primary-600 dark:text-primary-500' => $post->comments_count > 0,
+                                'text-primary-600 dark:text-primary-500' => $post->approved_comments_count > 0,
                             ])>
                                 <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-2 opacity-75 size-6"/>
-                                {{ $post->comments_count }}<br/>
-                                {{ trans_choice('comment|comments', $post->comments_count) }}
+                                {{ $post->approved_comments_count }}<br/>
+                                {{ trans_choice('comment|comments', $post->approved_comments_count) }}
                             </div>
                         </a>
 

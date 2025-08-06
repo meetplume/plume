@@ -41,7 +41,7 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory, HasTranslations;
 
-    protected $withCount = ['comments'];
+    protected $withCount = ['comments', 'approvedComments'];
 
     protected $casts = [
         'published_at' => 'datetime',
@@ -72,6 +72,11 @@ class Post extends Model
     public function comments() : HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function approvedComments() : HasMany
+    {
+        return $this->hasMany(Comment::class)->whereNotNull('approved_at');
     }
 
     public function readTime() : Attribute
