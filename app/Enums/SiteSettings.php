@@ -39,6 +39,14 @@ enum SiteSettings: string
     case LANGUAGES = 'languages';
     case DEFAULT_LANGUAGE = 'default_language';
     case FALLBACK_LANGUAGE = 'fallback_language';
+    case MAIL_MAILER = 'mail_mailer';
+    case MAIL_HOST = 'mail_host';
+    case MAIL_PORT = 'mail_port';
+    case MAIL_USERNAME = 'mail_username';
+    case MAIL_PASSWORD = 'mail_password';
+    case MAIL_ENCRYPTION = 'mail_encryption';
+    case MAIL_FROM_ADDRESS = 'mail_from_address';
+    case MAIL_FROM_NAME = 'mail_from_name';
 
     /**
      * Get the default value for the setting
@@ -183,6 +191,14 @@ enum SiteSettings: string
             self::LANGUAGES => ['en'],
             self::DEFAULT_LANGUAGE => 'en',
             self::FALLBACK_LANGUAGE => 'en',
+            self::MAIL_MAILER => config('mail.default'),
+            self::MAIL_HOST => config('mail.mailers.smtp.host'),
+            self::MAIL_PORT => config('mail.mailers.smtp.port'),
+            self::MAIL_USERNAME => config('mail.mailers.smtp.username'),
+            self::MAIL_PASSWORD => config('mail.mailers.smtp.password'),
+            self::MAIL_ENCRYPTION => config('mail.mailers.smtp.encryption'),
+            self::MAIL_FROM_ADDRESS => config('mail.from.address'),
+            self::MAIL_FROM_NAME => config('mail.from.name'),
         };
     }
 

@@ -496,6 +496,53 @@ class Settings extends Page implements HasForms
 
                     ])->columns(1),
 
+                Section::make('Mail Configuration')
+                    ->heading(__('Mail Configuration'))
+                    ->description(__('You can configure the mail settings for your blog.'))
+                    ->icon(Heroicon::OutlinedEnvelope)
+                    ->aside()
+                    ->schema([
+                        Select::make('mail_mailer')
+                            ->label('Mail Driver')
+                            ->options([
+                                'smtp' => 'SMTP',
+                                'sendmail' => 'Sendmail',
+                                'mailgun' => 'Mailgun',
+                                'ses' => 'Amazon SES',
+                                'postmark' => 'Postmark',
+                                'log' => 'Log',
+                                'array' => 'Array',
+                            ])
+                            ->required(),
+                        TextInput::make('mail_host')
+                            ->label('Mail Host'),
+                        TextInput::make('mail_port')
+                            ->label('Mail Port')
+                            ->numeric(),
+                        TextInput::make('mail_username')
+                            ->extraInputAttributes(['autocomplete' => "new-text"])
+                            ->label('Mail Username'),
+                        TextInput::make('mail_password')
+                            ->extraInputAttributes(['autocomplete' => "new-password"])
+                            ->label('Mail Password')
+                            ->revealable()
+                            ->password(),
+                        Select::make('mail_encryption')
+                            ->label('Mail Encryption')
+                            ->options([
+                                'tls' => 'TLS',
+                                'ssl' => 'SSL',
+                                '' => 'None',
+                            ]),
+                        TextInput::make('mail_from_address')
+                            ->extraInputAttributes(['autocomplete' => "new-text"])
+                            ->label('From Address')
+                            ->email(),
+                        TextInput::make('mail_from_name')
+                            ->extraInputAttributes(['autocomplete' => "new-text"])
+                            ->label('From Name'),
+                    ]),
+
             ])->statePath('data');
     }
 
