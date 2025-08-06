@@ -1,5 +1,6 @@
 @php
     use App\Enums\SiteSettings;
+    use Filament\Facades\Filament;
     use Illuminate\Support\Facades\Storage;
 
     $logo = SiteSettings::SITE_LOGO->get();
@@ -8,7 +9,7 @@
 <div class="logo">
     <a
         wire:navigate
-        href="{{ route('home') }}"
+        href="{{ Filament::isServing() ? Filament::getHomeUrl() : route('home') }}"
         class="flex gap-3 items-center"
     >
         {{-- Logo --}}
