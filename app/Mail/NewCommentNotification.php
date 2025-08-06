@@ -8,9 +8,10 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Filament\Resources\Comments\CommentResource;
 
-class NewCommentNotification extends Mailable
+class NewCommentNotification extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
