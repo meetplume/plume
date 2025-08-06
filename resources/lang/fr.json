@@ -43,5 +43,9 @@
     "log in": "vous connecter",
     "minute read|minutes read": "minute de lecture|minutes de lecture",
     "minute|minutes": "minute|minutes",
-    "register": "vous inscrire"
+    "register": "vous inscrire",
+    "Account": "Compte",
+    "Log in": "Connexion",
+    "Register": "Inscription",
+    "Logout": "Déconnexion"
 }

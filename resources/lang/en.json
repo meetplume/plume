@@ -41,5 +41,9 @@
     "comment|comments": "comment|comments",
     "log in": "log in",
     "minute read|minutes read": "minute read|minutes read",
-    "register": "register"
+    "register": "register",
+    "Account": "Account",
+    "Log in": "Log in",
+    "Register": "Register",
+    "Logout": "Logout"
 }
