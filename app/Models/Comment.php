@@ -28,6 +28,7 @@ class Comment extends Model
     {
         return [
             'modified_at' => 'datetime',
+            'approved_at' => 'datetime',
         ];
     }
 
