@@ -26,7 +26,7 @@ It's fully open source.
   - [x] Analytics with panphp/pan
   - [x] Multilingual
   - [x] Comments
-  - [ ] Mail notifications
+  - [x] Mail notifications
   - [ ] CMS Pages
   - [ ] Portfolio
 
