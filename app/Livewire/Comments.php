@@ -26,6 +26,7 @@ class Comments extends Component
                 ->whereNull('parent_id')
                 ->paginate(30),
             'commentsCount' => Comment::query()
+                ->whereNotNull('approved_at')
                 ->where('post_id', $this->postId)
                 ->count(),
         ]);
