@@ -27,7 +27,7 @@ class NewCommentNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Comment Waiting for Approval',
+            subject: __('New Comment Waiting for Approval'),
         );
     }
 
