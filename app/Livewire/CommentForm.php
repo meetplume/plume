@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Comment;
 use App\Enums\SiteSettings;
+use App\Mail\NewCommentNotification;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
@@ -56,7 +57,7 @@ class CommentForm extends Component implements HasSchemas
             return;
         }
 
-        Comment::create([
+        $comment = Comment::create([
             'content' => $this->form->getState()['content'],
             'post_id' => $this->postId,
             'parent_id' => null,
@@ -68,7 +69,13 @@ class CommentForm extends Component implements HasSchemas
 
         $this->dispatch('comment-created');
 
-        // Mail::to(SiteSettings::CONTACT_EMAIL->get())->send(...);
+        // Send an email notification if the comment needs approval
+        if ($comment && $comment->approved_at === null) {
+            $contactEmail = SiteSettings::CONTACT_EMAIL->get();
+            if ($contactEmail) {
+                Mail::to($contactEmail)->send(new NewCommentNotification($comment));
+            }
+        }
 
         Notification::make()
             ->success()

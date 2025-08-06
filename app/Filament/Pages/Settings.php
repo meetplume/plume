@@ -30,6 +30,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\ColorPicker;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Message;
 
 class Settings extends Page implements HasForms
 {
@@ -541,6 +543,29 @@ class Settings extends Page implements HasForms
                         TextInput::make('mail_from_name')
                             ->extraInputAttributes(['autocomplete' => "new-text"])
                             ->label('From Name'),
+
+                        Section::make('Test Email')
+                            ->heading(__('Test Email Configuration'))
+                            ->description(__('Send a test email to verify your configuration.'))
+                            ->schema([
+                                TextInput::make('test_email')
+                                    ->label(__('Test Email Address'))
+                                    ->email(),
+                                Action::make('sendTestEmail')
+                                    ->label(__('Send Test Email'))
+                                    ->button()
+                                    ->color('primary')
+                                    ->action(function () {
+                                        $state = $this->form->getState();
+                                        if (!$state['test_email']) {
+                                            Notification::make()->danger()->title(__('Please enter a test email address.'))->send();
+                                            return;
+                                        }
+                                        $this->sendTestEmail($state['test_email']);
+                                    })
+                            ])
+                            ->columns(1)
+                            ->collapsible(),
                     ]),
 
             ])->statePath('data');
@@ -567,5 +592,43 @@ class Settings extends Page implements HasForms
         }
 
         Notification::make()->success()->title(__('Settings saved!'))->send();
+    }
+
+    public function sendTestEmail(string $testEmailAddress): void
+    {
+        try {
+            $state = $this->form->getState();
+
+            // Configure mail settings for this test
+            config([
+                'mail.mailer' => $state['mail_mailer'] ?? config('mail.mailer'),
+                'mail.host' => $state['mail_host'] ?? config('mail.host'),
+                'mail.port' => $state['mail_port'] ?? config('mail.port'),
+                'mail.username' => $state['mail_username'] ?? config('mail.username'),
+                'mail.password' => $state['mail_password'] ?? config('mail.password'),
+                'mail.encryption' => $state['mail_encryption'] ?? config('mail.encryption'),
+                'mail.from.address' => $state['mail_from_address'] ?? config('mail.from.address'),
+                'mail.from.name' => $state['mail_from_name'] ?? config('mail.from.name'),
+            ]);
+
+            // Send test email
+            Mail::raw('This is a test email from your blog to verify mail configuration.', function (Message $message) use ($testEmailAddress) {
+                $message->to($testEmailAddress)
+                    ->subject('Test Email from ' . config('app.name'));
+            });
+
+            Notification::make()
+                ->success()
+                ->title(__('Test email sent!'))
+                ->body(__('A test email has been sent to ') . $testEmailAddress)
+                ->send();
+
+        } catch (\Exception $e) {
+            Notification::make()
+                ->danger()
+                ->title(__('Failed to send test email'))
+                ->body($e->getMessage())
+                ->send();
+        }
     }
 }
