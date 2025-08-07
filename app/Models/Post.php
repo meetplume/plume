@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 use App\Filament\CustomBlocks\CodeBlock;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\CustomBlocks\AlertBlock;
 use App\Filament\RichEditorPlugins\IdPlugin;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -95,6 +96,7 @@ class Post extends Model
                     ->fileAttachmentsDisk('public')
                     ->customBlocks([
                         CodeBlock::class,
+                        AlertBlock::class,
                     ])
                     ->plugins([
                         IdPlugin::make(),

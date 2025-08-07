@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Section;
 use App\Filament\CustomBlocks\CodeBlock;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\RichEditor;
+use App\Filament\CustomBlocks\AlertBlock;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -79,6 +80,7 @@ class PostForm
                             ])
                             ->customBlocks([
                                 CodeBlock::class,
+                                AlertBlock::class,
                             ])
                             ->hiddenLabel(),
                     ]),

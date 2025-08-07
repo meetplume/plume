@@ -121,8 +121,22 @@ input[type="search"]::-webkit-search-results-decoration {
 .phiki {
     -ms-overflow-style: none;
     scrollbar-width: none;
-    @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto;
+    @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto mb-5;
 }
+
+.alert-block-tip code {
+    @apply bg-purple-600/10! text-inherit!;
+}
+.alert-block-warning code {
+    @apply bg-amber-600/10! text-inherit!;
+}
+.alert-block-danger code {
+    @apply bg-red-600/10! text-inherit!;
+}
+.alert-block-info code {
+    @apply bg-blue-600/10! text-inherit!;
+}
+
 
 .fi-fo-markdown-editor.fi-disabled {
     min-height: 120px;

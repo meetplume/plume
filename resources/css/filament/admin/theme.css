@@ -21,3 +21,16 @@ code:where(:not(.fi-not-prose, .fi-not-prose *)) {
     dark:bg-white/20
     dark:text-primary-100
 }
+
+.alert-block-tip code {
+    @apply bg-purple-600/10! text-inherit!;
+}
+.alert-block-warning code {
+    @apply bg-amber-600/10! text-inherit!;
+}
+.alert-block-danger code {
+    @apply bg-red-600/10! text-inherit!;
+}
+.alert-block-info code {
+    @apply bg-blue-600/10! text-inherit!;
+}
