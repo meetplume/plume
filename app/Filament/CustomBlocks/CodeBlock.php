@@ -31,7 +31,7 @@ class CodeBlock extends RichContentCustomBlock
     public static function configureEditorAction(Action $action): Action
     {
         return $action
-            ->modalDescription('Configure the hero section')
+            ->modalDescription('Configure the code block')
             ->schema([
                 CodeEditor::make('code')
                     ->language(fn(Get $get) => Language::tryFrom($get('language') ?? Language::Php->value)),
