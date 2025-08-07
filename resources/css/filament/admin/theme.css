@@ -3,6 +3,7 @@
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
+@source '../../../../resources/views/blocks/**/*';
 @source '../../../../resources/views/components/logo.blade.php';
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
@@ -26,11 +27,11 @@ code:where(:not(.fi-not-prose, .fi-not-prose *)) {
     @apply bg-purple-600/10! text-inherit!;
 }
 .alert-block-warning code {
-    @apply bg-amber-600/10! text-inherit!;
+    @apply bg-yellow-600/10! text-inherit!;
 }
 .alert-block-danger code {
     @apply bg-red-600/10! text-inherit!;
 }
 .alert-block-info code {
-    @apply bg-blue-600/10! text-inherit!;
+    @apply bg-sky-600/10! text-inherit!;
 }

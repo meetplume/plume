@@ -20,9 +20,9 @@
 
     $classes = match($style){
         'tip' => 'border-purple-400 bg-purple-400/10 text-purple-950 dark:bg-purple-500/20 dark:text-purple-100 prose-code:[p_&]:bg-purple-600/10 prose-code:dark:[p_&]:bg-white/20',
-        'warning' => 'border-amber-400 bg-amber-400/10 text-amber-950 dark:bg-amber-500/20 dark:text-amber-100 prose-code:[p_&]:bg-amber-600/10 prose-code:dark:[p_&]:bg-white/20',
+        'warning' => 'border-yellow-400 bg-yellow-400/10 text-yellow-950 dark:bg-yellow-500/20 dark:text-yellow-100 prose-code:[p_&]:bg-yellow-600/10 prose-code:dark:[p_&]:bg-white/20',
         'danger' => 'border-red-400 bg-red-400/10 text-red-950 dark:bg-red-500/20 dark:text-red-100 prose-code:[p_&]:bg-red-600/10 prose-code:dark:[p_&]:bg-white/20',
-        default => 'border-blue-400 bg-blue-400/10 text-blue-950 dark:bg-blue-500/20 dark:text-blue-100 prose-code:[p_&]:bg-blue-600/10 prose-code:dark:[p_&]:bg-white/20',
+        default => 'border-sky-400 bg-sky-400/10 text-sky-950 dark:bg-sky-500/20 dark:text-sky-100 prose-code:[p_&]:bg-sky-600/10 prose-code:dark:[p_&]:bg-white/20',
     };
 
 @endphp

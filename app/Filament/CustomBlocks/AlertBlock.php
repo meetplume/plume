@@ -37,9 +37,9 @@ class AlertBlock extends RichContentCustomBlock
                     ->default('info')
                     ->formatStateUsing(fn($state) => empty($state) ? 'info' : $state)
                     ->options([
-                        'info' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-blue-400/10 text-blue-950 dark:bg-blue-500/20 dark:text-blue-100"><x-icon name="heroicon-o-information-circle" class="size-6"></x-icon> <span>Info</span></div>'),
+                        'info' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-sky-400/10 text-sky-950 dark:bg-sky-500/20 dark:text-sky-100"><x-icon name="heroicon-o-information-circle" class="size-6"></x-icon> <span>Info</span></div>'),
                         'tip' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-purple-400/10 text-purple-950 dark:bg-purple-500/20 dark:text-purple-100"><x-icon name="heroicon-o-light-bulb" class="size-6"></x-icon> <span>Tip</span></div>'),
-                        'warning' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-amber-400/10 text-amber-950 dark:bg-amber-500/20 dark:text-amber-100"><x-icon name="heroicon-o-exclamation-triangle" class="size-6"></x-icon> <span>Warning</span></div>'),
+                        'warning' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-yellow-400/10 text-yellow-950 dark:bg-yellow-500/20 dark:text-yellow-100"><x-icon name="heroicon-o-exclamation-triangle" class="size-6"></x-icon> <span>Warning</span></div>'),
                         'danger' => Blade::render('<div class="flex gap-1 items-center px-2 py-1 rounded-md text-sm font-bold bg-red-400/10 text-red-950 dark:bg-red-500/20 dark:text-red-100"><x-icon name="heroicon-o-fire" class="size-6"></x-icon> <span>Danger</span></div>'),
                     ])
                     ->native(false)
