@@ -53,6 +53,9 @@
     --color-primary-800: var(--color-primary-800);
     --color-primary-900: var(--color-primary-900);
     --color-primary-950: var(--color-primary-950);
+
+    --tw-prose-underline: var(--color-primary-200);
+    --tw-prose-underline-dark: var(--color-primary-800);
 }
 
 @utility container {
@@ -71,10 +74,6 @@ input[type="search"]::-webkit-search-results-decoration {
     @apply max-w-none
     prose
     dark:prose-invert
-    prose-a:decoration-1
-    prose-a:decoration-black/30
-    prose-a:font-normal
-    prose-a:underline-offset-4
     prose-headings:font-medium
     prose-headings:scroll-mt-4
     prose-img:shadow-xl
@@ -99,6 +98,13 @@ input[type="search"]::-webkit-search-results-decoration {
     dark:prose-code:text-primary-100
     prose-p:first-of-type:mt-0
     prose-p:last-of-type:mb-0
+    prose-a:dark:text-primary-300
+    prose-a:no-underline
+    prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline)]
+    prose-a:transition
+    prose-a:hover:[--tw-prose-underline-size:6px]
+    prose-a:dark:shadow-[inset_0_calc(-1*var(--tw-prose-underline-size,2px))_0_0_var(--tw-prose-underline-dark)]
+    prose-a:dark:hover:[--tw-prose-underline-size:6px]
 }
 
 .phiki-wrapper {
@@ -115,13 +121,30 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .toc-link {
-    @apply text-gray-400 no-underline hover:text-gray-600 mr-1;
+    @apply text-gray-400 no-underline hover:text-gray-600 mr-1 shadow-none;
 }
 
 .phiki {
     -ms-overflow-style: none;
     scrollbar-width: none;
     @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto mb-5;
+}
+
+.alert-block-tip {
+    --tw-prose-underline: var(--color-purple-200);
+    --tw-prose-underline-dark: var(--color-purple-800);
+}
+.alert-block-warning {
+    --tw-prose-underline: var(--color-yellow-200);
+    --tw-prose-underline-dark: var(--color-yellow-800);
+}
+.alert-block-danger {
+    --tw-prose-underline: var(--color-red-200);
+    --tw-prose-underline-dark: var(--color-red-800);
+}
+.alert-block-info {
+    --tw-prose-underline: var(--color-sky-200);
+    --tw-prose-underline-dark: var(--color-sky-800);
 }
 
 .alert-block-tip code:where(:not(.phiki, .phiki *)) {
