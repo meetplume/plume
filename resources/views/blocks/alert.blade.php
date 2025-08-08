@@ -1,5 +1,8 @@
 @php
 
+    use App\Filament\CustomBlocks\CodeBlock;
+    use Filament\Forms\Components\RichEditor\RichContentRenderer;
+
     if(!$preview && $config){
         $style = $config['style'];
         $title = $config['title'];
@@ -28,7 +31,7 @@
 @endphp
 
 @if($preview)
-    <div class="fi-fo-field">
+    <div class="fi-fo-field mb-2">
         <div class="fi-fo-field-label-col">
             <div class="fi-fo-field-label-ctn ">
                 <div class="fi-fo-field-label">
@@ -38,19 +41,23 @@
                 </div>
             </div>
         </div>
-        @endif
-        <div
-            class="alert-block alert-block-{{ $style }} mb-6 rounded-lg border-s-4 px-4 py-3 prose-p:my-0 {{ $classes }}">
-            <div class="flex items-center gap-2 pb-2">
-                <x-icon name="{{ $icon }}" class="size-6"/>
-                @if(!empty($title))
-                    <p class="text-sm font-bold">
-                        {{ $title }}
-                    </p>
-                @endif
-            </div>
-            {!! $content !!}
-        </div>
-        @if($preview)
     </div>
 @endif
+    <div
+        class=" alert-block alert-block-{{ $style }} mb-6 rounded-lg border-s-4 px-4 py-3 prose-p:my-0 {{ $classes }}">
+        <div class="flex items-center gap-2 pb-2">
+            <x-icon name="{{ $icon }}" class="size-6"/>
+            @if(!empty($title))
+                <p class="text-sm font-bold m-0!">
+                    {{ $title }}
+                </p>
+            @endif
+        </div>
+        {!!
+            RichContentRenderer::make($content)
+                ->customBlocks([
+                    CodeBlock::class,
+                ])
+                ->toHtml()
+        !!}
+    </div>

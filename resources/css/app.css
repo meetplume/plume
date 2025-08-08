@@ -124,17 +124,20 @@ input[type="search"]::-webkit-search-results-decoration {
     @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto mb-5;
 }
 
-.alert-block-tip code {
+.alert-block-tip code:where(:not(.phiki, .phiki *)) {
     @apply bg-purple-600/10! text-inherit!;
 }
-.alert-block-warning code {
+.alert-block-warning code:where(:not(.phiki, .phiki *)) {
     @apply bg-yellow-600/10! text-inherit!;
 }
-.alert-block-danger code {
+.alert-block-danger code:where(:not(.phiki, .phiki *)) {
     @apply bg-red-600/10! text-inherit!;
 }
-.alert-block-info code {
+.alert-block-info code:where(:not(.phiki, .phiki *)) {
     @apply bg-sky-600/10! text-inherit!;
+}
+code:where(.phiki, .phiki *) {
+    @apply m-0 p-0 list-none ring-0 border-0 text-inherit bg-inherit;
 }
 
 

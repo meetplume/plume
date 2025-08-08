@@ -31,6 +31,7 @@ class AlertBlock extends RichContentCustomBlock
         return $action
             ->modalDescription('Configure the alert block')
             ->modalWidth(Width::TwoExtraLarge)
+            ->closeModalByClickingAway(false)
             ->schema([
                 Select::make('style')
                     ->live()
@@ -53,6 +54,7 @@ class AlertBlock extends RichContentCustomBlock
                     ->formatStateUsing(fn($state) => empty($state) || $state === '<p></p>' ? '<p>Lorem ipsum dolor sit amet, consectetur <code>adipiscing</code> elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.</p>' : $state)
                     ->toolbarButtons([
                         ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                        ['customBlocks'],
                         ['code', 'bulletList', 'orderedList'],
                         ['undo', 'redo'],
                     ])
@@ -60,6 +62,9 @@ class AlertBlock extends RichContentCustomBlock
                         'paragraph' => [
                             'bold', 'italic', 'underline', 'strike', 'code', 'link'
                         ],
+                    ])
+                    ->customBlocks([
+                        CodeBlock::class,
                     ])
                     ->live(),
 

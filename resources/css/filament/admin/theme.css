@@ -8,7 +8,7 @@
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
 
-code:where(:not(.fi-not-prose, .fi-not-prose *)) {
+code {
     @apply
     font-mono
     rounded-lg
@@ -23,15 +23,36 @@ code:where(:not(.fi-not-prose, .fi-not-prose *)) {
     dark:text-primary-100
 }
 
-.alert-block-tip code {
+.alert-block-tip code:where(:not(.phiki, .phiki *)) {
     @apply bg-purple-600/10! text-inherit!;
 }
-.alert-block-warning code {
+.alert-block-warning code:where(:not(.phiki, .phiki *)) {
     @apply bg-yellow-600/10! text-inherit!;
 }
-.alert-block-danger code {
+.alert-block-danger code:where(:not(.phiki, .phiki *)) {
     @apply bg-red-600/10! text-inherit!;
 }
-.alert-block-info code {
+.alert-block-info code:where(:not(.phiki, .phiki *)) {
     @apply bg-sky-600/10! text-inherit!;
+}
+code:where(.phiki, .phiki *) {
+    @apply m-0 p-0 list-none ring-0 border-0 text-inherit bg-inherit;
+}
+.phiki {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto mb-5;
+}
+.alert-block {
+    :where(p):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+        margin-top: 1.25em;
+        margin-bottom: 1.25em;
+    }
+}
+.alert-block {
+    & :is(:where(p):not(:where([class~="not-prose"], [class~="not-prose"] *))) {
+        &:first-of-type {
+            margin-top: calc(var(--spacing) * 0);
+        }
+    }
 }
