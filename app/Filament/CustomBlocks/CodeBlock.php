@@ -7,6 +7,7 @@ use Phiki\Theme\Theme;
 use Phiki\Grammar\Grammar;
 use App\Enums\SiteSettings;
 use Filament\Actions\Action;
+use Filament\Support\Enums\Width;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\CodeEditor;
 use Filament\Schemas\Components\Utilities\Get;
@@ -32,6 +33,8 @@ class CodeBlock extends RichContentCustomBlock
     {
         return $action
             ->modalDescription('Configure the code block')
+            ->modalWidth(Width::TwoExtraLarge)
+            ->closeModalByClickingAway(false)
             ->schema([
                 CodeEditor::make('code')
                     ->language(fn(Get $get) => Language::tryFrom($get('language') ?? Language::Php->value)),
