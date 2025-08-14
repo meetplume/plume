@@ -8,7 +8,7 @@ This project is a fully-featured, configurable blog written with TALL stack.
 - Livewire
 - AlpineJS
 - TailwindCSS v4
-- Filament v4 (beta)
+- Filament v4
 
 ## Tests
 
