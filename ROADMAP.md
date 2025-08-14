@@ -26,6 +26,4 @@
 - [ ] Add more tests
 - [ ] Add more documentation
 - [ ] Add screenshots
-- [ ] Make queue connection default to sync
-- [ ] Make queue connection configurable
 - [ ] Make categories and tags translatable

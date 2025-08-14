@@ -47,6 +47,7 @@ enum SiteSettings: string
     case MAIL_ENCRYPTION = 'mail_encryption';
     case MAIL_FROM_ADDRESS = 'mail_from_address';
     case MAIL_FROM_NAME = 'mail_from_name';
+    case QUEUE_CONNECTION = 'queue_connection';
 
     /**
      * Get the default value for the setting
@@ -200,6 +201,7 @@ enum SiteSettings: string
             self::MAIL_ENCRYPTION => config('mail.mailers.smtp.encryption'),
             self::MAIL_FROM_ADDRESS => config('mail.from.address'),
             self::MAIL_FROM_NAME => config('mail.from.name'),
+            self::QUEUE_CONNECTION => 'sync',
         };
     }
 

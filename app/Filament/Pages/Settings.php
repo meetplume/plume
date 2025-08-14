@@ -540,6 +540,25 @@ class Settings extends Page implements HasForms
 
                     ])->columns(1),
 
+                Section::make('Queue Configuration')
+                    ->heading(__('Queue Configuration'))
+                    ->description(__('Configure how background jobs are processed.'))
+                    ->icon(Heroicon::OutlinedQueueList)
+                    ->aside()
+                    ->schema([
+                        Select::make(SiteSettings::QUEUE_CONNECTION->value)
+                            ->label(__('Queue Connection'))
+                            ->options([
+                                'sync' => 'Sync (Process immediately)',
+                                'database' => 'Database',
+                                'redis' => 'Redis',
+                                'sqs' => 'Amazon SQS',
+                                'beanstalkd' => 'Beanstalkd',
+                            ])
+                            ->required()
+                            ->helperText(__('Sync processes jobs immediately. Other options may require additional configuration.')),
+                    ]),
+
                 Section::make('Mail Configuration')
                     ->heading(__('Mail Configuration'))
                     ->description(__('You can configure the mail settings for your blog.'))
