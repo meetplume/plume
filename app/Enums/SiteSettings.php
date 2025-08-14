@@ -161,6 +161,7 @@ enum SiteSettings: string
                     ],
                 ],
             ],
+            // self::FOOTER_MENU => null,
             self::FOOTER_MENU => [
                 [
                     "name" => "Home",
@@ -182,7 +183,7 @@ enum SiteSettings: string
                 ],
                 [
                     "name" => "Contact",
-                    "url" => "mailto:" . SiteSettings::CONTACT_EMAIL->get(),
+                    "url" => "mailto:hello@example.com",
                     "open_in_new_tab" => false,
                     "page" => "custom",
                 ],

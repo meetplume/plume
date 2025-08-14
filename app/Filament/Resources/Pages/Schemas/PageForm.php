@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Filament\Resources\Pages\Schemas;
+
+use App\Models\Page;
+use Livewire\Component;
+use Filament\Actions\Action;
+use App\Support\SlugGenerator;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Group;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Schemas\Components\Section;
+use App\Filament\CustomBlocks\CodeBlock;
+use Filament\Resources\Pages\EditRecord;
+use Filament\Forms\Components\RichEditor;
+use App\Filament\CustomBlocks\AlertBlock;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Utilities\Get;
+
+class PageForm
+{
+    /**
+     * @throws \Exception
+     */
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Flex::make([
+
+                    // Main content
+                    Group::make([
+                        TextInput::make('title')
+                            ->live(onBlur: true)
+                            ->required()
+                            ->afterStateUpdated(function (?string $state, Set $set, ?Model $record, $operation) {
+                                if (in_array($operation, ['create', 'createOption'])) {
+                                    $slug = SlugGenerator::unique(modelClass: Page::class, title: $state,
+                                        ignoreRecord: $record);
+                                    $set('slug', $slug);
+                                }
+                            }),
+
+                        TextInput::make('slug')
+                            ->partiallyRenderAfterStateUpdated(),
+
+                        RichEditor::make('body')
+                            ->json()
+                            ->toolbarButtons([
+                                ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                                ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
+                                ['blockquote', 'code', 'codeBlock', 'bulletList', 'orderedList'],
+                                ['table', 'attachFiles', 'customBlocks'],
+                                ['undo', 'redo'],
+                            ])
+                            ->floatingToolbars([
+                                'paragraph' => [
+                                    'bold', 'italic', 'underline', 'strike', 'code', 'h2', 'h3', 'link'
+                                ],
+                                'heading' => [
+                                    'h2', 'h3',
+                                ],
+                                'table' => [
+                                    'tableAddColumnBefore', 'tableAddColumnAfter', 'tableDeleteColumn',
+                                    'tableAddRowBefore', 'tableAddRowAfter', 'tableDeleteRow',
+                                    'tableMergeCells', 'tableSplitCell',
+                                    'tableToggleHeaderRow',
+                                    'tableDelete',
+                                ],
+                            ])
+                            ->customBlocks([
+                                CodeBlock::class,
+                                AlertBlock::class,
+                            ])
+                            ->hiddenLabel(),
+                    ]),
+
+                    // Sidebar
+                    Group::make([
+
+                        Section::make('Publish')->schema([
+                            TextEntry::make('status')
+                                ->badge()
+                                ->label(__('Status'))
+                                ->hiddenLabel()
+                                ->beforeContent(__('Status: '))
+                                ->state(fn(?Page $record) => $record?->published_at ? __('published') : __('draft'))
+                                ->color(fn(?Page $record) => $record?->published_at ? 'success' : 'gray'),
+                            DateTimePicker::make('published_at')->label('Publish on')->live(),
+                            Action::make('save')
+                                ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
+                                ->visible(fn(Get $get) => $get('published_at') !== null)
+                                ->submit('save'),
+                            Action::make('publishNow')
+                                ->label(__('Publish now'))
+                                ->visible(fn(Get $get) => $get('published_at') === null)
+                                ->requiresConfirmation()
+                                ->modalHeading(__("Publish this page?"))
+                                ->modalDescription(__("Are you sure you'd like to publish this page?"))
+                                ->action(function (EditRecord $livewire, Set $set) {
+                                    $set('published_at', now()->format('Y-m-d H:i:s'));
+                                    $livewire->save();
+                                }),
+                            Action::make('unpublish')
+                                ->label(__('Unpublish'))
+                                ->color('danger')
+                                ->link()
+                                ->visible(fn(?Page $record) => isset($record?->published_at))
+                                ->requiresConfirmation()
+                                ->modalHeading(__("Unpublish this page?"))
+                                ->modalDescription(__("Are you sure you'd like to unpublish this page?"))
+                                ->action(function (?Page $record, Set $set, Get $get) {
+                                    $set('published_at', null);
+                                    $record?->update(['published_at' => null]);
+                                })
+                        ])->compact(),
+
+                        Section::make('Page Settings')->schema([
+                            Textarea::make('excerpt')->rows(4),
+                        ])->compact(),
+
+                    ])->grow(false)->extraAttributes(['style' => 'max-width:300px;']),
+
+                ])->from('md')
+
+            ])->columns(1);
+    }
+}

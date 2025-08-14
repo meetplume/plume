@@ -14,6 +14,7 @@ use Filament\Support\Colors\Color;
 use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
+use Rawilk\Settings\Support\Context;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Flex;
@@ -32,6 +33,7 @@ use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
+use App\Models\Page as CmsPage;
 
 class Settings extends Page implements HasForms
 {
@@ -53,12 +55,14 @@ class Settings extends Page implements HasForms
     protected function loadFormData(): array
     {
         $formData = [];
+        // dd(\Rawilk\Settings\Facades\Settings::context(new Context([]))->get(SiteSettings::FOOTER_MENU->value));
+        // dd(\Rawilk\Settings\Facades\Settings::context(new Context([]))->get(SiteSettings::FOOTER_MENU->value, SiteSettings::FOOTER_MENU->getDefaultValue()));
         foreach (SiteSettings::cases() as $setting) {
             if($setting->is_translatable() && $this->language){
                 $formData[$setting->value] = $setting->get(context: ['language' => $this->language]);
             }
             else{
-                $formData[$setting->value] = $setting->get();
+                $formData[$setting->value] = $setting->get(context: []);
             }
         }
         return $formData;
@@ -336,10 +340,18 @@ class Settings extends Page implements HasForms
                                     Select::make('page')
                                         ->label(__('Page'))
                                         ->live()
-                                        ->options([
-                                            ...collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()]),
-                                            'custom' => __('Custom URL'),
-                                        ]),
+                                        ->options(function () {
+                                            $base = collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()])->toArray();
+                                            $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
+                                                return ['page:' . $p->id => $p->title];
+                                            })->toArray();
+
+                                            return [
+                                                ...$base,
+                                                ...$cms,
+                                                'custom' => __('Custom URL'),
+                                            ];
+                                        }),
                                 ]),
 
                                 Group::make([
@@ -361,7 +373,14 @@ class Settings extends Page implements HasForms
                             ->addActionAlignment(Alignment::Start)
                             ->collapsible()
                             ->collapsed()
-                            ->itemLabel(fn (array $state): ?string => MainPages::tryFrom($state['page'] ?? '')?->getTitle() ?? $state['name'] ?? null),
+                            ->itemLabel(function (array $state): ?string {
+                                $pageId = (int) str($state[ 'page' ])->after('page:')->toString();
+                                $pageModel = CmsPage::query()->find($pageId);
+                                if ($pageModel) {
+                                    return $pageModel->title;
+                                }
+                                return MainPages::tryFrom($state[ 'page' ] ?? '')?->getTitle() ?? $state[ 'name' ] ?? null;
+                            }),
 
                         Builder::make(SiteSettings::MAIN_MENU_MORE->value)
                             ->label(__('Dropdown Menu'))
@@ -409,10 +428,18 @@ class Settings extends Page implements HasForms
                                             Select::make('page')
                                                 ->label(__('Page'))
                                                 ->live()
-                                                ->options([
-                                                    ...collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()]),
-                                                    'custom' => __('Custom URL'),
-                                                ]),
+                                                ->options(function () {
+                                                    $base = collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()])->toArray();
+                                                    $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
+                                                        return ['page:' . $p->id => $p->title];
+                                                    })->toArray();
+
+                                                    return [
+                                                        ...$base,
+                                                        ...$cms,
+                                                        'custom' => __('Custom URL'),
+                                                    ];
+                                                }),
                                         ]),
 
                                         Group::make([
@@ -449,10 +476,18 @@ class Settings extends Page implements HasForms
                                     Select::make('page')
                                         ->label(__('Page'))
                                         ->live()
-                                        ->options([
-                                            ...collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()]),
-                                            'custom' => __('Custom URL'),
-                                        ]),
+                                        ->options(function () {
+                                            $base = collect(MainPages::cases())->mapWithKeys(fn (MainPages $page) => [$page->value => $page->getTitle()])->toArray();
+                                            $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
+                                                return ['page:' . $p->id => $p->title];
+                                            })->toArray();
+
+                                            return [
+                                                ...$base,
+                                                ...$cms,
+                                                'custom' => __('Custom URL'),
+                                            ];
+                                        }),
 
                                     Group::make([
                                         TextInput::make('name')
@@ -473,7 +508,14 @@ class Settings extends Page implements HasForms
                                 ->addActionAlignment(Alignment::Start)
                                 ->collapsible()
                                 ->collapsed()
-                                ->itemLabel(fn (array $state): ?string => MainPages::tryFrom($state['page'] ?? '')?->getTitle() ?? $state['name'] ?? null),
+                                ->itemLabel(function (array $state): ?string {
+                                    $pageId = (int) str($state[ 'page' ])->after('page:')->toString();
+                                    $pageModel = CmsPage::query()->find($pageId);
+                                    if ($pageModel) {
+                                        return $pageModel->title;
+                                    }
+                                    return MainPages::tryFrom($state[ 'page' ] ?? '')?->getTitle() ?? $state[ 'name' ] ?? null;
+                                }),
 
                     ])->columns(1),
 

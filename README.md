@@ -27,7 +27,7 @@ It's fully open source.
   - [x] Multilingual
   - [x] Comments
   - [x] Mail notifications
-  - [ ] CMS Pages
+  - [x] CMS Pages
   - [ ] Portfolio
 
 ### Front end (TALL Stack), with:

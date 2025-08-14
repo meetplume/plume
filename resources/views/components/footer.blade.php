@@ -3,22 +3,47 @@
     use App\Enums\Analytics;
     use App\Enums\SiteSettings;
 @endphp
-
 <div {{ $attributes->class('bg-gray-100 dark:bg-gray-800') }}>
     <footer class="container py-8 lg:max-w-(--breakpoint-md) *:[&_a]:hover:underline *:[&_a]:font-medium">
         <div class="flex flex-row justify-center items-center w-full">
             <div>
-                <nav class="grid sm:auto-cols-[minmax(50px,100px)] sm:grid-flow-col gap-y-2 gap-x-6 place-items-center mx-auto w-full">
+                <nav class="flex flex-col sm:flex-row gap-y-2 gap-x-8 place-items-center mx-auto w-full">
                     @foreach(SiteSettings::FOOTER_MENU->get() ?? [] as $footerMenuItem)
                         @php
-                            if(filled(data_get($footerMenuItem, 'page')) && data_get($footerMenuItem, 'page') !== 'custom'){
-                                $url = url(data_get(SiteSettings::PERMALINKS->get(), data_get($footerMenuItem, 'page')));
-                                $name = MainPages::tryFrom(data_get($footerMenuItem, 'page'))->getTitle();
-                            }
-                            else{
-                                $url = url(data_get($footerMenuItem, 'url'));
+                            $pageKey = data_get($footerMenuItem, 'page');
+                            $url = url('/'); // safe default
+                            $name = '';
+
+                            if (filled($pageKey) && $pageKey !== 'custom') {
+                                if (str_starts_with($pageKey, 'page:')) {
+                                    $pageId = (int) str($pageKey)->after('page:')->toString();
+                                    $pageModel = \App\Models\Page::find($pageId);
+
+                                    if ($pageModel) {
+                                        $url = route('pages.show', ['page' => $pageModel]);
+                                        $name = $pageModel->title;
+                                    } else {
+                                        $url = url('/');
+                                        $name = 'Page';
+                                    }
+                                } else {
+                                    $permalink = data_get(SiteSettings::PERMALINKS->get(), $pageKey);
+                                    $url = filled($permalink) ? url($permalink) : url('/');
+                                    $name = \App\Enums\MainPages::tryFrom($pageKey)?->getTitle() ?? 'Page';
+                                }
+                            } else {
+                                $raw = data_get($footerMenuItem, 'url');
+
+                                if (is_string($raw) && (str_starts_with($raw, 'http') || str_starts_with($raw, '#') || str_starts_with($raw, 'mailto:'))) {
+                                    // External, anchor, or mailto: keep as-is
+                                    $url = $raw;
+                                } else {
+                                    $url = filled($raw) ? url($raw) : url('/');
+                                }
+
                                 $name = data_get($footerMenuItem, 'name');
                             }
+
                         @endphp
 
                         <a
@@ -26,6 +51,7 @@
                             href="{{ $url }}"
                             target="{{ data_get($footerMenuItem, 'open_in_new_tab') ? '_blank' : '' }}"
                             @if(!data_get($footerMenuItem, 'open_in_new_tab') && !str_contains($url,'#')) wire:navigate.hover @endif
+                            class="text-center"
                         >
                             {{ $name }}
                         </a>

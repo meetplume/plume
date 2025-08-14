@@ -1,8 +1,10 @@
 @php
+    use App\Models\Page;
     use App\Support\Icons;
     use App\Enums\Analytics;
     use App\Enums\MainPages;
-    use App\Enums\SiteSettings;use Filament\Facades\Filament;
+    use App\Enums\SiteSettings;
+    use Filament\Facades\Filament;
 @endphp
 
 <nav {{ $attributes->class('flex items-center gap-6 md:gap-8 justify-between') }}>
@@ -17,12 +19,35 @@
 
         @foreach(SiteSettings::MAIN_MENU->get() ?? [] as $menuItem)
             @php
-                if(filled(data_get($menuItem, 'page')) && data_get($menuItem, 'page') !== 'custom'){
-                    $url = url(data_get(SiteSettings::PERMALINKS->get(), data_get($menuItem, 'page')));
-                    $name = MainPages::tryFrom(data_get($menuItem, 'page'))->getTitle();
-                }
-                else{
-                    $url = url(data_get($menuItem, 'url'));
+                $pageKey = data_get($menuItem, 'page');
+                $url = url('/'); // safe default
+                $name = '';
+
+                if (filled($pageKey) && $pageKey !== 'custom') {
+                    if (str_starts_with($pageKey, 'page:')) {
+                        $pageId = (int) str(data_get($menuItem, 'page'))->after('page:')->toString();
+                        $pageModel = Page::query()->find($pageId);
+                        if ($pageModel) {
+                            $url = route('pages.show', ['page' => $pageModel]);
+                            $name = $pageModel->title;
+                        } else {
+                            $url = url('/');
+                            $name = 'Page';
+                        }
+                    } else {
+                        $permalink = data_get(SiteSettings::PERMALINKS->get(), $pageKey);
+                        // Only call url() if we actually have a path
+                        $url = filled($permalink) ? url($permalink) : url('/');
+                        $name = MainPages::tryFrom($pageKey)?->getTitle() ?? '';
+                    }
+                } else {
+                    $raw = data_get($menuItem, 'url');
+                    // Use external/anchor as-is; otherwise prefix with base url
+                    if (is_string($raw) && Str::startsWith($raw, ['http', '#', 'mailto:'])) {
+                        $url = $raw;
+                    } else {
+                        $url = filled($raw) ? url($raw) : url('/');
+                    }
                     $name = data_get($menuItem, 'name');
                 }
             @endphp
@@ -122,9 +147,23 @@
                             $localePrefix = ($currentLocale !== $defaultLanguage) ? "/{$currentLocale}" : "";
 
                             if(filled(data_get($dropdownItem, 'data.page')) && data_get($dropdownItem, 'data.page') !== 'custom'){
-                                $path = data_get(SiteSettings::PERMALINKS->get(), data_get($dropdownItem, 'data.page'));
-                                $url = url($localePrefix . '/' . $path);
-                                $name = MainPages::tryFrom(data_get($dropdownItem, 'data.page'))->getTitle();
+                                $pageKey = data_get($dropdownItem, 'data.page');
+                                if (str_starts_with($pageKey, 'page:')) {
+                                    $pageId = (int) str($pageKey)->after('page:')->toString();
+                                    $pageModel = Page::find($pageId);
+                                    if ($pageModel) {
+                                        $url = route('pages.show', ['page' => $pageModel]);
+                                        $name = $pageModel->title;
+                                    } else {
+                                        $path = '';
+                                        $url = url($localePrefix);
+                                        $name = 'Page';
+                                    }
+                                } else {
+                                    $path = data_get(SiteSettings::PERMALINKS->get(), $pageKey);
+                                    $url = url($localePrefix . '/' . $path);
+                                    $name = MainPages::tryFrom($pageKey)->getTitle();
+                                }
                             }
                             else{
                                 $path = data_get($dropdownItem, 'data.url');

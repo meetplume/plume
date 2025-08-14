@@ -13,7 +13,7 @@
 - [ ] Contact form?
 - [ ] Social media links?
 - [ ] Social media sharing?
-- [ ] CMS Pages
+- [x] CMS Pages
 - [ ] Portfolio
 - [ ] Drafts, scheduling, revisions
 - [ ] SEO metadata + sitemap

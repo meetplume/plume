@@ -6,6 +6,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PageController;
 use App\Enums\SiteSettings;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -37,6 +38,11 @@ Route::group([
     Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::TAGS->value, 'tags'))->group(function () {
         Route::get('', [TagController::class, 'index'])->name('tags.index');
         Route::get('/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
+    });
+
+    // CMS Pages routes
+    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), 'pages', 'pages'))->group(function () {
+        Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');
     });
 
 });
