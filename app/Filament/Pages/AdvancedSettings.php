@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use App\Filament\Concerns\HandlesSettingsForm;
 
-class MailSettings extends Page implements HasForms
+class AdvancedSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
@@ -55,6 +55,25 @@ class MailSettings extends Page implements HasForms
     {
         return $schema
             ->components([
+                Section::make('Queue Configuration')
+                    ->heading(__('Queue Configuration'))
+                    ->description(__('Configure how background jobs are processed.'))
+                    ->icon(Heroicon::OutlinedQueueList)
+                    ->aside()
+                    ->schema([
+                        Select::make(SiteSettings::QUEUE_CONNECTION->value)
+                            ->label(__('Queue Connection'))
+                            ->options([
+                                'sync' => 'Sync (Process immediately)',
+                                'database' => 'Database',
+                                'redis' => 'Redis',
+                                'sqs' => 'Amazon SQS',
+                                'beanstalkd' => 'Beanstalkd',
+                            ])
+                            ->required()
+                            ->helperText(__('Sync processes jobs immediately. Other options may require additional configuration.')),
+                    ]),
+
                 Section::make('Mail Configuration')
                     ->heading(__('Mail Configuration'))
                     ->description(__('You can configure the mail settings for your blog.'))
@@ -123,25 +142,6 @@ class MailSettings extends Page implements HasForms
                             ])
                             ->columns(1)
                             ->collapsible(),
-                    ]),
-
-                Section::make('Queue Configuration')
-                    ->heading(__('Queue Configuration'))
-                    ->description(__('Configure how background jobs are processed.'))
-                    ->icon(Heroicon::OutlinedQueueList)
-                    ->aside()
-                    ->schema([
-                        Select::make(SiteSettings::QUEUE_CONNECTION->value)
-                            ->label(__('Queue Connection'))
-                            ->options([
-                                'sync' => 'Sync (Process immediately)',
-                                'database' => 'Database',
-                                'redis' => 'Redis',
-                                'sqs' => 'Amazon SQS',
-                                'beanstalkd' => 'Beanstalkd',
-                            ])
-                            ->required()
-                            ->helperText(__('Sync processes jobs immediately. Other options may require additional configuration.')),
                     ]),
 
             ])->statePath('data');
