@@ -102,7 +102,6 @@ class AppServiceProvider extends ServiceProvider
     {
         FilamentAsset::register([
             Js::make('rich-content-plugins/IdExtension', __DIR__ . '/../../resources/js/dist/filament/rich-content-plugins/IdExtension.js')->loadedOnRequest(),
-            Js::make('font-picker', __DIR__ . '/../../resources/js/filament/font-picker.js'),
         ]);
     }
 

@@ -2,26 +2,18 @@
 
 namespace App\Filament\Pages;
 
-use App\Enums\Font;
 use Phiki\Theme\Theme;
 use App\Enums\SiteSettings;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
-use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
-use Rawilk\Settings\Support\Context;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ViewField;
 use Filament\Forms\Components\FileUpload;
-use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\ColorPicker;
-use App\Filament\Forms\Components\FontPicker;
+use CharlieEtienne\FilamentFontPicker\FontPicker;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;

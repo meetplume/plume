@@ -1,4 +1,4 @@
-function filamentFontPicker(wire, statePath) {
+function fontPicker(wire, statePath) {
     return {
         state: wire.$entangle(statePath),
         isOpen: false,
@@ -115,16 +115,5 @@ function filamentFontPicker(wire, statePath) {
             this.isOpen = false;
             this.loadFontPreview(fontFamily);
         },
-
-        getCategoryClass(category) {
-            const classes = {
-                'serif': 'bg-red-900/30 text-red-300',
-                'sans-serif': 'bg-blue-900/30 text-blue-300',
-                'display': 'bg-purple-900/30 text-purple-300',
-                'handwriting': 'bg-green-900/30 text-green-300',
-                'monospace': 'bg-yellow-900/30 text-yellow-300'
-            };
-            return classes[category] || 'bg-gray-900/30 text-gray-300';
-        }
     }
 }

@@ -7,6 +7,7 @@
 @source '../../../../resources/views/components/logo.blade.php';
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
+@source '../../../../vendor/charlieetienne/filament-font-picker/resources/**/*.blade.php';
 
 code {
     @apply
