@@ -17,8 +17,11 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Components\FileUpload;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\ColorPicker;
+use App\Filament\Forms\Components\FontPicker;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
@@ -78,17 +81,9 @@ class DesignSettings extends Page implements HasForms
                             ])->storeAsKey()
                             ->helperText(__('What shade of gray would you use? This color is used for backgrounds, borders.')),
 
-                        Select::make(SiteSettings::HEADING_FONT->value)
-                            ->options(Font::class)
-                            ->searchable(),
-
-                        Select::make(SiteSettings::BODY_FONT->value)
-                            ->options(Font::class)
-                            ->searchable(),
-
-                        Select::make(SiteSettings::CODE_FONT->value)
-                            ->options(Font::class)
-                            ->searchable(),
+                        FontPicker::make(SiteSettings::HEADING_FONT->value),
+                        FontPicker::make(SiteSettings::BODY_FONT->value),
+                        FontPicker::make(SiteSettings::CODE_FONT->value),
 
                         Select::make(SiteSettings::CODE_THEME->value)
                             ->options(collect(Theme::cases())->mapWithKeys(fn(Theme $theme) => [
