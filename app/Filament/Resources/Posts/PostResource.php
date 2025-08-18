@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts;
 
 use App\Enums\SiteSettings;
+use Illuminate\Contracts\Support\Htmlable;
 use App\Filament\Resources\Posts\Pages\CreatePost;
 use App\Filament\Resources\Posts\Pages\EditPost;
 use App\Filament\Resources\Posts\Pages\ListPosts;
@@ -12,9 +13,10 @@ use App\Models\Post;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class PostResource extends Resource
 {
@@ -22,7 +24,9 @@ class PostResource extends Resource
 
     protected static ?string $model = Post::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::Article->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function getTranslatableLocales(): array
     {

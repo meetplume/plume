@@ -14,22 +14,29 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class AdvancedSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Advanced';
     protected static ?string $slug = 'settings/advanced';
     protected static ?string $title = 'Advanced Settings';
     protected static ?int $navigationSort = 5;
     protected string $view = 'filament.pages.settings';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::GearSix->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     protected function getSettings(): array
     {
@@ -58,7 +65,7 @@ class AdvancedSettings extends Page implements HasForms
                 Section::make('Queue Configuration')
                     ->heading(__('Queue Configuration'))
                     ->description(__('Configure how background jobs are processed.'))
-                    ->icon(Heroicon::OutlinedQueueList)
+                    ->icon(Phosphor::Queue->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         Select::make(SiteSettings::QUEUE_CONNECTION->value)
@@ -77,7 +84,7 @@ class AdvancedSettings extends Page implements HasForms
                 Section::make('Mail Configuration')
                     ->heading(__('Mail Configuration'))
                     ->description(__('You can configure the mail settings for your blog.'))
-                    ->icon(Heroicon::OutlinedEnvelope)
+                    ->icon(Phosphor::Envelope->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         Select::make('mail_mailer')

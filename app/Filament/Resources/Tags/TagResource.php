@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tags;
 
+use Illuminate\Contracts\Support\Htmlable;
 use App\Filament\Resources\Tags\Pages\CreateTag;
 use App\Filament\Resources\Tags\Pages\EditTag;
 use App\Filament\Resources\Tags\Pages\ListTags;
@@ -11,14 +12,17 @@ use App\Models\Tag;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::Tag->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function form(Schema $schema): Schema
     {

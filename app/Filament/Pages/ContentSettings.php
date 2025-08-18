@@ -6,30 +6,34 @@ use App\Enums\MainPages;
 use App\Enums\SiteSettings;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
-use Rawilk\Settings\Support\Context;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class ContentSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-computer-desktop';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Content';
     protected static ?string $slug = 'settings/content';
     protected static ?string $title = 'Content Settings';
     protected static ?int $navigationSort = 4;
     protected string $view = 'filament.pages.settings';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::FrameCorners->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     protected function getSettings(): array
     {
@@ -64,14 +68,14 @@ class ContentSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Contact'))
                     ->description(__("A bit more about you."))
-                    ->icon(Heroicon::OutlinedEnvelope)
+                    ->icon(Phosphor::Envelope->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
 
                         TextInput::make(SiteSettings::CONTACT_EMAIL->value)
                             ->label(__('Contact email'))
                             ->email()
-                            ->prefixIcon(Heroicon::OutlinedEnvelope),
+                            ->prefixIcon(Phosphor::Envelope->getIconForWeight(PhosphorWeight::Duotone)),
 
                         // TODO: Add github, x, bluesky, linkedin
 
@@ -80,7 +84,7 @@ class ContentSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Hero'))
                     ->description(__('Details for the hero section on home page.'))
-                    ->icon(Heroicon::OutlinedStar)
+                    ->icon(Phosphor::Star->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         TextInput::make(SiteSettings::HERO_TITLE->value)
@@ -112,7 +116,7 @@ class ContentSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('About'))
                     ->description(__('Details for the about section.'))
-                    ->icon(Heroicon::OutlinedUserCircle)
+                    ->icon(Phosphor::UserList->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         FileUpload::make(SiteSettings::ABOUT_IMAGE->value)
@@ -155,7 +159,7 @@ class ContentSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Footer'))
                     ->description(__('Fill details for footer and copyright.'))
-                    ->icon(Heroicon::ArrowDown)
+                    ->icon(Phosphor::SquareHalfBottom->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         RichEditor::make(SiteSettings::FOOTER_TEXT->value)
@@ -176,7 +180,7 @@ class ContentSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Permalinks'))
                     ->description(__('Customize the default slugs for main pages.'))
-                    ->icon(Heroicon::OutlinedLink)
+                    ->icon(Phosphor::Link->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema(function(){
                         $schema = [];

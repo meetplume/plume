@@ -7,9 +7,7 @@ use App\Enums\MainPages;
 use App\Enums\SiteSettings;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
-use Rawilk\Settings\Support\Context;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Flex;
@@ -18,24 +16,30 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Repeater;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Models\Page as CmsPage;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class MenuSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-bars-3';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Menus';
     protected static ?string $slug = 'settings/menus';
     protected static ?string $title = 'Menu Settings';
     protected static ?int $navigationSort = 2;
     protected string $view = 'filament.pages.settings';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::List->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     protected function getSettings(): array
     {
@@ -58,7 +62,7 @@ class MenuSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Main Menu'))
                     ->description(__('Your website needs a main menu, right?'))
-                    ->icon(Heroicon::OutlinedBars3)
+                    ->icon(Phosphor::List->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
 
@@ -216,7 +220,7 @@ class MenuSettings extends Page implements HasForms
                     Section::make()
                         ->heading(__('Footer Menu'))
                         ->description(__('Display some links in the footer.'))
-                        ->icon(Heroicon::OutlinedBars3)
+                        ->icon(Phosphor::List->getIconForWeight(PhosphorWeight::Duotone))
                         ->aside()
                         ->schema([
 

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Categories;
 
+use Illuminate\Contracts\Support\Htmlable;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
@@ -11,14 +13,16 @@ use App\Models\Category;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::Hash->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public static function form(Schema $schema): Schema
     {

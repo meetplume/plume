@@ -13,7 +13,11 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\ColorPicker;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
@@ -22,13 +26,16 @@ class DesignSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-paint-brush';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Design';
     protected static ?string $slug = 'settings/design';
     protected static ?string $title = 'Design Settings';
     protected static ?int $navigationSort = 1;
     protected string $view = 'filament.pages.settings';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::PaintBrush->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     protected function getSettings(): array
     {
@@ -55,7 +62,7 @@ class DesignSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Design'))
                     ->description(__("Give it a fresh coat of paint."))
-                    ->icon(Heroicon::OutlinedPaintBrush)
+                    ->icon(Phosphor::PaintBrush->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
 
@@ -88,7 +95,7 @@ class DesignSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Post default image'))
                     ->description(__('The default image to use for posts that do not have an image set.'))
-                    ->icon(Heroicon::OutlinedPhoto)
+                    ->icon(Phosphor::Image->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         FileUpload::make(SiteSettings::POST_DEFAULT_IMAGE->value)

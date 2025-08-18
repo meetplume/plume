@@ -10,6 +10,7 @@
         "andreiio/blade-iconoir": "^4.7",
         "awcodes/palette": "^2.0",
         "bezhansalleh/filament-language-switch": "^4.0@beta",
+        "charlieetienne/filament-font-picker": "^1.0",
         "charlieetienne/palette-generator": "^1.0",
         "filament/filament": "^4.0",
         "lara-zeus/spatie-translatable": "^1.0",
@@ -20,7 +21,7 @@
         "panphp/pan": "^0.1.8",
         "phiki/phiki": "^1.1",
         "rawilk/laravel-settings": "^3.4",
-        "charlieetienne/filament-font-picker": "^1.0"
+        "schmeits/filament-4-phosphor-icons": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

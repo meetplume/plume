@@ -14,7 +14,11 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class TranslationManager extends Page implements HasForms
 {
@@ -22,19 +26,22 @@ class TranslationManager extends Page implements HasForms
 
     public ?array $data = [];
 
-    protected $translationService;
+    protected ?TranslationService $translationService;
 
-    protected $translationStrings = [];
+    protected array $translationStrings = [];
 
-    protected $translations = [];
+    protected array $translations = [];
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-language';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Translation Manager';
     protected static ?string $slug = 'translation-manager';
     protected static ?string $title = 'Translation Manager';
     protected static ?int $navigationSort = 1;
     protected string $view = 'filament.pages.translation-manager';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::Translate->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     public function mount(): void
     {

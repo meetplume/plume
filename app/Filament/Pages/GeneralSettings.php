@@ -8,28 +8,33 @@ use Filament\Schemas\Schema;
 use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
-use Rawilk\Settings\Support\Context;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
+use BackedEnum;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
+use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
 class GeneralSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-adjustments-vertical';
     protected static string|null|\UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'General';
     protected static ?string $slug = 'settings/general';
     protected static ?string $title = 'General Settings';
     protected static ?int $navigationSort = 0;
     protected string $view = 'filament.pages.settings';
+
+    public static function getNavigationIcon(): string|BackedEnum|Htmlable|null {
+        return Phosphor::Sliders->getIconForWeight(PhosphorWeight::Duotone);
+    }
 
     protected function getSettings(): array
     {
@@ -69,7 +74,7 @@ class GeneralSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Identity'))
                     ->description(__("Who's this blog for?"))
-                    ->icon(Heroicon::OutlinedIdentification)
+                    ->icon(Phosphor::IdentificationBadge->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         FileUpload::make(SiteSettings::SITE_LOGO->value)
@@ -99,7 +104,7 @@ class GeneralSettings extends Page implements HasForms
                 Section::make()
                     ->heading(__('Localization'))
                     ->description(__('Imagine having a multilingual website...'))
-                    ->icon(Heroicon::OutlinedLanguage)
+                    ->icon(Phosphor::Translate->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
                         Select::make(SiteSettings::LANGUAGES->value)
