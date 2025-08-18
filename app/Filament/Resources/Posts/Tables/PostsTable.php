@@ -20,7 +20,7 @@ class PostsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image')->circular()->imageSize(40)->label(''),
+                ImageColumn::make('image_url')->circular()->imageSize(40)->label(''),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable()
