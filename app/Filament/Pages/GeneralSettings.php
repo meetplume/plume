@@ -54,19 +54,6 @@ class GeneralSettings extends Page implements HasForms
         return __('General settings saved!');
     }
 
-    protected function getHeaderActions(): array {
-        return [
-            SelectAction::make('language')
-                ->label(__('Change language'))
-                ->options(AvailableLanguages::availableOptions(simple: true))
-        ];
-    }
-
-    public function updatedLanguage(): void
-    {
-        $this->form->fill($this->loadFormData());
-    }
-
     public function form(Schema $schema): Schema
     {
         return $schema

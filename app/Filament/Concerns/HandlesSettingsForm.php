@@ -3,6 +3,8 @@
 namespace App\Filament\Concerns;
 
 use App\Enums\SiteSettings;
+use Filament\Actions\SelectAction;
+use App\Support\AvailableLanguages;
 use Filament\Notifications\Notification;
 
 trait HandlesSettingsForm
@@ -21,6 +23,19 @@ trait HandlesSettingsForm
      * Must be implemented by classes using this trait.
      */
     abstract protected function getSuccessMessage(): string;
+
+    protected function getHeaderActions(): array {
+        return [
+            SelectAction::make('language')
+                ->label(__('Change language'))
+                ->options(AvailableLanguages::availableOptions(simple: true))
+        ];
+    }
+
+    public function updatedLanguage(): void
+    {
+        $this->form->fill($this->loadFormData());
+    }
 
     protected function loadFormData(): array
     {
