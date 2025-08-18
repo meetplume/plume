@@ -11,10 +11,27 @@
     <div class="container">
         <div class="max-w-4xl mx-auto">
             <article>
-                @if ($post->image_url)
-                    <img src="{{ $post->image_url }}" alt="{{ $post->title  }}"
-                         class="object-cover w-full rounded-xl ring-1 shadow-xl ring-black/5 aspect-video"/>
-                @endif
+                <div
+                    class="relative aspect-video"
+                >
+                    @if ($post->placeholder)
+                        <img
+                            src="{{ $post->placeholder }}"
+                            alt=""
+                            aria-hidden="true"
+                            class="object-cover w-full rounded-xl ring-1 shadow-xl ring-black/5 aspect-video absolute inset-0 transition-opacity duration-700 ease-in-out"
+                        />
+                    @endif
+
+                    @if ($post->image_url)
+                        <img
+                            src="{{ $post->image_url }}"
+                            alt="{{ $post->title }}"
+                            onload="this.style.opacity='1'"
+                            class="object-cover w-full rounded-xl ring-1 shadow-xl ring-black/5 aspect-video transition-opacity duration-[0.8s] ease-in-out relative opacity-0"
+                        />
+                    @endif
+                </div>
 
                 <h1 class="mt-12 font-heading font-medium tracking-tight text-center text-black dark:text-white text-balance md:mt-16 text-3xl/none sm:text-4xl/none lg:text-5xl/none">
                     {{ $post->title }}

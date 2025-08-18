@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\SiteSettings;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 use App\Filament\CustomBlocks\CodeBlock;
@@ -139,5 +141,16 @@ class Post extends Model
                 return asset('img/placeholders/post.png');
             }
         )->shouldCache();
+    }
+
+    public function getPlaceholderAttribute(): string
+    {
+        $imgPath = public_path(str($this->image_url)->remove(url('/'))->toString());
+        $key = 'placeholder:' . $this->image_url . filemtime($imgPath);
+        return Cache::rememberForever ($key, function () use ($imgPath) {
+            $image = Image::read($imgPath);
+            $placeholder = $image->scaleDown(400)->blur(10)->toJpeg(30);
+            return 'data:image/jpeg;base64,' . base64_encode($placeholder);
+        }) ;
     }
 }

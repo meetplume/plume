@@ -13,6 +13,7 @@
         "charlieetienne/filament-font-picker": "^1.0",
         "charlieetienne/palette-generator": "^1.0",
         "filament/filament": "^4.0",
+        "intervention/image-laravel": "^1.5",
         "lara-zeus/spatie-translatable": "^1.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
