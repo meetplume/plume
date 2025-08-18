@@ -71,7 +71,7 @@
                     <img
                         src="{{ Storage::disk('public')->url(SiteSettings::ABOUT_IMAGE->get()) }}"
                         alt="{{ SiteSettings::ABOUT_TITLE->get() }}"
-                        class="{{ SiteSettings::ABOUT_IMAGE_CIRCULAR->get() ? 'rounded-full object-cover' : 'object-contain' }}"
+                        class="{{ SiteSettings::ABOUT_IMAGE_CIRCULAR->get() ? 'rounded-full object-cover' : 'object-contain' }} mb-4"
                         style="width: {{ SiteSettings::ABOUT_IMAGE_WIDTH->get() }}px; height: {{ SiteSettings::ABOUT_IMAGE_HEIGHT->get() }}px;"
                     >
                 </div>
