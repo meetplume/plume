@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Pages\Tables;
 
+use App\Models\Page;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -30,10 +31,22 @@ class PagesTable
                     ->fontFamily(FontFamily::Mono)
                     ->searchable()
                     ->limit(30),
-                TextColumn::make('published_at')
-                    ->dateTime()
-                    ->since()
-                    ->dateTimeTooltip()
+                TextColumn::make('status')
+                    ->badge()
+                    ->state(fn(Page $record) => match(true) {
+                        $record->published_at === null => __('draft'),
+                        $record->published_at > now() => __('planned'),
+                        default => __('published'),
+                    })
+                    ->color(fn($state) => match($state) {
+                        'draft' => 'gray',
+                        'planned' => 'info',
+                        'published' => 'success',
+                    })
+                    ->tooltip(fn(Page $record) => match($record->published_at) {
+                        null => null,
+                        default => $record->published_at->translatedFormat('d/m/y H:i'),
+                    })
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('created_at')
@@ -41,13 +54,13 @@ class PagesTable
                     ->since()
                     ->dateTimeTooltip()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->since()
                     ->dateTimeTooltip()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

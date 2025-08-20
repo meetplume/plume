@@ -6,7 +6,9 @@ use App\Models\Page;
 use Livewire\Component;
 use Filament\Actions\Action;
 use App\Support\SlugGenerator;
+use Illuminate\Support\HtmlString;
 use Filament\Schemas\Components\Flex;
+use Illuminate\Support\Facades\Blade;
 use Filament\Schemas\Components\Group;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Schemas\Components\Section;
@@ -47,7 +49,11 @@ class PageForm
                             }),
 
                         TextInput::make('slug')
-                            ->partiallyRenderAfterStateUpdated(),
+                            ->partiallyRenderAfterStateUpdated()
+                            ->helperText(function ($record) {
+                                $url = route('pages.show', $record);
+                                return new HtmlString(Blade::render("<a href=\"{$url}\" target=\"_blank\"><x-heroicon-m-arrow-top-right-on-square class='size-3 mr-1 inline'/>{$url}</a>"));
+                            }),
 
                         RichEditor::make('body')
                             ->json()
