@@ -25,7 +25,7 @@ class PanAnalyticsTable
                         $analyticsFound = false;
                         foreach (Analytics::cases() as $analytics) {
                             if( str($state)->startsWith($analytics->value . '-') && !$analyticsFound ){
-                                $state = str($state)->ltrim($analytics->value . '-');
+                                $state = str($state)->after($analytics->value . '-');
                                 $analyticsFound = true;
                             }
                         }
