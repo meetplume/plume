@@ -17,6 +17,7 @@ use Filament\Notifications\Notification;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Components\Repeater\TableColumn;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 
@@ -77,20 +78,21 @@ class TranslationManager extends Page implements HasForms
                             }),
 
                         Repeater::make('translations')
+                            ->table([
+                                TableColumn::make(__('String')),
+                                TableColumn::make(__('Translation')),
+                            ])
                             ->schema([
-                                Grid::make(2)
-                                    ->schema([
-                                        TextInput::make('key')
-                                            ->label(__('Translation Key'))
-                                            ->disabled()
-                                            ->dehydrated()
-                                            ->columnSpan(1),
+                                TextInput::make('key')
+                                    ->label(__('Translation Key'))
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->columnSpan(1),
 
-                                        TextInput::make('value')
-                                            ->label(__('Translation Value'))
-                                            ->extraInputAttributes(fn($state) => ['class' => empty($state) ? 'bg-yellow-100' : ''])
-                                            ->columnSpan(1),
-                                    ]),
+                                TextInput::make('value')
+                                    ->label(__('Translation Value'))
+                                    ->extraInputAttributes(fn($state) => ['class' => empty($state) ? 'bg-yellow-100' : ''])
+                                    ->columnSpan(1),
                             ])
                             ->itemLabel(fn (array $state): ?string => $state['key'] ?? null)
                             ->collapsible()
