@@ -13,6 +13,10 @@
 
     <div class="menu flex items-center gap-6 md:gap-8 font-normal text-sm">
 
+        @if(SiteSettings::DARK_MODE->get() === 'switcher')
+            <x-theme-switcher />
+        @endif
+
         @if(count(LaravelLocalization::getSupportedLocales()) > 1)
             <x-language-switcher/>
         @endif

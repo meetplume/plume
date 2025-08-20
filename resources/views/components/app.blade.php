@@ -39,6 +39,8 @@
         }
     </style>
 
+    <x-dark-mode-script />
+
     <livewire:styles/>
     @filamentStyles
     @vite('resources/css/app.css')

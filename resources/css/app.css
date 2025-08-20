@@ -32,6 +32,9 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
+/* changed the behavior of dark: (default: based on prefers-color-scheme) to work based on the presence of the .dark parent class */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --breakpoint-*: initial;
     --breakpoint-sm: 640px;
@@ -61,9 +64,13 @@
     --scrollbar-track-color: transparent;
 }
 
-@theme dark {
-    --scrollbar-thumb-color: var(--color-gray-700);
-    --scrollbar-track-color: var(--color-gray-800);
+@layer theme {
+    :root, :host {
+        @variant dark {
+            --scrollbar-thumb-color: var(--color-gray-700);
+            --scrollbar-track-color: var(--color-gray-800);
+        }
+    }
 }
 
 @utility container {

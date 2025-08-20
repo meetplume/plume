@@ -47,6 +47,7 @@ class DesignSettings extends Page implements HasForms
             SiteSettings::CODE_FONT,
             SiteSettings::CODE_THEME,
             SiteSettings::POST_DEFAULT_IMAGE,
+            SiteSettings::DARK_MODE,
         ];
     }
 
@@ -90,6 +91,22 @@ class DesignSettings extends Page implements HasForms
                             ]))
                             ->searchable(),
 
+                    ])->columns(1),
+
+                Section::make()
+                    ->heading(__('Dark mode'))
+                    ->description(__('How should the site look in dark mode?'))
+                    ->icon(Phosphor::Moon->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        Select::make(SiteSettings::DARK_MODE->value)
+                            ->selectablePlaceholder(false)
+                            ->options([
+                                'switcher' => __('Switcher (adds a button in header menu)'),
+                                'always_dark' => __('Always Dark'),
+                                'always_light' => __('Always Light'),
+                                'always_system' => __('Always System default'),
+                            ])
                     ])->columns(1),
 
                 Section::make()
