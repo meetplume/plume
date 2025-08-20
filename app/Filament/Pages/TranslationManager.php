@@ -88,6 +88,7 @@ class TranslationManager extends Page implements HasForms
 
                                         TextInput::make('value')
                                             ->label(__('Translation Value'))
+                                            ->extraInputAttributes(fn($state) => ['class' => empty($state) ? 'bg-yellow-100' : ''])
                                             ->columnSpan(1),
                                     ]),
                             ])
@@ -112,10 +113,7 @@ class TranslationManager extends Page implements HasForms
 
     protected function getTranslationsForLanguage(string $language): array
     {
-        // Ensure translationService is initialized
-        if ($this->translationService === null) {
-            $this->translationService = new TranslationService();
-        }
+        $this->translationService = new TranslationService();
 
         // Ensure translationStrings are loaded
         if (empty($this->translationStrings)) {
@@ -147,10 +145,7 @@ class TranslationManager extends Page implements HasForms
             }
         }
 
-        // Ensure translationService is initialized
-        if ($this->translationService === null) {
-            $this->translationService = new TranslationService();
-        }
+        $this->translationService = new TranslationService();
 
         $this->translationService->saveTranslations($translations, $selectedLanguage);
 
