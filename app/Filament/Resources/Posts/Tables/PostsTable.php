@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Tables;
 
+use App\Models\Post;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -36,10 +37,22 @@ class PostsTable
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('published_at')
-                    ->dateTime()
-                    ->since()
-                    ->dateTimeTooltip()
+                TextColumn::make('status')
+                    ->badge()
+                    ->state(fn(Post $record) => match(true) {
+                        $record->published_at === null => __('draft'),
+                        $record->published_at > now() => __('planned'),
+                        default => __('published'),
+                    })
+                    ->color(fn($state) => match($state) {
+                        'draft' => 'gray',
+                        'planned' => 'info',
+                        'published' => 'success',
+                    })
+                    ->tooltip(fn(Post $record) => match($record->published_at) {
+                        null => null,
+                        default => $record->published_at->translatedFormat('d/m/y H:i'),
+                    })
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('created_at')
@@ -47,13 +60,13 @@ class PostsTable
                     ->since()
                     ->dateTimeTooltip()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->since()
                     ->dateTimeTooltip()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
