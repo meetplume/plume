@@ -122,10 +122,28 @@ class Post extends Model
         )->shouldCache();
     }
 
+    public function isPlanned(): bool
+    {
+        return $this->published_at > now();
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->published_at === null;
+    }
+
+    public function isPublished(): bool
+    {
+        return ! $this->isDraft() && ! $this->isPlanned();
+    }
+
+
     #[Scope]
     protected function published(Builder $query) : void
     {
-        $query->whereNotNull('published_at');
+        $query
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     public function imageUrl(): Attribute
