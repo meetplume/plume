@@ -124,7 +124,7 @@ class Post extends Model
 
     public function isPlanned(): bool
     {
-        return $this->published_at > now();
+        return ! $this->isDraft() && $this->published_at > now();
     }
 
     public function isDraft(): bool

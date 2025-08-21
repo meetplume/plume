@@ -11,9 +11,18 @@
     <div class="container">
         <div class="max-w-4xl mx-auto">
             <article>
-                <div
-                    class="relative aspect-video"
-                >
+                @if(auth()->check() && auth()->user()->isAdmin() && ! $post->isPublished())
+                    <x-alert
+                        type="warning"
+                        class="mb-4"
+                        :heading="match(true) {
+                            $post->isDraft() => __('This post is a draft'),
+                            $post->isPlanned() => __('This post is planned') . ' ' . $post->published_at->diffForHumans()
+                        }">
+                        {{ __('The current post is not published yet. Only logged in administrators can see it.') }}
+                    </x-alert>
+                @endif
+                <div class="relative aspect-video">
                     @if ($post->placeholder)
                         <img
                             src="{{ $post->placeholder }}"
