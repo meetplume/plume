@@ -26,6 +26,7 @@
                 $pageKey = data_get($menuItem, 'page');
                 $url = url('/'); // safe default
                 $name = '';
+                $nameForAnalytics = '';
 
                 if (filled($pageKey) && $pageKey !== 'custom') {
                     if (str_starts_with($pageKey, 'page:')) {
@@ -34,15 +35,18 @@
                         if ($pageModel) {
                             $url = route('pages.show', ['page' => $pageModel]);
                             $name = $pageModel->title;
+                            $nameForAnalytics = $pageModel->getTranslation('title', SiteSettings::DEFAULT_LANGUAGE->get());
                         } else {
                             $url = url('/');
                             $name = 'Page';
+                            $nameForAnalytics = $name;
                         }
                     } else {
                         $permalink = data_get(SiteSettings::PERMALINKS->get(), $pageKey);
                         // Only call url() if we actually have a path
                         $url = filled($permalink) ? url($permalink) : url('/');
                         $name = MainPages::tryFrom($pageKey)?->getTitle() ?? '';
+                        $nameForAnalytics = MainPages::tryFrom($pageKey)?->value ?? '';
                     }
                 } else {
                     $raw = data_get($menuItem, 'url');
@@ -53,11 +57,12 @@
                         $url = filled($raw) ? url($raw) : url('/');
                     }
                     $name = data_get($menuItem, 'name');
+                    $nameForAnalytics = $name;
                 }
             @endphp
 
             <a
-                data-pan="{{ Analytics::MAIN_MENU->value }}-{{ str($name)->slug()->toString() }}"
+                data-pan="{{ Analytics::MAIN_MENU->value }}-{{ str($nameForAnalytics)->slug()->toString() }}"
                 href="{{ $url }}"
                 target="{{ data_get($menuItem, 'open_in_new_tab') ? '_blank' : '' }}"
                 @if(!data_get($menuItem, 'open_in_new_tab') && !str_contains($url,'#')) wire:navigate.hover @endif
