@@ -17,7 +17,7 @@ class PostController extends Controller
 
     public function show(Request $request, Post $post) : View
     {
-        abort_if(! $request->user()?->isAdmin() && ! $post->isPublished(), 404);
+        abort_unless($request->user()?->isAdmin() || $post->isPublished(), 404);
 
         $relatedPosts = Post::query()
             ->published()
