@@ -117,14 +117,20 @@ input[type="search"]::-webkit-search-results-decoration {
     dark:prose-invert
     prose-headings:font-medium
     prose-headings:scroll-mt-4
-    prose-img:shadow-xl
-    prose-img:ring-1
-    prose-img:ring-black/5
-    prose-img:rounded-lg
-    prose-pre:ring-1
-    prose-pre:ring-black/5
-    prose-pre:shadow-md
-    prose-pre:shadow-black/5
+    prose-img:rounded-xl
+    prose-img:block
+    prose-img:border
+    prose-img:border-black/8
+    prose-img:dark:border-white/10
+    prose-img:p-[6px]
+    prose-img:outline
+    prose-img:outline-black/8
+    prose-img:dark:outline-white/10
+    prose-img:outline-offset-[-6px]
+    /*prose-pre:ring-1*/
+    /*prose-pre:ring-black/5*/
+    /*prose-pre:shadow-md*/
+    /*prose-pre:shadow-black/5*/
     prose-strong:font-medium
     prose-code:font-mono
     prose-code:rounded-lg
@@ -165,10 +171,39 @@ input[type="search"]::-webkit-search-results-decoration {
     @apply text-gray-400 no-underline hover:text-gray-600 mr-1 shadow-none;
 }
 
+*:not(.alert-block)>.phiki-wrapper-main {
+    @apply
+    rounded-xl
+    border
+    border-black/8
+    dark:border-white/10
+    p-[5px]
+    mb-5
+    overflow-hidden;
+}
+*:not(.alert-block)>.phiki-wrapper-main>.phiki {
+    @apply
+    ring
+    ring-black/8
+    dark:ring-white/10;
+}
+
 .phiki {
     -ms-overflow-style: none;
     scrollbar-width: none;
-    @apply rounded-lg p-6 text-base shadow-md shadow-black/5 ring-1 ring-black/5 font-normal overflow-x-auto mb-5;
+    @apply
+    p-6
+    rounded-lg
+    text-base
+    font-normal
+    overflow-x-auto;
+}
+
+.alert-block>.phiki-wrapper-main {
+    @apply rounded-lg p-0 shadow-md shadow-black/5 ring-1 ring-black/5;
+}
+.alert-block>.phiki-wrapper-main>.phiki {
+    @apply rounded-lg;
 }
 
 .alert-block-tip {

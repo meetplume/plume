@@ -81,6 +81,6 @@ class CodeBlock extends RichContentCustomBlock
     {
         $phiki = new Phiki();
 
-        return '<div class="not-prose">' . $phiki->codeToHtml($code, $grammar, $theme) . '</div>';
+        return '<div class="not-prose phiki-wrapper-main">' . $phiki->codeToHtml($code, $grammar, $theme) . '</div>';
     }
 }
