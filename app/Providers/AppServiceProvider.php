@@ -22,7 +22,7 @@ use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentAsset;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use CharlieEtienne\PaletteGenerator\PaletteGenerator;
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
 
 class AppServiceProvider extends ServiceProvider
