@@ -24,8 +24,18 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run:  |
           npm ci
           npm run build
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Tests
-        run: ./vendor/bin/pest --ci
+        run: ./vendor/bin/pest --ci --parallel
