@@ -22,13 +22,13 @@
                         {{ __('The current post is not published yet. Only logged in administrators can see it.') }}
                     </x-alert>
                 @endif
-                <div class="relative aspect-video">
+                <div class="relative aspect-video rounded-xl ring-1 shadow-xl ring-black/5">
                     @if ($post->placeholder)
                         <img
                             src="{{ $post->placeholder }}"
                             alt=""
                             aria-hidden="true"
-                            class="object-cover w-full rounded-xl ring-1 shadow-xl ring-black/5 aspect-video absolute inset-0 transition-opacity duration-700 ease-in-out"
+                            class="object-cover w-full rounded-xl aspect-video absolute inset-0 transition-opacity duration-700 ease-in-out"
                         />
                     @endif
 
@@ -37,7 +37,7 @@
                             src="{{ $post->image_url }}"
                             alt="{{ $post->title }}"
                             onload="this.style.opacity='1'"
-                            class="object-cover w-full rounded-xl ring-1 shadow-xl ring-black/5 aspect-video transition-opacity duration-[0.8s] ease-in-out relative opacity-0"
+                            class="object-cover w-full rounded-xl aspect-video transition-opacity duration-[0.8s] ease-in-out relative opacity-0"
                         />
                     @endif
                 </div>
