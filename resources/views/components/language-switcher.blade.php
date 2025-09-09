@@ -1,3 +1,7 @@
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+@endphp
+
 @if(count(LaravelLocalization::getSupportedLocales()) > 1)
     <!-- Language Switcher -->
     <x-dropdown>
