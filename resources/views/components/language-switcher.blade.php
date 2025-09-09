@@ -1,3 +1,4 @@
+@if(count(LaravelLocalization::getSupportedLocales()) > 1)
 <!-- Language Switcher -->
 <x-dropdown>
     <x-slot:btn class="transition-colors hover:text-primary-600 dark:hover:text-primary-500 cursor-pointer">
@@ -25,3 +26,4 @@
         @endforeach
     </x-slot>
 </x-dropdown>
+@endif

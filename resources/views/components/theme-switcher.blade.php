@@ -1,6 +1,11 @@
-<button
-    type="button"
-    x-data="{
+@php
+    use App\Enums\SiteSettings;
+@endphp
+
+@if(SiteSettings::DARK_MODE->get() === 'switcher')
+    <button
+        type="button"
+        x-data="{
         theme: localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
         init() {
             document.documentElement.classList.toggle('dark', this.theme === 'dark');
@@ -21,14 +26,14 @@
             document.documentElement.classList.toggle('dark', this.theme === 'dark');
         }
     }"
-    x-on:click="toggle()"
-    class="transition-colors hover:text-primary-600 dark:hover:text-primary-500 cursor-pointer"
-    :aria-label="theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
->
+        x-on:click="toggle()"
+        class="transition-colors hover:text-primary-600 dark:hover:text-primary-500 cursor-pointer"
+        :aria-label="theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+    >
     <span x-show="theme !== 'dark'">
         @svg('heroicon-o-moon', 'size-6')
-    </span>
-    <span x-show="theme === 'dark'">
+    </span> <span x-show="theme === 'dark'">
         @svg('heroicon-o-sun', 'size-6')
     </span>
-</button>
+    </button>
+@endif
