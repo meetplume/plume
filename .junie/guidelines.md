@@ -12,7 +12,7 @@ This project is a fully-featured, configurable blog written with TALL stack.
 
 ## Tests
 
-Tests are written with Pest v3
+Tests are written with Pest v4
 
 ## Settings
 
