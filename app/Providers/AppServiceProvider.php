@@ -24,6 +24,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use CharlieEtienne\PaletteGenerator\PaletteGenerator;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -56,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
         $this->setAppAnalyticsDefaults();
         $this->setFilamentDefaults();
         $this->registerFilamentAssets();
+        $this->registerThemeBladeDirectives();
     }
 
     public function laravelGoodies🤘(): void
@@ -118,5 +120,39 @@ class AppServiceProvider extends ServiceProvider
             // Bypass cache if the database is not available (e.g., during CI or tests)
             return PaletteGenerator::generatePalette($color);
         }
+    }
+
+    public function registerThemeBladeDirectives(): void
+    {
+        // @themeAsset directive - generates URL for theme assets
+        Blade::directive('themeAsset', function ($expression) {
+            return "<?php echo app(\App\Services\ThemeService::class)->getThemeAssetUrl($expression); ?>";
+        });
+
+        // @themePartial directive - includes theme-specific partials
+        Blade::directive('themePartial', function ($expression) {
+            return "<?php echo \$__env->make('themes.' . app(\App\Services\ThemeService::class)->getActiveTheme() . '.partials.' . $expression, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+        });
+
+        // @themeConfig directive - gets theme configuration values
+        Blade::directive('themeConfig', function ($expression) {
+            return "<?php echo data_get(app(\App\Services\ThemeService::class)->getThemeConfig(), $expression); ?>";
+        });
+
+        // @hasThemePartial directive - checks if theme has a specific partial
+        Blade::directive('hasThemePartial', function ($expression) {
+            return "<?php if (app(\App\Services\ThemeService::class)->hasPartial($expression)): ?>";
+        });
+
+        Blade::directive('endHasThemePartial', function () {
+            return '<?php endif; ?>';
+        });
+
+        // @themeStyle directive - includes theme's main stylesheet
+        Blade::directive('themeStyle', function () {
+            return "<?php if (file_exists(resource_path('themes/' . app(\App\Services\ThemeService::class)->getActiveTheme() . '/style.css'))): ?>
+                        <link rel=\"stylesheet\" href=\"<?php echo app(\App\Services\ThemeService::class)->getThemeAssetUrl('style.css'); ?>\">
+                    <?php endif; ?>";
+        });
     }
 }

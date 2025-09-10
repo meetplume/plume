@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use Phiki\Theme\Theme;
 use App\Enums\SiteSettings;
+use App\Services\ThemeService;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
@@ -12,10 +13,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Textarea;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
+use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
@@ -48,6 +52,8 @@ class DesignSettings extends Page implements HasForms
             SiteSettings::CODE_THEME,
             SiteSettings::POST_DEFAULT_IMAGE,
             SiteSettings::DARK_MODE,
+            SiteSettings::ACTIVE_THEME,
+            SiteSettings::THEME_CUSTOM_CSS,
         ];
     }
 
@@ -60,6 +66,42 @@ class DesignSettings extends Page implements HasForms
     {
         return $schema
             ->components([
+                Section::make()
+                    ->heading(__('Theme'))
+                    ->description(__('Choose and customize your site theme.'))
+                    ->icon(Phosphor::Palette->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        Select::make(SiteSettings::ACTIVE_THEME->value)
+                            ->label(__('Active Theme'))
+                            ->options(function () {
+                                $themeService = app(ThemeService::class);
+                                $themes = $themeService->getAvailableThemes();
+
+                                return collect($themes)->mapWithKeys(function ($config, $themeName) {
+                                    $name = $config['name'] ?? ucfirst($themeName);
+                                    $version = $config['version'] ?? '';
+                                    $label = $version ? "{$name} (v{$version})" : $name;
+
+                                    return [$themeName => $label];
+                                });
+                            })
+                            ->selectablePlaceholder(false)
+                            ->helperText(__('Select the active theme for your site.'))
+                            ->afterStateUpdated(function ($state) {
+                                if ($state) {
+                                    // TODO: check why this is not fully working when not in console.
+                                    $themeService = app(ThemeService::class);
+                                    $themeService->activateTheme($state);
+                                }
+                            }),
+
+                        CodeEditor::make(SiteSettings::THEME_CUSTOM_CSS->value)
+                            ->label(__('Custom CSS'))
+                            ->helperText(__('Add custom CSS to override theme styles. This CSS will be loaded after the theme CSS.'))
+                            ->language(Language::Css),
+                    ])->columns(1),
+
                 Section::make()
                     ->heading(__('Design'))
                     ->description(__("Give it a fresh coat of paint."))

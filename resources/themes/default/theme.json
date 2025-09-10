@@ -1,0 +1,35 @@
+{
+    "name": "Default Theme",
+    "description": "The default blog theme with clean, modern design",
+    "version": "1.0.0",
+    "author": "Blog Author",
+    "screenshot": "screenshot.png",
+    "settings": {
+        "primary_color": "#6366f1",
+        "neutral_color": "neutral",
+        "heading_font": "Hanken Grotesk",
+        "body_font": "Hanken Grotesk",
+        "code_font": "JetBrains Mono",
+        "dark_mode": "switcher",
+        "layout": {
+            "container_max_width": "1280px",
+            "sidebar_enabled": false,
+            "header_style": "default",
+            "footer_style": "simple"
+        }
+    },
+    "supports": {
+        "dark_mode": true,
+        "sidebar": false,
+        "featured_posts": true,
+        "post_grid": true,
+        "custom_colors": true,
+        "responsive_design": true
+    },
+    "template_parts": [
+        "header",
+        "footer",
+        "navigation",
+        "hero"
+    ]
+}

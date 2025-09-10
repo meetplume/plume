@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Storage;
     use App\Enums\SiteSettings;
     use Filament\Support\Facades\FilamentColor;
+    use App\Services\ThemeService;
 @endphp
 
 @props([
@@ -78,6 +79,23 @@
          <link rel="icon" href="{{ Storage::disk('public')->url(SiteSettings::FAVICON->get()) }}" />
          <link rel="shortcut icon" href="{{ Storage::disk('public')->url(SiteSettings::FAVICON->get()) }}" />
          <link rel="apple-touch-icon" href="{{ Storage::disk('public')->url(SiteSettings::FAVICON->get()) }}" />
+    @endif
+
+    {{-- Theme CSS via Vite --}}
+    @php
+        $themeService = app(ThemeService::class);
+        $activeTheme = $themeService->getActiveTheme();
+        $themeCssPath = "resources/themes/{$activeTheme}/style.css";
+    @endphp
+    @if(file_exists(resource_path("themes/{$activeTheme}/style.css")))
+        @vite($themeCssPath)
+    @endif
+
+    {{-- Custom Theme CSS from settings --}}
+    @if(SiteSettings::THEME_CUSTOM_CSS->get())
+        <style>
+            {{ SiteSettings::THEME_CUSTOM_CSS->get() }}
+        </style>
     @endif
 
 </head>

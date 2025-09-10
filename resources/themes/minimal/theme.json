@@ -1,0 +1,37 @@
+{
+    "name": "Minimal Theme",
+    "description": "A clean, minimalist theme focused on content and readability",
+    "version": "1.0.0",
+    "author": "Blog Author",
+    "screenshot": "screenshot.png",
+    "settings": {
+        "primary_color": "#374151",
+        "neutral_color": "gray",
+        "heading_font": "Inter",
+        "body_font": "Inter",
+        "code_font": "JetBrains Mono",
+        "dark_mode": "switcher",
+        "layout": {
+            "container_max_width": "800px",
+            "sidebar_enabled": false,
+            "header_style": "minimal",
+            "footer_style": "simple",
+            "content_spacing": "generous"
+        }
+    },
+    "supports": {
+        "dark_mode": true,
+        "sidebar": false,
+        "featured_posts": false,
+        "post_grid": false,
+        "custom_colors": true,
+        "responsive_design": true,
+        "typography_focus": true,
+        "clean_layout": true
+    },
+    "template_parts": [
+        "header",
+        "footer",
+        "content"
+    ]
+}

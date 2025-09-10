@@ -1,0 +1,163 @@
+/* Default Theme Styles */
+
+:root {
+    /* Theme-specific CSS variables */
+    --theme-primary: #6366f1;
+    --theme-primary-50: #eef2ff;
+    --theme-primary-100: #e0e7ff;
+    --theme-primary-500: #6366f1;
+    --theme-primary-600: #4f46e5;
+    --theme-primary-900: #312e81;
+
+    /* Layout variables */
+    --theme-container-max-width: 1280px;
+    --theme-border-radius: 0.5rem;
+    --theme-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+
+    /* Typography */
+    --theme-heading-font: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --theme-body-font: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --theme-code-font: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --theme-primary: #818cf8;
+        --theme-primary-400: #a5b4fc;
+        --theme-primary-500: #818cf8;
+        --theme-primary-600: #6366f1;
+    }
+}
+
+/* Theme wrapper */
+.theme-wrapper.default {
+    /* Default theme specific styles */
+    font-family: var(--theme-body-font);
+}
+
+.theme-wrapper.default h1,
+.theme-wrapper.default h2,
+.theme-wrapper.default h3,
+.theme-wrapper.default h4,
+.theme-wrapper.default h5,
+.theme-wrapper.default h6 {
+    font-family: var(--theme-heading-font);
+}
+
+.theme-wrapper.default code,
+.theme-wrapper.default pre {
+    font-family: var(--theme-code-font);
+}
+
+/* Theme-specific components */
+.theme-wrapper.default .hero-section {
+    background: linear-gradient(135deg, var(--theme-primary-50) 0%, var(--theme-primary-100) 100%);
+}
+
+.theme-wrapper.default .post-card {
+    border-radius: var(--theme-border-radius);
+    box-shadow: var(--theme-shadow);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.theme-wrapper.default .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.theme-wrapper.default .btn-primary {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+}
+
+.theme-wrapper.default .btn-primary:hover {
+    background-color: var(--theme-primary-600);
+    border-color: var(--theme-primary-600);
+}
+
+/* Navigation styles */
+.theme-wrapper.default .main-nav {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-wrapper.default .nav-link {
+    color: rgb(55 65 81);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.theme-wrapper.default .nav-link:hover,
+.theme-wrapper.default .nav-link.active {
+    color: var(--theme-primary);
+}
+
+/* Footer styles */
+.theme-wrapper.default .footer {
+    background-color: rgb(249 250 251);
+    border-top: 1px solid rgb(229 231 235);
+}
+
+/* Dark mode overrides */
+.dark .theme-wrapper.default .main-nav {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .theme-wrapper.default .nav-link {
+    color: rgb(209 213 219);
+}
+
+.dark .theme-wrapper.default .nav-link:hover,
+.dark .theme-wrapper.default .nav-link.active {
+    color: var(--theme-primary-400);
+}
+
+.dark .theme-wrapper.default .footer {
+    background-color: rgb(17 24 39);
+    border-top: 1px solid rgb(55 65 81);
+}
+
+.dark .theme-wrapper.default .hero-section {
+    background: linear-gradient(135deg, rgb(17 24 39) 0%, rgb(31 41 55) 100%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .theme-wrapper.default .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Custom scrollbar */
+.theme-wrapper.default ::-webkit-scrollbar {
+    width: 8px;
+}
+
+.theme-wrapper.default ::-webkit-scrollbar-track {
+    background: rgb(243 244 246);
+}
+
+.theme-wrapper.default ::-webkit-scrollbar-thumb {
+    background: rgb(156 163 175);
+    border-radius: 4px;
+}
+
+.theme-wrapper.default ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+}
+
+.dark .theme-wrapper.default ::-webkit-scrollbar-track {
+    background: rgb(31 41 55);
+}
+
+.dark .theme-wrapper.default ::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99);
+}
+
+.dark .theme-wrapper.default ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+}

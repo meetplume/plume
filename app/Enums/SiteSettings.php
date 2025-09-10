@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use Exception;
 use Rawilk\Settings\Support\Context;
 use Rawilk\Settings\Facades\Settings;
 
@@ -49,6 +50,8 @@ enum SiteSettings: string
     case MAIL_FROM_NAME = 'mail_from_name';
     case QUEUE_CONNECTION = 'queue_connection';
     case DARK_MODE = 'dark_mode';
+    case ACTIVE_THEME = 'active_theme';
+    case THEME_CUSTOM_CSS = 'theme_custom_css';
 
     /**
      * Get the default value for the setting
@@ -204,18 +207,22 @@ enum SiteSettings: string
             self::MAIL_FROM_NAME => config('mail.from.name'),
             self::QUEUE_CONNECTION => 'sync',
             self::DARK_MODE => 'switcher',
+            self::ACTIVE_THEME => 'default',
+            self::THEME_CUSTOM_CSS => null,
         };
     }
 
     public function get(array $context = []): mixed
     {
-        if (app()->runningInConsole()){
+        try{
+            if ($this->is_translatable() && empty($context)) {
+                $context = ['language' => app()->getLocale() ?? 'en'];
+            }
+            return Settings::context(new Context($context))->get($this->value, $this->getDefaultValue());
+        }
+        catch (Exception){
             return $this->getDefaultValue();
         }
-        if ($this->is_translatable() && empty($context)) {
-            $context = ['language' => app()->getLocale() ?? 'en'];
-        }
-        return Settings::context(new Context($context))->get($this->value, $this->getDefaultValue());
     }
 
     public function set(mixed $value, array $context = []): void
