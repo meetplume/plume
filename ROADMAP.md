@@ -10,10 +10,13 @@
 - [x] Multilingual
 - [x] Comments (moderated)
 - [x] Mail notifications
+- [x] CMS Pages
+- [ ] Configure Homepage, select from common configurations
+- [ ] Configure post view
+- [ ] Third party themes support
 - [ ] Contact form?
 - [ ] Social media links?
 - [ ] Social media sharing?
-- [x] CMS Pages
 - [ ] Portfolio
 - [ ] Drafts, scheduling, revisions
 - [ ] SEO metadata + sitemap
