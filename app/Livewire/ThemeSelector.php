@@ -107,7 +107,7 @@ class ThemeSelector extends Component implements HasActions, HasSchemas
     {
         return Action::make("activateTheme")
             ->label(fn(array $arguments) => $this->activeTheme === $arguments['theme'] ? __('Active') : __('Activate'))
-            ->color('primary')
+            ->color(fn(array $arguments) => $this->activeTheme === $arguments['theme'] ? 'success' : 'primary')
             ->disabled(fn(array $arguments) => $this->activeTheme === $arguments['theme'])
             ->icon(fn(array $arguments) => $this->activeTheme === $arguments['theme'] ? Phosphor::Check : Phosphor::Lightning)
             ->requiresConfirmation()
