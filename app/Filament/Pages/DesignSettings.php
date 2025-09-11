@@ -8,17 +8,18 @@ use App\Services\ThemeService;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
-use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\CodeEditor;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Textarea;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
+use App\Filament\Forms\Components\ImageRadioButton;
+use App\Filament\Forms\Components\ThemeSelector;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
@@ -72,34 +73,7 @@ class DesignSettings extends Page implements HasForms
                     ->icon(Phosphor::Palette->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
                     ->schema([
-                        Select::make(SiteSettings::ACTIVE_THEME->value)
-                            ->label(__('Active Theme'))
-                            ->options(function () {
-                                $themeService = app(ThemeService::class);
-                                $themes = $themeService->getAvailableThemes();
-
-                                return collect($themes)->mapWithKeys(function ($config, $themeName) {
-                                    $name = $config['name'] ?? ucfirst($themeName);
-                                    $version = $config['version'] ?? '';
-                                    $label = $version ? "{$name} (v{$version})" : $name;
-
-                                    return [$themeName => $label];
-                                });
-                            })
-                            ->selectablePlaceholder(false)
-                            ->helperText(__('Select the active theme for your site.'))
-                            ->afterStateUpdated(function ($state) {
-                                if ($state) {
-                                    // TODO: check why this is not fully working when not in console.
-                                    $themeService = app(ThemeService::class);
-                                    $themeService->activateTheme($state);
-                                }
-                            }),
-
-                        CodeEditor::make(SiteSettings::THEME_CUSTOM_CSS->value)
-                            ->label(__('Custom CSS'))
-                            ->helperText(__('Add custom CSS to override theme styles. This CSS will be loaded after the theme CSS.'))
-                            ->language(Language::Css),
+                        Livewire::make('theme-selector'),
                     ])->columns(1),
 
                 Section::make()
@@ -133,6 +107,18 @@ class DesignSettings extends Page implements HasForms
                             ]))
                             ->searchable(),
 
+                    ])->columns(1),
+
+                Section::make()
+                    ->heading(__('Custom CSS'))
+                    ->description(__('Embrace coding in nocode environments.'))
+                    ->icon(Phosphor::CodeBlock->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        CodeEditor::make(SiteSettings::THEME_CUSTOM_CSS->value)
+                            ->label(__('Custom CSS'))
+                            ->helperText(__('Add custom CSS to override theme styles. This CSS will be loaded after the theme CSS.'))
+                            ->language(Language::Css),
                     ])->columns(1),
 
                 Section::make()
