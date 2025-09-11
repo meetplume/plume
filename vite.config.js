@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
-// import { glob } from 'glob';
+import { glob } from 'glob';
 
-// const themeAssets = glob.sync('resources/themes/**/*.{css,js}');
+// Dynamically find all theme assets
+const themeAssets = glob.sync('resources/themes/**/*.{css,js}');
 
 export default defineConfig({
     plugins: [
@@ -12,11 +13,11 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/css/filament/admin/theme.css',
-                'resources/themes/**/*.css',
-                'resources/themes/**/*.js',
-                // ...themeAssets,
+                ...themeAssets,
             ],
-            refresh: true,
+            refresh: [
+                'resources/themes/**', // Watch theme changes
+            ],
         }),
         tailwindcss(),
     ],
