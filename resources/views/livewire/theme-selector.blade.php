@@ -22,7 +22,7 @@
                     @endif
 
                     {{-- Overlay with gradient background --}}
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                     {{-- Active Theme Badge --}}
