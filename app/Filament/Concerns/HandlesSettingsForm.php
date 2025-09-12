@@ -5,6 +5,7 @@ namespace App\Filament\Concerns;
 use App\Enums\SiteSettings;
 use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
+use App\Services\ThemeFieldsService;
 use Filament\Notifications\Notification;
 
 trait HandlesSettingsForm
@@ -54,7 +55,7 @@ trait HandlesSettingsForm
                 $formData[$setting] = config('mail.' . str_replace('mail_', '', $setting));
             }
             elseif(str_starts_with($setting, 'theme_')) {
-                $formData[$setting] = settings($setting);
+                $formData[$setting] = settings($setting, app(ThemeFieldsService::class)->getThemeFieldDefaultValue($setting));
             }
         }
 

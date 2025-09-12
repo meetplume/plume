@@ -94,6 +94,35 @@ class ThemeSelector extends Component implements HasActions, HasSchemas
         // For now, just open the demo URL in a new tab
     }
 
+    public function uploadTheme(string $filePath): void
+    {
+        $themeService = app(ThemeService::class);
+
+        try {
+            $result = $themeService->uploadAndInstallTheme($filePath);
+
+            if ($result['success']) {
+                Notification::make()
+                    ->title('Theme uploaded successfully!')
+                    ->body("The '{$result['theme_name']}' theme has been installed and is now available.")
+                    ->success()
+                    ->send();
+            } else {
+                Notification::make()
+                    ->title('Theme upload failed!')
+                    ->body($result['message'] ?? 'An error occurred while uploading the theme.')
+                    ->danger()
+                    ->send();
+            }
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Theme upload failed!')
+                ->body('An unexpected error occurred: ' . $e->getMessage())
+                ->danger()
+                ->send();
+        }
+    }
+
     public function previewThemeAction(): Action
     {
         return Action::make("previewTheme")
@@ -116,6 +145,28 @@ class ThemeSelector extends Component implements HasActions, HasSchemas
             ->modalSubmitActionLabel('Activate Theme')
             ->action(function (array $arguments) {
                 $this->activateTheme($arguments['theme']);
+            });
+    }
+
+    public function uploadThemeAction(): Action
+    {
+        return Action::make('uploadTheme')
+            ->label(__('Upload Theme'))
+            ->modalHeading(__('Upload Theme'))
+            ->modalDescription(__('Upload a ZIP file containing a theme. The theme must include a theme.json file.'))
+            ->modalSubmitActionLabel(__('Upload Theme'))
+            ->form([
+                \Filament\Forms\Components\FileUpload::make('theme_file')
+                    ->label(__('Theme ZIP File'))
+                    ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed'])
+                    ->maxSize(10240) // 10MB max
+                    ->required()
+                    ->disk('local')
+                    ->directory('temp-themes')
+                    ->helperText(__('Upload a ZIP file containing your theme files. Maximum size: 10MB')),
+            ])
+            ->action(function (array $data) {
+                $this->uploadTheme($data['theme_file']);
             });
     }
 

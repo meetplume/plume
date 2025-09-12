@@ -173,6 +173,12 @@ class ThemeFieldsService
         return "theme_{$activeTheme}_{$fieldKey}";
     }
 
+    public function extractFieldKey(string $settingKey): ?string
+    {
+        $activeTheme = $this->themeService->getActiveTheme();
+        return str($settingKey)->after("theme_{$activeTheme}_")->value();
+    }
+
     /**
      * Get all theme field form components for active theme
      */
@@ -200,8 +206,15 @@ class ThemeFieldsService
             return SiteSettings::from($settingKey)->get();
         } catch (\ValueError) {
             // If not in enum, get from settings directly
-            return \Rawilk\Settings\Facades\Settings::get($settingKey);
+            return settings($settingKey);
         }
+    }
+
+    public function getThemeFieldDefaultValue(string $fieldKey): mixed
+    {
+        return collect($this->getActiveThemeFields())
+                   ->filter(fn($field) => $field['key'] === $this->extractFieldKey($fieldKey))
+                   ->first()['default'] ?? null;
     }
 
     /**
@@ -216,7 +229,7 @@ class ThemeFieldsService
             SiteSettings::from($settingKey)->set($value);
         } catch (\ValueError) {
             // If not in enum, set directly
-            \Rawilk\Settings\Facades\Settings::set($settingKey, $value);
+            settings()->set($settingKey, $value);
         }
     }
 

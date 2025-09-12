@@ -14,7 +14,7 @@ class ThemeService
     public function __construct()
     {
         $this->activeTheme = SiteSettings::ACTIVE_THEME->get() ?? 'default';
-        $this->themePath = resource_path("themes/{$this->activeTheme}");
+        $this->themePath = $this->getThemeDirectory($this->activeTheme) ?? resource_path("themes/{$this->activeTheme}");
     }
 
     /**
@@ -103,28 +103,54 @@ class ThemeService
     public function getAvailableThemes(): array
     {
         $themes = [];
-        $themesPath = resource_path('themes');
 
-        if (!is_dir($themesPath)) {
-            return [];
+        // Get themes from resources/themes
+        $resourceThemesPath = resource_path('themes');
+        if (is_dir($resourceThemesPath)) {
+            foreach (glob("{$resourceThemesPath}/*", GLOB_ONLYDIR) as $themeDir) {
+                $themeName = basename($themeDir);
+                $configPath = "{$themeDir}/theme.json";
+
+                if (file_exists($configPath)) {
+                    $config = json_decode(file_get_contents($configPath), true);
+                    if ($config) {
+                        $config['source'] = 'resources';
+                        $themes[$themeName] = $config;
+                    }
+                } else {
+                    // Theme without config file - add basic info
+                    $themes[$themeName] = [
+                        'name' => ucfirst($themeName),
+                        'description' => 'Theme without configuration',
+                        'version' => '1.0.0',
+                        'source' => 'resources',
+                    ];
+                }
+            }
         }
 
-        foreach (glob("{$themesPath}/*", GLOB_ONLYDIR) as $themeDir) {
-            $themeName = basename($themeDir);
-            $configPath = "{$themeDir}/theme.json";
+        // Get themes from storage/app/private/themes
+        $privateThemesPath = storage_path('app/private/themes');
+        if (is_dir($privateThemesPath)) {
+            foreach (glob("{$privateThemesPath}/*", GLOB_ONLYDIR) as $themeDir) {
+                $themeName = basename($themeDir);
+                $configPath = "{$themeDir}/theme.json";
 
-            if (file_exists($configPath)) {
-                $config = json_decode(file_get_contents($configPath), true);
-                if ($config) {
-                    $themes[$themeName] = $config;
+                if (file_exists($configPath)) {
+                    $config = json_decode(file_get_contents($configPath), true);
+                    if ($config) {
+                        $config['source'] = 'uploaded';
+                        $themes[$themeName] = $config;
+                    }
+                } else {
+                    // Theme without config file - add basic info
+                    $themes[$themeName] = [
+                        'name' => ucfirst($themeName),
+                        'description' => 'Uploaded theme without configuration',
+                        'version' => '1.0.0',
+                        'source' => 'uploaded',
+                    ];
                 }
-            } else {
-                // Theme without config file - add basic info
-                $themes[$themeName] = [
-                    'name' => ucfirst($themeName),
-                    'description' => 'Theme without configuration',
-                    'version' => '1.0.0',
-                ];
             }
         }
 
@@ -136,7 +162,26 @@ class ThemeService
      */
     public function themeExists(string $theme): bool
     {
-        return is_dir(resource_path("themes/{$theme}"));
+        return is_dir(resource_path("themes/{$theme}")) ||
+               is_dir(storage_path("app/private/themes/{$theme}"));
+    }
+
+    /**
+     * Get the full path to a theme directory
+     */
+    public function getThemeDirectory(string $theme): ?string
+    {
+        $resourcePath = resource_path("themes/{$theme}");
+        if (is_dir($resourcePath)) {
+            return $resourcePath;
+        }
+
+        $privatePath = storage_path("app/private/themes/{$theme}");
+        if (is_dir($privatePath)) {
+            return $privatePath;
+        }
+
+        return null;
     }
 
     /**
@@ -150,7 +195,7 @@ class ThemeService
 
         SiteSettings::ACTIVE_THEME->set($theme);
         $this->activeTheme = $theme;
-        $this->themePath = resource_path("themes/{$theme}");
+        $this->themePath = $this->getThemeDirectory($theme) ?? resource_path("themes/{$theme}");
 
         // Apply theme settings if available
         $this->applyThemeSettings();
@@ -301,5 +346,142 @@ class ThemeService
     {
         $partialPath = "{$this->themePath}/partials/{$partial}.blade.php";
         return file_exists($partialPath);
+    }
+
+    /**
+     * Upload and install a theme from a ZIP file
+     */
+    public function uploadAndInstallTheme(string $filePath): array
+    {
+        try {
+            // Get the full path to the uploaded file
+            $fullPath = Storage::disk('local')->path($filePath);
+
+            if (!file_exists($fullPath)) {
+                return ['success' => false, 'message' => 'Uploaded file not found.'];
+            }
+
+            // Create a temporary directory for extraction
+            $tempDir = storage_path('app/temp/' . uniqid('theme_'));
+            File::makeDirectory($tempDir, 0755, true);
+
+            // Extract the ZIP file
+            $zip = new \ZipArchive();
+            $result = $zip->open($fullPath);
+
+            if ($result !== TRUE) {
+                File::deleteDirectory($tempDir);
+                return ['success' => false, 'message' => 'Could not open ZIP file. Please ensure the file is a valid ZIP archive.'];
+            }
+
+            $zip->extractTo($tempDir);
+            $zip->close();
+
+            // Find the theme directory (could be nested)
+            $themeDir = $this->findThemeDirectory($tempDir);
+            if (!$themeDir) {
+                File::deleteDirectory($tempDir);
+                return ['success' => false, 'message' => 'No valid theme found. Please ensure the ZIP contains a theme.json file.'];
+            }
+
+            // Validate theme structure
+            $validation = $this->validateThemeStructure($themeDir);
+            if (!$validation['valid']) {
+                File::deleteDirectory($tempDir);
+                return ['success' => false, 'message' => $validation['message']];
+            }
+
+            // Get theme name from theme.json
+            $themeConfig = json_decode(file_get_contents($themeDir . '/theme.json'), true);
+            $themeName = $this->generateThemeName($themeConfig);
+
+            // Create final theme directory
+            $finalThemeDir = storage_path("app/private/themes/{$themeName}");
+
+            if (is_dir($finalThemeDir)) {
+                File::deleteDirectory($tempDir);
+                return ['success' => false, 'message' => "A theme with the name '{$themeName}' already exists."];
+            }
+
+            // Create private themes directory if it doesn't exist
+            File::makeDirectory(storage_path('app/private/themes'), 0755, true, true);
+
+            // Move theme to final location
+            File::moveDirectory($themeDir, $finalThemeDir);
+
+            // Clean up
+            File::deleteDirectory($tempDir);
+            Storage::disk('local')->delete($filePath);
+
+            return [
+                'success' => true,
+                'theme_name' => $themeConfig['name'] ?? ucfirst($themeName),
+                'theme_key' => $themeName
+            ];
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => 'An error occurred during theme installation: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Find the theme directory in extracted files
+     */
+    private function findThemeDirectory(string $baseDir): ?string
+    {
+        // Check if theme.json is in the root
+        if (file_exists($baseDir . '/theme.json')) {
+            return $baseDir;
+        }
+
+        // Look for theme.json in subdirectories (one level deep)
+        $directories = glob($baseDir . '/*', GLOB_ONLYDIR);
+        foreach ($directories as $dir) {
+            if (file_exists($dir . '/theme.json')) {
+                return $dir;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Validate theme structure
+     */
+    private function validateThemeStructure(string $themeDir): array
+    {
+        if (!file_exists($themeDir . '/theme.json')) {
+            return ['valid' => false, 'message' => 'Theme must contain a theme.json file.'];
+        }
+
+        $themeConfig = json_decode(file_get_contents($themeDir . '/theme.json'), true);
+        if (!$themeConfig) {
+            return ['valid' => false, 'message' => 'Invalid theme.json file. Please ensure it contains valid JSON.'];
+        }
+
+        if (empty($themeConfig['name'])) {
+            return ['valid' => false, 'message' => 'Theme must have a name in theme.json.'];
+        }
+
+        return ['valid' => true];
+    }
+
+    /**
+     * Generate a unique theme name/key
+     */
+    private function generateThemeName(array $themeConfig): string
+    {
+        $baseName = $themeConfig['name'] ?? 'custom-theme';
+        $themeName = str($baseName)->slug();
+
+        // Ensure uniqueness
+        $counter = 1;
+        $originalName = $themeName;
+        while ($this->themeExists($themeName) || is_dir(storage_path("app/private/themes/{$themeName}"))) {
+            $themeName = $originalName . '-' . $counter;
+            $counter++;
+        }
+
+        return $themeName;
     }
 }

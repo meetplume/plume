@@ -70,11 +70,14 @@
                 </div>
             </div>
         @endforeach
-        <div class="relative border rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center">
+        <div
+            wire:click="mountAction('uploadTheme')"
+            class="relative border rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 flex flex-col justify-center items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 aspect-[4/3]">
             <div class="text-center">
                 <x-phosphor-plus-circle-duotone class="w-12 h-12 text-gray-400 dark:text-gray-500" />
             </div>
-            <div class="text-center">{{ __('Add a theme') }}</div>
+            <div class="text-center text-gray-600 dark:text-gray-400 font-medium">{{ __('Add a theme') }}</div>
+            <div class="text-center text-xs text-gray-500 dark:text-gray-500 mt-1">{{ __('Upload ZIP file') }}</div>
         </div>
     </div>
     <x-filament-actions::modals />
