@@ -155,6 +155,9 @@ class ThemeService
         // Apply theme settings if available
         $this->applyThemeSettings();
 
+        // Apply theme custom field defaults if available
+        $this->applyThemeFieldDefaults($theme);
+
         // Publish theme assets
         $this->publishThemeAssets($theme);
 
@@ -162,6 +165,30 @@ class ThemeService
         cache()->forget("primary_palette_generated");
 
         return true;
+    }
+
+    /**
+     * Apply theme field default values when activating a theme
+     */
+    protected function applyThemeFieldDefaults(string $theme): void
+    {
+        $themeFieldsService = app(\App\Services\ThemeFieldsService::class);
+        $fields = $themeFieldsService->getThemeFields($theme);
+
+        foreach ($fields as $field) {
+            $fieldKey = $field['key'] ?? '';
+            $defaultValue = $field['default'] ?? null;
+
+            if ($fieldKey && $defaultValue !== null) {
+                $settingKey = "theme_{$theme}_{$fieldKey}";
+
+                // Only set default if no value exists yet
+                $existingValue = \Rawilk\Settings\Facades\Settings::get($settingKey);
+                if ($existingValue === null) {
+                    \Rawilk\Settings\Facades\Settings::set($settingKey, $defaultValue);
+                }
+            }
+        }
     }
 
     /**

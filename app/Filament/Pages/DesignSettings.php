@@ -4,7 +4,7 @@ namespace App\Filament\Pages;
 
 use Phiki\Theme\Theme;
 use App\Enums\SiteSettings;
-use App\Services\ThemeService;
+use App\Services\ThemeFieldsService;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
@@ -18,8 +18,6 @@ use Filament\Forms\Components\ColorPicker;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
-use App\Filament\Forms\Components\ImageRadioButton;
-use App\Filament\Forms\Components\ThemeSelector;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
@@ -44,7 +42,7 @@ class DesignSettings extends Page implements HasForms
 
     protected function getSettings(): array
     {
-        return [
+        $settings = [
             SiteSettings::PRIMARY_COLOR,
             SiteSettings::NEUTRAL_COLOR,
             SiteSettings::HEADING_FONT,
@@ -53,9 +51,21 @@ class DesignSettings extends Page implements HasForms
             SiteSettings::CODE_THEME,
             SiteSettings::POST_DEFAULT_IMAGE,
             SiteSettings::DARK_MODE,
-            SiteSettings::ACTIVE_THEME,
             SiteSettings::THEME_CUSTOM_CSS,
         ];
+
+        // Add theme field keys for proper form binding
+        $themeFieldsService = app(ThemeFieldsService::class);
+        $themeFields = $themeFieldsService->getActiveThemeFields();
+
+        foreach ($themeFields as $field) {
+            $fieldKey = $field['key'] ?? '';
+            if ($fieldKey) {
+                $settings[] = $themeFieldsService->getThemeFieldKey($fieldKey);
+            }
+        }
+
+        return $settings;
     }
 
     protected function getSuccessMessage(): string
@@ -65,6 +75,9 @@ class DesignSettings extends Page implements HasForms
 
     public function form(Schema $schema): Schema
     {
+        $themeFieldsService = app(ThemeFieldsService::class);
+        $themeFields = $themeFieldsService->getThemeFormComponents();
+
         return $schema
             ->components([
                 Section::make()
@@ -75,6 +88,17 @@ class DesignSettings extends Page implements HasForms
                     ->schema([
                         Livewire::make('theme-selector'),
                     ])->columns(1),
+
+                // Theme Custom Fields Section (only show if theme has custom fields)
+                ...($themeFields ? [
+                    Section::make()
+                        ->heading(__('Theme Settings'))
+                        ->description(__('Customize your active theme with these options.'))
+                        ->icon(Phosphor::Sliders->getIconForWeight(PhosphorWeight::Duotone))
+                        ->aside()
+                        ->schema($themeFields)
+                        ->columns(1)
+                ] : []),
 
                 Section::make()
                     ->heading(__('Design'))

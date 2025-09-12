@@ -49,9 +49,12 @@ trait HandlesSettingsForm
                 } else {
                     $formData[$setting->value] = $setting->get(context: []);
                 }
-            } else {
-                // Handle non-SiteSettings cases (like mail settings)
+            }
+            elseif(str_starts_with($setting, 'mail_')) {
                 $formData[$setting] = config('mail.' . str_replace('mail_', '', $setting));
+            }
+            elseif(str_starts_with($setting, 'theme_')) {
+                $formData[$setting] = settings($setting);
             }
         }
 
@@ -85,6 +88,9 @@ trait HandlesSettingsForm
                 } else {
                     $setting->set($state[$setting->value] ?? null);
                 }
+            }
+            else {
+                settings()->set($setting, $state[$setting]);
             }
         }
 
