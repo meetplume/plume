@@ -1,4 +1,5 @@
 {
+    "$schema": "../theme-schema.json",
     "name": "Magazine Theme",
     "description": "A modern magazine-style layout with featured posts and grid-based design",
     "version": "1.0.0",

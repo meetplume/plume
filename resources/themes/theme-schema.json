@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Theme Configuration",
+  "description": "Configuration schema for blog themes",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Theme display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Theme description"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Theme version in semantic versioning format"
+    },
+    "author": {
+      "type": "string",
+      "description": "Theme author name"
+    },
+    "screenshot": {
+      "type": "string",
+      "description": "Path to theme screenshot image"
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "primary_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "Primary theme color in hex format"
+        },
+        "neutral_color": {
+          "type": "string",
+          "description": "Neutral color scheme"
+        },
+        "heading_font": {
+          "type": "string",
+          "description": "Font family for headings"
+        },
+        "body_font": {
+          "type": "string",
+          "description": "Font family for body text"
+        },
+        "code_font": {
+          "type": "string",
+          "description": "Font family for code blocks"
+        },
+        "dark_mode": {
+          "type": "string",
+          "enum": ["switcher", "auto", "disabled"],
+          "description": "Dark mode configuration"
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "container_max_width": {
+              "type": "string",
+              "description": "Maximum container width"
+            },
+            "sidebar_enabled": {
+              "type": "boolean",
+              "description": "Whether sidebar is enabled"
+            },
+            "header_style": {
+              "type": "string",
+              "description": "Header layout style"
+            },
+            "footer_style": {
+              "type": "string",
+              "description": "Footer layout style"
+            },
+            "featured_posts_count": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of featured posts to display"
+            },
+            "posts_per_row": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Number of posts per row in grid layout"
+            }
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Field identifier"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["colorpicker", "select", "text", "palettecolorpicker", "fontpicker"],
+            "description": "Field input type"
+          },
+          "label": {
+            "type": "string",
+            "description": "Field display label"
+          },
+          "helperText": {
+            "type": "string",
+            "description": "Help text for the field"
+          },
+          "placeholder": {
+            "type": "string",
+            "description": "Placeholder text for input fields"
+          },
+          "cssVariable": {
+            "type": "string",
+            "description": "CSS variable name for this field"
+          },
+          "default": {
+            "description": "Default value for the field"
+          },
+          "maxLength": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum length for text fields"
+          },
+          "options": {
+            "type": "object",
+            "description": "Options for select fields"
+          },
+          "colors": {
+            "type": "object",
+            "description": "Color options for color picker fields"
+          }
+        },
+        "required": ["key", "type", "label"]
+      }
+    },
+    "supports": {
+      "type": "object",
+      "properties": {
+        "dark_mode": {
+          "type": "boolean"
+        },
+        "sidebar": {
+          "type": "boolean"
+        },
+        "featured_posts": {
+          "type": "boolean"
+        },
+        "post_grid": {
+          "type": "boolean"
+        },
+        "custom_colors": {
+          "type": "boolean"
+        },
+        "responsive_design": {
+          "type": "boolean"
+        },
+        "hero_section": {
+          "type": "boolean"
+        },
+        "newsletter_signup": {
+          "type": "boolean"
+        }
+      }
+    },
+    "template_parts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of template parts supported by this theme"
+    }
+  },
+  "required": ["name", "description", "version"]
+}
