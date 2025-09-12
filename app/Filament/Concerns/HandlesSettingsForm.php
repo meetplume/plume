@@ -55,7 +55,7 @@ trait HandlesSettingsForm
                 $formData[$setting] = config('mail.' . str_replace('mail_', '', $setting));
             }
             elseif(str_starts_with($setting, 'theme_')) {
-                $formData[$setting] = settings($setting, app(ThemeFieldsService::class)->getThemeFieldDefaultValue($setting));
+                $formData[$setting] = settings($setting, theme()->fields($setting)->default());
             }
         }
 
