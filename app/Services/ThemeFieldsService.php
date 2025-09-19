@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enums\SiteSettings;
-use Illuminate\Support\Collection;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
@@ -34,7 +33,7 @@ class ThemeFieldsService
      */
     public function getThemeFields(string $theme): array
     {
-        $configPath = resource_path("themes/{$theme}/theme.json");
+        $configPath = resource_path("themes/$theme/theme.json");
 
         if (!file_exists($configPath)) {
             return [];
@@ -202,10 +201,8 @@ class ThemeFieldsService
         $settingKey = $this->getThemeFieldKey($fieldKey);
 
         try {
-            // Try to get from existing SiteSettings enum
             return SiteSettings::from($settingKey)->get();
         } catch (\ValueError) {
-            // If not in enum, get from settings directly
             return settings($settingKey);
         }
     }
@@ -225,52 +222,9 @@ class ThemeFieldsService
         $settingKey = $this->getThemeFieldKey($fieldKey);
 
         try {
-            // Try to set via SiteSettings enum
             SiteSettings::from($settingKey)->set($value);
         } catch (\ValueError) {
-            // If not in enum, set directly
             settings()->set($settingKey, $value);
         }
-    }
-
-    /**
-     * Get all theme field values for active theme
-     */
-    public function getAllThemeFieldValues(): array
-    {
-        $fields = $this->getActiveThemeFields();
-        $values = [];
-
-        foreach ($fields as $fieldDefinition) {
-            $fieldKey = $fieldDefinition['key'] ?? '';
-            if ($fieldKey) {
-                $values[$fieldKey] = $this->getThemeFieldValue($fieldKey);
-            }
-        }
-
-        return $values;
-    }
-
-    /**
-     * Apply theme field values to CSS variables or other systems
-     */
-    public function applyThemeFieldValues(): array
-    {
-        $fields = $this->getActiveThemeFields();
-        $cssVariables = [];
-
-        foreach ($fields as $fieldDefinition) {
-            $fieldKey = $fieldDefinition['key'] ?? '';
-            $cssVar = $fieldDefinition['cssVariable'] ?? null;
-
-            if ($fieldKey && $cssVar) {
-                $value = $this->getThemeFieldValue($fieldKey);
-                if ($value !== null) {
-                    $cssVariables[$cssVar] = $value;
-                }
-            }
-        }
-
-        return $cssVariables;
     }
 }
