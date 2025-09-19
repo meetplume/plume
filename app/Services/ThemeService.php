@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use Exception;
+use ZipArchive;
+use ValueError;
 use App\Enums\SiteSettings;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -85,13 +88,14 @@ class ThemeService
 
         foreach ($config['settings'] as $key => $value) {
             if (is_array($value)) {
+                // TODO: Handle complex settings
                 continue; // Skip complex settings for now
             }
 
             try {
                 $setting = SiteSettings::from($key);
                 $setting->set($value);
-            } catch (\ValueError) {
+            } catch (ValueError) {
                 // Setting doesn't exist, skip
             }
         }
@@ -217,7 +221,7 @@ class ThemeService
      */
     protected function applyThemeFieldDefaults(string $theme): void
     {
-        $themeFieldsService = app(\App\Services\ThemeFieldsService::class);
+        $themeFieldsService = app(ThemeFieldsService::class);
         $fields = $themeFieldsService->getThemeFields($theme);
 
         foreach ($fields as $field) {
@@ -228,9 +232,9 @@ class ThemeService
                 $settingKey = "theme_{$theme}_{$fieldKey}";
 
                 // Only set default if no value exists yet
-                $existingValue = \Rawilk\Settings\Facades\Settings::get($settingKey);
+                $existingValue = settings($settingKey);
                 if ($existingValue === null) {
-                    \Rawilk\Settings\Facades\Settings::set($settingKey, $defaultValue);
+                    settings()->set($settingKey, $defaultValue);
                 }
             }
         }
@@ -366,7 +370,7 @@ class ThemeService
             File::makeDirectory($tempDir, 0755, true);
 
             // Extract the ZIP file
-            $zip = new \ZipArchive();
+            $zip = new ZipArchive();
             $result = $zip->open($fullPath);
 
             if ($result !== TRUE) {
@@ -419,7 +423,7 @@ class ThemeService
                 'theme_key' => $themeName
             ];
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['success' => false, 'message' => 'An error occurred during theme installation: ' . $e->getMessage()];
         }
     }
