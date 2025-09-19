@@ -72,12 +72,7 @@ Each theme must include a `theme.json` file with metadata and configuration:
       },
       "default": "standard"
     }
-  ],
-  "supports": {
-    "dark_mode": true,
-    "sidebar": true,
-    "custom_colors": true
-  }
+  ]
 }
 ```
 
@@ -295,45 +290,6 @@ resources/themes/magazine/
 
 The theme system uses Laravel's view finder to automatically check for theme-specific views first, then fall back to default views.
 
-## CSS and Asset Processing
-
-Themes integrate seamlessly with Vite for asset processing:
-
-### Vite Configuration
-```javascript
-// vite.config.js automatically includes all theme assets
-const themeAssets = glob.sync('resources/themes/**/*.{css,js}');
-
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-                ...themeAssets, // All theme assets
-            ],
-            refresh: [
-                'resources/themes/**', // Watch theme changes
-            ],
-        }),
-    ],
-});
-```
-
-### Theme CSS Loading
-```blade
-{{-- In app.blade.php --}}
-@php
-    $themeService = app(ThemeService::class);
-    $activeTheme = $themeService->getActiveTheme();
-    $themeCssPath = "resources/themes/{$activeTheme}/style.css";
-@endphp
-
-@if(file_exists(resource_path("themes/{$activeTheme}/style.css")))
-    @vite($themeCssPath)
-@endif
-```
-
 ## Best Practices
 
 ### Theme Development
@@ -357,18 +313,6 @@ export default defineConfig({
     /* Theme-specific styles */
 }
 ```
-
-### Field Configuration
-1. **Provide helpful labels and descriptions** for user clarity
-2. **Set sensible defaults** that work out of the box
-3. **Use appropriate field types** for the data being collected
-4. **Include CSS variables** for fields that affect styling
-
-### View Structure
-1. **Keep theme views focused** and avoid complex logic
-2. **Use partials** for reusable components
-3. **Maintain consistency** with the application's data structure
-4. **Test view overrides** thoroughly
 
 ## Examples
 
