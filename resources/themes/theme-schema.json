@@ -53,37 +53,6 @@
           "type": "string",
           "enum": ["switcher", "auto", "disabled"],
           "description": "Dark mode configuration"
-        },
-        "layout": {
-          "type": "object",
-          "properties": {
-            "container_max_width": {
-              "type": "string",
-              "description": "Maximum container width"
-            },
-            "sidebar_enabled": {
-              "type": "boolean",
-              "description": "Whether sidebar is enabled"
-            },
-            "header_style": {
-              "type": "string",
-              "description": "Header layout style"
-            },
-            "footer_style": {
-              "type": "string",
-              "description": "Footer layout style"
-            },
-            "featured_posts_count": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "Number of featured posts to display"
-            },
-            "posts_per_row": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "Number of posts per row in grid layout"
-            }
-          }
         }
       }
     },
@@ -136,42 +105,6 @@
         },
         "required": ["key", "type", "label"]
       }
-    },
-    "supports": {
-      "type": "object",
-      "properties": {
-        "dark_mode": {
-          "type": "boolean"
-        },
-        "sidebar": {
-          "type": "boolean"
-        },
-        "featured_posts": {
-          "type": "boolean"
-        },
-        "post_grid": {
-          "type": "boolean"
-        },
-        "custom_colors": {
-          "type": "boolean"
-        },
-        "responsive_design": {
-          "type": "boolean"
-        },
-        "hero_section": {
-          "type": "boolean"
-        },
-        "newsletter_signup": {
-          "type": "boolean"
-        }
-      }
-    },
-    "template_parts": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "List of template parts supported by this theme"
     }
   },
   "required": ["name", "description", "version"]

@@ -24,7 +24,7 @@ class ThemeListCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $detailed = $this->option('detailed');
         $themeService = app(ThemeService::class);
@@ -82,24 +82,6 @@ class ThemeListCommand extends Command
 
             if (!empty($config['description'])) {
                 $this->line("  Description: {$config['description']}");
-            }
-
-            // Features
-            if (!empty($config['supports'])) {
-                $features = [];
-                foreach ($config['supports'] as $feature => $supported) {
-                    if ($supported) {
-                        $features[] = $feature;
-                    }
-                }
-                if (!empty($features)) {
-                    $this->line("  Features: " . implode(', ', $features));
-                }
-            }
-
-            // Template parts
-            if (!empty($config['template_parts'])) {
-                $this->line("  Template Parts: " . implode(', ', $config['template_parts']));
             }
 
             // Check for assets
