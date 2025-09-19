@@ -155,7 +155,7 @@ class ThemeSelector extends Component implements HasActions, HasSchemas
             ->modalHeading(__('Upload Theme'))
             ->modalDescription(__('Upload a ZIP file containing a theme. The theme must include a theme.json file.'))
             ->modalSubmitActionLabel(__('Upload Theme'))
-            ->form([
+            ->schema([
                 \Filament\Forms\Components\FileUpload::make('theme_file')
                     ->label(__('Theme ZIP File'))
                     ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed'])
