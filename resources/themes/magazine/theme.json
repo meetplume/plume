@@ -3,7 +3,7 @@
     "name": "Magazine Theme",
     "description": "A modern magazine-style layout with featured posts and grid-based design",
     "version": "1.0.0",
-    "author": "Blog Author",
+    "author": "Charlie Etienne",
     "screenshot": "screenshot.png",
     "settings": {
         "primary_color": "#dc2626",
@@ -11,15 +11,7 @@
         "heading_font": "Inter",
         "body_font": "Inter",
         "code_font": "JetBrains Mono",
-        "dark_mode": "switcher",
-        "layout": {
-            "container_max_width": "1400px",
-            "sidebar_enabled": true,
-            "header_style": "magazine",
-            "footer_style": "extended",
-            "featured_posts_count": 3,
-            "posts_per_row": 3
-        }
+        "dark_mode": "switcher"
     },
     "fields": [
         {
@@ -72,24 +64,5 @@
             "helperText": "Font used for article content and excerpts",
             "default": "Inter"
         }
-    ],
-    "supports": {
-        "dark_mode": true,
-        "sidebar": true,
-        "featured_posts": true,
-        "post_grid": true,
-        "custom_colors": true,
-        "responsive_design": true,
-        "hero_section": true,
-        "newsletter_signup": true
-    },
-    "template_parts": [
-        "header",
-        "footer",
-        "sidebar",
-        "hero",
-        "featured-posts",
-        "post-grid",
-        "newsletter"
     ]
 }
