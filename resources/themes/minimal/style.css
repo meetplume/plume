@@ -1,10 +1,16 @@
 /* Minimal Theme Styles */
-@import 'tailwindcss';
 
 body {
-    @apply text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800;
+    color: var( --color-gray-400);
+    background-color: var(--color-gray-800);
 }
 
 .colored {
-    @apply font-bold bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-300)]/70 bg-clip-text text-transparent;
+    --tw-gradient-position: to right in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+    --tw-gradient-from: var(--color-primary-600);
+    --tw-gradient-to: color-mix(in oklab, var(--color-primary-300) /* var(--color-primary-300) */ 70%, transparent);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    background-clip: text;
+    color: transparent;
 }

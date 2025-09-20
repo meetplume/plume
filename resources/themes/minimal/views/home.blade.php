@@ -11,11 +11,11 @@
         <section class="my-12">
             <div class="flex flex-col sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-24 text-center sm:text-left">
                 <div class="flex-grow flex-1">
-                    <div class="font-heading font-light tracking-tight text-black dark:text-white text-6xl/none md:text-7xl lg:text-8xl text-balance">
+                    <div class="font-heading font-light tracking-tight text-white text-6xl/none md:text-7xl lg:text-8xl text-balance">
                         {!! ColoredText::get(SiteSettings::HERO_TITLE->get()) !!}
                     </div>
                     <div
-                        class="mt-5 tracking-tight text-black/75 dark:text-white/75 text-lg/tight sm:text-xl/tight md:text-2xl/tight md:mt-8">
+                        class="mt-5 tracking-tight text-white/75 text-lg/tight sm:text-xl/tight md:text-2xl/tight md:mt-8">
                         {{ SiteSettings::HERO_SUBTITLE->get() }}
                     </div>
                     <div class="hidden sm:block">
