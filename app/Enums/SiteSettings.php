@@ -212,16 +212,24 @@ enum SiteSettings: string
         };
     }
 
+    public function getThemeSettingOrDefaultValue(): mixed
+    {
+        if (in_array($this, self::canBeOverridenByTheme())) {
+            return theme()->settings()[$this->value] ?? $this->getDefaultValue();
+        }
+        return $this->getDefaultValue();
+    }
+
     public function get(array $context = []): mixed
     {
         try{
             if ($this->is_translatable() && empty($context)) {
                 $context = ['language' => app()->getLocale() ?? 'en'];
             }
-            return Settings::context(new Context($context))->get($this->value, $this->getDefaultValue());
+            return Settings::context(new Context($context))->get($this->value, $this->getThemeSettingOrDefaultValue());
         }
         catch (Exception){
-            return $this->getDefaultValue();
+            return $this->getThemeSettingOrDefaultValue();
         }
     }
 
@@ -242,6 +250,24 @@ enum SiteSettings: string
         ];
 
         return array_map(fn(self $setting) => $setting->value, $translatable);
+    }
+
+    public static function canBeOverridenByTheme(): array
+    {
+        return [
+            self::PRIMARY_COLOR,
+            self::NEUTRAL_COLOR,
+            self::HEADING_FONT,
+            self::BODY_FONT,
+            self::CODE_FONT,
+            self::CODE_THEME,
+            self::HERO_IMAGE_HEIGHT,
+            self::HERO_IMAGE_FULL_WIDTH,
+            self::ABOUT_IMAGE_CIRCULAR,
+            self::ABOUT_IMAGE_WIDTH,
+            self::ABOUT_IMAGE_HEIGHT,
+            self::DARK_MODE,
+        ];
     }
 
     public function is_translatable(): bool
