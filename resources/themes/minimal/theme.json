@@ -8,8 +8,8 @@
     "settings": {
         "primary_color": "#ca8a04",
         "neutral_color": "stone",
-        "heading_font": "Inter",
-        "body_font": "Inter",
+        "heading_font": "Rubik",
+        "body_font": "Rubik",
         "code_font": "JetBrains Mono",
         "dark_mode": "always_dark"
     }
