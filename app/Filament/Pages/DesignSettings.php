@@ -9,6 +9,7 @@ use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
 use Filament\Forms\Components\Select;
+use Filament\Support\Enums\Alignment;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
@@ -17,6 +18,7 @@ use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\ColorPicker;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
+use Filament\Schemas\Components\Component;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
@@ -105,6 +107,10 @@ class DesignSettings extends Page implements HasForms
                     ->description(__("Give it a fresh coat of paint."))
                     ->icon(Phosphor::PaintBrush->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
+                    ->footerActions([
+                        fn(Component $component) => self::resetFieldsAction($component)
+                    ])
+                    ->footerActionsAlignment(Alignment::End)
                     ->schema([
 
                         ColorPicker::make(SiteSettings::PRIMARY_COLOR->value)
@@ -150,6 +156,10 @@ class DesignSettings extends Page implements HasForms
                     ->description(__('How should the site look in dark mode?'))
                     ->icon(Phosphor::Moon->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
+                    ->footerActions([
+                        fn(Component $component) => self::resetFieldsAction($component)
+                    ])
+                    ->footerActionsAlignment(Alignment::End)
                     ->schema([
                         Select::make(SiteSettings::DARK_MODE->value)
                             ->selectablePlaceholder(false)

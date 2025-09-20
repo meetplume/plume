@@ -3,10 +3,14 @@
 namespace App\Filament\Concerns;
 
 use App\Enums\SiteSettings;
+use Filament\Actions\Action;
 use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
-use App\Services\ThemeFieldsService;
+use Filament\Support\Icons\Heroicon;
+use Filament\Forms\Components\Field;
+use Rawilk\Settings\Support\Context;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Component;
 
 trait HandlesSettingsForm
 {
@@ -96,5 +100,28 @@ trait HandlesSettingsForm
         }
 
         Notification::make()->success()->title($this->getSuccessMessage())->send();
+    }
+
+    public static function resetFields(Component $component): void
+    {
+        $fields = array_map(fn(Field $field) => $field->getStatePath(false), $component->getChildComponents());
+        settings()->context(new Context([]))->flush($fields);
+
+        Notification::make('settings_flushed')
+            ->title(__('Settings flushed'))
+            ->body(__('Your settings have been successfully reverted to their default values.'))
+            ->success()
+            ->send();
+    }
+
+    public static function resetFieldsAction(Component $component)
+    {
+        return Action::make('reset_' . $component->getKey())
+            ->label(__('Reset'))
+            ->requiresConfirmation()
+            ->color('danger')
+            ->icon(Heroicon::ArrowPathRoundedSquare)
+            ->outlined()
+            ->action(fn() => self::resetFields($component));
     }
 }
