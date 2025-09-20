@@ -11,6 +11,7 @@
         "heading_font": "Rubik",
         "body_font": "Rubik",
         "code_font": "JetBrains Mono",
-        "dark_mode": "always_dark"
+        "dark_mode": "always_dark",
+        "display_site_name": false
     }
 }
