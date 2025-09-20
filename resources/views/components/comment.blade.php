@@ -41,12 +41,12 @@
 
             <div class="beautiful-content px-4 py-3 mt-2 @if(!isset($comment->approved_at)) bg-amber-100 dark:bg-amber-950 @else bg-gray-100 dark:bg-gray-800 @endif rounded-lg @if($comment->author->isAdmin()) ring-1 ring-primary-300 dark:ring-primary-800 @endif">
                 {!!
-                    str($comment->content)
+                    wrapPhikiCode(str($comment->content)
                         ->markdown(
                             options: CommentMarkdownOptions::get(),
                             extensions: CommentMarkdownExtensions::get(),
                         )
-                        ->sanitizeHtml()
+                        ->sanitizeHtml())
                 !!}
             </div>
         </div>
