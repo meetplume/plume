@@ -6,11 +6,11 @@
     "author": "Charlie Etienne",
     "screenshot": "screenshot.png",
     "settings": {
-        "primary_color": "#374151",
-        "neutral_color": "gray",
+        "primary_color": "#ca8a04",
+        "neutral_color": "stone",
         "heading_font": "Inter",
         "body_font": "Inter",
         "code_font": "JetBrains Mono",
-        "dark_mode": "switcher"
+        "dark_mode": "always_dark"
     }
 }

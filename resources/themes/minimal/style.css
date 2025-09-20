@@ -1,42 +1,10 @@
 /* Minimal Theme Styles */
+@import 'tailwindcss';
 
-:root {
-    /* Minimal theme colors */
-    --theme-primary: #374151;
-    --theme-primary-50: #f9fafb;
-    --theme-primary-100: #f3f4f6;
-    --theme-primary-200: #e5e7eb;
-    --theme-primary-300: #d1d5db;
-    --theme-primary-400: #9ca3af;
-    --theme-primary-500: #6b7280;
-    --theme-primary-600: #4b5563;
-    --theme-primary-700: #374151;
-    --theme-primary-800: #1f2937;
-    --theme-primary-900: #111827;
-
-    /* Layout variables */
-    --theme-container-max-width: 800px;
-    --theme-border-radius: 0.25rem;
-    --theme-shadow: none;
-    --theme-shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-    /* Typography */
-    --theme-heading-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --theme-body-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --theme-code-font: 'JetBrains Mono', ui-monospace, monospace;
-
-    /* Minimal specific */
-    --minimal-line-height: 1.7;
-    --minimal-content-spacing: 2rem;
-    --minimal-text-size: 1.125rem;
+body {
+    @apply text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800;
 }
 
-/* Dark mode variables */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --theme-primary: #d1d5db;
-        --theme-primary-400: #9ca3af;
-        --theme-primary-500: #6b7280;
-        --theme-primary-600: #4b5563;
-    }
+.colored {
+    @apply font-bold bg-gradient-to-r from-[var(--color-primary-600)] to-[var(--color-primary-300)]/70 bg-clip-text text-transparent;
 }

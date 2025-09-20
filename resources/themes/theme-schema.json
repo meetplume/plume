@@ -51,7 +51,7 @@
         },
         "dark_mode": {
           "type": "string",
-          "enum": ["switcher", "auto", "disabled"],
+          "enum": ["switcher", "always_dark", "always_light", "always_system"],
           "description": "Dark mode configuration"
         }
       }
