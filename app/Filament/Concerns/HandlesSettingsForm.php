@@ -105,7 +105,12 @@ trait HandlesSettingsForm
     public static function resetFields(Component $component): void
     {
         $fields = array_map(fn(Field $field) => $field->getStatePath(false), $component->getChildComponents());
+
         settings()->context(new Context([]))->flush($fields);
+
+        if (in_array(SiteSettings::PRIMARY_COLOR->value, $fields)) {
+            cache()->forget("primary_palette_generated");
+        }
 
         Notification::make('settings_flushed')
             ->title(__('Settings flushed'))
