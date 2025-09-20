@@ -3,7 +3,6 @@
         @php $darkMode = App\Enums\SiteSettings::DARK_MODE->get(); @endphp
 
         @if($darkMode === 'always_dark')
-            console.log('always_dark');
             document.documentElement.classList.add( "dark" );
         @elseif($darkMode === 'always_light')
             document.documentElement.classList.remove( "dark" );
