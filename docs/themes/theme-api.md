@@ -14,6 +14,9 @@ $activeTheme = theme()->active(); // 'magazine'
 // Get theme configuration
 $config = theme()->config();
 
+// Get theme settings
+$settings = theme()->settings();
+
 // Check if a theme exists
 $exists = theme()->exists('magazine'); // true
 

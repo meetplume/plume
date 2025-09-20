@@ -199,6 +199,16 @@ Get theme configuration values:
 </div>
 ```
 
+### @themeSettings
+Or simpler, use the `@themeSettings` directive to access the theme's settings directly:
+
+```blade
+{{-- Get a setting value --}}
+<div style="color: @themeSettings('primary_color')">
+    Content here
+</div>
+```
+
 ### @hasThemePartial
 Conditionally include partials:
 

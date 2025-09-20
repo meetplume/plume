@@ -139,6 +139,11 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo data_get(app(\App\Services\ThemeService::class)->getThemeConfig(), $expression); ?>";
         });
 
+        // @themeSettings directive - gets theme settings values
+        Blade::directive('themeSettings', function ($expression) {
+            return "<?php echo data_get(app(\App\Services\ThemeService::class)->getThemeSettings(), $expression); ?>";
+        });
+
         // @hasThemePartial directive - checks if theme has a specific partial
         Blade::directive('hasThemePartial', function ($expression) {
             return "<?php if (app(\App\Services\ThemeService::class)->hasPartial($expression)): ?>";

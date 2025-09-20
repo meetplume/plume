@@ -39,6 +39,11 @@ class Theme
         return $this->themeService->getThemeConfig();
     }
 
+    public function settings(): ?array
+    {
+        return $this->config()['settings'] ?? null;
+    }
+
     /**
      * Check if the theme exists
      */

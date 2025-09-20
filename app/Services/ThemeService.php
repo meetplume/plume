@@ -59,6 +59,12 @@ class ThemeService
         return json_decode($content, true) ?? [];
     }
 
+    public function getThemeSettings(): ?array
+    {
+        $config = $this->getThemeConfig();
+        return $config['settings'] ?? null;
+    }
+
     /**
      * Get URL for theme asset
      */
@@ -80,13 +86,13 @@ class ThemeService
      */
     public function applyThemeSettings(): void
     {
-        $config = $this->getThemeConfig();
+        $settings = $this->getThemeSettings();
 
-        if (!isset($config['settings'])) {
+        if (!isset($settings)) {
             return;
         }
 
-        foreach ($config['settings'] as $key => $value) {
+        foreach ($settings as $key => $value) {
             if (is_array($value)) {
                 // TODO: Handle complex settings
                 continue; // Skip complex settings for now
