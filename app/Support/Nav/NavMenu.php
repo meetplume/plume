@@ -20,7 +20,14 @@ class NavMenu
         $processedItems = [];
 
         foreach ($mainMenuItems as $menuItem) {
-            $processedItems[] = self::processMainMenuItem($menuItem);
+            if (data_get($menuItem, 'page') === 'user-account') {
+                $processedItems[] = NavMenuItem::makeComponent(
+                    component: 'nav.account-dropdown',
+                    nameForAnalytics: 'account'
+                );
+            } else {
+                $processedItems[] = self::processMainMenuItem($menuItem);
+            }
         }
 
         return $processedItems;

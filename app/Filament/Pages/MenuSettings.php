@@ -98,10 +98,12 @@ class MenuSettings extends Page implements HasForms
                                             $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
                                                 return ['page:' . $p->id => $p->title];
                                             })->toArray();
+                                            $userAccount = ['user-account' => 'User Account Dropdown'];
 
                                             return [
                                                 ...$base,
                                                 ...$cms,
+                                                ...$userAccount,
                                                 'custom' => __('Custom URL'),
                                             ];
                                         }),
@@ -186,10 +188,12 @@ class MenuSettings extends Page implements HasForms
                                                     $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
                                                         return ['page:' . $p->id => $p->title];
                                                     })->toArray();
+                                                    $userAccount = ['user-account' => 'User Account Dropdown'];
 
                                                     return [
                                                         ...$base,
                                                         ...$cms,
+                                                        ...$userAccount,
                                                         'custom' => __('Custom URL'),
                                                     ];
                                                 }),
