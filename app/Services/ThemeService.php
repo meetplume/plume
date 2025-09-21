@@ -7,6 +7,7 @@ use ZipArchive;
 use ValueError;
 use App\Enums\SiteSettings;
 use Illuminate\Support\Facades\File;
+use Rawilk\Settings\Support\Context;
 use Illuminate\Support\Facades\Storage;
 
 class ThemeService
@@ -240,7 +241,7 @@ class ThemeService
                 // Only set default if no value exists yet
                 $existingValue = settings($settingKey);
                 if ($existingValue === null) {
-                    settings()->set($settingKey, $defaultValue);
+                    settings()->context(new Context([]))->set($settingKey, $defaultValue);
                 }
             }
         }

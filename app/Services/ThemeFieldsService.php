@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\SiteSettings;
+use Rawilk\Settings\Support\Context;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
@@ -224,7 +225,7 @@ class ThemeFieldsService
         try {
             SiteSettings::from($settingKey)->set($value);
         } catch (\ValueError) {
-            settings()->set($settingKey, $value);
+            settings()->context(new Context([]))->set($settingKey, $value);
         }
     }
 }

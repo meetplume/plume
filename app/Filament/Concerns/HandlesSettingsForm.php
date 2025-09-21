@@ -95,7 +95,7 @@ trait HandlesSettingsForm
                 }
             }
             else {
-                settings()->set($setting, $state[$setting]);
+                settings()->context(new Context([]))->set($setting, $state[$setting]);
             }
         }
 
