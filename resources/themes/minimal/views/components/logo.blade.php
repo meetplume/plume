@@ -4,6 +4,7 @@
     use Illuminate\Support\Facades\Storage;
 
     $logo = SiteSettings::SITE_LOGO->get();
+    $siteName = SiteSettings::SITE_NAME->get();
 @endphp
 
 <div class="logo">
@@ -18,11 +19,22 @@
                 <img
                     class="h-12 w-40 object-contain object-left"
                     src="{{ Storage::disk('public')->url($logo) }}"
-                    alt="{{ config('app.name') }}"
+                    alt="{{ $siteName }}"
                 >
             @else
-                <div class="monogram bg-gray-50 text-black h-10 w-10 flex items-center justify-center rounded-lg text-2xl font-semibold">
-                    {{ str(config('app.name'))->take(1)->upper() }}
+                <style>
+                    .monogram {
+                        --tw-gradient-position: 135deg in oklab;
+                        background-image: linear-gradient(var(--tw-gradient-stops));
+                        --tw-gradient-from: var(--color-primary-600);
+                        --tw-gradient-to: color-mix(in oklab, var(--color-primary-300) 90%, transparent);
+                        --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+                        background-clip: text;
+                        color: transparent;
+                    }
+                </style>
+                <div class="monogram-wrapper h-10 w-10 flex items-center justify-center text-4xl font-bold">
+                    <div class="monogram">{{ str($siteName)->take(1)->upper() }}</div>
                 </div>
             @endif
         </div>
@@ -32,7 +44,7 @@
             'site-name font-semibold uppercase text-base tracking-widest text-gray-50 sr-only',
             'sm:not-sr-only' => SiteSettings::DISPLAY_SITE_NAME->get(),
         ])>
-            {{ SiteSettings::SITE_NAME->get() }}
+            {{ $siteName }}
         </span>
     </a>
 </div>

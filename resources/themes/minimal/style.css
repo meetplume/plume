@@ -6,7 +6,7 @@ body {
 }
 
 .colored {
-    --tw-gradient-position: to right in oklab;
+    --tw-gradient-position: 135deg in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
     --tw-gradient-from: var(--color-primary-600);
     --tw-gradient-to: color-mix(in oklab, var(--color-primary-300) 70%, transparent);
