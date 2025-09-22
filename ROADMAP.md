@@ -15,7 +15,7 @@
 - [ ] Configure Homepage, select from common configurations
 - [ ] Configure post view
 - [ ] Contact form?
-- [ ] Social media links?
+- [x] Social media links?
 - [ ] Social media sharing?
 - [ ] Portfolio
 - [ ] Drafts, scheduling, revisions

@@ -50,8 +50,10 @@ enum SiteSettings: string
     case MAIL_FROM_NAME = 'mail_from_name';
     case QUEUE_CONNECTION = 'queue_connection';
     case DARK_MODE = 'dark_mode';
+    case SOCIALS = 'socials';
     case ACTIVE_THEME = 'active_theme';
     case THEME_CUSTOM_CSS = 'theme_custom_css';
+    case SOCIALS_ICON_FILL = 'socials_icon_fill';
 
     /**
      * Get the default value for the setting
@@ -213,6 +215,8 @@ enum SiteSettings: string
             self::MAIL_FROM_NAME => config('mail.from.name'),
             self::QUEUE_CONNECTION => 'sync',
             self::DARK_MODE => 'switcher',
+            self::SOCIALS => [],
+            self::SOCIALS_ICON_FILL => false,
             self::ACTIVE_THEME => 'default',
             self::THEME_CUSTOM_CSS => null,
         };

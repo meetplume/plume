@@ -20,7 +20,7 @@
                     </div>
                     <div class="hidden sm:block">
                         <div class="text-beige flex  gap-x-10 lg:gap-x-16 mt-10">
-                            {{-- TODO: implement socials --}}
+                            <x-socials />
                         </div>
                     </div>
                 </div>

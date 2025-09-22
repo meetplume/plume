@@ -95,7 +95,6 @@ class ThemeService
 
         foreach ($settings as $key => $value) {
             if (is_array($value)) {
-                // TODO: Handle complex settings
                 continue; // Skip complex settings for now
             }
 
