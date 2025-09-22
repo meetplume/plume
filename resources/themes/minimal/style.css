@@ -1,7 +1,7 @@
 /* Minimal Theme Styles */
 
 body {
-    color: var( --color-gray-400);
+    color: var( --color-gray-300);
     background-color: var(--color-gray-800);
 }
 
