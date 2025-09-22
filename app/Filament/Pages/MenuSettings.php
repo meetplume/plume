@@ -98,12 +98,11 @@ class MenuSettings extends Page implements HasForms
                                             $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
                                                 return ['page:' . $p->id => $p->title];
                                             })->toArray();
-                                            $userAccount = ['user-account' => 'User Account Dropdown'];
 
                                             return [
                                                 ...$base,
                                                 ...$cms,
-                                                ...$userAccount,
+                                                'user-account' => __('User Account Dropdown'),
                                                 'custom' => __('Custom URL'),
                                             ];
                                         }),
@@ -129,6 +128,9 @@ class MenuSettings extends Page implements HasForms
                             ->collapsible()
                             ->collapsed()
                             ->itemLabel(function (array $state): ?string {
+                                if ($state[ 'page' ] === 'user-account') {
+                                    return __('User Account Dropdown');
+                                }
                                 $pageId = (int) str($state[ 'page' ])->after('page:')->toString();
                                 $pageModel = CmsPage::query()->find($pageId);
                                 if ($pageModel) {
@@ -188,12 +190,11 @@ class MenuSettings extends Page implements HasForms
                                                     $cms = CmsPage::query()->orderBy('title')->get()->mapWithKeys(function (CmsPage $p) {
                                                         return ['page:' . $p->id => $p->title];
                                                     })->toArray();
-                                                    $userAccount = ['user-account' => 'User Account Dropdown'];
 
                                                     return [
                                                         ...$base,
                                                         ...$cms,
-                                                        ...$userAccount,
+                                                        'user-account' => __('User Account Dropdown'),
                                                         'custom' => __('Custom URL'),
                                                     ];
                                                 }),

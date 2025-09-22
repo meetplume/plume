@@ -101,6 +101,13 @@ enum SiteSettings: string
                     "open_in_new_tab" => false,
                     "page" => "blog",
                 ],
+                [
+                    "icon" => "o-user",
+                    "name" => null,
+                    "url" => null,
+                    "open_in_new_tab" => false,
+                    "page" => "user-account", // Custom component "User account dropdown"
+                ],
             ],
             self::MAIN_MENU_MORE => [
                 [
@@ -166,7 +173,6 @@ enum SiteSettings: string
                     ],
                 ],
             ],
-            // self::FOOTER_MENU => null,
             self::FOOTER_MENU => [
                 [
                     "name" => "Home",

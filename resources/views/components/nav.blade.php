@@ -10,8 +10,6 @@
 
         <x-nav.menu />
 
-        <x-nav.account-dropdown />
-
         <x-nav.more-dropdown />
 
     </div>
