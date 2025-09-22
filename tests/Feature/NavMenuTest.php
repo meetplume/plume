@@ -35,7 +35,7 @@ test('can process regular menu items', function () {
 
     $processedItems = NavMenu::getMainMenuItems();
 
-    expect($processedItems)->toHaveCount(2)
+    expect($processedItems)->toHaveCount(3)
         ->and($processedItems[ 0 ])->toBeInstanceOf(NavMenuItem::class)
         ->and($processedItems[ 0 ]->component)->toBeNull()
         ->and($processedItems[ 0 ]->name)->toBe('Home');
