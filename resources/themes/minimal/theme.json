@@ -12,6 +12,11 @@
         "body_font": "Rubik",
         "code_font": "JetBrains Mono",
         "dark_mode": "always_dark",
-        "display_site_name": false
+        "display_site_name": false,
+        "hero_image_height":  "350",
+        "hero_image_full_width": false,
+        "about_image_circular": true,
+        "about_image_width": "200",
+        "about_image_height": "200"
     }
 }

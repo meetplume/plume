@@ -38,16 +38,27 @@
         </section>
 
         @if(filled(SiteSettings::ABOUT_TEXT->get()) && SiteSettings::ABOUT_TEXT->get() !== "<p></p>")
-            <section
-                class="relative py-12 md:py-16">
-                <div class="mb-6 lg:mb-10 flex items-center gap-4">
-                    <h2 class="relative w-full bg-black-light text-3xl lg:text-5xl font-semibold text-white">
-                        {{ SiteSettings::ABOUT_TITLE->get() }}
-                    </h2>
-                </div>
-                <div class="max-w-4xl mx-auto beautiful-content">
-                    {!! RichContentRenderer::make(SiteSettings::ABOUT_TEXT->get() ?? '')->toHtml() !!}
-                </div>
+            <section class="relative py-12 md:py-16 flex flex-col-reverse sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-16 text-center sm:text-left">
+                @if(SiteSettings::ABOUT_IMAGE->get() && Storage::disk('public')->exists(SiteSettings::ABOUT_IMAGE->get()))
+                    <div class="flex shrink-0 justify-center">
+                        <img
+                            src="{{ Storage::disk('public')->url(SiteSettings::ABOUT_IMAGE->get()) }}"
+                            alt="{{ SiteSettings::ABOUT_TITLE->get() }}"
+                            class="{{ SiteSettings::ABOUT_IMAGE_CIRCULAR->get() ? 'rounded-full object-cover' : 'object-contain' }}"
+                            style="width: {{ SiteSettings::ABOUT_IMAGE_WIDTH->get() }}px; height: {{ SiteSettings::ABOUT_IMAGE_HEIGHT->get() }}px;"
+                        >
+                    </div>
+                @endif
+                    <div>
+                        <div class="mb-6 lg:mb-10 flex items-center gap-4">
+                            <h2 class="relative w-full bg-black-light text-3xl lg:text-5xl font-semibold text-white">
+                                {{ SiteSettings::ABOUT_TITLE->get() }}
+                            </h2>
+                        </div>
+                        <div class="max-w-4xl mx-auto beautiful-content">
+                            {!! RichContentRenderer::make(SiteSettings::ABOUT_TEXT->get() ?? '')->toHtml() !!}
+                        </div>
+                    </div>
             </section>
         @endif
 
