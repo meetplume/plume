@@ -2,12 +2,10 @@
 
 namespace App\Filament\CustomBlocks;
 
-use Phiki\Phiki;
-use Phiki\Theme\Theme;
 use Phiki\Grammar\Grammar;
-use App\Enums\SiteSettings;
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
+use App\Services\CodeThemeService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\CodeEditor;
 use Filament\Schemas\Components\Utilities\Get;
@@ -56,31 +54,19 @@ class CodeBlock extends RichContentCustomBlock
 
     public static function toPreviewHtml(array $config): string
     {
-        return self::codeToHtml(
+        return CodeThemeService::codeToHtml(
             code: $config['code'] ?? '',
             grammar: Grammar::tryFrom($config['language'] ?? Grammar::Php),
-            theme: self::getCodeTheme(),
+            theme: CodeThemeService::getCodeTheme(),
         );
     }
 
     public static function toHtml(array $config, array $data): string
     {
-        return self::codeToHtml(
+        return CodeThemeService::codeToHtml(
             code: $config['code'] ?? '',
             grammar: Grammar::tryFrom($config['language'] ?? Grammar::Php),
-            theme: self::getCodeTheme(),
+            theme: CodeThemeService::getCodeTheme(),
         );
-    }
-
-    public static function getCodeTheme(): ?Theme
-    {
-        return filled(SiteSettings::CODE_THEME->get()) ? Theme::tryFrom(SiteSettings::CODE_THEME->get()) : Theme::CatppuccinMacchiato;
-    }
-
-    public static function codeToHtml(string $code, Grammar $grammar, Theme $theme): string
-    {
-        $phiki = new Phiki();
-
-        return '<div class="not-prose phiki-wrapper-main">' . $phiki->codeToHtml($code, $grammar, $theme) . '</div>';
     }
 }

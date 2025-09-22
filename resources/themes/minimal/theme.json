@@ -11,6 +11,7 @@
         "heading_font": "Rubik",
         "body_font": "Rubik",
         "code_font": "JetBrains Mono",
+        "code_theme": "minimal",
         "dark_mode": "always_dark",
         "display_site_name": false,
         "hero_image_height":  "350",

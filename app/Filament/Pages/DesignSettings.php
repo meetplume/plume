@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use UnitEnum;
 use Phiki\Theme\Theme;
+use App\Enums\CodeTheme;
 use App\Enums\SiteSettings;
 use App\Services\ThemeFieldsService;
 use Filament\Pages\Page;
@@ -133,9 +134,11 @@ class DesignSettings extends Page implements HasForms
                         FontPicker::make(SiteSettings::CODE_FONT->value),
 
                         Select::make(SiteSettings::CODE_THEME->value)
-                            ->options(collect(Theme::cases())->mapWithKeys(fn(Theme $theme) => [
-                                $theme->value => $theme->name,
-                            ]))
+                            ->options([
+                                    'Custom Themes' => collect(CodeTheme::cases())->mapWithKeys(fn(CodeTheme $theme) => [$theme->value => $theme->name])->toArray(),
+                                    'Phiki Themes' => collect(Theme::cases())->mapWithKeys(fn(Theme $theme) => [$theme->value => $theme->name])->toArray(),
+                                ])
+                            ->optionsLimit(200)
                             ->searchable(),
 
                     ])->columns(1),
