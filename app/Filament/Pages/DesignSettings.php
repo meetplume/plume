@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use UnitEnum;
 use Phiki\Theme\Theme;
 use App\Enums\SiteSettings;
 use App\Services\ThemeFieldsService;
@@ -31,7 +32,7 @@ class DesignSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Settings';
+    protected static string|null|UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Design';
     protected static ?string $slug = 'settings/design';
     protected static ?string $title = 'Design Settings';
