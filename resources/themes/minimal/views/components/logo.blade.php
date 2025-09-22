@@ -21,7 +21,7 @@
                     alt="{{ config('app.name') }}"
                 >
             @else
-                <div class="bg-gray-50 text-black h-10 w-10 flex items-center justify-center rounded-lg text-2xl font-semibold">
+                <div class="monogram bg-gray-50 text-black h-10 w-10 flex items-center justify-center rounded-lg text-2xl font-semibold">
                     {{ str(config('app.name'))->take(1)->upper() }}
                 </div>
             @endif
