@@ -28,3 +28,13 @@ body {
     width: 2em;
     height: 2em;
 }
+
+.comment.approved{
+    background-color: var(--color-gray-700);
+}
+.comment-date {
+    color: var(--color-gray-400);
+}
+.comment-form-auth {
+    color: var(--color-gray-400);
+}

@@ -122,7 +122,7 @@
                         <ul class="grid gap-10 gap-y-16 xl:gap-x-16 sm:grid-cols-2">
                             @foreach ($relatedPosts as $relatedPost)
                                 <li>
-                                    <x-post :post="$relatedPost"/>
+                                    <x-post :post="$relatedPost" variant="mini"/>
                                 </li>
                             @endforeach
                         </ul>
