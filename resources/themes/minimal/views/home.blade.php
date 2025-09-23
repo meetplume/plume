@@ -38,7 +38,7 @@
         </section>
 
         @if(filled(SiteSettings::ABOUT_TEXT->get()) && SiteSettings::ABOUT_TEXT->get() !== "<p></p>")
-            <section class="about relative py-12 md:py-16 flex flex-col-reverse sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-16 text-center sm:text-left">
+            <section class="about relative py-12 md:py-16 flex flex-col-reverse sm:flex-row justify-start gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-16 text-center sm:text-left">
                 @if(SiteSettings::ABOUT_IMAGE->get() && Storage::disk('public')->exists(SiteSettings::ABOUT_IMAGE->get()))
                     <div class="flex shrink-0 justify-center">
                         <img
