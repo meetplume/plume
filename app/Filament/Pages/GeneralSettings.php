@@ -23,6 +23,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Filament\Forms\Components\Repeater\TableColumn;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 use function Pest\Laravel\instance;
@@ -107,6 +108,10 @@ class GeneralSettings extends Page implements HasForms
                             ->label(__('Fill icon?')),
 
                         Repeater::make(SiteSettings::SOCIALS->value)
+                            ->table([
+                                TableColumn::make(__('Social')),
+                                TableColumn::make(__('URL')),
+                            ])
                             ->schema([
                                 Flex::make([
                                     Select::make('social_network')
