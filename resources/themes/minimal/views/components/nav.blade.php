@@ -1,4 +1,4 @@
-<nav {{ $attributes->class('flex items-center gap-6 md:gap-8 justify-between header-nav') }}>
+<nav {{ $attributes->class('flex items-center gap-6 md:gap-8 justify-between header-nav sm:h-12 md:h-22') }}>
 
     <x-logo/>
 
