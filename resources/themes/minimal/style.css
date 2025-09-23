@@ -19,3 +19,12 @@ body {
 .toc-list-link:not(:hover) {
     color: var(--color-gray-400);
 }
+
+.hero .socials {
+    gap: 1.6em;
+}
+.hero .socials .socials-icon {
+    color: var(--color-primary-100);
+    width: 2em;
+    height: 2em;
+}
