@@ -100,7 +100,11 @@
 
 </head>
 
-<body {{ $attributes->class('antialiased text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900') }}>
+<body {{ $attributes->class([
+    'antialiased text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900',
+    str(request()->route()->getName())->replace('.', ' ')
+]) }}>
+
     <div class="flex flex-col min-h-screen">
 
         <header class="container mt-4 xl:max-w-(--breakpoint-lg)">
