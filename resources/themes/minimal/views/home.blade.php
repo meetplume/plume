@@ -8,7 +8,7 @@
 <x-app>
 
     <div class="container xl:max-w-(--breakpoint-lg) dark">
-        <section class="my-12">
+        <section class="hero my-12">
             <div class="flex flex-col sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-24 text-center sm:text-left">
                 <div class="flex-grow flex-1">
                     <div class="font-heading font-light tracking-tight text-white text-6xl/none md:text-7xl lg:text-8xl text-balance">
@@ -38,7 +38,7 @@
         </section>
 
         @if(filled(SiteSettings::ABOUT_TEXT->get()) && SiteSettings::ABOUT_TEXT->get() !== "<p></p>")
-            <section class="relative py-12 md:py-16 flex flex-col-reverse sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-16 text-center sm:text-left">
+            <section class="about relative py-12 md:py-16 flex flex-col-reverse sm:flex-row justify-between gap-y-8 sm:gap-x-8 sm:items-center lg:gap-x-16 text-center sm:text-left">
                 @if(SiteSettings::ABOUT_IMAGE->get() && Storage::disk('public')->exists(SiteSettings::ABOUT_IMAGE->get()))
                     <div class="flex shrink-0 justify-center">
                         <img
@@ -63,7 +63,7 @@
         @endif
 
         @if ($posts->isNotEmpty())
-            <section class="relative py-12 md:py-16">
+            <section class="latest-posts relative py-12 md:py-16">
                 <div class="mb-6 lg:mb-10 flex items-center gap-4">
                     <h2 class="relative w-full bg-black-light text-3xl lg:text-5xl font-semibold text-white">
                         {{ __('Latest posts') }}
