@@ -1,0 +1,16 @@
+{
+    "$schema": "../theme-schema.json",
+    "name": "Default Theme",
+    "description": "The default blog theme with clean, modern design",
+    "version": "1.0.0",
+    "author": "Charlie Etienne",
+    "screenshot": "screenshot.png",
+    "settings": {
+        "primary_color": "#6366f1",
+        "neutral_color": "neutral",
+        "heading_font": "Hanken Grotesk",
+        "body_font": "Hanken Grotesk",
+        "code_font": "JetBrains Mono",
+        "dark_mode": "switcher"
+    }
+}

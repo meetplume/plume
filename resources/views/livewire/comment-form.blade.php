@@ -1,5 +1,5 @@
-<div>
-    <div class="text-gray-500">
+<div class="comment-form">
+    <div class="comment-form-auth text-gray-500">
         @auth
             {{ __("You're commenting as") }} {{ Auth::user()->name }}.
             <form method="POST" action="{{ \Filament\Facades\Filament::getPanel('user')->getLogoutUrl() }}" class="inline">
@@ -17,14 +17,14 @@
             {{ __(" to comment") }}
         @endauth
     </div>
-    <form wire:submit="create" class="mt-2">
+    <form wire:submit="create" class="mt-2 comment-form-form">
         {{ $this->form }}
 
         <x-btn
             primary
             :disabled="$this->form->isDisabled()"
             type="submit"
-            class="mt-4"
+            class="mt-4 comment-form-btn"
         >
             {{ __('Comment') }}
         </x-btn>

@@ -1,4 +1,4 @@
-<nav {{ $attributes->class('flex items-center gap-6 md:gap-8 justify-between') }}>
+<nav {{ $attributes->class('flex items-center gap-6 md:gap-8 justify-between header-nav') }}>
 
     <x-logo/>
 
@@ -9,8 +9,6 @@
         <x-language-switcher/>
 
         <x-nav.menu />
-
-        <x-nav.account-dropdown />
 
         <x-nav.more-dropdown />
 

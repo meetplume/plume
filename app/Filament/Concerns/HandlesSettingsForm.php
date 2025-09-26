@@ -3,9 +3,15 @@
 namespace App\Filament\Concerns;
 
 use App\Enums\SiteSettings;
+use Filament\Actions\Action;
 use Filament\Actions\SelectAction;
 use App\Support\AvailableLanguages;
+use Filament\Support\Icons\Heroicon;
+use Filament\Forms\Components\Field;
+use Rawilk\Settings\Support\Context;
+use Illuminate\Support\Facades\Artisan;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Component;
 
 trait HandlesSettingsForm
 {
@@ -49,9 +55,12 @@ trait HandlesSettingsForm
                 } else {
                     $formData[$setting->value] = $setting->get(context: []);
                 }
-            } else {
-                // Handle non-SiteSettings cases (like mail settings)
+            }
+            elseif(str_starts_with($setting, 'mail_')) {
                 $formData[$setting] = config('mail.' . str_replace('mail_', '', $setting));
+            }
+            elseif(str_starts_with($setting, 'theme_')) {
+                $formData[$setting] = settings($setting, theme()->fields($setting)->default());
             }
         }
 
@@ -86,8 +95,39 @@ trait HandlesSettingsForm
                     $setting->set($state[$setting->value] ?? null);
                 }
             }
+            else {
+                settings()->context(new Context([]))->set($setting, $state[$setting]);
+            }
         }
 
         Notification::make()->success()->title($this->getSuccessMessage())->send();
+    }
+
+    public static function resetFields(Component $component): void
+    {
+        $fields = array_map(fn(Field $field) => $field->getStatePath(false), $component->getChildComponents());
+
+        settings()->context(new Context([]))->flush($fields);
+
+        if (in_array(SiteSettings::PRIMARY_COLOR->value, $fields)) {
+            cache()->forget("primary_palette_generated");
+        }
+
+        Notification::make('settings_flushed')
+            ->title(__('Settings flushed'))
+            ->body(__('Your settings have been successfully reverted to their default values.'))
+            ->success()
+            ->send();
+    }
+
+    public static function resetFieldsAction(Component $component)
+    {
+        return Action::make('reset_' . $component->getKey())
+            ->label(__('Reset'))
+            ->requiresConfirmation()
+            ->color('danger')
+            ->icon(Heroicon::ArrowPathRoundedSquare)
+            ->outlined()
+            ->action(fn() => self::resetFields($component));
     }
 }

@@ -48,29 +48,37 @@
 
                 <div class="mt-12 md:mt-16">
                     <div class="grid grid-cols-2 gap-4 text-sm leading-tight md:grid-cols-4">
-                        <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-                            <x-heroicon-o-calendar class="mx-auto mb-2 opacity-75 size-6"/>
+                        <div class="rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
+                            <div class="flex-1 p-3 text-center text-sm rounded-lg border border-black/8 dark:border-white/10">
+                                <x-heroicon-o-calendar class="mx-auto mb-2 opacity-75 size-6"/>
 
-                            @if($post->updated_at) {{ __('Modified') }}
-                            @elseif($post->published_at) {{ __('Published') }}
-                            @else {{ __('Drafted') }}
-                            @endif
+                                @if($post->updated_at)
+                                    {{ __('Modified') }}
+                                @elseif($post->published_at)
+                                    {{ __('Published') }}
+                                @else
+                                    {{ __('Drafted') }}
+                                @endif
 
-                            <br/>
+                                <br/>
 
-                            {{ ($post->updated_at ?? $post->published_at ?? $post->created_at)->isoFormat('ll') }}
+                                {{ ($post->updated_at ?? $post->published_at ?? $post->created_at)->isoFormat('ll') }}
+                            </div>
                         </div>
 
-                        <div
-                            class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-                            <img src="{{ $post->author->getFilamentAvatarUrl() }}" class="mx-auto mb-2 rounded-full size-6"/>
-                            {{ __('Written by') }}<br/>
-                            {{ $post->author->name }}
+                        <div class="rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
+                            <div
+                                class="flex-1 p-3 text-center text-sm rounded-lg border border-black/8 dark:border-white/10">
+                                <img src="{{ $post->author->getFilamentAvatarUrl() }}"
+                                     class="mx-auto mb-2 rounded-full size-6"/>
+                                {{ __('Written by') }}<br/>
+                                {{ $post->author->name }}
+                            </div>
                         </div>
 
-                        <a href="#comments" class="group">
+                        <a href="#comments" class="group rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
                             <div @class([
-                                'flex-1 p-3 text-center transition-colors rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100',
+                                'flex-1 p-3 text-center transition-colors rounded-lg text-sm hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100 border border-black/8 dark:border-white/10',
                                 'text-primary-600 dark:text-primary-500' => $post->approved_comments_count > 0,
                             ])>
                                 <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-2 opacity-75 size-6"/>
@@ -79,10 +87,12 @@
                             </div>
                         </a>
 
-                        <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-                            <x-heroicon-o-clock class="mx-auto mb-2 opacity-75 size-6" />
-                            {{ $post->read_time }}<br/>
-                            {{ trans_choice('minute read|minutes read', $post->read_time) }}
+                        <div class="rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
+                            <div class="flex-1 p-3 text-center text-sm rounded-lg border border-black/8 dark:border-white/10">
+                                <x-heroicon-o-clock class="mx-auto mb-2 opacity-75 size-6"/>
+                                {{ $post->read_time }}<br/>
+                                {{ trans_choice('minute read|minutes read', $post->read_time) }}
+                            </div>
                         </div>
                     </div>
 

@@ -2,20 +2,27 @@
 
 namespace App\Filament\Pages;
 
+use UnitEnum;
 use Phiki\Theme\Theme;
+use App\Enums\CodeTheme;
 use App\Enums\SiteSettings;
+use App\Services\ThemeFieldsService;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
-use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
+use Filament\Support\Enums\Alignment;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\CodeEditor;
+use Filament\Schemas\Components\Livewire;
 use Filament\Forms\Components\ColorPicker;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
+use Filament\Schemas\Components\Component;
 use CharlieEtienne\FilamentFontPicker\FontPicker;
+use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
 use Awcodes\Palette\Forms\Components\ColorPicker as PaletteColorPicker;
@@ -26,7 +33,7 @@ class DesignSettings extends Page implements HasForms
 {
     use InteractsWithForms, HandlesSettingsForm;
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Settings';
+    protected static string|null|UnitEnum $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'Design';
     protected static ?string $slug = 'settings/design';
     protected static ?string $title = 'Design Settings';
@@ -39,7 +46,7 @@ class DesignSettings extends Page implements HasForms
 
     protected function getSettings(): array
     {
-        return [
+        $settings = [
             SiteSettings::PRIMARY_COLOR,
             SiteSettings::NEUTRAL_COLOR,
             SiteSettings::HEADING_FONT,
@@ -48,7 +55,21 @@ class DesignSettings extends Page implements HasForms
             SiteSettings::CODE_THEME,
             SiteSettings::POST_DEFAULT_IMAGE,
             SiteSettings::DARK_MODE,
+            SiteSettings::THEME_CUSTOM_CSS,
         ];
+
+        // Add theme field keys for proper form binding
+        $themeFieldsService = app(ThemeFieldsService::class);
+        $themeFields = $themeFieldsService->getActiveThemeFields();
+
+        foreach ($themeFields as $field) {
+            $fieldKey = $field['key'] ?? '';
+            if ($fieldKey) {
+                $settings[] = $themeFieldsService->getThemeFieldKey($fieldKey);
+            }
+        }
+
+        return $settings;
     }
 
     protected function getSuccessMessage(): string
@@ -58,13 +79,40 @@ class DesignSettings extends Page implements HasForms
 
     public function form(Schema $schema): Schema
     {
+        $themeFieldsService = app(ThemeFieldsService::class);
+        $themeFields = $themeFieldsService->getThemeFormComponents();
+
         return $schema
             ->components([
+                Section::make()
+                    ->heading(__('Theme'))
+                    ->description(__('Choose and customize your site theme.'))
+                    ->icon(Phosphor::Palette->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        Livewire::make('theme-selector'),
+                    ])->columns(1),
+
+                // Theme Custom Fields Section (only show if theme has custom fields)
+                ...($themeFields ? [
+                    Section::make()
+                        ->heading(__('Theme Settings'))
+                        ->description(__('Customize your active theme with these options.'))
+                        ->icon(Phosphor::Sliders->getIconForWeight(PhosphorWeight::Duotone))
+                        ->aside()
+                        ->schema($themeFields)
+                        ->columns(1)
+                ] : []),
+
                 Section::make()
                     ->heading(__('Design'))
                     ->description(__("Give it a fresh coat of paint."))
                     ->icon(Phosphor::PaintBrush->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
+                    ->footerActions([
+                        fn(Component $component) => self::resetFieldsAction($component)
+                    ])
+                    ->footerActionsAlignment(Alignment::End)
                     ->schema([
 
                         ColorPicker::make(SiteSettings::PRIMARY_COLOR->value)
@@ -86,11 +134,25 @@ class DesignSettings extends Page implements HasForms
                         FontPicker::make(SiteSettings::CODE_FONT->value),
 
                         Select::make(SiteSettings::CODE_THEME->value)
-                            ->options(collect(Theme::cases())->mapWithKeys(fn(Theme $theme) => [
-                                $theme->value => $theme->name,
-                            ]))
+                            ->options([
+                                    'Custom Themes' => collect(CodeTheme::cases())->mapWithKeys(fn(CodeTheme $theme) => [$theme->value => $theme->name])->toArray(),
+                                    'Phiki Themes' => collect(Theme::cases())->mapWithKeys(fn(Theme $theme) => [$theme->value => $theme->name])->toArray(),
+                                ])
+                            ->optionsLimit(200)
                             ->searchable(),
 
+                    ])->columns(1),
+
+                Section::make()
+                    ->heading(__('Custom CSS'))
+                    ->description(__('Embrace coding in nocode environments.'))
+                    ->icon(Phosphor::CodeBlock->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        CodeEditor::make(SiteSettings::THEME_CUSTOM_CSS->value)
+                            ->label(__('Custom CSS'))
+                            ->helperText(__('Add custom CSS to override theme styles. This CSS will be loaded after the theme CSS.'))
+                            ->language(Language::Css),
                     ])->columns(1),
 
                 Section::make()
@@ -98,6 +160,10 @@ class DesignSettings extends Page implements HasForms
                     ->description(__('How should the site look in dark mode?'))
                     ->icon(Phosphor::Moon->getIconForWeight(PhosphorWeight::Duotone))
                     ->aside()
+                    ->footerActions([
+                        fn(Component $component) => self::resetFieldsAction($component)
+                    ])
+                    ->footerActionsAlignment(Alignment::End)
                     ->schema([
                         Select::make(SiteSettings::DARK_MODE->value)
                             ->selectablePlaceholder(false)

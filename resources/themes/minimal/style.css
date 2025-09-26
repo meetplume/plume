@@ -1,0 +1,40 @@
+/* Minimal Theme Styles */
+
+body {
+    color: var( --color-gray-300);
+    background-color: var(--color-gray-800);
+}
+
+.colored {
+    --tw-gradient-position: 135deg in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+    --tw-gradient-from: var(--color-primary-600);
+    --tw-gradient-to: color-mix(in oklab, var(--color-primary-300) 70%, transparent);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+
+.toc-list-link:not(:hover) {
+    color: var(--color-gray-400);
+}
+
+.hero .socials {
+    gap: 1.6em;
+}
+.hero .socials .socials-icon {
+    color: var(--color-primary-100);
+    width: 2em;
+    height: 2em;
+}
+
+.comment.approved{
+    background-color: var(--color-gray-700);
+}
+.comment-date {
+    color: var(--color-gray-400);
+}
+.comment-form-auth {
+    color: var(--color-gray-400);
+}

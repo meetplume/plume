@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use Exception;
 use Rawilk\Settings\Support\Context;
 use Rawilk\Settings\Facades\Settings;
 
@@ -49,6 +50,10 @@ enum SiteSettings: string
     case MAIL_FROM_NAME = 'mail_from_name';
     case QUEUE_CONNECTION = 'queue_connection';
     case DARK_MODE = 'dark_mode';
+    case SOCIALS = 'socials';
+    case ACTIVE_THEME = 'active_theme';
+    case THEME_CUSTOM_CSS = 'theme_custom_css';
+    case SOCIALS_ICON_FILL = 'socials_icon_fill';
 
     /**
      * Get the default value for the setting
@@ -97,6 +102,13 @@ enum SiteSettings: string
                     "url" => "/blog",
                     "open_in_new_tab" => false,
                     "page" => "blog",
+                ],
+                [
+                    "icon" => "o-user",
+                    "name" => null,
+                    "url" => null,
+                    "open_in_new_tab" => false,
+                    "page" => "user-account", // Custom component "User account dropdown"
                 ],
             ],
             self::MAIN_MENU_MORE => [
@@ -163,7 +175,6 @@ enum SiteSettings: string
                     ],
                 ],
             ],
-            // self::FOOTER_MENU => null,
             self::FOOTER_MENU => [
                 [
                     "name" => "Home",
@@ -204,18 +215,32 @@ enum SiteSettings: string
             self::MAIL_FROM_NAME => config('mail.from.name'),
             self::QUEUE_CONNECTION => 'sync',
             self::DARK_MODE => 'switcher',
+            self::SOCIALS => [],
+            self::SOCIALS_ICON_FILL => false,
+            self::ACTIVE_THEME => 'default',
+            self::THEME_CUSTOM_CSS => null,
         };
+    }
+
+    public function getThemeSettingOrDefaultValue(): mixed
+    {
+        if (in_array($this, self::canBeOverridenByTheme())) {
+            return theme()->settings()[$this->value] ?? $this->getDefaultValue();
+        }
+        return $this->getDefaultValue();
     }
 
     public function get(array $context = []): mixed
     {
-        if (app()->runningInConsole()){
-            return $this->getDefaultValue();
+        try{
+            if ($this->is_translatable() && empty($context)) {
+                $context = ['language' => app()->getLocale() ?? 'en'];
+            }
+            return Settings::context(new Context($context))->get($this->value, $this->getThemeSettingOrDefaultValue());
         }
-        if ($this->is_translatable() && empty($context)) {
-            $context = ['language' => app()->getLocale() ?? 'en'];
+        catch (Exception){
+            return $this->getThemeSettingOrDefaultValue();
         }
-        return Settings::context(new Context($context))->get($this->value, $this->getDefaultValue());
     }
 
     public function set(mixed $value, array $context = []): void
@@ -235,6 +260,24 @@ enum SiteSettings: string
         ];
 
         return array_map(fn(self $setting) => $setting->value, $translatable);
+    }
+
+    public static function canBeOverridenByTheme(): array
+    {
+        return [
+            self::PRIMARY_COLOR,
+            self::NEUTRAL_COLOR,
+            self::HEADING_FONT,
+            self::BODY_FONT,
+            self::CODE_FONT,
+            self::CODE_THEME,
+            self::HERO_IMAGE_HEIGHT,
+            self::HERO_IMAGE_FULL_WIDTH,
+            self::ABOUT_IMAGE_CIRCULAR,
+            self::ABOUT_IMAGE_WIDTH,
+            self::ABOUT_IMAGE_HEIGHT,
+            self::DARK_MODE,
+        ];
     }
 
     public function is_translatable(): bool

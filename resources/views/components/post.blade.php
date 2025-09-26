@@ -37,22 +37,22 @@
         {!! $post->description ?? '' !!}
     </div>
 
-    <div class="grid grid-cols-3 gap-4 mt-6 text-sm/tight">
-        <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+    <div class="flex gap-4 mt-6 text-sm/tight">
+        <div class="flex gap-2 items-center">
             <x-heroicon-o-calendar class="mx-auto mb-1 opacity-75 size-5" />
-            {{ ($post->updated_at ?? $post->published_at)->isoFormat('ll') }}
+            {{ ($post->updated_at ?? $post->published_at)->isoFormat('l') }}
         </div>
 
         <a href="{{ route('posts.show', ['post' => $post]) }}#comments" class="group">
-            <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg transition-colors hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100">
+            <div class="flex gap-2 items-center transition-colors group-hover:text-primary-900 dark:group-hover:text-primary-100">
                 <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-1 opacity-75 size-5" />
-                {{ $post->approved_comments_count }} {{ trans_choice('comment|comments', $post->approved_comments_count) }}
+                {{ $post->approved_comments_count }}
             </div>
         </a>
 
-        <div class="flex-1 p-3 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <div class="flex gap-2 items-center">
             <x-heroicon-o-clock class="mx-auto mb-1 opacity-75 size-5" />
-            {{ trans_choice(':count minute|:count minutes', $post->read_time) }}
+            {{ $post->read_time }}''
         </div>
     </div>
 </div>

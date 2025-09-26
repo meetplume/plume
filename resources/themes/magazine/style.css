@@ -1,0 +1,38 @@
+/* Magazine Theme Styles */
+
+:root {
+    /* Magazine theme colors */
+    --color-primary: #dc2626;
+    --color-primary-50: #fef2f2;
+    --color-primary-100: #fee2e2;
+    --color-primary-200: #fecaca;
+    --color-primary-500: #dc2626;
+    --color-primary-600: #dc2626;
+    --color-primary-700: #b91c1c;
+    --color-primary-900: #7f1d1d;
+
+    /* Layout variables */
+    --theme-container-max-width: 1400px;
+    --theme-border-radius: 0.75rem;
+    --theme-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --theme-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Typography */
+    --theme-heading-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --theme-body-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --theme-code-font: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Magazine specific */
+    --magazine-grid-gap: 2rem;
+    --magazine-card-padding: 1.5rem;
+}
+
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --theme-primary: #f87171;
+        --theme-primary-400: #f87171;
+        --theme-primary-500: #ef4444;
+        --theme-primary-600: #dc2626;
+    }
+}

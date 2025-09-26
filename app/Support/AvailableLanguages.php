@@ -14,12 +14,12 @@ class AvailableLanguages
 
     public static function options(bool $simple = false): array
     {
-        return array_map(function ($language) use ($simple) { return $simple ? $language['name'] : ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::all());
+        return array_map(fn($language) => $simple ? $language['name'] : ucfirst($language[ 'native' ])." ({$language['name']})", self::all());
     }
 
     public static function availableOptions(bool $simple = false): array
     {
-        return array_map(function ($language) use ($simple) { return $simple ? $language['name'] : ucfirst($language[ 'native' ]) . " ({$language['name']})"; }, self::get());
+        return array_map(fn($language) => $simple ? $language['name'] : ucfirst($language[ 'native' ])." ({$language['name']})", self::get());
     }
 
     public static function all(): array

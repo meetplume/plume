@@ -3,8 +3,11 @@
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
+@source '../../../../resources/views/livewire/theme-selector.blade.php';
 @source '../../../../resources/views/blocks/**/*';
 @source '../../../../resources/views/components/logo.blade.php';
+@source '../../../../resources/themes/**/views/components/logo.blade.php';
+@source '../../../../storage/app/private/themes/**/views/components/logo.blade.php';
 @source '../../../../vendor/awcodes/palette/resources/**/*.blade.php';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/**/*.blade.php';
 @source '../../../../vendor/charlieetienne/filament-font-picker/resources/**/*.blade.php';

@@ -1,0 +1,68 @@
+{
+    "$schema": "../theme-schema.json",
+    "name": "Magazine Theme",
+    "description": "A modern magazine-style layout with featured posts and grid-based design",
+    "version": "1.0.0",
+    "author": "Charlie Etienne",
+    "screenshot": "screenshot.png",
+    "settings": {
+        "primary_color": "#dc2626",
+        "neutral_color": "slate",
+        "heading_font": "Inter",
+        "body_font": "Inter",
+        "code_font": "JetBrains Mono",
+        "dark_mode": "switcher"
+    },
+    "fields": [
+        {
+            "key": "accent_color",
+            "type": "colorpicker",
+            "label": "Accent Color",
+            "helperText": "Secondary color used for highlights and accents",
+            "cssVariable": "--magazine-accent-color",
+            "default": "#f59e0b"
+        },
+        {
+            "key": "layout_style",
+            "type": "select",
+            "label": "Layout Style",
+            "helperText": "Choose the overall layout style for the magazine theme",
+            "options": {
+                "standard": "Standard Grid",
+                "masonry": "Masonry Layout",
+                "featured": "Featured Posts First"
+            },
+            "default": "standard"
+        },
+        {
+            "key": "header_tagline",
+            "type": "text",
+            "label": "Header Tagline",
+            "placeholder": "Your magazine tagline...",
+            "helperText": "Displayed below the site title in the header",
+            "maxLength": 100,
+            "default": "Breaking news and stories"
+        },
+        {
+            "key": "category_colors",
+            "type": "palettecolorpicker",
+            "label": "Category Badge Color",
+            "helperText": "Color scheme for category badges",
+            "colors": {
+                "red": "Red",
+                "blue": "Blue",
+                "green": "Green",
+                "purple": "Purple",
+                "orange": "Orange"
+            },
+            "default": "red"
+        },
+        {
+            "key": "content_font",
+            "type": "fontpicker",
+            "label": "Content Font",
+            "helperText": "Font used for article content and excerpts",
+            "default": "Inter"
+        }
+    ]
+}

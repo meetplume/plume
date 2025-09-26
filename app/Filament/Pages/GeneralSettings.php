@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Enums\Socials;
 use App\Enums\SiteSettings;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
@@ -10,16 +11,22 @@ use App\Support\AvailableLanguages;
 use Filament\Support\Icons\Heroicon;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Flex;
+use Filament\Support\Enums\Alignment;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Components\Section;
 use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Concerns\HandlesSettingsForm;
+use Filament\Forms\Components\Repeater\TableColumn;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\Phosphor;
 use Schmeits\FilamentPhosphorIcons\Support\Icons\PhosphorWeight;
+use function Pest\Laravel\instance;
 
 class GeneralSettings extends Page implements HasForms
 {
@@ -46,6 +53,8 @@ class GeneralSettings extends Page implements HasForms
             SiteSettings::LANGUAGES,
             SiteSettings::DEFAULT_LANGUAGE,
             SiteSettings::FALLBACK_LANGUAGE,
+            SiteSettings::SOCIALS,
+            SiteSettings::SOCIALS_ICON_FILL,
         ];
     }
 
@@ -86,6 +95,41 @@ class GeneralSettings extends Page implements HasForms
                         Toggle::make(SiteSettings::DISPLAY_SITE_NAME->value)
                             ->label(__('Display site name?')),
 
+                    ])->columns(1),
+
+                Section::make()
+                    ->heading(__('Socials'))
+                    ->description(__('Put all your socials here.'))
+                    ->icon(Phosphor::UsersFour->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        Toggle::make(SiteSettings::SOCIALS_ICON_FILL->value)
+                            ->live()
+                            ->label(__('Fill icon?')),
+
+                        Repeater::make(SiteSettings::SOCIALS->value)
+                            ->table([
+                                TableColumn::make(__('Social')),
+                                TableColumn::make(__('URL')),
+                            ])
+                            ->schema([
+                                Flex::make([
+                                    Select::make('social_network')
+                                        ->label(__('Social'))
+                                        ->live()
+                                        ->options(Socials::class)
+                                        ->searchable(),
+
+                                    TextInput::make('url')
+                                        ->live()
+                                        ->prefixIcon(function (Get $get) {
+                                            return $get('../../'.SiteSettings::SOCIALS_ICON_FILL->value) ? $get('social_network')?->fill() : $get('social_network')?->getIcon(); })
+                                        ->label(__('URL')),
+
+                                ]),
+                            ])
+                            ->addActionAlignment(Alignment::Start)
+                            ->itemLabel(fn(array $state): ?string => $state['social_network'] ?? null instanceof Socials ? $state['social_network']->getLabel() : null),
                     ])->columns(1),
 
                 Section::make()

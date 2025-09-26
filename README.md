@@ -101,6 +101,15 @@ You can run the test suite with the following command:
 php artisan test --parallel
 ```
 
+## Docs
+
+### Themes Docs
+- [Custom Themes](/docs/themes/themes.md)
+- [Theme API](/docs/themes/theme-api.md)
+
+### Custom fields
+  - [Image Radio Button](docs/custom-fields/ImageRadioButton.md)
+
 ## Contribute
 
 Contributions are welcome!

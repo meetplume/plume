@@ -6,4 +6,5 @@ return [
     App\Providers\Filament\UserPanelProvider::class,
     App\Providers\MailConfigServiceProvider::class,
     App\Providers\QueueSettingsServiceProvider::class,
+    App\Providers\ThemeServiceProvider::class,
 ];

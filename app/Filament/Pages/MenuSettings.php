@@ -102,6 +102,7 @@ class MenuSettings extends Page implements HasForms
                                             return [
                                                 ...$base,
                                                 ...$cms,
+                                                'user-account' => __('User Account Dropdown'),
                                                 'custom' => __('Custom URL'),
                                             ];
                                         }),
@@ -127,6 +128,9 @@ class MenuSettings extends Page implements HasForms
                             ->collapsible()
                             ->collapsed()
                             ->itemLabel(function (array $state): ?string {
+                                if ($state[ 'page' ] === 'user-account') {
+                                    return __('User Account Dropdown');
+                                }
                                 $pageId = (int) str($state[ 'page' ])->after('page:')->toString();
                                 $pageModel = CmsPage::query()->find($pageId);
                                 if ($pageModel) {
@@ -190,6 +194,7 @@ class MenuSettings extends Page implements HasForms
                                                     return [
                                                         ...$base,
                                                         ...$cms,
+                                                        'user-account' => __('User Account Dropdown'),
                                                         'custom' => __('Custom URL'),
                                                     ];
                                                 }),

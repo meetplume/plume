@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Theme Configuration",
+  "description": "Configuration schema for blog themes",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Theme display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Theme description"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Theme version in semantic versioning format"
+    },
+    "author": {
+      "type": "string",
+      "description": "Theme author name"
+    },
+    "screenshot": {
+      "type": "string",
+      "description": "Path to theme screenshot image"
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "primary_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "description": "Primary theme color in hex format"
+        },
+        "neutral_color": {
+          "type": "string",
+          "description": "Neutral color scheme"
+        },
+        "heading_font": {
+          "type": "string",
+          "description": "Font family for headings"
+        },
+        "body_font": {
+          "type": "string",
+          "description": "Font family for body text"
+        },
+        "code_font": {
+          "type": "string",
+          "description": "Font family for code blocks"
+        },
+        "dark_mode": {
+          "type": "string",
+          "enum": ["switcher", "always_dark", "always_light", "always_system"],
+          "description": "Dark mode configuration"
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Field identifier"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["colorpicker", "select", "text", "palettecolorpicker", "fontpicker"],
+            "description": "Field input type"
+          },
+          "label": {
+            "type": "string",
+            "description": "Field display label"
+          },
+          "helperText": {
+            "type": "string",
+            "description": "Help text for the field"
+          },
+          "placeholder": {
+            "type": "string",
+            "description": "Placeholder text for input fields"
+          },
+          "cssVariable": {
+            "type": "string",
+            "description": "CSS variable name for this field"
+          },
+          "default": {
+            "description": "Default value for the field"
+          },
+          "maxLength": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum length for text fields"
+          },
+          "options": {
+            "type": "object",
+            "description": "Options for select fields"
+          },
+          "colors": {
+            "type": "object",
+            "description": "Color options for color picker fields"
+          }
+        },
+        "required": ["key", "type", "label"]
+      }
+    }
+  },
+  "required": ["name", "description", "version"]
+}

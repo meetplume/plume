@@ -1,0 +1,23 @@
+{
+    "$schema": "../theme-schema.json",
+    "name": "Minimal Theme",
+    "description": "A clean, minimalist theme focused on content and readability",
+    "version": "1.0.0",
+    "author": "Charlie Etienne",
+    "screenshot": "screenshot.png",
+    "settings": {
+        "primary_color": "#ca8a04",
+        "neutral_color": "stone",
+        "heading_font": "Rubik",
+        "body_font": "Rubik",
+        "code_font": "JetBrains Mono",
+        "code_theme": "minimal",
+        "dark_mode": "always_dark",
+        "display_site_name": false,
+        "hero_image_height":  "350",
+        "hero_image_full_width": false,
+        "about_image_circular": true,
+        "about_image_width": "200",
+        "about_image_height": "200"
+    }
+}
