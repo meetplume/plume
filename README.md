@@ -1,12 +1,14 @@
-# TALL Stack Blog App
+# 🪶 Plume
 
 > THIS IS A WORK IN PROGRESS!
 
-A fully-featured, configurable blog.
+![minimal-theme](https://github.com/user-attachments/assets/f0796951-9ad5-4322-b0aa-b625bc60ec56)
 
-Clone the project, log in as admin, tweak some settings and push to prod ☁️.
+Plume is a simple, extensible publishing for devs, powered by Filament 4 & TALL Stack
 
-It's fully open source. 
+Install, log in as admin, tweak some settings and push to prod ☁️.
+
+It's free and open source. 
 
 ## Stack
 
@@ -18,52 +20,26 @@ It's fully open source.
 
 ## Features
 
-### Full Admin Panel (Filament) with:
+### Full Admin Panel (built with Filament) with:
   - [x] Blog posts
-  - [x] Categories
-  - [x] Tags
+  - [x] Categories and Tags
   - [x] Menu Builder
   - [x] Analytics with panphp/pan
-  - [x] Multilingual
+  - [x] Multilingual/Translatable
   - [x] Comments
   - [x] Mail notifications
   - [x] CMS Pages
-  - [ ] Portfolio
+  - [x] Themes
+  - [x] Configurable Settings like fonts, languages, social media links, etc.
+  - and more.
 
-### Front end (TALL Stack), with:
-  - [x] Homepage
-  - [x] About Section
+### Front end (built with TALL Stack), with:
+  - [x] Configurable Homepage
   - [x] Blog posts with code blocks, table of contents and more
-  - [x] Categories
-  - [x] Tags
-  - [x] A modern and beautiful theme with dark mode
-
-### You'll be able to configure a lot of options from the Settings page:
-  - [x] Post default image
-  - [x] Site logo
-  - [x] Favicon
-  - [x] Site name
-  - [x] Display site name
-  - [x] Primary color
-  - [x] Heading font
-  - [x] Body font
-  - [x] Code font
-  - [x] Code theme
-  - [x] Hero title
-  - [x] Hero subtitle
-  - [x] Hero image
-  - [x] Hero image height
-  - [x] Hero image full width
-  - [x] About image
-  - [x] About text
-  - [x] About title
-  - [x] About image circular
-  - [x] About image width
-  - [x] About image height
-  - [x] Contact email
-  - [x] Footer text
-  - [x] Copyright text
-  - ...
+  - [x] Dark mode switcher
+  - [x] Social links
+  - [x] Beautiful Handcrafted Themes
+  - and more.
 
 ### Misc
 
@@ -74,7 +50,7 @@ Fonts are loaded through [fonts.bunny.net](https://fonts.bunny.net/) so your blo
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/charlieetienne/blog.git
+git clone https://github.com/meetplume/plume.git
 ```
 
 ### 2. Install dependencies
@@ -93,6 +69,15 @@ php artisan blog:install
 
 ### 4. Enjoy your new blog!
 
+## Docs
+
+### Themes Docs
+- [Custom Themes](/docs/themes/themes.md)
+- [Theme API](/docs/themes/theme-api.md)
+
+### Custom fields
+- [Image Radio Button](docs/custom-fields/ImageRadioButton.md)
+
 ## Testing
 
 You can run the test suite with the following command:
@@ -101,21 +86,12 @@ You can run the test suite with the following command:
 php artisan test --parallel
 ```
 
-## Docs
-
-### Themes Docs
-- [Custom Themes](/docs/themes/themes.md)
-- [Theme API](/docs/themes/theme-api.md)
-
-### Custom fields
-  - [Image Radio Button](docs/custom-fields/ImageRadioButton.md)
-
 ## Contribute
 
 Contributions are welcome!
 
 ## Credits
 
-Some parts of this blog are heavily inspired by https://github.com/benjamincrozat/blog-v5.
+Some parts of this blog are inspired by https://github.com/benjamincrozat/blog-v5.
 
 Also, big thanks to @awcodes for his help on TipTap plugins and table of contents!
