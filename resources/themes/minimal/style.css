@@ -1,8 +1,10 @@
 /* Minimal Theme Styles */
 
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
-    color: var( --color-gray-300);
-    background-color: var(--color-gray-800);
+    @apply text-gray-300 bg-gray-800;
 }
 
 .colored {
