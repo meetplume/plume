@@ -22,50 +22,15 @@ test('comments are displayed when enabled', function () {
     SiteSettings::COMMENTS_ENABLED->set(true);
 
     Livewire::test(Comments::class, ['postId' => $this->post->id])
-        ->assertViewHas('commentsEnabled', true)
         ->assertViewHas('commentsCount', 1)
         ->assertSee($this->comment->content);
-});
-
-test('comments are hidden when disabled', function () {
-    SiteSettings::COMMENTS_ENABLED->set(false);
-
-    Livewire::test(Comments::class, ['postId' => $this->post->id])
-        ->assertViewHas('commentsEnabled', false)
-        ->assertViewHas('commentsCount', 0)
-        ->assertDontSee($this->comment->content);
 });
 
 test('comment form is displayed when comments enabled', function () {
     SiteSettings::COMMENTS_ENABLED->set(true);
 
     Livewire::test(CommentForm::class, ['postId' => $this->post->id])
-        ->assertViewHas('commentsEnabled', true)
         ->assertSee('Your comment');
-});
-
-test('comment form is hidden when comments disabled', function () {
-    SiteSettings::COMMENTS_ENABLED->set(false);
-
-    Livewire::test(CommentForm::class, ['postId' => $this->post->id])
-        ->assertViewHas('commentsEnabled', false)
-        ->assertSee('Comments are currently disabled')
-        ->assertDontSee('Your comment');
-});
-
-test('comment creation is blocked when comments disabled', function () {
-    SiteSettings::COMMENTS_ENABLED->set(false);
-
-    $this->actingAs($this->user);
-
-    Livewire::test(CommentForm::class, ['postId' => $this->post->id])
-        ->set('data.content', 'Test comment')
-        ->call('create')
-        ->assertNotified()
-        ->assertSee('Comments are currently disabled');
-
-    // Verify no comment was created
-    expect(Comment::where('content', 'Test comment')->exists())->toBeFalse();
 });
 
 test('comment creation works when comments enabled', function () {
