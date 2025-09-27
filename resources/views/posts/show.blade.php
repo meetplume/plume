@@ -1,5 +1,5 @@
 @php
-    use App\Support\TableOfContents;
+    use App\Enums\SiteSettings;use App\Support\TableOfContents;
     use App\Enums\Analytics;
 @endphp
 <x-app
@@ -76,19 +76,22 @@
                             </div>
                         </div>
 
-                        <a href="#comments" class="group rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
-                            <div @class([
-                                'flex-1 p-3 text-center transition-colors rounded-lg text-sm hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100 border border-black/8 dark:border-white/10',
-                                'text-primary-600 dark:text-primary-500' => $post->approved_comments_count > 0,
-                            ])>
-                                <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-2 opacity-75 size-6"/>
-                                {{ $post->approved_comments_count }}<br/>
-                                {{ trans_choice('comment|comments', $post->approved_comments_count) }}
-                            </div>
-                        </a>
+                        @if(SiteSettings::COMMENTS_ENABLED->get())
+                            <a href="#comments" class="group rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
+                                <div @class([
+                                    'flex-1 p-3 text-center transition-colors rounded-lg text-sm hover:bg-primary-50 dark:hover:bg-primary-950 group-hover:text-primary-900 dark:group-hover:text-primary-100 border border-black/8 dark:border-white/10',
+                                    'text-primary-600 dark:text-primary-500' => $post->approved_comments_count > 0,
+                                ])>
+                                    <x-heroicon-o-chat-bubble-oval-left-ellipsis class="mx-auto mb-2 opacity-75 size-6"/>
+                                    {{ $post->approved_comments_count }}<br/>
+                                    {{ trans_choice('comment|comments', $post->approved_comments_count) }}
+                                </div>
+                            </a>
+                        @endif
 
                         <div class="rounded-xl border border-black/8 dark:border-white/10 p-[5px]">
-                            <div class="flex-1 p-3 text-center text-sm rounded-lg border border-black/8 dark:border-white/10">
+                            <div
+                                class="flex-1 p-3 text-center text-sm rounded-lg border border-black/8 dark:border-white/10">
                                 <x-heroicon-o-clock class="mx-auto mb-2 opacity-75 size-6"/>
                                 {{ $post->read_time }}<br/>
                                 {{ trans_choice('minute read|minutes read', $post->read_time) }}
@@ -99,7 +102,8 @@
                     @if (! empty($post->categories))
                         <div class="flex gap-2 mt-6 justify-center flex-wrap place-self-center">
                             @foreach ($post->categories->take(2) as $category)
-                                <a wire:navigate href="{{ route('categories.show', ['category' => $category]) }}" class="px-2 py-1 text-xs font-medium uppercase rounded-sm border border-gray-200 dark:border-gray-700 transition-colors hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-600 dark:hover:text-primary-400">
+                                <a wire:navigate href="{{ route('categories.show', ['category' => $category]) }}"
+                                   class="px-2 py-1 text-xs font-medium uppercase rounded-sm border border-gray-200 dark:border-gray-700 transition-colors hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-600 dark:hover:text-primary-400">
                                     {{ $category->name }}
                                 </a>
                             @endforeach
@@ -109,7 +113,8 @@
                     @if (! empty($post->tags))
                         <div class="flex gap-2 mt-6 justify-center flex-wrap place-self-center">
                             @foreach ($post->tags->take(10) as $tag)
-                                <a wire:navigate href="{{ route('tags.show', ['tag' => $tag]) }}" class="px-2 py-1 text-sm rounded-sm bg-gray-50 dark:bg-gray-800 transition-colors hover:bg-primary-100 hover:text-primary-600 dark:hover:bg-primary-950 dark:hover:text-primary-300">
+                                <a wire:navigate href="{{ route('tags.show', ['tag' => $tag]) }}"
+                                   class="px-2 py-1 text-sm rounded-sm bg-gray-50 dark:bg-gray-800 transition-colors hover:bg-primary-100 hover:text-primary-600 dark:hover:bg-primary-950 dark:hover:text-primary-300">
                                     #{{ $tag->name }}
                                 </a>
                             @endforeach
@@ -152,15 +157,17 @@
                 </div>
             </article>
 
-            @if ($post->comments_count)
-                <div class="mt-24 max-w-2xl m-auto">
-                    <livewire:comments :post-id="$post->id" />
+            @if(SiteSettings::COMMENTS_ENABLED->get())
+                @if ($post->comments_count)
+                    <div class="mt-24 max-w-2xl m-auto">
+                        <livewire:comments :post-id="$post->id"/>
+                    </div>
+                @endif
+
+                <div class="mt-16 max-w-2xl m-auto">
+                    <livewire:comment-form :post-id="$post->id"/>
                 </div>
             @endif
-
-            <div class="mt-16 max-w-2xl m-auto">
-                <livewire:comment-form :post-id="$post->id" />
-            </div>
 
         </div>
 

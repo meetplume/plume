@@ -48,6 +48,13 @@ class CommentForm extends Component implements HasSchemas
 
     public function create(): void
     {
+        if (!SiteSettings::COMMENTS_ENABLED->get()) {
+            Notification::make()
+                ->danger()
+                ->title(__('Comments are currently disabled.'))
+                ->send();
+            return;
+        }
 
         if (!auth()->check()) {
             Notification::make()
@@ -84,8 +91,11 @@ class CommentForm extends Component implements HasSchemas
             ->send();
     }
 
-    public function render(): View
+    public function render(): ?View
     {
+        if (!SiteSettings::COMMENTS_ENABLED->get()){
+            return null;
+        }
         return view('livewire.comment-form');
     }
 }

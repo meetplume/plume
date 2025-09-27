@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Comment;
+use App\Enums\SiteSettings;
 use Livewire\Component;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -18,8 +19,12 @@ class Comments extends Component
         // The component will automatically refresh
     }
 
-    public function render() : View
+    public function render() : ?View
     {
+        if (!SiteSettings::COMMENTS_ENABLED->get()) {
+            return null;
+        }
+
         return view('livewire.comments', [
             'comments' => Comment::query()
                 ->where('post_id', $this->postId)

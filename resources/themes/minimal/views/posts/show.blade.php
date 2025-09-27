@@ -1,5 +1,5 @@
 @php
-    use App\Support\TableOfContents;
+    use App\Enums\SiteSettings;use App\Support\TableOfContents;
     use App\Enums\Analytics;
 @endphp
 <x-app
@@ -30,7 +30,8 @@
                 @if ($post->categories->isNotEmpty() || $post->tags->isNotEmpty())
                     <div class="flex flex-col gap-2 mt-6">
                         @if ($post->categories->isNotEmpty())
-                            <div class="flex justify-center flex-wrap place-self-center font-mono uppercase tracking-widest">
+                            <div
+                                class="flex justify-center flex-wrap place-self-center font-mono uppercase tracking-widest">
                                 @foreach ($post->categories->take(3) as $category)
                                     <a wire:navigate
                                        href="{{ route('categories.show', $category) }}"
@@ -78,17 +79,18 @@
                     @endif
                 </div>
 
-
                 <div class="mt-6 md:mt-8">
                     <div class="flex gap-2 justify-center flex-wrap place-self-center text-gray-400">
                         <div>
                             {{ ($post->updated_at ?? $post->published_at ?? $post->created_at)->isoFormat('ll') }}
                         </div>
                         &middot;
-                        <a href="#comments" class="">
-                            {{ $post->approved_comments_count }} {{ trans_choice('comment|comments', $post->approved_comments_count) }}
-                        </a>
-                        &middot;
+                        @if(SiteSettings::COMMENTS_ENABLED->get())
+                            <a href="#comments" class="">
+                                {{ $post->approved_comments_count }} {{ trans_choice('comment|comments', $post->approved_comments_count) }}
+                            </a>
+                            &middot;
+                        @endif
                         <div>
                             {{ $post->read_time }} {{ trans_choice('minute read|minutes read', $post->read_time) }}
                         </div>
@@ -130,15 +132,17 @@
                 </div>
             </article>
 
-            @if ($post->comments_count)
-                <div class="mt-24 max-w-2xl m-auto">
-                    <livewire:comments :post-id="$post->id" />
+            @if(SiteSettings::COMMENTS_ENABLED->get())
+                @if ($post->comments_count)
+                    <div class="mt-24 max-w-2xl m-auto">
+                        <livewire:comments :post-id="$post->id"/>
+                    </div>
+                @endif
+
+                <div class="mt-16 max-w-2xl m-auto">
+                    <livewire:comment-form :post-id="$post->id"/>
                 </div>
             @endif
-
-            <div class="mt-16 max-w-2xl m-auto">
-                <livewire:comment-form :post-id="$post->id" />
-            </div>
 
         </div>
 

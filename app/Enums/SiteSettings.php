@@ -54,6 +54,7 @@ enum SiteSettings: string
     case ACTIVE_THEME = 'active_theme';
     case THEME_CUSTOM_CSS = 'theme_custom_css';
     case SOCIALS_ICON_FILL = 'socials_icon_fill';
+    case COMMENTS_ENABLED = 'comments_enabled';
 
     /**
      * Get the default value for the setting
@@ -219,6 +220,7 @@ enum SiteSettings: string
             self::SOCIALS_ICON_FILL => false,
             self::ACTIVE_THEME => 'default',
             self::THEME_CUSTOM_CSS => null,
+            self::COMMENTS_ENABLED => true,
         };
     }
 

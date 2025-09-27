@@ -53,6 +53,7 @@ class ContentSettings extends Page implements HasForms
             SiteSettings::FOOTER_TEXT,
             SiteSettings::COPYRIGHT_TEXT,
             SiteSettings::PERMALINKS,
+            SiteSettings::COMMENTS_ENABLED,
         ];
     }
 
@@ -175,6 +176,17 @@ class ContentSettings extends Page implements HasForms
                             ->label(__('Copyright text'))
                             ->helperText(__('Use {year} to display the current year. E.g. ©{year} My Company.')),
 
+                    ])->columns(1),
+
+                Section::make()
+                    ->heading(__('Comments'))
+                    ->description(__('Enable or disable comments across the entire site.'))
+                    ->icon(Phosphor::ChatText->getIconForWeight(PhosphorWeight::Duotone))
+                    ->aside()
+                    ->schema([
+                        Toggle::make(SiteSettings::COMMENTS_ENABLED->value)
+                            ->label(__('Enable comments'))
+                            ->helperText(__('When disabled, all comment forms and existing comments will be hidden from the site.')),
                     ])->columns(1),
 
                 Section::make()
