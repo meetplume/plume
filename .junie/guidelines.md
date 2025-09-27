@@ -1,18 +1,13 @@
 # Project Guidelines
 
-This project is a fully-featured, configurable blog written with TALL stack.
+**Project name:** Plume
 
-## Stack
+**Github:** https://github.com/meetplume/plume
 
-- Laravel v12
-- Livewire
-- AlpineJS
-- TailwindCSS v4
-- Filament v4
+**Website:** https://meetplume.com
 
-## Tests
-
-Tests are written with Pest v4
+"Plume" is an open-source CMS powered by Filament and TALL stack.
+It is thin and flexible, easy to extend, and primarily built for developers.
 
 ## Settings
 
@@ -180,6 +175,7 @@ Forms\Components\Select::make('user_id')
 - It's important to test Filament functionality for user satisfaction.
 - Ensure that you are authenticated to access the application within the test.
 - Filament uses Livewire, so start assertions with `livewire()` or `Livewire::test()`.
+- Use browser testing from Pest v4 when it's easier, especially in front-end.
 
 ### Example Tests
 
