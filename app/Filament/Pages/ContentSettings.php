@@ -78,8 +78,6 @@ class ContentSettings extends Page implements HasForms
                             ->email()
                             ->prefixIcon(Phosphor::Envelope->getIconForWeight(PhosphorWeight::Duotone)),
 
-                        // TODO: Add github, x, bluesky, linkedin
-
                     ])->columns(1),
 
                 Section::make()
