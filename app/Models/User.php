@@ -62,13 +62,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function isAdmin(): bool
     {
-        $emailDomain = explode('@', $this->email)[1] ?? false;
-
-        if (!$emailDomain) {
-            return false;
-        }
-
-        return in_array($emailDomain, AuthorizedDomains::get());
+        return true;
     }
 
     public function posts(): HasMany
