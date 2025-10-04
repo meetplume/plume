@@ -51,7 +51,7 @@ test('filament resources have no smoke', function () {
         ...$resourcesViewUrls,
     ];
 
-    $this->assertCount(16, $resourcesUrls);
+    $this->assertCount(17, $resourcesUrls);
 
     $pages = visit($resourcesUrls);
     $pages->assertNoSmoke();
