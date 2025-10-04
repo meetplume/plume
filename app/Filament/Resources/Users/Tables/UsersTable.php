@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use App\Enums\Role;
+use App\Filament\Resources\Users\Actions\UserRoles;
+use App\Models\User;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class UsersTable
 {
@@ -23,8 +25,17 @@ class UsersTable
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('avatar_url')
-                    ->searchable(),
+                ImageColumn::make('avatar_url')
+                    ->label('Avatar')
+                    ->state(fn($record) => $record->avatar_url
+                        ? asset(Storage::url($record->avatar_url))
+                        : null
+                    )
+                    ->circular(),
+                ToggleColumn::make('is_admin')
+                    ->label('Is admin?')
+                    ->state(fn(User $record) => $record->hasRole(Role::Admin))
+                    ->updateStateUsing(UserRoles::updateStateUsing(...)),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -33,18 +44,6 @@ class UsersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

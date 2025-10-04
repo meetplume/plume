@@ -14,5 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove admin check via environment variable.
-- Add Roles managed with `eneadm/ladder`.
-- Panel access (User/Admin panel) granted via Roles.
+- Add `eneadm/ladder` package for role management.
+- Panel access granted via Role.
+- User resource page to manage admin Users.
+- Update .env.example APP_URL.
