@@ -10,39 +10,43 @@ use App\Http\Controllers\PageController;
 use App\Enums\SiteSettings;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// Define the localized route group
-Route::group([
-    'prefix' => LaravelLocalization::setLocale(),
-    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
-], function() {
 
-    // Livewire custom route, needed to avoid 404 errors caused by the locale prefix
-    Livewire::setUpdateRoute(fn($handle) => Route::post('/custom/livewire/update', $handle));
 
-    // Home route
-    Route::get('' . data_get(SiteSettings::PERMALINKS->get(), MainPages::HOME->value), HomeController::class)->name('home');
+//// Define the localized route group
+//Route::group([
+//    'prefix' => LaravelLocalization::setLocale(),
+//    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+//], function() {
+//
+//    // Livewire custom route, needed to avoid 404 errors caused by the locale prefix
+//    Livewire::setUpdateRoute(fn($handle) => Route::post('/custom/livewire/update', $handle));
+//
+//    // Home route
+//    Route::get('' . data_get(SiteSettings::PERMALINKS->get(), MainPages::HOME->value), HomeController::class)->name('home');
+//
+//    // Blog routes
+//    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::BLOG->value, 'blog'))->group(function () {
+//        Route::get('', [PostController::class, 'index'])->name('posts.index');
+//        Route::get('/{post:slug}', [PostController::class, 'show'])->name('posts.show');
+//    });
+//
+//    // Categories routes
+//    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::CATEGORIES->value, 'categories'))->group(function () {
+//        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+//        Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
+//    });
+//
+//    // Tags routes
+//    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::TAGS->value, 'tags'))->group(function () {
+//        Route::get('', [TagController::class, 'index'])->name('tags.index');
+//        Route::get('/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
+//    });
+//
+//    // CMS Pages routes
+//    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), 'pages', 'pages'))->group(function () {
+//        Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');
+//    });
+//
+//});
 
-    // Blog routes
-    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::BLOG->value, 'blog'))->group(function () {
-        Route::get('', [PostController::class, 'index'])->name('posts.index');
-        Route::get('/{post:slug}', [PostController::class, 'show'])->name('posts.show');
-    });
-
-    // Categories routes
-    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::CATEGORIES->value, 'categories'))->group(function () {
-        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
-        Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
-    });
-
-    // Tags routes
-    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), MainPages::TAGS->value, 'tags'))->group(function () {
-        Route::get('', [TagController::class, 'index'])->name('tags.index');
-        Route::get('/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
-    });
-
-    // CMS Pages routes
-    Route::prefix(data_get(SiteSettings::PERMALINKS->get(), 'pages', 'pages'))->group(function () {
-        Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');
-    });
-
-});
+require __DIR__.'/prezet.php';

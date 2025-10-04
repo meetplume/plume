@@ -23,6 +23,7 @@
         "mcamara/laravel-localization": "^2.3",
         "panphp/pan": "^0.1.8",
         "phiki/phiki": "^2.0",
+        "prezet/prezet": "^1.0",
         "rawilk/laravel-settings": "^3.4",
         "schmeits/filament-4-phosphor-icons": "^1.0",
         "secondnetwork/blade-tabler-icons": "^3.35"

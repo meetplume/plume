@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>https://plume.test/prezet/features/jsonld</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/sitemap</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/configuration</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/index</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/markdown</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/blade</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/ogimage</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/frontmatter</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/images</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://plume.test/prezet/features/seo</loc>
+        <lastmod>2025-10-04T21:05:44+00:00</lastmod>
+
+            </url>
+</urlset>
