@@ -13,4 +13,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Removed admin check via environment variable.
+- Remove admin check via environment variable.
+- Add Roles managed with `eneadm/ladder`.
+- Panel access (User/Admin panel) granted via Roles.
