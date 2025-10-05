@@ -9,6 +9,7 @@ use App\Support\SlugGenerator;
 use Illuminate\Support\HtmlString;
 use Filament\Schemas\Components\Flex;
 use Illuminate\Support\Facades\Blade;
+use Filament\Support\Enums\Operation;
 use Filament\Schemas\Components\Group;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Schemas\Components\Section;
@@ -55,8 +56,12 @@ class PostForm
 
                         TextInput::make('slug')
                             ->partiallyRenderAfterStateUpdated()
-                            ->helperText(function ($record) {
-                                $url = route('posts.show', $record);
+                            ->helperText(function ($record, $operation) {
+                                if ($operation === Operation::Create->value) {
+                                    return new HtmlString('The slug is auto-generated from the title. You can change it if you want.');
+                                }
+
+                                $url = route('posts.show', ['post' => $record]);
                                 return new HtmlString(Blade::render("<a href=\"{$url}\" target=\"_blank\"><x-heroicon-m-arrow-top-right-on-square class='size-3 mr-1 inline'/>{$url}</a>"));
                             }),
 
@@ -94,7 +99,9 @@ class PostForm
                     // Sidebar
                     Group::make([
 
-                        Section::make('Publish')->schema([
+                        Section::make('Publish')
+                            ->hiddenOn(Operation::Create)
+                            ->schema([
                             TextEntry::make('status')
                                 ->badge()
                                 ->label(__('Status'))
