@@ -9,6 +9,7 @@ enum Analytics: string
     case MAIN_MENU = 'main-menu';
     case FOOTER_MENU = 'footer-menu';
     case DROPDOWN_MENU = 'dropdown-menu';
+    case CONTENT = 'content';
 
     public function getTitle(): string
     {
