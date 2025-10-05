@@ -38,7 +38,8 @@ class ShowContentController
                     $defaultLocale,
                 ));
             if (!blank($contentFile)) {
-                return redirect()->to(LaravelLocalization::getLocalizedURL($defaultLocale, $nonLocalizedURI->path(), [], true));
+                return redirect()
+                    ->to(LaravelLocalization::getLocalizedURL(locale: $defaultLocale, url: $nonLocalizedURI->path(), forceDefaultLocation: true));
             }
         }
 
