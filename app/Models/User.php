@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Role;
+use Database\Factories\UserFactory;
 use Filament\Panel;
 use Filament\Facades\Filament;
-use App\Support\AuthorizedDomains;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
@@ -12,18 +14,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Ladder\HasRoles;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @property int id
  * @property string name
  * @property string email
  * @property string avatar_url
- * @property-read \Illuminate\Database\Eloquent\Collection<\App\Models\Post> posts
+ * @property-read Collection<Post> posts
  */
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -62,13 +68,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function isAdmin(): bool
     {
-        $emailDomain = explode('@', $this->email)[1] ?? false;
-
-        if (!$emailDomain) {
-            return false;
-        }
-
-        return in_array($emailDomain, AuthorizedDomains::get());
+        return $this->hasRole(Role::Admin);
     }
 
     public function posts(): HasMany
@@ -82,8 +82,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getFilamentAvatarUrl(): ?string
     {
