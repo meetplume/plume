@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\MainPages;
+use App\Http\Controllers\Content\ShowContentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\HomeController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Enums\SiteSettings;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
 
 // Define the localized route group
 Route::group([
@@ -45,4 +48,8 @@ Route::group([
         Route::get('/{page:slug}', [PageController::class, 'show'])->name('pages.show');
     });
 
+    // Catch-all route for Content files
+    Route::get('{path}', ShowContentController::class)
+        ->name('content.show')
+        ->where('path', '.*');
 });
