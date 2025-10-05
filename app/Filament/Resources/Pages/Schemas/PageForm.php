@@ -94,7 +94,9 @@ class PageForm
                     // Sidebar
                     Group::make([
 
-                        Section::make('Publish')->schema([
+                        Section::make('Publish')
+                            ->hiddenOn(Operation::Create)
+                            ->schema([
                             TextEntry::make('status')
                                 ->badge()
                                 ->label(__('Status'))
