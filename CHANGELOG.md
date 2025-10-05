@@ -32,7 +32,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - The view is just a POC, and should be customized further.
 - Add ContentFile model, to read from files.
 - Add `docs` collection with dummy data - in `/content`.
-
-### Changed
-
-- XXX
