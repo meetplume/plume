@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Tables;
 
 use App\Enums\Role;
+use Filament\Facades\Filament;
 use App\Filament\Resources\Users\Actions\UserRoles;
 use App\Models\User;
 use Filament\Tables\Columns\ImageColumn;
@@ -17,7 +18,15 @@ class UsersTable
     {
         return $table
             ->columns([
+                ImageColumn::make('avatar_url')
+                    ->label('')
+                    ->state(fn(User $record) => $record->getFilamentAvatarUrl())
+                    ->defaultImageUrl(fn ($record): string => app(Filament::getDefaultAvatarProvider())->get($record))
+                    ->grow(false)
+                    ->imageSize(32)
+                    ->circular(),
                 TextColumn::make('name')
+                    ->grow()
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
@@ -25,13 +34,6 @@ class UsersTable
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
-                ImageColumn::make('avatar_url')
-                    ->label('Avatar')
-                    ->state(fn($record) => $record->avatar_url
-                        ? asset(Storage::url($record->avatar_url))
-                        : null
-                    )
-                    ->circular(),
                 ToggleColumn::make('is_admin')
                     ->label('Is admin?')
                     ->state(fn(User $record) => $record->hasRole(Role::Admin))
