@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Pages\Schemas;
 
 use App\Models\Page;
+use Filament\Support\Enums\Operation;
 use Livewire\Component;
 use Filament\Actions\Action;
 use App\Support\SlugGenerator;
@@ -50,8 +51,12 @@ class PageForm
 
                         TextInput::make('slug')
                             ->partiallyRenderAfterStateUpdated()
-                            ->helperText(function ($record) {
-                                $url = route('pages.show', $record);
+                            ->helperText(function ($record, $operation) {
+                                if ($operation === Operation::Create->value) {
+                                    return new HtmlString('The slug is auto-generated from the title. You can change it if you want.');
+                                }
+
+                                $url = route('pages.show', ['page' => $record]);
                                 return new HtmlString(Blade::render("<a href=\"{$url}\" target=\"_blank\"><x-heroicon-m-arrow-top-right-on-square class='size-3 mr-1 inline'/>{$url}</a>"));
                             }),
 
@@ -89,7 +94,9 @@ class PageForm
                     // Sidebar
                     Group::make([
 
-                        Section::make('Publish')->schema([
+                        Section::make('Publish')
+                            ->hiddenOn(Operation::Create)
+                            ->schema([
                             TextEntry::make('status')
                                 ->badge()
                                 ->label(__('Status'))
