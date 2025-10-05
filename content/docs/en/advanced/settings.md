@@ -4,6 +4,8 @@ description: Deep dive into configuration options for power users
 category: Advanced
 level: Expert
 tags: [configuration, settings, customization]
+author: Platform Team
+date: 2024-10-01
 ---
 
 ### Understanding Configuration Files
