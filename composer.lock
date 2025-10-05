@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c97e26dbf2b8e628695f7b4bb489ca00",
+    "content-hash": "597190c00501be5bbb2bf6d850cff922",
     "packages": [
         {
             "name": "andreiio/blade-iconoir",
@@ -4172,6 +4172,85 @@
                 }
             ],
             "time": "2025-02-26T06:38:01+00:00"
+        },
+        {
+            "name": "meetplume/filament-release-notes",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "app/filament-release-notes",
+                "reference": "7531ee118bab2d6dec2899d9b22b019570a1a471"
+            },
+            "require": {
+                "filament/filament": "^4.0",
+                "filament/support": "^4.0",
+                "illuminate/contracts": "^10.0||^11.0||^12.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9",
+                "laravel/pint": "^1.14",
+                "nunomaduro/collision": "^8.1.1||^7.10.0",
+                "pestphp/pest": "^4.0",
+                "pestphp/pest-plugin-arch": "^4.0",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan-deprecation-rules": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Plume\\FilamentReleaseNotes\\FilamentReleaseNotesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Plume\\FilamentReleaseNotes\\": "src/",
+                    "Plume\\FilamentReleaseNotes\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "scripts": {
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicepants",
+                    "email": "mark@mooibroek.dev",
+                    "role": "Developer"
+                },
+                {
+                    "name": "CharlieEtienne",
+                    "email": "ce@web-nancy.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A filamentphp plugin for creating and displaying beautifull release note / changelog pages",
+            "homepage": "https://github.com/meetplume/filament-release-notes",
+            "keywords": [
+                "changelog",
+                "filament-release-notes",
+                "laravel"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "monolog/monolog",
@@ -14650,8 +14729,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "beta",
-    "stability-flags": {},
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "meetplume/filament-release-notes": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

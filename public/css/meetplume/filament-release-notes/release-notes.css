@@ -1,0 +1,72 @@
+.filament-release-notes .flex {
+  display: flex
+}
+
+.filament-release-notes .flex-1 {
+  flex: 1 1 0%
+}
+
+.filament-release-notes .flex-col {
+  flex-direction: column
+}
+
+.filament-release-notes .items-end {
+  align-items: flex-end
+}
+
+.filament-release-notes .items-center {
+  align-items: center
+}
+
+.filament-release-notes .gap-x-3 {
+  -moz-column-gap: 0.75rem;
+       column-gap: 0.75rem
+}
+
+.filament-release-notes .gap-y-1 {
+  row-gap: 0.25rem
+}
+
+.filament-release-notes .text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem
+}
+
+.filament-release-notes .text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem
+}
+
+.filament-release-notes .font-semibold {
+  font-weight: 600
+}
+
+.filament-release-notes .text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity))
+}
+
+.filament-release-notes .text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity))
+}
+
+.filament-release-notes .text-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity))
+}
+
+.filament-release-notes .dark\:text-gray-200:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity))
+}
+
+.filament-release-notes .dark\:text-gray-400:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity))
+}
+
+.filament-release-notes .dark\:text-white:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity))
+}

@@ -24,7 +24,8 @@
         "phiki/phiki": "^2.0",
         "rawilk/laravel-settings": "^3.4",
         "schmeits/filament-4-phosphor-icons": "^1.0",
-        "secondnetwork/blade-tabler-icons": "^3.35"
+        "secondnetwork/blade-tabler-icons": "^3.35",
+        "meetplume/filament-release-notes": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
@@ -95,6 +96,12 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "beta",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "app/filament-release-notes"
+        }
+    ],
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

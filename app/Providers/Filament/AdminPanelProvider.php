@@ -15,6 +15,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Widgets\AccountWidget;
 use App\Filament\Widgets\PlumeInfoWidget;
+use Plume\FilamentReleaseNotes\FilamentReleaseNotesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -60,7 +61,8 @@ class AdminPanelProvider extends PanelProvider
                 PlumeInfoWidget::class,
             ])
             ->plugins([
-                SpatieTranslatablePlugin::make()->defaultLocales(['en'])
+                SpatieTranslatablePlugin::make()->defaultLocales(['en']),
+                FilamentReleaseNotesPlugin::make(),
             ])
             ->middleware([
                 EncryptCookies::class,
