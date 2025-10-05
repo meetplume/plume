@@ -9,12 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- XXX
+- Add `eneadm/ladder` package for role management.
+- Panel access granted via Role.
+- User resource page to manage admin Users.
 
 ### Changed
 
 - Remove admin check via environment variable.
-- Add `eneadm/ladder` package for role management.
-- Panel access granted via Role.
-- User resource page to manage admin Users.
 - Update .env.example APP_URL.
+
+## [Unreleased] - 2025-10-05
+
+### Added
+
+- Prezet system for Markdown content.
+
+### Changed
+
+- XXX
