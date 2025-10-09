@@ -6,30 +6,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 beforeEach(function () {
     Config::set('content.path', base_path('tests/content'));
     $this->contentPath = config('content.path');
-
-    // Create the directory structure with all files
-    $structure = [
-        'docs/v2.0/en/getting-started.md',
-        'docs/v2.0/en/index.md',
-        'docs/v2.0/fr/getting-started.md',
-        'docs/v2.0/fr/index.md',
-        'docs/v1.0/en/getting-started.md',
-        'docs/v1.0/en/index.md',
-        'docs/v1.0/fr/getting-started.md',
-        'docs/v1.0/fr/index.md',
-        'releases/v2.0.md',
-        'releases/v1.3.md',
-        'releases/v1.2.md',
-        'releases/v1.1.md',
-        'releases/v1.0.md',
-        'posts/en/how-to-write-proper-markdown.md',
-        'posts/en/obsidian-for-developers.md',
-        'posts/en/adding-custom-livewire-in-filament.md',
-        'posts/fr/how-to-write-proper-markdown.md',
-        'posts/fr/obsidian-for-developers.md',
-        'posts/fr/adding-custom-livewire-in-filament.md',
-    ];
-
     $this->contentFiles = ContentFile::all();
 });
 
@@ -127,5 +103,21 @@ test('docs routes are resolved correctly', function () {
         visit('/fr/docs/v2.0/getting-started')->assertSee('docs/v2.0/fr/getting-started.md');
         visit('/fr/docs/v1.0')->assertSee('docs/v1.0/fr/index.md');
         visit('/fr/docs/v1.0/getting-started')->assertSee('docs/v1.0/fr/getting-started.md');
-})
-    ->skip('I do not know how to test LaravelLocalization::getNonLocalizedURL()');
+})->skip('I do not know how to test LaravelLocalization::getNonLocalizedURL()');
+
+test('releases routes are resolved correctly', function () {
+    visit('releases/v2.0')->assertSee('releases/v2.0.md');
+    visit('releases/v1.3')->assertSee('releases/v1.3.md');
+    visit('releases/v1.2')->assertSee('releases/v1.2.md');
+    visit('releases/v1.1')->assertSee('releases/v1.1.md');
+    visit('releases/v1.0')->assertSee('releases/v1.0.md');
+})->todo('implement releases routes');
+
+test('posts routes are resolved correctly', function () {
+    visit('blog/how-to-write-proper-markdown')->assertSee('posts/en/how-to-write-proper-markdown.md');
+    visit('blog/obsidian-for-developers')->assertSee('posts/en/obsidian-for-developers.md');
+    visit('blog/adding-custom-livewire-in-filament')->assertSee('posts/en/adding-custom-livewire-in-filament.md');
+    visit('fr/blog/how-to-write-proper-markdown')->assertSee('posts/fr/how-to-write-proper-markdown.md');
+    visit('fr/blog/obsidian-for-developers')->assertSee('posts/fr/obsidian-for-developers.md');
+    visit('fr/blog/adding-custom-livewire-in-filament')->assertSee('posts/fr/adding-custom-livewire-in-filament.md');
+})->todo('implement posts routes');
