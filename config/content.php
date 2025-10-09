@@ -13,11 +13,23 @@ return [
     */
 
     'collections' => [
+        'blog' => [
+            'path' => 'blog',
+//          'url' => 'blog',
+//          'template' => 'prezet.show',
+        ],
         'docs' => [
             'path' => 'docs',
 //            'url' => 'docs',
 //            'template' => 'prezet.show',
         ],
+        'releases' => [
+            'path' => 'releases',
+//            'url' => 'releases',
+//            'template' => 'prezet.show',
+        ],
     ],
+
+    'path' => base_path('content'),
 
 ];
