@@ -1,18 +1,22 @@
 ---
 title: Getting Started with Documentation
-description: Learn the basics of using our platform and explore key features
+description: Learn the basics of Plume and explore key features
 category: Introduction
 published: true
 ---
 
 ### Welcome to the Documentation
 
-This comprehensive guide will help you understand the fundamentals of our platform. Whether you're a beginner or an experienced user, you'll find valuable information to enhance your workflow and productivity.
-
-Our platform is designed with simplicity and power in mind. It provides intuitive tools that allow you to accomplish complex tasks with minimal effort. From basic setup to advanced configurations, this documentation covers everything you need to know.
+Plume is designed with simplicity and power in mind. You may use it from a quick start, or deep dive into advanced features as you become more comfortable with the platform.
 
 ### Quick Start Guide
 
-Getting started is straightforward. First, ensure you have all the necessary prerequisites installed on your system. Then, follow the step-by-step instructions to set up your environment and begin exploring the features.
+Depending on your needs, you can get started with Plume in different ways, Simple (regular mode), or Advanced (developer mode).
 
-The platform supports multiple workflows and can be customized to fit your specific needs. Take advantage of the flexible architecture to build solutions that work best for your use case.
+(Insert instructions to install without any coding tools needed)
+
+(Insert instructions to install without any coding tools needed)
+
+### Key features
+
+(Insert a list of key features with brief descriptions, and link for expanded documentation - this list will come from [PRD](./PRD/index.md))
