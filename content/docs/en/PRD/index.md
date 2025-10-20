@@ -13,7 +13,8 @@ It's a platform that can work:
 	- For a Laravel Project, Inertia/Livewire/API/etc. There will be some routes of the app where the Panel will be accessible
 	- On a Laravel project that has a Filament panel, it can integrate such panel
 
-It allows to store content in the Filesystem (FS), in the Database (DB), and in a custom way (for developers, example, from an Eloquent model, or external API).
+- It allows to store content in the Filesystem (FS), in the Database (DB), and in a custom way (for developers, example, from an Eloquent model, or external API).
+  - Routing to content is flexible. Check the [Routing to content](routing-to-content.md) document for more details.
 
 The content has a body, and also attributes, that are previously defined, and persisted, in FS and DB.
 
@@ -26,6 +27,7 @@ There are pages, not related to content. Standalone pages. Examples: homepage, a
 It's multilingual.
 
 Content has `versions` (optional). One wide use case is for documentation, which typically there's a whole set of content for v1, v2, etc
+It does not have to start by `v`. It could be version `2001`, `2020`, etc, or even strings `Core`, `Drivers`, etc.
 
 The UI is based on Templates, that can be distributed with Composer AND Zip file.
 
