@@ -97,7 +97,11 @@ It has analytics features:
 
 It has settings to customize the behavior of the platform.
 
-## For the future
+## Next steps
+
+- ...
+
+## Future of Plume (long term)
 
 - Revisions
 - Private content
