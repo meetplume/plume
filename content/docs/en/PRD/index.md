@@ -30,6 +30,11 @@ It's a platform that can work:
   
 ## Content
 
+What is a content in Plume? It's an array of attributes which follows a specific schema:
+
+- **Body** (in [PlumeMarkdown](plumemarkdown.md) or [PlumeRichEditor](plumericheditor.md), renderable to JSON or HTML)
+- **Attributes** (given by the preset or by the user or the developer)
+
 Content can be [multilingual](multilingual.md).
 
 It has [SEO features](seo.md).
@@ -97,9 +102,22 @@ It has analytics features:
 
 It has settings to customize the behavior of the platform.
 
-## Next steps
+## Immediate
 
-- ...
+1. Write the first iteration of Plume documentation (without versions or sections)
+   - use shushi: all is resolved from an eloquent model (first layer). It comes from FS.
+   - attributes are: `group`, `group_order`, `order`, `body`, and `title`
+   - order can be built from alphabetical order or from attribute
+   - left nav menu (with groups)
+   - body is the default laravel markdown
+   - TOC on the right is generated from JSON or MD
+   - blade homepage
+2. Ship what we have so far
+3. Add DB (filament?)
+
+## Next steps (medium term)
+
+- When we have a way to display content either from the filesystem or from the database, and connect it to a blade file, we can ship this.
 
 ## Future of Plume (long term)
 
@@ -108,3 +126,4 @@ It has settings to customize the behavior of the platform.
 - Share collection items on social media
 - RSS feed
 - Portfolio preset
+- E-Commerce??
