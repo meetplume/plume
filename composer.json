@@ -84,6 +84,20 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
+        ],
+        "setup": [
+            "Composer\\Config::disableProcessTimeout",
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "touch database/database.sqlite",
+            "@php artisan key:generate --ansi",
+            "php artisan migrate:fresh",
+            "php artisan storage:link",
+            "php artisan db:seed --class=AdminUserSeeder",
+            "npm install",
+            "npm run build",
+            "@php -r \"shell_exec('which herd') ? shell_exec('herd secure') : print('Herd not found, skipping herd secure\\n');\"",
+            "@php -r \"shell_exec('which herd') ? shell_exec('herd open') : print('Herd not found, skipping herd open\\n');\""
         ]
     },
     "extra": {
