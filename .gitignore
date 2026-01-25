@@ -8,3 +8,11 @@
 /.idea/
 *.swp
 *.swo
+
+# CLaude
+.claude/settings.local.json
+.claude/commands/now*
+
+# Frontend
+/node_modules/
+starter-kit

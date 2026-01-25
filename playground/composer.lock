@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2971dbde0054ed64554eb0c78b5a7315",
+    "content-hash": "7167aa1f4d00c89261e855cc9bcb0b25",
     "packages": [
         {
             "name": "brick/math",
@@ -2018,6 +2018,104 @@
                 }
             ],
             "time": "2025-12-07T16:03:21+00:00"
+        },
+        {
+            "name": "meetplume/plume",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "..",
+                "reference": "b4b4e576d316f2c582ccc772215ea19539d90488"
+            },
+            "require": {
+                "php": "^8.4.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.24.0",
+                "peckphp/peck": "^0.1.3",
+                "pestphp/pest": "^4.1.0",
+                "pestphp/pest-plugin-type-coverage": "^4.0.2",
+                "phpstan/phpstan": "^2.1.26",
+                "rector/rector": "^2.1.7",
+                "symfony/var-dumper": "^7.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Meetplume\\Plume\\PlumeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Meetplume\\Plume\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "pint"
+                ],
+                "refactor": [
+                    "rector"
+                ],
+                "test:type-coverage": [
+                    "pest --type-coverage --exactly=100"
+                ],
+                "test:typos": [
+                    "peck"
+                ],
+                "test:lint": [
+                    "pint --test"
+                ],
+                "test:unit": [
+                    "pest --coverage --exactly=100"
+                ],
+                "test:types": [
+                    "phpstan"
+                ],
+                "test:refactor": [
+                    "rector --dry-run"
+                ],
+                "test": [
+                    "@test:lint",
+                    "@test:type-coverage",
+                    "@test:typos",
+                    "@test:unit",
+                    "@test:types",
+                    "@test:refactor"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patricio",
+                    "email": "ijpatricio@gmail.com"
+                },
+                {
+                    "name": "Charlie Etienne",
+                    "email": "ce@web-nancy.fr"
+                }
+            ],
+            "description": "An utility for markdown content - pages, docs, wikis and more.",
+            "keywords": [
+                "content",
+                "documentation",
+                "laravel",
+                "markdown",
+                "wiki"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "monolog/monolog",
@@ -9476,12 +9574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "b01be90dceff69c88c7b36c30ee45c9fd9107f7f"
+                "reference": "bdbabc199a7ba9965484e4725d66170e5711323b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/b01be90dceff69c88c7b36c30ee45c9fd9107f7f",
-                "reference": "b01be90dceff69c88c7b36c30ee45c9fd9107f7f",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bdbabc199a7ba9965484e4725d66170e5711323b",
+                "reference": "bdbabc199a7ba9965484e4725d66170e5711323b",
                 "shasum": ""
             },
             "require": {
@@ -9530,12 +9628,14 @@
                 "issues": "https://github.com/webmozarts/assert/issues",
                 "source": "https://github.com/webmozarts/assert/tree/2.1.1"
             },
-            "time": "2026-01-07T17:26:38+00:00"
+            "time": "2026-01-08T11:28:40+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "meetplume/plume": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
