@@ -25,5 +25,5 @@ Refer to [Internal docs](./docs/index.md) to understand the project's architectu
 
 ## Credits
 
-**Plume** was created by **[Patricio](https://x.com/PatricioOnCode)** and **[Charlie](https://x.com/charlie_etienne)** under the **[MIT license](https://opensource.org/licenses/MIT)**.
+**Plume** was created by **[Patricio](https://x.com/PatricioOnCode)** and **[Charlie](https://x.com/charlie_etienne)** under the **[MIT license](./LICENSE.md)**.
 

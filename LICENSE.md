@@ -1,6 +1,7 @@
 The MIT License (MIT)
 
 Copyright (c) Joao Patricio <ijpatricio@gmail.com>
+
 Copyright (c) Charlie Etienne <ce@web-nancy.fr>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
