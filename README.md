@@ -1,7 +1,7 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/meetplume/plume/master/docs/example.png" height="300" alt="Plume Logo">
+    <img src="https://raw.githubusercontent.com/meetplume/plume/main/docs/Plume-logo-white-bg.png" height="300" alt="Plume Logo">
     <p align="center">
-        <a href="https://github.com/meetplume/plume/actions"><img alt="GitHub Workflow Status (master)" src="https://github.com/meetplume/plume/actions/workflows/tests.yml/badge.svg"></a>
+        <a href="https://github.com/meetplume/plume/actions"><img alt="GitHub Workflow Status (main)" src="https://github.com/meetplume/plume/actions/workflows/tests.yml/badge.svg"></a>
         <a href="https://packagist.org/packages/meetplume/plume"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/meetplume/plume"></a>
         <a href="https://packagist.org/packages/meetplume/plume"><img alt="Latest Version" src="https://img.shields.io/packagist/v/meetplume/plume"></a>
         <a href="https://packagist.org/packages/meetplume/plume"><img alt="License" src="https://img.shields.io/packagist/l/meetplume/plume"></a>
