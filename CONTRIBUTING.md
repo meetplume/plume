@@ -5,4 +5,4 @@ Please review these guidelines before submitting any pull requests.
 
 ## Guidelines
 
-Refer to [current internal docs](./docs/index.md) to understand the project's architecture.
+Refer to [Internal docs](./docs/index.md) to understand the project's architecture.
