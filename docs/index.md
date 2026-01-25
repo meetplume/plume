@@ -23,3 +23,7 @@ It's located in the `playground` directory. Differences from a real project:
 - Open the playground app in Herd, from the `playground` directory.
 - Make changes to the package code, and see them reflected in the playground app.
 
+🚀 Run the entire test suite:
+```bash
+composer test
+```

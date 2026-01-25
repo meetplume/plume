@@ -19,9 +19,4 @@ This documentation is for development.
 
 Plume is a package that allows to conveniently display content in various scopes, like a page in a route or a documentation folder.
 
-🚀 Run the entire test suite:
-```bash
-composer test
-```
-
 **Plume** was created by **[Patricio](https://x.com/PatricioOnCode)** and **[Charlie](https://x.com/charlie_etienne)** under the **[MIT license](https://opensource.org/licenses/MIT)**.
