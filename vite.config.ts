@@ -11,9 +11,9 @@ export default defineConfig(({ mode }) => ({
             hotFile: 'playground/public/hot',
         }),
         react({
-            babel: mode === 'build' ? {
+            babel: {
                 plugins: ['babel-plugin-react-compiler'],
-            } : undefined,
+            },
         }),
         tailwindcss(),
     ],
