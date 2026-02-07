@@ -1,6 +1,13 @@
 {
+  "_PlumeEditor-D6oxGmmP.js": {
+    "file": "assets/PlumeEditor-D6oxGmmP.js",
+    "name": "PlumeEditor",
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-Dwc_ZN3u.css",
+    "file": "assets/app-K2iDWKyC.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -9,12 +16,42 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-Cz6R5Kr7.js",
+    "file": "assets/app-CSSZauN5.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/page1.tsx",
+      "resources/js/pages/page2.tsx"
+    ],
     "css": [
-      "assets/app-Dwc_ZN3u.css"
+      "assets/app-K2iDWKyC.css"
+    ]
+  },
+  "resources/js/pages/page1.tsx": {
+    "file": "assets/page1-B3w7pNZT.js",
+    "name": "page1",
+    "src": "resources/js/pages/page1.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_PlumeEditor-D6oxGmmP.js"
+    ],
+    "css": [
+      "assets/app-K2iDWKyC.css"
+    ]
+  },
+  "resources/js/pages/page2.tsx": {
+    "file": "assets/page2-Bg9YTJhM.js",
+    "name": "page2",
+    "src": "resources/js/pages/page2.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_PlumeEditor-D6oxGmmP.js"
+    ],
+    "css": [
+      "assets/app-K2iDWKyC.css"
     ]
   }
 }
