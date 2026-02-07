@@ -7,7 +7,7 @@ use Inertia\Response;
 
 class Page
 {
-    public static function render(string $component, $props = []): Response
+    public static function render(string $component, array $props = []): Response
     {
         Inertia::setRootView('plume::app');
 
