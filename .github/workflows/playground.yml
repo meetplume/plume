@@ -65,5 +65,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -B playground
           git add -A
-          git commit -m "Restructure: playground as root, package in packages/plume"
+          git commit -m "${{ github.event.head_commit.message }}"
           git push --force origin playground
