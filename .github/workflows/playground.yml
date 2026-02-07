@@ -54,7 +54,7 @@ jobs:
           php-version: '8.4'
           extensions: dom, mbstring, zip
 
-      - name: Update composer.lock for new package path
+      - name: Update composer.lock for new package path and publish assets
         run: |
           composer update meetplume/plume --no-interaction --no-scripts
           php artisan vendor:publish --tag plume-assets
@@ -68,3 +68,4 @@ jobs:
           git add -A
           git commit -m "${{ github.event.head_commit.message || 'Playground commit' }}"
           git push --force playground-remote HEAD:main-playground
+          sed -i '/^public\/vendor\/plume$/d' .gitignore
