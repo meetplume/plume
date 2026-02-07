@@ -29,7 +29,7 @@ Run the entire test suite:
 composer test
 ```
 
-
 ### Contributing
 
+We add a [CHANGELOG-DEV.md](./CHANGELOG-DEV.md) file to keep track of changes and contributions.
 

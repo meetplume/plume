@@ -1,14 +1,27 @@
-import { createRoot } from 'react-dom/client';
 import '../css/app.css';
-import App from './pages/documentation';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Plume';
+import { createInertiaApp } from '@inertiajs/react';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-const container = document.getElementById('app');
-if (!container) throw new Error("Root container 'app' not found");
 
-const root = createRoot(container);
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const props = { appName };
+createInertiaApp({
+    title: (title) => (title ? `${title} - ${appName}` : appName),
+    resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
+    setup({ el, App, props }) {
+        const root = createRoot(el);
 
-root.render(<App {...props} />);
+        root.render(
+            <StrictMode>
+                <App {...props} />
+            </StrictMode>,
+        );
+    },
+    progress: {
+        color: '#4B5563',
+    },
+});
+
