@@ -55,7 +55,9 @@ jobs:
           extensions: dom, mbstring, zip
 
       - name: Update composer.lock for new package path
-        run: composer update meetplume/plume --no-interaction --no-scripts
+        run: |
+          composer update meetplume/plume --no-interaction --no-scripts
+          php artisan
 
       - name: Commit and push to playground branch
         run: |

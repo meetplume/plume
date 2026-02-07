@@ -4,12 +4,13 @@ A Markdown tool for content - pages, docs, wikis and more.
 
 ## Introduction
 
-This documentation is for development.
+This Internal documentation is for planning and development.
 
 Plume is a package that allows to conveniently display content in various scopes, like a page in a route or a documentation folder.
 
-### Testing the Application in a real context, with UI, etc
+### Testing the package in a real context, with UI, etc
 
+Because this is a Laravel package, we need a Laravel application to test it in a real context, with UI, etc.
 At root level, it's the code for the package itself, distributed with Packagist.
 In the `playground` directory, there's a complete Laravel application that uses the package like we would on a real Laravel project. It's a `laravel new` without any starter kit - the most plain and simple, only Blade.
 It's located in the `playground` directory. Differences from a real project:
@@ -23,7 +24,11 @@ It's located in the `playground` directory. Differences from a real project:
 - Open the playground app in Herd, from the `playground` directory.
 - Make changes to the package code, and see them reflected in the playground app.
 
-🚀 Run the entire test suite:
+Run the entire test suite:
 ```bash
 composer test
 ```
+
+### Contributing
+
+
