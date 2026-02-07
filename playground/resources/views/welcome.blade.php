@@ -3,18 +3,17 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>App name</title>
-
-        @if (file_exists(public_path('hot')))
-            @viteReactRefresh
-            @vite(['resources/js/app.tsx'])
-        @else
-            @vite('resources/js/app.tsx', 'vendor/plume/dist')
-        @endif
+        <title>Plume Playground</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     </head>
-    <body>
-    <div id="app"></div>
+    <body class="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8">Plume Playground</h1>
+            <div class="flex gap-4 justify-center">
+                <a href="/movies" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Movies</a>
+                <a href="/tv-shows" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">TV Shows</a>
+            </div>
+        </div>
     </body>
 </html>
