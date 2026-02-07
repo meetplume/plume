@@ -58,8 +58,7 @@ jobs:
         run: |
           composer update meetplume/plume --no-interaction --no-scripts
           php artisan vendor:publish --tag plume-assets
-          ls -lah public/vendor/plume
-          ls -lah public/vendor/plume/dist
+          sed -i '/^public\/vendor\/plume$/d' .gitignore
 
       - name: Commit and push to playground branch
         run: |
@@ -70,4 +69,3 @@ jobs:
           git add -A
           git commit -m "${{ github.event.head_commit.message || 'Playground commit' }}"
           git push --force playground-remote HEAD:main-playground
-          sed -i '/^public\/vendor\/plume$/d' .gitignore
