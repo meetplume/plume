@@ -1,13 +1,13 @@
 {
-  "_PlumeEditor-CMsHvyjV.js": {
-    "file": "assets/PlumeEditor-CMsHvyjV.js",
-    "name": "PlumeEditor",
+  "_feather-BNKmYlSI.js": {
+    "file": "assets/feather-BNKmYlSI.js",
+    "name": "feather",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-yftDa9KU.css",
+    "file": "assets/app-jPxNr3Iy.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -16,7 +16,7 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-qgAQvAwa.js",
+    "file": "assets/app-CYvD0vES.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -25,33 +25,33 @@
       "resources/js/pages/page2.tsx"
     ],
     "css": [
-      "assets/app-yftDa9KU.css"
+      "assets/app-jPxNr3Iy.css"
     ]
   },
   "resources/js/pages/page1.tsx": {
-    "file": "assets/page1-kKAVljXP.js",
+    "file": "assets/page1-DlYJk5p8.js",
     "name": "page1",
     "src": "resources/js/pages/page1.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_PlumeEditor-CMsHvyjV.js"
+      "_feather-BNKmYlSI.js"
     ],
     "css": [
-      "assets/app-yftDa9KU.css"
+      "assets/app-jPxNr3Iy.css"
     ]
   },
   "resources/js/pages/page2.tsx": {
-    "file": "assets/page2-BtH8bY-7.js",
+    "file": "assets/page2-CvvzhOza.js",
     "name": "page2",
     "src": "resources/js/pages/page2.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_PlumeEditor-CMsHvyjV.js"
+      "_feather-BNKmYlSI.js"
     ],
     "css": [
-      "assets/app-yftDa9KU.css"
+      "assets/app-jPxNr3Iy.css"
     ]
   }
 }
