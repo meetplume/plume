@@ -66,5 +66,5 @@ jobs:
           git remote add playground-remote git@github.com:meetplume/plume-playground.git
           git checkout -B playground
           git add -A
-          git commit -m "${{ github.event.head_commit.message }}"
-          git remote add playground-remote https://x-access-token:${{ secrets.PLAYGROUND_PAT }}@github.com/meetplume/plume-playground.git
+          git commit -m "${{ github.event.head_commit.message || 'Playground commit' }}"
+          git push --force playground-remote main
