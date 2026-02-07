@@ -63,7 +63,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote add playground-remote git@github.com:meetplume/plume-playground.git
           git checkout -B playground
           git add -A
           git commit -m "${{ github.event.head_commit.message }}"
-          git push --force origin playground
+          git push --force playground-remote main
