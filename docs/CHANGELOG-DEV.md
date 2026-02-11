@@ -2,9 +2,30 @@
 
 This is the development changelog, which includes changes that are not yet released. For released changes, check the [CHANGELOG.md](CHANGELOG.md) file.
 
-## Step 2
+## Step 3
 
 // Continue... Most recent changes at the top.
+
+## Step 2
+
+Added Footer component:
+
+```tsx
+import { Footer, FooterLabel, FooterLogo, FooterDescription, FooterLinks } from "@/components/ui/footer";
+
+<Footer>
+  <FooterLabel>Brought to you by</FooterLabel>
+  <FooterLogo>
+    <img src="/logo.svg" alt="Plume" className="h-12" />
+  </FooterLogo>
+  <FooterDescription>
+    Plume is a Markdown tool for content: pages, docs, wikis and more.
+  </FooterDescription>
+  <FooterLinks>
+    <a href="/docs">Learn about Plume</a>
+  </FooterLinks>
+</Footer>
+```
 
 ## Step 1 
 We have a landing page which belongs to the playground.
