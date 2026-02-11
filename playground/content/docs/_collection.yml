@@ -1,0 +1,35 @@
+title: "Laravel Zero"
+navigation:
+  - section: "Getting Started"
+    pages:
+      - introduction
+      - installation
+  - section: "Usage"
+    pages:
+      - commands
+      - service-providers
+      - configuration
+      - testing
+  - section: "Add-ons"
+    pages:
+      - database
+      - logging
+      - filesystem
+      - run-tasks
+      - task-scheduling
+      - build-interactive-menus
+      - send-desktop-notifications
+      - web-browser-automation
+      - environment-variables
+      - tinker-repl
+      - http-client
+      - view
+      - cache
+  - section: "Distribute your app"
+    pages:
+      - distribute-as-a-phar-archive
+      - distribute-as-a-single-executable-binary
+  - section: "More"
+    pages:
+      - upgrade
+      - contributing

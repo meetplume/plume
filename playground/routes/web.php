@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\Page;
+use Meetplume\Plume\Types\Type;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,4 +23,4 @@ Route::get('/tv-shows', function () {
     ]);
 });
 
-Route::get('/markdown', fn() => Page::toMarkdown(base_path('/content/docs/upgrade.md')));
+Plume::collection('/docs', base_path('content/docs'))->type(Type::Documentation);

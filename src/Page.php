@@ -13,9 +13,4 @@ class Page
 
         return Inertia::render($component, $props);
     }
-
-    public static function toMarkdown(string $path): Response
-    {
-        return static::render('markdown', ['content' => file_get_contents($path)]);
-    }
 }
