@@ -2,9 +2,30 @@
 
 This is the development changelog, which includes changes that are not yet released. For released changes, check the [CHANGELOG.md](CHANGELOG.md) file.
 
-## Step 2
+## Step 3
 
 // Continue... Most recent changes at the top.
+
+## Step 2
+
+Added Hero component:
+
+```tsx
+import { Hero, HeroContent, HeroTitle, HeroTagline, HeroActions, HeroImage } from "@/components/ui/hero";
+import { Button } from "@/components/ui/button";
+
+<Hero>
+  <HeroContent>
+    <HeroTitle>Make your docs with Plume</HeroTitle>
+    <HeroTagline>This is Plume, a Markdown tool for content: pages, docs, wikis and more.</HeroTagline>
+    <HeroActions>
+      <Button>Get started</Button>
+      <Button variant="ghost">View on GitHub</Button>
+    </HeroActions>
+  </HeroContent>
+  <HeroImage src="/hero-light.png" dark="/hero-dark.png" alt="Hero" />
+</Hero>
+```
 
 ## Step 1 
 We have a landing page which belongs to the playground.
