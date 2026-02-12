@@ -1,6 +1,6 @@
 import { Hero, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero';
 import { Button } from '@/components/ui/button';
-import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/ui/footer';
+import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
