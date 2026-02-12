@@ -26,4 +26,4 @@ function TiptapExperiment() {
     );
 }
 
-export default TiptapExperiment
+export default TiptapExperiment;
