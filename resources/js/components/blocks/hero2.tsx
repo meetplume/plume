@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { type Action, renderActions } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import { Check, Copy } from 'lucide-react';
 
@@ -7,7 +8,7 @@ type Hero2Props = Omit<React.ComponentProps<'section'>, 'title'> & {
     title: string;
     tagline?: string;
     command?: string;
-    actions?: React.ReactNode;
+    actions?: Action[];
 };
 
 function parseTitle(title: string) {
@@ -67,7 +68,7 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
                         </div>
                     )}
 
-                    <div className="flex flex-wrap items-center justify-center gap-4">{actions}</div>
+                    {actions && <div className="flex flex-wrap items-center justify-center gap-4">{renderActions(actions)}</div>}
                 </div>
             </div>
         </section>

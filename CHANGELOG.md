@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Hero1 component.
 - Hero2 component.
 - Footer1 component.
+- Footer2 component.
 - Plume Icon.
 
 ## [0.1.0] - 2026-01-26

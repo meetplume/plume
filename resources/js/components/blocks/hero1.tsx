@@ -1,11 +1,12 @@
 import * as React from 'react';
 
+import { type Action, renderActions } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 
 type Hero1Props = Omit<React.ComponentProps<'section'>, 'title'> & {
     title: string;
     tagline?: string;
-    actions?: React.ReactNode;
+    actions?: Action[];
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
     imageAlt?: string;
@@ -32,7 +33,9 @@ export function Hero1({ className, title, tagline, actions, image, imageDark, im
                     <p className="max-w-[50ch] text-[clamp(1rem,calc(0.0625rem+2vw),1.25rem)] text-pretty text-muted-foreground">{tagline}</p>
                 )}
 
-                {actions && <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-start">{actions}</div>}
+                {actions && (
+                    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-start">{renderActions(actions)}</div>
+                )}
             </div>
 
             {image && (

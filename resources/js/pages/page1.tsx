@@ -1,10 +1,14 @@
 import { Footer1 } from '@/components/blocks/footer1';
 import { Hero1 } from '@/components/blocks/hero1';
-import { Button } from '@/components/ui/button';
+import type { Action } from '@/lib/actions';
 import { Link } from '@inertiajs/react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 export default function App() {
+    const actions: Action[] = [
+        { label: 'Browse movies', href: '#', icon: 'ArrowRight' },
+        { label: 'Top rated', href: '#', variant: 'ghost', icon: 'ArrowUpRight' },
+    ];
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
             <div>
@@ -14,22 +18,7 @@ export default function App() {
                     image="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=2056&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     imageDark="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2650&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     imageAlt="Exterior of Central Cinema at night with glowing red neon signs, a person sitting at the entrance, and a small table with a chair on the patterned sidewalk."
-                    actions={
-                        <>
-                            <Button>
-                                <Link href="#" className="flex items-center gap-1">
-                                    <span>Browse movies</span>
-                                    <ArrowRight className="size-4 shrink-0" />
-                                </Link>
-                            </Button>
-                            <Button variant="ghost">
-                                <Link href="#" className="flex items-center gap-1">
-                                    <span>Top rated</span>
-                                    <ArrowUpRight className="size-4 shrink-0" />
-                                </Link>
-                            </Button>
-                        </>
-                    }
+                    actions={actions}
                 />
 
                 <Footer1
