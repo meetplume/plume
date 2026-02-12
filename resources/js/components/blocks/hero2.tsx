@@ -39,7 +39,7 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
     return (
         <section
             data-slot="hero2"
-            className={cn('relative overflow-hidden py-8 text-center md:py-[clamp(2.5rem,calc(1rem+10vmin),10rem)]', className)}
+            className={cn('relative max-w-[100vw] overflow-hidden py-8 text-center md:py-[clamp(2.5rem,calc(1rem+10vmin),10rem)]', className)}
             {...props}
         >
             <div className="flex w-full flex-col items-center gap-[clamp(1.5rem,calc(1.5rem+1vw),2rem)] px-4">

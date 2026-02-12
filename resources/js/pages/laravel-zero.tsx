@@ -19,7 +19,7 @@ export default function App() {
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
-            <div className="grow">
+            <div className="flex grow">
                 <Hero2 title={title} tagline={tagline} command={command} actions={actions} />
             </div>
             <Footer2 text={footerText} />
