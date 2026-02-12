@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
-export default function App({ title, message }) {
+export default function App() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
             <div>
