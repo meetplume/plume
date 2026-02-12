@@ -20,3 +20,7 @@ Route::get('/tv-shows', function () {
         'message' => 'This displays a page with TV shows. It is rendered using the Page class from the Plume package.',
     ]);
 });
+
+Route::get('/laravel-zero', function () {
+    return Page::render('laravel-zero');
+});
