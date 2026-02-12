@@ -17,19 +17,11 @@ type FeaturesProps = React.ComponentProps<'section'> & {
 
 export function Features({ className, title, description, columns = 2, features, footerTitle, footerActions, ...props }: FeaturesProps) {
     return (
-        <section
-            data-slot="features"
-            className={cn('w-full max-w-[100vw] px-4 py-12 md:px-8 md:py-20', className)}
-            {...props}
-        >
+        <section data-slot="features" className={cn('w-full max-w-[100vw] px-4 py-12 md:px-8 md:py-20', className)} {...props}>
             {(title || description) && (
                 <div className="mx-auto mb-12 max-w-2xl text-center">
-                    {title && (
-                        <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h2>
-                    )}
-                    {description && (
-                        <p className="mt-4 text-pretty text-muted-foreground">{description}</p>
-                    )}
+                    {title && <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h2>}
+                    {description && <p className="mt-4 text-pretty text-muted-foreground">{description}</p>}
                 </div>
             )}
 
@@ -55,14 +47,8 @@ export function Features({ className, title, description, columns = 2, features,
 
             {(footerTitle || footerActions) && (
                 <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-4 text-center">
-                    {footerTitle && (
-                        <p className="text-muted-foreground">{footerTitle}</p>
-                    )}
-                    {footerActions && (
-                        <div className="flex flex-wrap items-center justify-center gap-4">
-                            {renderActions(footerActions)}
-                        </div>
-                    )}
+                    {footerTitle && <p className="text-muted-foreground">{footerTitle}</p>}
+                    {footerActions && <div className="flex flex-wrap items-center justify-center gap-4">{renderActions(footerActions)}</div>}
                 </div>
             )}
         </section>

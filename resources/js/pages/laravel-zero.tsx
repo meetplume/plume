@@ -1,8 +1,8 @@
+import { Features } from '@/components/blocks/features';
+import { Footer2 } from '@/components/blocks/footer2';
+import { Hero2 } from '@/components/blocks/hero2';
 import { type Action } from '@/lib/actions';
 import { type Feature } from '@/lib/features';
-import { Hero2 } from '@/components/blocks/hero2';
-import { Footer2 } from '@/components/blocks/footer2';
-import { Features } from '@/components/blocks/features';
 
 export default function App() {
     const title: string = 'Build Your next cli tool with |Laravel Zero|';
@@ -41,7 +41,8 @@ export default function App() {
     const features2: Feature[] = [
         {
             title: 'Commands',
-            description: 'Build powerful and easy-to-use console commands without breaking a sweat. Using a straightforward syntax that gets the job done quickly.',
+            description:
+                'Build powerful and easy-to-use console commands without breaking a sweat. Using a straightforward syntax that gets the job done quickly.',
             icon: 'SquareTerminal',
         },
         {
@@ -51,12 +52,14 @@ export default function App() {
         },
         {
             title: 'Database',
-            description: 'Work with your database like a pro using the DB facade. Whether it’s retrieving data or making changes, it’s simple and hassle-free.',
+            description:
+                'Work with your database like a pro using the DB facade. Whether it’s retrieving data or making changes, it’s simple and hassle-free.',
             icon: 'Database',
         },
         {
             title: 'Logging',
-            description: 'Stay on top of what’s happening in your app with built-in logging. Debug issues, track activity, and keep everything running smoothly.',
+            description:
+                'Stay on top of what’s happening in your app with built-in logging. Debug issues, track activity, and keep everything running smoothly.',
             icon: 'ScanText',
         },
         {
@@ -76,7 +79,6 @@ export default function App() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
             <div className="flex grow flex-col">
-
                 <Hero2 title={title} tagline={tagline} command={command} actions={actions} />
 
                 <Features
@@ -98,7 +100,6 @@ export default function App() {
             </div>
 
             <Footer2 text={footerText} />
-
         </div>
     );
 }
