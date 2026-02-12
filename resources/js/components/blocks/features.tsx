@@ -6,7 +6,7 @@ import { type Feature } from '@/lib/features';
 import { cn } from '@/lib/utils';
 import * as LucideIcons from 'lucide-react';
 
-type FeaturesProps = React.ComponentProps<'section'> & {
+export type FeaturesProps = React.ComponentProps<'section'> & {
     title?: string;
     description?: string;
     columns?: Columns;

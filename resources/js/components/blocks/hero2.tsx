@@ -4,7 +4,7 @@ import { type Action, renderActions } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import { Check, Copy } from 'lucide-react';
 
-type Hero2Props = Omit<React.ComponentProps<'section'>, 'title'> & {
+export type Hero2Props = Omit<React.ComponentProps<'section'>, 'title'> & {
     title: string;
     tagline?: string;
     command?: string;

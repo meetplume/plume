@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-type Footer2Props = React.ComponentProps<'footer'> & {
+export type Footer2Props = React.ComponentProps<'footer'> & {
     text: string;
 };
 
