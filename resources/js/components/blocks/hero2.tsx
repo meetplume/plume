@@ -28,7 +28,8 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
 
     const handleCopy = () => {
         if (!command) return;
-        navigator.clipboard.writeText(command)
+        navigator.clipboard
+            .writeText(command)
             .then(() => setCopied(true))
             .catch((err) => console.error('Failed to copy: ', err));
         setTimeout(() => setCopied(false), 2000);
@@ -40,7 +41,6 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
             className={cn('relative overflow-hidden py-8 text-center md:py-[clamp(2.5rem,calc(1rem+10vmin),10rem)]', className)}
             {...props}
         >
-
             <div className="flex w-full flex-col items-center gap-[clamp(1.5rem,calc(1.5rem+1vw),2rem)] px-4">
                 <h1 className="max-w-[20ch] text-[clamp(2.5rem,calc(0.25rem+6vw),4.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance text-foreground">
                     {parseTitle(title)}
@@ -55,7 +55,7 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
                 <div className="flex w-full flex-col items-center gap-4">
                     {command && (
                         <div className="inline-flex max-w-full items-center gap-3 rounded-full bg-primary/10 px-5 py-2.5 font-mono text-sm text-foreground/70">
-                            <code className="truncate min-w-0">{command}</code>
+                            <code className="min-w-0 truncate">{command}</code>
                             <button
                                 type="button"
                                 onClick={handleCopy}
@@ -67,9 +67,7 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
                         </div>
                     )}
 
-                    <div className="flex flex-wrap items-center justify-center gap-4">
-                        {actions}
-                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-4">{actions}</div>
                 </div>
             </div>
         </section>

@@ -11,7 +11,9 @@ export default function App() {
                 actions={
                     <>
                         <Button>
-                            <a href="https://laravel-zero.com/docs/introduction" target="_blank">Get Started</a>
+                            <a href="https://laravel-zero.com/docs/introduction" target="_blank">
+                                Get Started
+                            </a>
                         </Button>
                     </>
                 }
