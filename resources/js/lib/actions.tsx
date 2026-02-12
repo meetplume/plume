@@ -17,7 +17,7 @@ export function renderActions(actions: Action[]) {
         const Icon = action.icon ? LucideIcons[action.icon] : null;
 
         return (
-            <Button key={action.label} variant={action.variant}>
+            <Button key={action.label} variant={action.variant} className={action.variant === 'link' ? 'px-0' : undefined}>
                 <a href={action.href} target={action.target} className="flex items-center gap-2">
                     {action.label}
                     {Icon && <Icon />}

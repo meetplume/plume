@@ -1,3 +1,4 @@
+import { CallToAction, CallToActionProps } from '@/components/blocks/call-to-action';
 import { type FeaturesProps, Features } from '@/components/blocks/features';
 import { type Footer2Props, Footer2 } from '@/components/blocks/footer2';
 import { type Hero2Props, Hero2 } from '@/components/blocks/hero2';
@@ -42,6 +43,16 @@ export default function App() {
                 icon: 'AppWindowMac',
             },
         ],
+    };
+
+    const callToAction: CallToActionProps = {
+        badge: 'Best cli apps builder ever',
+        title: 'Build your next CLI tool faster than ever',
+        description:
+            'Laravel Zero offers a simple, yet powerful framework to create fast, reliable, and scalable console applications built on the robust Laravel components.',
+        actions: [{ label: 'Read the docs', href: '/docs', variant: 'link', icon: 'ArrowRight' }],
+        image: 'https://laravel-zero.com/assets/img/logo-large.png',
+        imageAlt: 'Laravel Zero',
     };
 
     const features2: FeaturesProps = {
@@ -97,6 +108,16 @@ export default function App() {
                 <Hero2 title={hero.title} tagline={hero.tagline} command={hero.command} actions={hero.actions} />
 
                 <Features columns={features1.columns} features={features1.features} />
+
+                <CallToAction
+                    badge={callToAction.badge}
+                    title={callToAction.title}
+                    description={callToAction.description}
+                    actions={callToAction.actions}
+                    image={callToAction.image}
+                    imageDark={callToAction.imageDark}
+                    imageAlt={callToAction.imageAlt}
+                />
 
                 <Features
                     title={features2.title}
