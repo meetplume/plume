@@ -10,7 +10,7 @@
     @endif
     @inertiaHead
 </head>
-<body>
+<body class="text-foreground bg-background">
 @inertia
 </body>
 </html>
