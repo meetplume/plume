@@ -15,8 +15,7 @@ export default function App({ title, message }) {
                         <HeroActions>
                             <Button>
                                 <Link
-                                    // href="/"
-                                    onClick={() => alert('Browse movies clicked!')}
+                                    href="#"
                                     className="flex items-center gap-1"
                                 >
                                     <span>Browse movies</span>
@@ -25,8 +24,7 @@ export default function App({ title, message }) {
                             </Button>
                             <Button variant="ghost">
                                 <Link
-                                    // href="/"
-                                    onClick={() => alert('Top rated clicked!')}
+                                    href="#"
                                     className="flex items-center gap-1"
                                 >
                                     <span>Top rated</span>
@@ -56,8 +54,7 @@ export default function App({ title, message }) {
                     </FooterDescription>
                     <FooterLinks>
                         <Link
-                            // href="/"
-                            onClick={() => alert('Find showtimes clicked!')}
+                            href="#"
                             className="underline"
                         >
                             Find showtimes
