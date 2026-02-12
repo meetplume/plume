@@ -1,13 +1,13 @@
 {
-  "_feather-BNKmYlSI.js": {
-    "file": "assets/feather-BNKmYlSI.js",
-    "name": "feather",
+  "_arrow-right-xXzh4x14.js": {
+    "file": "assets/arrow-right-xXzh4x14.js",
+    "name": "arrow-right",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-jPxNr3Iy.css",
+    "file": "assets/app-CC4Eyulm.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -16,7 +16,7 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-CYvD0vES.js",
+    "file": "assets/app-PDFHoAYF.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -25,33 +25,33 @@
       "resources/js/pages/page2.tsx"
     ],
     "css": [
-      "assets/app-jPxNr3Iy.css"
+      "assets/app-CC4Eyulm.css"
     ]
   },
   "resources/js/pages/page1.tsx": {
-    "file": "assets/page1-DlYJk5p8.js",
+    "file": "assets/page1-v6zwlsXT.js",
     "name": "page1",
     "src": "resources/js/pages/page1.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_feather-BNKmYlSI.js"
+      "_arrow-right-xXzh4x14.js"
     ],
     "css": [
-      "assets/app-jPxNr3Iy.css"
+      "assets/app-CC4Eyulm.css"
     ]
   },
   "resources/js/pages/page2.tsx": {
-    "file": "assets/page2-CvvzhOza.js",
+    "file": "assets/page2-B5MzxKms.js",
     "name": "page2",
     "src": "resources/js/pages/page2.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_feather-BNKmYlSI.js"
+      "_arrow-right-xXzh4x14.js"
     ],
     "css": [
-      "assets/app-jPxNr3Iy.css"
+      "assets/app-CC4Eyulm.css"
     ]
   }
 }
