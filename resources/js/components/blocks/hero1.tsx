@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Hero({ className, ...props }: React.ComponentProps<'section'>) {
+function Hero1({ className, ...props }: React.ComponentProps<'section'>) {
     return (
         <section
             data-slot="hero"
@@ -84,4 +84,4 @@ function HeroImage({ className, dark, ...props }: HeroImageProps) {
     return <div data-slot="hero-image" className={cn(containerClass, className)} {...(props as React.ComponentProps<'div'>)} />;
 }
 
-export { Hero, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle };
+export { Hero1, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle };

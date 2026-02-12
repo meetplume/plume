@@ -1,5 +1,5 @@
 import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
-import { Hero, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero';
+import { Hero1, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero1';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -8,7 +8,7 @@ export default function App() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
             <div>
-                <Hero>
+                <Hero1>
                     <HeroContent>
                         <HeroTitle>Discover Great Movies</HeroTitle>
                         <HeroTagline>Your ultimate guide to the best films — from timeless classics to the latest releases.</HeroTagline>
@@ -33,7 +33,7 @@ export default function App() {
                             alt="Exterior of Central Cinema at night with glowing red neon signs, a person sitting at the entrance, and a small table with a chair on the patterned sidewalk."
                         />
                     </HeroImage>
-                </Hero>
+                </Hero1>
                 <Footer>
                     <FooterLabel>A film by</FooterLabel>
                     <FooterLogo>
