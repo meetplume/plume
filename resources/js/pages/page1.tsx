@@ -1,5 +1,5 @@
 import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
-import { Hero1, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero1';
+import { Hero1 } from '@/components/blocks/hero1';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -8,11 +8,14 @@ export default function App() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
             <div>
-                <Hero1>
-                    <HeroContent>
-                        <HeroTitle>Discover Great Movies</HeroTitle>
-                        <HeroTagline>Your ultimate guide to the best films — from timeless classics to the latest releases.</HeroTagline>
-                        <HeroActions>
+                <Hero1
+                    title="Discover Great Movies"
+                    tagline="Your ultimate guide to the best films — from timeless classics to the latest releases."
+                    image="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=2056&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    imageDark="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2650&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    imageAlt="Exterior of Central Cinema at night with glowing red neon signs, a person sitting at the entrance, and a small table with a chair on the patterned sidewalk."
+                    actions={
+                        <>
                             <Button>
                                 <Link href="#" className="flex items-center gap-1">
                                     <span>Browse movies</span>
@@ -25,15 +28,10 @@ export default function App() {
                                     <ArrowUpRight className="size-4 shrink-0" />
                                 </Link>
                             </Button>
-                        </HeroActions>
-                    </HeroContent>
-                    <HeroImage>
-                        <img
-                            src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2650&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Exterior of Central Cinema at night with glowing red neon signs, a person sitting at the entrance, and a small table with a chair on the patterned sidewalk."
-                        />
-                    </HeroImage>
-                </Hero1>
+                        </>
+                    }
+                />
+
                 <Footer>
                     <FooterLabel>A film by</FooterLabel>
                     <FooterLogo>
