@@ -1,6 +1,6 @@
+import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
 import { Hero, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero';
 import { Button } from '@/components/ui/button';
-import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
@@ -14,19 +14,13 @@ export default function App({ title, message }) {
                         <HeroTagline>Your ultimate guide to the best films — from timeless classics to the latest releases.</HeroTagline>
                         <HeroActions>
                             <Button>
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-1"
-                                >
+                                <Link href="#" className="flex items-center gap-1">
                                     <span>Browse movies</span>
                                     <ArrowRight className="size-4 shrink-0" />
                                 </Link>
                             </Button>
                             <Button variant="ghost">
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-1"
-                                >
+                                <Link href="#" className="flex items-center gap-1">
                                     <span>Top rated</span>
                                     <ArrowUpRight className="size-4 shrink-0" />
                                 </Link>
@@ -53,10 +47,7 @@ export default function App({ title, message }) {
                         Now playing in theaters and streaming everywhere. Experience the story that critics are calling unforgettable.
                     </FooterDescription>
                     <FooterLinks>
-                        <Link
-                            href="#"
-                            className="underline"
-                        >
+                        <Link href="#" className="underline">
                             Find showtimes
                         </Link>
                     </FooterLinks>
