@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Hero component.
+- Footer component.
 - Plume Icon.
 
 ## [0.1.0] - 2024-06-30
