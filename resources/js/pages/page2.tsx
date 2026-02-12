@@ -13,18 +13,16 @@ export default function App({ appName, title }) {
 
                 <div className="space-y-2">
                     <Badge variant="secondary">{appName ?? 'Plume'}</Badge>
-                    <h1 className="text-4xl font-bold tracking-tight text-foreground">
-                        {title ?? 'Welcome to Plume'}
-                    </h1>
-                    <p className="text-muted-foreground">
-                        A Markdown tool for content: pages, docs, wikis and more.
-                    </p>
+                    <h1 className="text-4xl font-bold tracking-tight text-foreground">{title ?? 'Welcome to Plume'}</h1>
+                    <p className="text-muted-foreground">A Markdown tool for content: pages, docs, wikis and more.</p>
                 </div>
 
                 <Separator />
 
                 <div className="flex justify-center gap-3">
-                    <Button onClick={() => alert('Learn More')} variant="outline">Learn More</Button>
+                    <Button onClick={() => alert('Learn More')} variant="outline">
+                        Learn More
+                    </Button>
                     <Button onClick={() => alert('Get started')}>
                         Get Started <ArrowRight className="size-4" />
                     </Button>

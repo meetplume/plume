@@ -21,7 +21,7 @@ It's located in the `playground` directory. Differences from a real project:
 
 ### Development workflow
 - Run Vite server: `npm run dev` from this package root.
-- Open the playground app in Herd, from the `playground` directory.
+- Open the playground app in Herd or `php artisan serve`, from the `playground` directory.
 - Make changes to the package code, and see them reflected in the playground app.
 
 Run the entire test suite:
@@ -31,5 +31,5 @@ composer test
 
 ### Contributing
 
-We add a [CHANGELOG-DEV.md](./CHANGELOG-DEV.md) file to keep track of changes and contributions.
+Always update [CHANGELOG.md](../CHANGELOG.md) file to keep track of changes.
 
