@@ -1,4 +1,4 @@
-import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
+import { Footer1 } from '@/components/blocks/footer1';
 import { Hero1 } from '@/components/blocks/hero1';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
@@ -32,24 +32,17 @@ export default function App() {
                     }
                 />
 
-                <Footer>
-                    <FooterLabel>A film by</FooterLabel>
-                    <FooterLogo>
-                        <img
-                            src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=200&auto=format&fit=crop"
-                            alt="Movie reel"
-                            className="m-auto mb-8 w-36 rounded"
-                        />
-                    </FooterLogo>
-                    <FooterDescription>
-                        Now playing in theaters and streaming everywhere. Experience the story that critics are calling unforgettable.
-                    </FooterDescription>
-                    <FooterLinks>
+                <Footer1
+                    label="A film by"
+                    image="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=200&auto=format&fit=crop"
+                    imageAlt="Movie reel"
+                    description="Now playing in theaters and streaming everywhere. Experience the story that critics are calling unforgettable."
+                    links={
                         <Link href="#" className="underline">
                             Find showtimes
                         </Link>
-                    </FooterLinks>
-                </Footer>
+                    }
+                />
             </div>
         </div>
     );
