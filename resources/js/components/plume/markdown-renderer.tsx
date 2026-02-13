@@ -1,6 +1,7 @@
-import Markdown from 'react-markdown';
+import { useMemo } from 'react';
+import { MarkdownHooks } from 'react-markdown';
+import rehypeExpressiveCode, { type RehypeExpressiveCodeOptions, type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
 import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
 import rehypeSlug from 'rehype-slug';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
@@ -8,14 +9,26 @@ import remarkGfm from 'remark-gfm';
 interface MarkdownRendererProps {
     content: string;
     className?: string;
+    codeThemeLight?: string;
+    codeThemeDark?: string;
 }
 
-export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, className, codeThemeLight, codeThemeDark }: MarkdownRendererProps) {
+    const rehypeExpressiveCodeOptions: RehypeExpressiveCodeOptions = useMemo(
+        () => ({
+            themes: [
+                (codeThemeDark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
+                (codeThemeLight ?? 'github-light') as ThemeObjectOrShikiThemeName,
+            ],
+        }),
+        [codeThemeLight, codeThemeDark],
+    );
+
     return (
         <div className={className}>
-            <Markdown
+            <MarkdownHooks
                 remarkPlugins={[remarkGfm, remarkFrontmatter]}
-                rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeSlug]}
+                rehypePlugins={[rehypeRaw, [rehypeExpressiveCode, rehypeExpressiveCodeOptions], rehypeSlug]}
                 components={{
                     a: ({ href, children, ...props }) => {
                         const isExternal = href?.startsWith('http');
@@ -28,7 +41,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 }}
             >
                 {content}
-            </Markdown>
+            </MarkdownHooks>
         </div>
     );
 }

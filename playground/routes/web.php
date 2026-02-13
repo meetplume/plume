@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\Page;
-use Meetplume\Plume\Types\Type;
+use Meetplume\Plume\Enums\Type;
+use Meetplume\Plume\Facades\Plume;
+use Meetplume\Plume\Enums\CodeTheme;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,4 +24,9 @@ Route::get('/tv-shows', function () {
     ]);
 });
 
-Plume::collection('/docs', base_path('content/docs'))->type(Type::Documentation);
+Plume::collection('/docs', base_path('content/docs'))
+    ->type(Type::Documentation)
+    ->codeTheme(
+        light: CodeTheme::GITHUB_LIGHT,
+        dark: CodeTheme::GITHUB_DARK,
+    );

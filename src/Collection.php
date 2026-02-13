@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
-use Meetplume\Plume\Types\CollectionType;
-use Meetplume\Plume\Types\Type;
+use Meetplume\Plume\Enums\Type;
 use Symfony\Component\Yaml\Yaml;
+use Meetplume\Plume\Enums\CodeTheme;
+use Meetplume\Plume\Types\CollectionType;
 
 class Collection
 {
@@ -15,6 +16,10 @@ class Collection
     private string $contentPath;
 
     private Type $type = Type::Documentation;
+
+    public CodeTheme $codeThemeLight = CodeTheme::GITHUB_LIGHT;
+
+    public CodeTheme $codeThemeDark = CodeTheme::GITHUB_DARK;
 
     private CollectionType $typeDriver;
 
@@ -40,6 +45,14 @@ class Collection
         return $this;
     }
 
+    public function codeTheme(CodeTheme $light, CodeTheme $dark): self
+    {
+        $this->codeThemeLight = $light;
+        $this->codeThemeDark = $dark;
+
+        return $this;
+    }
+
     public function title(string $title): self
     {
         $this->title = $title;
@@ -60,6 +73,16 @@ class Collection
     public function getType(): CollectionType
     {
         return $this->typeDriver;
+    }
+
+    public function getCodeThemeLight(): CodeTheme
+    {
+        return $this->codeThemeLight;
+    }
+
+    public function getCodeThemeDark(): CodeTheme
+    {
+        return $this->codeThemeDark;
     }
 
     public function getTitle(): string
@@ -145,7 +168,7 @@ class Collection
     }
 
     /**
-     * @return array{prefix: string, title: string, type: string}
+     * @return array{prefix: string, title: string, type: string, codeThemeLight: string, codeThemeDark: string}
      */
     public function toArray(): array
     {
@@ -153,6 +176,8 @@ class Collection
             'prefix' => $this->prefix,
             'title' => $this->getTitle(),
             'type' => $this->type->value,
+            'codeThemeLight' => $this->codeThemeLight->value,
+            'codeThemeDark' => $this->codeThemeDark->value,
         ];
     }
 

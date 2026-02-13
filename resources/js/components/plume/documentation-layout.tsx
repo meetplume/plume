@@ -22,6 +22,8 @@ interface DocumentationLayoutProps {
     previousPage: Page | null;
     nextPage: Page | null;
     tocItems: TocItem[];
+    codeThemeLight?: string;
+    codeThemeDark?: string;
 }
 
 export function DocumentationLayout({
@@ -34,6 +36,8 @@ export function DocumentationLayout({
     previousPage,
     nextPage,
     tocItems,
+    codeThemeLight,
+    codeThemeDark,
 }: DocumentationLayoutProps) {
     const [searchOpen, setSearchOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -71,7 +75,7 @@ export function DocumentationLayout({
                     <div className="mx-auto max-w-3xl">
                         <Breadcrumbs items={[{ label: collectionTitle, href: prefix }, { label: currentPage.title }]} className="mb-6" />
                         <article className="prose max-w-none dark:prose-invert">
-                            <MarkdownRenderer content={currentPage.rawContent} />
+                            <MarkdownRenderer content={currentPage.rawContent} codeThemeLight={codeThemeLight} codeThemeDark={codeThemeDark} />
                         </article>
                         <PageNavigation previous={previousPage} next={nextPage} prefix={prefix} className="mt-10" />
                     </div>

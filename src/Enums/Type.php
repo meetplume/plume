@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Meetplume\Plume\Types;
+namespace Meetplume\Plume\Enums;
+
+use Meetplume\Plume\Types\PagesType;
+use Meetplume\Plume\Types\CollectionType;
+use Meetplume\Plume\Types\DocumentationType;
 
 enum Type: string
 {

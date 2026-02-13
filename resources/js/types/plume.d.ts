@@ -2,6 +2,8 @@ export interface CollectionMeta {
     prefix: string;
     title: string;
     type: string;
+    codeThemeLight: string;
+    codeThemeDark: string;
 }
 
 export interface Page {

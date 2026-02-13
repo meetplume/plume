@@ -70,6 +70,8 @@ export default function DocumentationShow({ collection, pages, currentSlug, navi
             previousPage={previousPage}
             nextPage={nextPage}
             tocItems={tocItems}
+            codeThemeLight={collection.codeThemeLight}
+            codeThemeDark={collection.codeThemeDark}
         />
     );
 }
