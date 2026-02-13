@@ -50,7 +50,11 @@
         "lint": "pint",
         "refactor": "rector",
         "test:type-coverage": "pest --type-coverage --exactly=100",
-        "test:lint": "pint --test",
+        "test:lint": [
+            "pint --test",
+            "npm run format:check",
+            "npm run lint:check"
+        ],
         "test:unit": "pest --exactly=100",
         "test:refactor": "rector --dry-run",
         "test": [
