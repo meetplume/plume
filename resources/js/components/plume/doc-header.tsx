@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+import { Command, Search } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -18,8 +18,11 @@ export function DocHeader({ title, onSearchOpen, className }: DocHeaderProps) {
             >
                 <Search className="size-3.5" />
                 <span>Search...</span>
-                <kbd className="pointer-events-none ml-2 hidden rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium sm:inline-block">
-                    <span className="text-xs">&#8984;</span>K
+                <kbd className="pointer-events-none ml-2 hidden rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-medium sm:inline-block">
+                    <div className="flex items-center gap-1">
+                        <Command className="size-3" />
+                        <span>K</span>
+                    </div>
                 </kbd>
             </button>
         </header>
