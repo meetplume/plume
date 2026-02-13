@@ -27,6 +27,6 @@ Route::get('/tv-shows', function () {
 Plume::collection('/docs', base_path('content/docs'))
     ->type(Type::Documentation)
     ->codeTheme(
-        light: CodeTheme::GITHUB_LIGHT,
-        dark: CodeTheme::GITHUB_DARK,
+        light: CodeTheme::CATPPUCCIN_LATTE,
+        dark: CodeTheme::CATPPUCCIN_MACCHIATO,
     );
