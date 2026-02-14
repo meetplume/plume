@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Meetplume\Plume\Enums\CodeTheme;
+use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\Page;
 
 Route::get('/', function () {
@@ -20,3 +22,9 @@ Route::get('/tv-shows', function () {
         'message' => 'This displays a page with TV shows. It is rendered using the Page class from the Plume package.',
     ]);
 });
+
+Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'),
+    codeThemeLight: CodeTheme::CATPPUCCIN_LATTE,
+    codeThemeDark: CodeTheme::CATPPUCCIN_MACCHIATO,
+);
+

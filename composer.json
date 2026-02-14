@@ -15,8 +15,8 @@
     ],
     "require": {
         "php": "^8.4.0",
-        "calebporzio/sushi": "^2.5",
-        "inertiajs/inertia-laravel": "^2.0"
+        "inertiajs/inertia-laravel": "^2.0",
+        "symfony/yaml": "^7.2|^8.0"
     },
     "require-dev": {
         "laravel/pint": "^1.24.0",
@@ -67,7 +67,10 @@
         "laravel": {
             "providers": [
                 "Meetplume\\Plume\\PlumeServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Plume": "Meetplume\\Plume\\Facades\\Plume"
+            }
         }
     }
 }
