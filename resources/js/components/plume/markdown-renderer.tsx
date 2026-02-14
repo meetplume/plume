@@ -6,14 +6,22 @@ import rehypeSlug from 'rehype-slug';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 
-interface MarkdownRendererProps {
+export interface PlumePageContext {
     content: string;
-    className?: string;
+    title?: string;
+    description?: string;
+    meta?: Record<string, unknown>;
     codeThemeLight?: string;
     codeThemeDark?: string;
 }
 
-export function MarkdownRenderer({ content, className, codeThemeLight, codeThemeDark }: MarkdownRendererProps) {
+interface MarkdownRendererProps {
+    page: PlumePageContext;
+    className?: string;
+}
+
+export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
+    const { content, codeThemeLight, codeThemeDark } = page;
     const rehypeExpressiveCodeOptions: RehypeExpressiveCodeOptions = useMemo(
         () => ({
             themes: [

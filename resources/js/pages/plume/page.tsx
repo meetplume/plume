@@ -1,24 +1,15 @@
 import { Head } from '@inertiajs/react';
-import { MarkdownRenderer } from '../../components/plume/markdown-renderer';
+import { type PlumePageContext, MarkdownRenderer } from '../../components/plume/markdown-renderer';
 
-interface PageProps {
-    content: string;
-    title?: string;
-    description?: string;
-    meta?: Record<string, unknown>;
-    codeThemeLight?: string;
-    codeThemeDark?: string;
-}
-
-export default function Page({ content, title, description, codeThemeLight, codeThemeDark }: PageProps) {
+export default function Page(page: PlumePageContext) {
     return (
         <>
             <Head>
-                {title && <title>{title}</title>}
-                {description && <meta name="description" content={description} />}
+                {page.title && <title>{page.title}</title>}
+                {page.description && <meta name="description" content={page.description} />}
             </Head>
             <article className="mx-auto prose max-w-3xl px-6 py-12 dark:prose-invert">
-                <MarkdownRenderer content={content} codeThemeLight={codeThemeLight} codeThemeDark={codeThemeDark} />
+                <MarkdownRenderer page={page} />
             </article>
         </>
     );
