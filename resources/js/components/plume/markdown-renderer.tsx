@@ -20,17 +20,20 @@ interface MarkdownRendererProps {
     className?: string;
 }
 
-export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
-    const { content, codeThemeLight, codeThemeDark } = page;
-    const rehypeExpressiveCodeOptions: RehypeExpressiveCodeOptions = useMemo(
+function useCodeThemeOptions(light?: string, dark?: string): RehypeExpressiveCodeOptions {
+    return useMemo(
         () => ({
             themes: [
-                (codeThemeDark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
-                (codeThemeLight ?? 'github-light') as ThemeObjectOrShikiThemeName,
+                (dark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
+                (light ?? 'github-light') as ThemeObjectOrShikiThemeName,
             ],
         }),
-        [codeThemeLight, codeThemeDark],
+        [light, dark],
     );
+}
+
+export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
+    const rehypeExpressiveCodeOptions = useCodeThemeOptions(page.codeThemeLight, page.codeThemeDark);
 
     return (
         <div className={className}>
@@ -48,7 +51,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
                     },
                 }}
             >
-                {content}
+                {page.content}
             </MarkdownHooks>
         </div>
     );
