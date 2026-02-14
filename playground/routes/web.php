@@ -23,8 +23,9 @@ Route::get('/tv-shows', function () {
     ]);
 });
 
-Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'),
-    codeThemeLight: CodeTheme::CATPPUCCIN_LATTE,
-    codeThemeDark: CodeTheme::CATPPUCCIN_MACCHIATO,
-);
+Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'))
+    ->codeTheme(
+        light: CodeTheme::CATPPUCCIN_LATTE,
+        dark: CodeTheme::CATPPUCCIN_MACCHIATO,
+    );
 
