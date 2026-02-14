@@ -28,4 +28,3 @@ Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-inter
         light: CodeTheme::CATPPUCCIN_LATTE,
         dark: CodeTheme::CATPPUCCIN_MACCHIATO,
     );
-
