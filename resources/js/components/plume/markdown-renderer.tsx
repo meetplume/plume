@@ -23,10 +23,7 @@ interface MarkdownRendererProps {
 function useCodeThemeOptions(light?: string, dark?: string): RehypeExpressiveCodeOptions {
     return useMemo(
         () => ({
-            themes: [
-                (dark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
-                (light ?? 'github-light') as ThemeObjectOrShikiThemeName,
-            ],
+            themes: [(dark ?? 'github-dark') as ThemeObjectOrShikiThemeName, (light ?? 'github-light') as ThemeObjectOrShikiThemeName],
         }),
         [light, dark],
     );
