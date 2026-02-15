@@ -1,14 +1,22 @@
+import Aurora from '@/components/backgrounds/Aurora';
+import DarkVeil from '@/components/backgrounds/DarkVeil';
 import { Footer, FooterDescription, FooterLabel, FooterLinks, FooterLogo } from '@/components/blocks/footer';
 import { Hero, HeroActions, HeroContent, HeroImage, HeroTagline, HeroTitle } from '@/components/blocks/hero';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
-export default function App() {
+export default function App({ background }: { background: 'DarkVeil' | 'Aurora' | null } = { background: null }) {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
-            <div>
-                <Hero>
+        <div className="flex min-h-screen flex-col items-center bg-background">
+            <div className="relative w-full">
+                <div className="absolute inset-0 z-0 w-full opacity-40">
+                    {background === 'DarkVeil' && (
+                        <DarkVeil hueShift={0} noiseIntensity={0} scanlineIntensity={0} speed={0.5} scanlineFrequency={0} warpAmount={0} />
+                    )}
+                    {background === 'Aurora' && <Aurora colorStops={['#7cff67', '#B19EEF', '#5227FF']} blend={0.5} amplitude={1.0} speed={0.3} />}
+                </div>
+                <Hero className="isolate m-auto max-w-5xl">
                     <HeroContent>
                         <HeroTitle>Discover Great Movies</HeroTitle>
                         <HeroTagline>Your ultimate guide to the best films — from timeless classics to the latest releases.</HeroTagline>
@@ -34,6 +42,8 @@ export default function App() {
                         />
                     </HeroImage>
                 </Hero>
+            </div>
+            <div>
                 <Footer>
                     <FooterLabel>A film by</FooterLabel>
                     <FooterLogo>
