@@ -4,7 +4,8 @@ import { type Action, renderActions } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import { Check, Copy } from 'lucide-react';
 
-export type Hero2Props = Omit<React.ComponentProps<'section'>, 'title'> & {
+export type Hero2Props = {
+    className?: string;
     title: string;
     tagline?: string;
     command?: string;
@@ -24,7 +25,7 @@ function parseTitle(title: string) {
     );
 }
 
-export function Hero2({ className, title, tagline, command, actions, ...props }: Hero2Props) {
+export function Hero2({ className, title, tagline, command, actions }: Hero2Props) {
     const [copied, setCopied] = React.useState(false);
 
     const handleCopy = () => {
@@ -40,7 +41,6 @@ export function Hero2({ className, title, tagline, command, actions, ...props }:
         <section
             data-slot="hero2"
             className={cn('relative max-w-[100vw] overflow-hidden py-8 text-center md:py-[clamp(2.5rem,calc(1rem+10vmin),10rem)]', className)}
-            {...props}
         >
             <div className="flex w-full flex-col items-center gap-[clamp(1.5rem,calc(1.5rem+1vw),2rem)] px-4">
                 <h1 className="max-w-[20ch] text-[clamp(2.5rem,calc(0.25rem+6vw),4.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance text-foreground">
