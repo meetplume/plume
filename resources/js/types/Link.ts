@@ -9,5 +9,4 @@ export type Link = {
     target?: string;
     variant?: VariantProps<typeof buttonVariants>['variant'];
     icon?: keyof typeof icons;
-    as?: 'button' | 'a';
 };
