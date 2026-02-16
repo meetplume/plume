@@ -1,18 +1,18 @@
-import * as React from 'react';
-
-import { type Action, renderActions } from '@/lib/actions';
+import { Action } from '@/components/action';
 import { type Columns, columnsClass } from '@/lib/columns';
 import { cn } from '@/lib/utils';
+import { type Action as ActionType } from '@/types/Action';
 import { type Feature } from '@/types/Feature';
 import * as LucideIcons from 'lucide-react';
 
-export type FeaturesProps = React.ComponentProps<'section'> & {
+export type FeaturesProps = {
+    className?: string;
     title?: string;
     description?: string;
     columns?: Columns;
     features: Feature[];
     footerTitle?: string;
-    footerActions?: Action[];
+    footerActions?: ActionType[];
 };
 
 export function Features({ className, title, description, columns = 2, features, footerTitle, footerActions, ...props }: FeaturesProps) {
@@ -48,7 +48,13 @@ export function Features({ className, title, description, columns = 2, features,
             {(footerTitle || footerActions) && (
                 <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-4 text-center">
                     {footerTitle && <p className="text-muted-foreground">{footerTitle}</p>}
-                    {footerActions && <div className="flex flex-wrap items-center justify-center gap-4">{renderActions(footerActions)}</div>}
+                    {footerActions && (
+                        <div className="flex flex-wrap items-center justify-center gap-4">
+                            {footerActions.map((action) => (
+                                <Action key={action.label} {...action} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
         </section>

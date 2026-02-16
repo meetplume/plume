@@ -1,12 +1,14 @@
 import * as React from 'react';
 
-import { type Action, renderActions } from '@/lib/actions';
+import { Action } from '@/components/action';
 import { cn } from '@/lib/utils';
+import { type Action as ActionType } from '@/types/Action';
 
-type Hero1Props = Omit<React.ComponentProps<'section'>, 'title'> & {
+type Hero1Props = {
+    className?: string;
     title: string;
     tagline?: string;
-    actions?: Action[];
+    actions?: ActionType[];
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
     imageAlt?: string;
@@ -34,7 +36,11 @@ export function Hero1({ className, title, tagline, actions, image, imageDark, im
                 )}
 
                 {actions && (
-                    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-start">{renderActions(actions)}</div>
+                    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-start">
+                        {actions.map((action) => (
+                            <Action key={action.label} {...action} />
+                        ))}
+                    </div>
                 )}
             </div>
 

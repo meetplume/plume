@@ -1,13 +1,15 @@
 import * as React from 'react';
 
-import { type Action, renderActions } from '@/lib/actions';
+import { Action } from '@/components/action';
 import { cn } from '@/lib/utils';
+import { type Action as ActionType } from '@/types/Action';
 
-export type CallToActionProps = Omit<React.ComponentProps<'section'>, 'title'> & {
+export type CallToActionProps = {
+    className?: string;
     badge?: string;
     title: string;
     description?: string;
-    actions?: Action[];
+    actions?: ActionType[];
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
     imageAlt?: string;
@@ -27,7 +29,13 @@ export function CallToAction({ className, badge, title, description, actions, im
                     )}
                     <h2 className="text-2xl font-bold text-balance text-foreground uppercase">{title}</h2>
                     {description && <p className="text-sm leading-relaxed text-pretty text-muted-foreground">{description}</p>}
-                    {actions && <div className="flex flex-wrap items-center gap-4">{renderActions(actions)}</div>}
+                    {actions && (
+                        <div className="flex flex-wrap items-center gap-4">
+                            {actions.map((action) => (
+                                <Action key={action.label} {...action} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="mx-auto flex w-full min-w-0 items-center">

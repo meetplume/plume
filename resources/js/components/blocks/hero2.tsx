@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { type Action, renderActions } from '@/lib/actions';
+import { Action } from '@/components/action';
 import { cn } from '@/lib/utils';
+import { type Action as ActionType } from '@/types/Action';
 import { Check, Copy } from 'lucide-react';
 
 export type Hero2Props = {
@@ -9,7 +10,7 @@ export type Hero2Props = {
     title: string;
     tagline?: string;
     command?: string;
-    actions?: Action[];
+    actions?: ActionType[];
 };
 
 function parseTitle(title: string) {
@@ -68,7 +69,13 @@ export function Hero2({ className, title, tagline, command, actions }: Hero2Prop
                         </div>
                     )}
 
-                    {actions && <div className="flex flex-wrap items-center justify-center gap-4">{renderActions(actions)}</div>}
+                    {actions && (
+                        <div className="flex flex-wrap items-center justify-center gap-4">
+                            {actions.map((action) => (
+                                <Action key={action.label} {...action} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </section>
