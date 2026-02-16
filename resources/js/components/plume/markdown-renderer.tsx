@@ -1,10 +1,14 @@
-import { useMemo } from 'react';
-import { MarkdownHooks } from 'react-markdown';
-import rehypeExpressiveCode, { type RehypeExpressiveCodeOptions, type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
+import { useEffect, useMemo, useState } from 'react';
+import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
 
 export interface PlumePageContext {
     content: string;
@@ -20,36 +24,34 @@ interface MarkdownRendererProps {
     className?: string;
 }
 
-function useCodeThemeOptions(light?: string, dark?: string): RehypeExpressiveCodeOptions {
-    return useMemo(
-        () => ({
-            themes: [(dark ?? 'github-dark') as ThemeObjectOrShikiThemeName, (light ?? 'github-light') as ThemeObjectOrShikiThemeName],
-        }),
-        [light, dark],
-    );
-}
-
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
-    const rehypeExpressiveCodeOptions = useCodeThemeOptions(page.codeThemeLight, page.codeThemeDark);
+    const [html, setHtml] = useState('');
 
-    return (
-        <div className={className}>
-            <MarkdownHooks
-                remarkPlugins={[remarkGfm, remarkFrontmatter]}
-                rehypePlugins={[rehypeRaw, [rehypeExpressiveCode, rehypeExpressiveCodeOptions], rehypeSlug]}
-                components={{
-                    a: ({ href, children, ...props }) => {
-                        const isExternal = href?.startsWith('http');
-                        return (
-                            <a href={href} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...props}>
-                                {children}
-                            </a>
-                        );
-                    },
-                }}
-            >
-                {page.content}
-            </MarkdownHooks>
-        </div>
+    const processor = useMemo(
+        () =>
+            unified()
+                .use(remarkParse)
+                .use(remarkGfm)
+                .use(remarkFrontmatter)
+                .use(remarkRehype, { allowDangerousHtml: true })
+                .use(rehypeRaw)
+                .use(rehypeExpressiveCode, {
+                    themes: [
+                        (page.codeThemeDark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
+                        (page.codeThemeLight ?? 'github-light') as ThemeObjectOrShikiThemeName,
+                    ],
+                })
+                .use(rehypeSlug)
+                .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+                .use(rehypeStringify),
+        [page.codeThemeLight, page.codeThemeDark],
     );
+
+    useEffect(() => {
+        processor.process(page.content).then((file) => {
+            setHtml(String(file));
+        });
+    }, [processor, page.content]);
+
+    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }
