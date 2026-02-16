@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { type Action, renderActions } from '@/lib/actions';
 import { type Columns, columnsClass } from '@/lib/columns';
-import { type Feature } from '@/lib/features';
 import { cn } from '@/lib/utils';
+import { type Feature } from '@/types/Feature';
 import * as LucideIcons from 'lucide-react';
 
 export type FeaturesProps = React.ComponentProps<'section'> & {
