@@ -1,8 +1,8 @@
-import { Action } from '@/components/action';
+import { Link } from '@/components/link';
 import { type Columns, columnsClass } from '@/lib/columns';
 import { cn } from '@/lib/utils';
-import { type Action as ActionType } from '@/types/Action';
 import { type Feature } from '@/types/Feature';
+import { type Link as LinkType } from '@/types/Link';
 import * as LucideIcons from 'lucide-react';
 
 export type FeaturesProps = {
@@ -12,10 +12,10 @@ export type FeaturesProps = {
     columns?: Columns;
     features: Feature[];
     footerTitle?: string;
-    footerActions?: ActionType[];
+    footerLinks?: LinkType[];
 };
 
-export function Features({ className, title, description, columns = 2, features, footerTitle, footerActions, ...props }: FeaturesProps) {
+export function Features({ className, title, description, columns = 2, features, footerTitle, footerLinks, ...props }: FeaturesProps) {
     return (
         <section data-slot="features" className={cn('w-full max-w-[100vw] px-4 py-12 md:px-8 md:py-20', className)} {...props}>
             {(title || description) && (
@@ -45,13 +45,13 @@ export function Features({ className, title, description, columns = 2, features,
                 })}
             </div>
 
-            {(footerTitle || footerActions) && (
+            {(footerTitle || footerLinks) && (
                 <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-4 text-center">
                     {footerTitle && <p className="text-muted-foreground">{footerTitle}</p>}
-                    {footerActions && (
+                    {footerLinks && (
                         <div className="flex flex-wrap items-center justify-center gap-4">
-                            {footerActions.map((action) => (
-                                <Action key={action.label} {...action} />
+                            {footerLinks.map((link) => (
+                                <Link key={link.label} {...link} />
                             ))}
                         </div>
                     )}

@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { type Action } from '@/types/Action';
+import { type Link } from '@/types/Link';
 import * as LucideIcons from 'lucide-react';
 
-export function Action({ ...props }: Action) {
+export function Link({ ...props }: Link) {
     const Icon = props.icon ? LucideIcons[props.icon] : null;
 
     return (

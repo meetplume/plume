@@ -27,7 +27,7 @@ Route::get('/laravel-zero', function () {
             'title' => 'Build Your next cli tool with |Laravel Zero|',
             'tagline' => "The Laravel way to build fast, powerful, and elegant console applications, with the simplicity and flexibility you've come to love.",
             'command' => 'composer global require laravel-zero/installer',
-            'actions' => [
+            'links' => [
                 ['label' => 'Get Started', 'href' => 'https://laravel-zero.com/docs/introduction', 'target' => '_blank'],
             ],
         ],
@@ -55,7 +55,7 @@ Route::get('/laravel-zero', function () {
             'badge' => 'Best cli apps builder ever',
             'title' => 'Build your next CLI tool faster than ever',
             'description' => 'Laravel Zero offers a simple, yet powerful framework to create fast, reliable, and scalable console applications built on the robust Laravel components.',
-            'actions' => [['label' => 'Read the docs', 'href' => '/docs', 'variant' => 'link', 'icon' => 'ArrowRight']],
+            'links' => [['label' => 'Read the docs', 'href' => '/docs', 'variant' => 'link', 'icon' => 'ArrowRight']],
             'image' => 'https://laravel-zero.com/assets/img/logo-large.png',
             'imageAlt' => 'Laravel Zero',
         ],
@@ -64,7 +64,7 @@ Route::get('/laravel-zero', function () {
             'description' => 'Laravel Zero is a lightweight and flexible framework for building powerful console applications, built on top of Laravel.',
             'columns' => 2,
             'footerTitle' => "Wait, there's more!",
-            'footerActions' => [['label' => 'Check out all features', 'href' => '/features']],
+            'footerLinks' => [['label' => 'Check out all features', 'href' => '/features']],
             'features' => [
                 ['title' => 'Commands', 'description' => 'Build powerful and easy-to-use console commands without breaking a sweat. Using a straightforward syntax that gets the job done quickly.', 'icon' => 'SquareTerminal'],
                 ['title' => 'Service Providers', 'description' => 'Tap into the full power of Laravel by using service providers to easily add more functionality to your application.', 'icon' => 'CopyCheck'],

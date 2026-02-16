@@ -1,20 +1,20 @@
 import * as React from 'react';
 
-import { Action } from '@/components/action';
+import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
-import { type Action as ActionType } from '@/types/Action';
+import { type Link as LinkType } from '@/types/Link';
 
 type Hero1Props = {
     className?: string;
     title: string;
     tagline?: string;
-    actions?: ActionType[];
+    links?: LinkType[];
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
     imageAlt?: string;
 };
 
-export function Hero1({ className, title, tagline, actions, image, imageDark, imageAlt = '', ...props }: Hero1Props) {
+export function Hero1({ className, title, tagline, links, image, imageDark, imageAlt = '', ...props }: Hero1Props) {
     const renderImage = (src: React.ReactNode | string) =>
         typeof src === 'string' ? <img src={src} alt={imageAlt} className="object-contain" /> : src;
     return (
@@ -35,10 +35,10 @@ export function Hero1({ className, title, tagline, actions, image, imageDark, im
                     <p className="max-w-[50ch] text-[clamp(1rem,calc(0.0625rem+2vw),1.25rem)] text-pretty text-muted-foreground">{tagline}</p>
                 )}
 
-                {actions && (
+                {links && (
                     <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-start">
-                        {actions.map((action) => (
-                            <Action key={action.label} {...action} />
+                        {links.map((link) => (
+                            <Link key={link.label} {...link} />
                         ))}
                     </div>
                 )}

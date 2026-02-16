@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Action } from '@/components/action';
+import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
-import { type Action as ActionType } from '@/types/Action';
+import { type Link as LinkType } from '@/types/Link';
 import { Check, Copy } from 'lucide-react';
 
 export type Hero2Props = {
@@ -10,7 +10,7 @@ export type Hero2Props = {
     title: string;
     tagline?: string;
     command?: string;
-    actions?: ActionType[];
+    links?: LinkType[];
 };
 
 function parseTitle(title: string) {
@@ -26,7 +26,7 @@ function parseTitle(title: string) {
     );
 }
 
-export function Hero2({ className, title, tagline, command, actions }: Hero2Props) {
+export function Hero2({ className, title, tagline, command, links }: Hero2Props) {
     const [copied, setCopied] = React.useState(false);
 
     const handleCopy = () => {
@@ -69,10 +69,10 @@ export function Hero2({ className, title, tagline, command, actions }: Hero2Prop
                         </div>
                     )}
 
-                    {actions && (
+                    {links && (
                         <div className="flex flex-wrap items-center justify-center gap-4">
-                            {actions.map((action) => (
-                                <Action key={action.label} {...action} />
+                            {links.map((link) => (
+                                <Link key={link.label} {...link} />
                             ))}
                         </div>
                     )}

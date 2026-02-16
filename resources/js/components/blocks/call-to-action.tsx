@@ -1,21 +1,21 @@
 import * as React from 'react';
 
-import { Action } from '@/components/action';
+import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
-import { type Action as ActionType } from '@/types/Action';
+import { type Link as LinkType } from '@/types/Link';
 
 export type CallToActionProps = {
     className?: string;
     badge?: string;
     title: string;
     description?: string;
-    actions?: ActionType[];
+    links?: LinkType[];
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
     imageAlt?: string;
 };
 
-export function CallToAction({ className, badge, title, description, actions, image, imageDark, imageAlt = '', ...props }: CallToActionProps) {
+export function CallToAction({ className, badge, title, description, links, image, imageDark, imageAlt = '', ...props }: CallToActionProps) {
     const renderImage = (src: React.ReactNode | string) =>
         typeof src === 'string' ? <img src={src} alt={imageAlt} className="object-contain" /> : src;
     return (
@@ -29,10 +29,10 @@ export function CallToAction({ className, badge, title, description, actions, im
                     )}
                     <h2 className="text-2xl font-bold text-balance text-foreground uppercase">{title}</h2>
                     {description && <p className="text-sm leading-relaxed text-pretty text-muted-foreground">{description}</p>}
-                    {actions && (
+                    {links && (
                         <div className="flex flex-wrap items-center gap-4">
-                            {actions.map((action) => (
-                                <Action key={action.label} {...action} />
+                            {links.map((link) => (
+                                <Link key={link.label} {...link} />
                             ))}
                         </div>
                     )}
