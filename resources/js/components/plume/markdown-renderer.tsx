@@ -1,8 +1,13 @@
-import { MarkdownHooks } from 'react-markdown';
+import { useEffect, useState } from 'react';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
+import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
 
 export interface PlumePageContext {
     content: string;
@@ -16,25 +21,24 @@ interface MarkdownRendererProps {
     className?: string;
 }
 
+const processor = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkFrontmatter)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSlug)
+    .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+    .use(rehypeStringify);
+
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
-    return (
-        <div className={className}>
-            <MarkdownHooks
-                remarkPlugins={[remarkGfm, remarkFrontmatter]}
-                rehypePlugins={[rehypeRaw, rehypeSlug]}
-                components={{
-                    a: ({ href, children, ...props }) => {
-                        const isExternal = href?.startsWith('http');
-                        return (
-                            <a href={href} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...props}>
-                                {children}
-                            </a>
-                        );
-                    },
-                }}
-            >
-                {page.content}
-            </MarkdownHooks>
-        </div>
-    );
+    const [html, setHtml] = useState('');
+
+    useEffect(() => {
+        processor.process(page.content).then((file) => {
+            setHtml(String(file));
+        });
+    }, [page.content]);
+
+    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }
