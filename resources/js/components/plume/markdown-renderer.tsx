@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
@@ -26,6 +26,7 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     const [html, setHtml] = useState('');
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const processor = useMemo(
         () =>
@@ -53,5 +54,16 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
         });
     }, [processor, page.content]);
 
-    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+    useEffect(() => {
+        if (!containerRef.current || !html) return;
+
+        const range = document.createRange();
+        range.selectNode(containerRef.current);
+        const fragment = range.createContextualFragment(html);
+
+        containerRef.current.innerHTML = '';
+        containerRef.current.append(fragment);
+    }, [html]);
+
+    return <div ref={containerRef} className={className} />;
 }
