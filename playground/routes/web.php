@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\Page;
 
 Route::get('/', function () {
@@ -96,3 +97,6 @@ Route::get('/laravel-zero', function () {
         ],
     ]);
 });
+
+Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'));
+

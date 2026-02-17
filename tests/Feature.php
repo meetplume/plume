@@ -1,11 +1,29 @@
 <?php
 
-use Meetplume\Plume\Example;
+use Meetplume\Plume\Frontmatter;
 
-it('foo', function (): void {
-    $example = new Example;
+it('parses frontmatter from markdown content', function (): void {
+    $content = <<<'MD'
+        ---
+        title: Hello World
+        description: A test page
+        ---
 
-    $result = $example->foo();
+        # Hello World
+        MD;
 
-    expect($result)->toBe('bar');
+    $result = Frontmatter::parse($content);
+
+    expect($result)->toBe([
+        'title' => 'Hello World',
+        'description' => 'A test page',
+    ]);
+});
+
+it('returns empty array when no frontmatter is present', function (): void {
+    $content = '# Hello World';
+
+    $result = Frontmatter::parse($content);
+
+    expect($result)->toBe([]);
 });
