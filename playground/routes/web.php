@@ -23,6 +23,23 @@ Route::get('/tv-shows', function () {
 
 Route::get('/laravel-zero', function () {
     return Page::render('laravel-zero', [
+        'header' => [
+            'logo' => 'https://laravel-zero.com/assets/img/logo-dark.svg',
+            'logoDark' => 'https://laravel-zero.com/assets/img/logo.svg',
+            'links' => [
+                ['label' => 'Docs', 'href' => '/docs'],
+            ],
+            'socials' => [
+                [
+                    'url' => 'https://twitter.com/LaravelZero',
+                    'icon' => 'x', // available values: bluesky|discord|github|x|youtube
+                ],
+                [
+                    'url' => 'https://github.com/laravel-zero/laravel-zero',
+                    'icon' => 'github', // available values: bluesky|discord|github|x|youtube
+                ],
+            ],
+        ],
         'hero' => [
             'title' => 'Build Your next cli tool with |Laravel Zero|',
             'tagline' => "The Laravel way to build fast, powerful, and elegant console applications, with the simplicity and flexibility you've come to love.",
