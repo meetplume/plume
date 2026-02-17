@@ -8,12 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Hero1 component.
-- Hero2 component.
-- Footer1 component.
-- Footer2 component.
-- Features component.
-- CallToAction component.
+- Block components: Hero1, Hero2, Footer1, Footer2, Features, CallToAction.
 - Plume Icon.
 
 ## [0.1.0] - 2026-01-26
