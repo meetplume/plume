@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { cn } from '@/lib/utils';
-import { Moon, Sun } from 'lucide-react';
+import { Menu, Moon, Sun, X as XIcon } from 'lucide-react';
 import { siBluesky, siDiscord, siGithub, siX, siYoutube } from 'simple-icons';
 
 type Social = {
@@ -47,10 +47,11 @@ function SocialIcon({ icon, className }: { icon: string; className?: string }) {
 
 export function Header1({ className, logo, logoDark, links = [], socials = [], ...props }: Header1Props) {
     const { isDark, toggle } = useDarkMode();
+    const [mobileOpen, setMobileOpen] = React.useState(false);
 
     return (
         <header data-slot="header1" className={cn('w-full py-4', className)} {...props}>
-            <div className="container mx-auto flex items-center gap-6 px-6">
+            <div className="mx-auto flex max-w-6xl items-center gap-6 px-6">
                 <a href="/" className="inline-flex shrink-0 items-center">
                     {logoDark ? (
                         <>
@@ -62,7 +63,7 @@ export function Header1({ className, logo, logoDark, links = [], socials = [], .
                     )}
                 </a>
 
-                <div className="flex flex-1 items-center justify-end gap-6">
+                <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
                     <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
                         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                     </button>
@@ -89,7 +90,63 @@ export function Header1({ className, logo, logoDark, links = [], socials = [], .
                         </div>
                     )}
                 </div>
+
+                <button
+                    onClick={() => setMobileOpen(true)}
+                    className="flex-1 text-right text-muted-foreground hover:text-foreground lg:hidden"
+                    aria-label="Open menu"
+                >
+                    <Menu className="ml-auto h-6 w-6" />
+                </button>
             </div>
+
+            {mobileOpen && (
+                <>
+                    <div className="fixed inset-0 z-40 bg-black/10 backdrop-blur-xs lg:hidden" onClick={() => setMobileOpen(false)} />
+                    <aside className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col border-l border-black/10 bg-background p-6 shadow-lg lg:hidden dark:border-white/10">
+                        <div className="flex items-center justify-end gap-2">
+                            <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
+                                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                            </button>
+                            <button
+                                onClick={() => setMobileOpen(false)}
+                                className="text-muted-foreground hover:text-foreground"
+                                aria-label="Close menu"
+                            >
+                                <XIcon className="h-5 w-5" />
+                            </button>
+                        </div>
+
+                        <nav className="mt-6 flex flex-col gap-1">
+                            {links.map((link) => (
+                                <a
+                                    key={link.href}
+                                    href={link.href}
+                                    className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
+                                >
+                                    {link.label}
+                                </a>
+                            ))}
+                        </nav>
+
+                        {socials.length > 0 && (
+                            <div className="mt-4 flex items-center gap-3 px-3">
+                                {socials.map((social) => (
+                                    <a
+                                        key={social.url}
+                                        href={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-muted-foreground hover:text-foreground"
+                                    >
+                                        <SocialIcon icon={social.icon} />
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                    </aside>
+                </>
+            )}
         </header>
     );
 }
