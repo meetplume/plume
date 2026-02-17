@@ -99,4 +99,3 @@ Route::get('/laravel-zero', function () {
 });
 
 Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'));
-
