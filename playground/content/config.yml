@@ -1,0 +1,17 @@
+# available values for theme: default, brutalist, catppuccin, forest, ocean, rose
+theme: default
+
+# available values for primary: any tailwindcss color like (blue, red, green, yellow, ...) or arbitrary value
+primary: '#338737'
+
+# available values for gray: slate, gray, zinc, neutral, stone
+gray: neutral
+
+# available values for radius: none, small, medium, large
+radius: large
+
+# available values for spacing: dense, compact, default, spacious
+spacing: default
+
+# available values for dark: true, false
+dark: false

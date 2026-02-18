@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Meetplume\Plume\Facades\Plume;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Plume::config(base_path('content/config.yml'));
     }
 }

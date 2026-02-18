@@ -9,6 +9,7 @@ use Meetplume\Plume\PageDefinition;
 
 /**
  * @method static PageDefinition page(string $uri, string $filePath)
+ * @method static void config(string $configPath)
  *
  * @see \Meetplume\Plume\Plume
  */
