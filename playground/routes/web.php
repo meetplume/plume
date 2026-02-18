@@ -26,4 +26,8 @@ Route::get('/laravel-zero', function () {
     return Page::render('laravel-zero', (array) require base_path('page-sources/index-array.php'));
 });
 
+Route::get('/laravel-zero-md', function () {
+    return Page::render('laravel-zero', base_path('page-sources/index-frontmatter.md'));
+});
+
 Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'));
