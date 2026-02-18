@@ -4,7 +4,7 @@ import { Link } from '@/components/link';
 import { cn } from '@/lib/utils';
 import { type Link as LinkType } from '@/types/Link';
 
-type Hero1Props = {
+export type Hero1Props = {
     className?: string;
     title: string;
     tagline?: string;
