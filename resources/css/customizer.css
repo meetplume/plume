@@ -271,13 +271,46 @@
     transform: translateX(16px);
 }
 
+/* Action buttons row */
+.cz-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* Save button */
+.cz-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: 1;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--cz-active-bg);
+    background: var(--cz-active-bg);
+    color: var(--cz-active-fg);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.cz-save:hover {
+    opacity: 0.85;
+}
+
+.cz-save:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 /* Reset button */
 .cz-reset {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    width: 100%;
+    flex: 1;
     height: 32px;
     border-radius: 6px;
     border: 1px solid var(--cz-border);

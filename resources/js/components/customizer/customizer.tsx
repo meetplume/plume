@@ -1,7 +1,7 @@
 import '../../../css/customizer.css';
 
-import { Check, Paintbrush, Pipette, Plus, RotateCcw } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Check, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
@@ -81,12 +81,18 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
 
     const [open, setOpen] = useState(false);
     const [config, setConfig] = useState<ThemeConfig | null>(initialData?.theme ?? null);
+    const [savedConfig, setSavedConfig] = useState<ThemeConfig | null>(initialData?.theme ?? null);
     const [preset, setPreset] = useState(customizerConfig?.preset ?? '');
     const [customColor, setCustomColor] = useState('');
+    const [saving, setSaving] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
+    const presets = useMemo(() => customizerConfig?.presets ?? {}, [customizerConfig?.presets]);
+    const presetNames = Object.keys(presets);
+
     const isCustomColor = config ? !availablePrimaryColors.includes(config.primary) : false;
+    const isDirty = config && savedConfig ? JSON.stringify(config) !== JSON.stringify(savedConfig) : false;
 
     useEffect(() => {
         if (isCustomColor && config) {
@@ -105,31 +111,51 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
             if ('dark' in partial) {
                 setDarkMode(next.dark);
             }
-
-            postCustomizer('/_plume/customizer', partial).then();
         },
         [config],
     );
 
-    const switchPreset = useCallback((name: string) => {
-        setPreset(name);
-        postCustomizer('/_plume/customizer', { theme: name }).then((resolved) => {
+    const saveConfig = useCallback(() => {
+        if (!config || !isDirty) return;
+
+        setSaving(true);
+        postCustomizer('/_plume/customizer', config).then((resolved) => {
+            setSavedConfig(resolved);
             setConfig(resolved);
             applyTheme(resolved);
-            if (resolved.dark !== document.documentElement.classList.contains('dark')) {
-                setDarkMode(resolved.dark);
-            }
+            setSaving(false);
         });
-    }, []);
+    }, [config, isDirty]);
+
+    const switchPreset = useCallback(
+        (name: string) => {
+            setPreset(name);
+            const presetConfig = presets[name];
+            if (!presetConfig || !config) return;
+
+            const next: ThemeConfig = {
+                ...config,
+                primary: presetConfig.primary,
+                gray: presetConfig.gray,
+                dark: presetConfig.dark,
+            };
+            setConfig(next);
+            applyTheme(next);
+            if (next.dark !== document.documentElement.classList.contains('dark')) {
+                setDarkMode(next.dark);
+            }
+        },
+        [config, presets],
+    );
 
     const resetDefaults = useCallback(() => {
-        postCustomizer('/_plume/customizer/reset', {}).then((resolved) => {
-            setConfig(resolved);
-            applyTheme(resolved);
-            if (resolved.dark !== document.documentElement.classList.contains('dark')) {
-                setDarkMode(resolved.dark);
-            }
-        });
+        const defaults: ThemeConfig = { primary: 'neutral', gray: 'neutral', radius: 'medium', spacing: 'default', dark: false };
+        setConfig(defaults);
+        setPreset('');
+        applyTheme(defaults);
+        if (defaults.dark !== document.documentElement.classList.contains('dark')) {
+            setDarkMode(defaults.dark);
+        }
     }, []);
 
     if (!customizerConfig?.enabled) {
@@ -137,8 +163,6 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     }
 
     const isDark = config?.dark ?? false;
-    const presets = customizerConfig.presets ?? {};
-    const presetNames = Object.keys(presets);
 
     return (
         <TooltipProvider>
@@ -299,11 +323,17 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                 </button>
                             </div>
 
-                            {/* Restore defaults */}
-                            <button type="button" className="cz-reset" onClick={resetDefaults}>
-                                <RotateCcw style={{ width: 14, height: 14 }} />
-                                Restore defaults
-                            </button>
+                            {/* Save & Restore */}
+                            <div className="cz-actions">
+                                <button type="button" className="cz-save" disabled={!isDirty || saving} onClick={saveConfig}>
+                                    <Save style={{ width: 14, height: 14 }} />
+                                    {saving ? 'Saving…' : 'Save'}
+                                </button>
+                                <button type="button" className="cz-reset" onClick={resetDefaults}>
+                                    <RotateCcw style={{ width: 14, height: 14 }} />
+                                    Restore defaults
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
