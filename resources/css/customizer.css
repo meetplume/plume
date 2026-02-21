@@ -1,0 +1,410 @@
+.plume-customizer {
+    --cz-bg: #fff;
+    --cz-fg: #111;
+    --cz-border: #e5e5e5;
+    --cz-muted: #737373;
+    --cz-active-bg: #111;
+    --cz-active-fg: #fff;
+    --cz-hover-bg: #f5f5f5;
+    --cz-toggle-off: #d4d4d4;
+    --cz-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.dark .plume-customizer {
+    --cz-bg: #1c1c1c;
+    --cz-fg: #e5e5e5;
+    --cz-border: #333;
+    --cz-muted: #888;
+    --cz-active-bg: #e5e5e5;
+    --cz-active-fg: #111;
+    --cz-hover-bg: #2a2a2a;
+    --cz-toggle-off: #555;
+    --cz-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Container */
+.plume-customizer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 50;
+    font-family: system-ui, sans-serif;
+}
+
+/* Panel */
+.cz-panel {
+    margin-bottom: 8px;
+    width: 340px;
+    border-radius: 14px;
+    border: 1px solid var(--cz-border);
+    background: oklch(1 0 0 / 0.9);
+    backdrop-filter: blur(8px);
+    color: var(--cz-fg);
+    padding: 16px;
+    box-shadow: var(--cz-shadow);
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+}
+@media (max-width: 380px) {
+    .cz-panel {
+        width: calc(100% - 20px);
+    }
+}
+
+.cz-title {
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--cz-fg);
+}
+
+.cz-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Labels */
+.cz-label {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--cz-fg);
+}
+
+/* Swatch grid (colors) */
+.cz-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 4px;
+    overflow: visible;
+}
+
+.cz-swatch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--cz-border);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s;
+}
+
+.cz-swatch:hover {
+    transform: scale(1.1);
+}
+
+.cz-swatch[data-active='true'] {
+    border-color: var(--cz-fg);
+    outline: 1px solid var(--cz-fg);
+}
+
+/* Pill buttons (radius, spacing) */
+.cz-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.cz-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid var(--cz-border);
+    background: oklch(1 0 0 / 0.3);
+    color: var(--cz-fg);
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+
+.cz-pill:hover {
+    background: var(--cz-hover-bg);
+}
+
+.cz-pill[data-active='true'] {
+    border-color: var(--cz-active-bg);
+    background: var(--cz-active-bg);
+    color: var(--cz-active-fg);
+}
+
+/* Preset grid */
+.cz-preset-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.cz-preset-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 6px;
+    border: 1px solid var(--cz-border);
+    border-radius: 8px;
+    background: oklch(1 0 0 / 0.3);
+    color: var(--cz-fg);
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+    text-align: left;
+}
+
+.cz-preset-item:hover {
+    background: var(--cz-hover-bg);
+}
+
+.cz-preset-item[data-active='true'] {
+    border-color: var(--cz-active-bg);
+    background: var(--cz-hover-bg);
+    font-weight: 600;
+}
+
+.cz-preset-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    border-radius: 5px;
+    background: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+
+.cz-preset-dots[data-dark='true'] {
+    background: #222;
+}
+
+.cz-preset-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.cz-preset-name {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Toggle row */
+.cz-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cz-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    transition: background 0.2s;
+    background: var(--cz-toggle-off);
+}
+
+.cz-toggle[data-on='true'] {
+    background: var(--cz-active-bg);
+}
+
+.cz-toggle-knob {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--cz-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    transform: translateX(0);
+}
+
+.cz-toggle[data-on='true'] .cz-toggle-knob {
+    transform: translateX(16px);
+}
+
+/* Reset button */
+.cz-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--cz-border);
+    background: transparent;
+    color: var(--cz-fg);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cz-reset:hover {
+    background: var(--cz-hover-bg);
+}
+
+/* Floating toggle button */
+.cz-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cz-active-bg);
+    color: var(--cz-active-fg);
+    cursor: pointer;
+    box-shadow: var(--cz-shadow);
+    transition: background 0.15s;
+}
+
+.cz-fab:hover {
+    opacity: 0.85;
+}
+
+/* Radius preview icon inside pill */
+.cz-radius-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid currentColor;
+    border-left: 2px solid currentColor;
+    opacity: 0.5;
+}
+
+/* Spacing preview icon inside pill — 3 lines with varying gap */
+.cz-spacing-icon {
+    display: flex;
+    flex-direction: column;
+    width: 10px;
+    opacity: 0.5;
+}
+
+.cz-spacing-icon span {
+    width: 100%;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 1px;
+}
+
+.cz-spacing-icon[data-spacing='dense'] {
+    height: 6px;
+    justify-content: space-between;
+}
+
+.cz-spacing-icon[data-spacing='compact'] {
+    height: 8px;
+    justify-content: space-between;
+}
+
+.cz-spacing-icon[data-spacing='default'] {
+    height: 10px;
+    justify-content: space-between;
+}
+
+.cz-spacing-icon[data-spacing='spacious'] {
+    height: 12px;
+    justify-content: space-between;
+}
+
+/* Custom color picker swatch */
+.cz-custom-color {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px dashed var(--cz-muted);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s;
+}
+
+.cz-custom-color:hover {
+    transform: scale(1.1);
+}
+
+.cz-custom-color[data-active='true'] {
+    border-color: var(--cz-fg);
+    border-style: solid;
+    outline: 1px solid var(--cz-fg);
+}
+
+.cz-color-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: none;
+    overflow: hidden;
+}
+
+.cz-color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.cz-color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+.cz-color-input::-moz-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+.cz-custom-color .cz-check {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Check icon in swatches */
+.cz-check {
+    width: 14px;
+    height: 14px;
+    color: #fff;
+}
+
+/* Pin theme vars on customizer tooltips (portaled to body) */
+.plume-customizer-tooltip {
+    --primary: #111;
+    --primary-foreground: #fff;
+    --radius: 0.5rem;
+    --spacing: 0.25rem;
+}
+
+.dark .plume-customizer-tooltip {
+    --primary: #e5e5e5;
+    --primary-foreground: #111;
+}

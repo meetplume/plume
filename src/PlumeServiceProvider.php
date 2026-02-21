@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
-class PlumeServiceProvider extends \Illuminate\Support\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class PlumeServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -18,5 +20,9 @@ class PlumeServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishes([
             __DIR__.'/../dist' => public_path('vendor/plume/dist'),
         ], 'plume-assets');
+
+        if ($this->app->environment('local', 'testing')) {
+            $this->loadRoutesFrom(__DIR__.'/../routes/customizer.php');
+        }
     }
 }

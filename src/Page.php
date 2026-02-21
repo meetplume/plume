@@ -19,9 +19,21 @@ class Page
         }
 
         if (app()->bound(ThemeConfig::class)) {
-            Inertia::share('plume', [
-                'theme' => app(ThemeConfig::class)->toArray(),
-            ]);
+            $themeConfig = app(ThemeConfig::class);
+
+            $plumeData = [
+                'theme' => $themeConfig->toArray(),
+            ];
+
+            if (app()->environment('local') && $themeConfig->isCustomizerEnabled()) {
+                $plumeData['customizer'] = [
+                    'enabled' => true,
+                    'preset' => $themeConfig->activePreset(),
+                    'presets' => ThemeConfig::presets(),
+                ];
+            }
+
+            Inertia::share('plume', $plumeData);
         }
 
         Inertia::setRootView('plume::app');
