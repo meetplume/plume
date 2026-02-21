@@ -48,10 +48,9 @@
         "remark-gfm": "^4.0.1",
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.0.0",
-        "unified": "^11.0.0",
         "simple-icons": "^16.9.0",
         "tailwind-merge": "^3.0.1",
-        "tailwindcss": "^4.0.0",
+        "tailwindcss": "^4.2.0",
         "typescript": "^5.7.2",
         "unified": "^11.0.0",
         "vite": "^7.0.4"

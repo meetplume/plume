@@ -18,6 +18,12 @@ class Page
             $props = Frontmatter::parse((string) file_get_contents($props));
         }
 
+        if (app()->bound(ThemeConfig::class)) {
+            Inertia::share('plume', [
+                'theme' => app(ThemeConfig::class)->toArray(),
+            ]);
+        }
+
         Inertia::setRootView('plume::app');
 
         return Inertia::render($component, $props);
