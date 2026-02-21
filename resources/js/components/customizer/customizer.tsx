@@ -1,6 +1,6 @@
 import '../../../css/customizer.css';
 
-import { Check, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
+import { Check, ChevronDown, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -19,6 +19,8 @@ import {
 type PresetConfig = {
     primary: string;
     gray: string;
+    radius: string;
+    spacing: string;
     dark: boolean;
 };
 
@@ -85,6 +87,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const [preset, setPreset] = useState(customizerConfig?.preset ?? '');
     const [customColor, setCustomColor] = useState('');
     const [saving, setSaving] = useState(false);
+    const [presetOpen, setPresetOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
@@ -134,9 +137,10 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
             if (!presetConfig || !config) return;
 
             const next: ThemeConfig = {
-                ...config,
                 primary: presetConfig.primary,
                 gray: presetConfig.gray,
+                radius: presetConfig.radius,
+                spacing: presetConfig.spacing,
                 dark: presetConfig.dark,
             };
             setConfig(next);
@@ -176,23 +180,49 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                         </div>
 
                         <div className="cz-sections">
-                            {/* Preset list */}
+                            {/* Preset dropdown */}
                             {presetNames.length > 0 && (
                                 <div>
                                     <div className="cz-label">Preset</div>
-                                    <div className="cz-preset-list">
-                                        {presetNames.map((name) => (
-                                            <button
-                                                key={name}
-                                                type="button"
-                                                className="cz-preset-item"
-                                                data-active={preset === name}
-                                                onClick={() => switchPreset(name)}
-                                            >
-                                                <PresetDots preset={presets[name]} />
-                                                <span className="cz-preset-name">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
-                                            </button>
-                                        ))}
+                                    <div className="cz-preset-dropdown">
+                                        <button
+                                            type="button"
+                                            className="cz-preset-trigger"
+                                            onClick={() => setPresetOpen(!presetOpen)}
+                                        >
+                                            <span className="cz-preset-trigger-left">
+                                                {preset && presets[preset] ? (
+                                                    <>
+                                                        <PresetDots preset={presets[preset]} />
+                                                        <span>{preset.charAt(0).toUpperCase() + preset.slice(1)}</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="cz-preset-trigger-placeholder">Select a preset</span>
+                                                )}
+                                            </span>
+                                            <ChevronDown className="cz-preset-chevron" data-open={presetOpen} />
+                                        </button>
+                                        {presetOpen && (
+                                            <div className="cz-preset-list">
+                                                {presetNames.map((name) => (
+                                                    <button
+                                                        key={name}
+                                                        type="button"
+                                                        className="cz-preset-item"
+                                                        data-active={preset === name}
+                                                        onClick={() => {
+                                                            switchPreset(name);
+                                                            setPresetOpen(false);
+                                                        }}
+                                                    >
+                                                        <PresetDots preset={presets[name]} />
+                                                        <span className="cz-preset-name">
+                                                            {name.charAt(0).toUpperCase() + name.slice(1)}
+                                                        </span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}

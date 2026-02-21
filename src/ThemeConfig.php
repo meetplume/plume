@@ -95,7 +95,7 @@ class ThemeConfig
     }
 
     /**
-     * @return array<string, array{primary: string, gray: string, dark: bool}>
+     * @return array<string, array{primary: string, gray: string, radius: string, spacing: string, dark: bool}>
      */
     public static function presets(): array
     {
@@ -109,12 +109,7 @@ class ThemeConfig
         foreach (glob($dir.'/*.yml') ?: [] as $file) {
             $name = pathinfo($file, PATHINFO_FILENAME);
             $config = new self($file);
-            $data = $config->toArray();
-            $presets[$name] = [
-                'primary' => $data['primary'],
-                'gray' => $data['gray'],
-                'dark' => $data['dark'],
-            ];
+            $presets[$name] = $config->toArray();
         }
 
         ksort($presets);

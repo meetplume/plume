@@ -162,6 +162,63 @@
     background: var(--cz-hover-bg);
 }
 
+/* Preset dropdown */
+.cz-preset-dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cz-preset-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 10px;
+    border: 1px solid var(--cz-border);
+    border-radius: 8px;
+    background: oklch(1 0 0 / 0.3);
+    color: var(--cz-fg);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+    text-align: left;
+}
+
+.dark .cz-preset-trigger {
+    background: oklch(0.222 0 90 / 0.3);
+}
+
+.cz-preset-trigger:hover {
+    background: var(--cz-hover-bg);
+}
+
+.cz-preset-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.cz-preset-trigger-placeholder {
+    color: var(--cz-muted);
+}
+
+.cz-preset-chevron {
+    width: 14px;
+    height: 14px;
+    color: var(--cz-muted);
+    flex-shrink: 0;
+    transition: transform 0.15s;
+}
+
+.cz-preset-chevron[data-open='true'] {
+    transform: rotate(180deg);
+}
+
 /* Preset grid */
 .cz-preset-list {
     display: grid;
