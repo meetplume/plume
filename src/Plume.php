@@ -22,7 +22,7 @@ class Plume
 
         Route::get($uri, PageController::class)
             ->defaults('pageDefinition', $definition)
-            ->name("plume.{$trimmedUri}");
+            ->name('plume.'.$trimmedUri);
 
         return $definition;
     }

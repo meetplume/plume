@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Meetplume\Plume\Enums\CodeTheme;
 use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\Page;
 
@@ -30,4 +31,8 @@ Route::get('/laravel-zero-md', function () {
     return Page::render('laravel-zero', base_path('page-sources/index-frontmatter.md'));
 });
 
-Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'));
+Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'))
+    ->codeTheme(
+        light: CodeTheme::CATPPUCCIN_LATTE,
+        dark: CodeTheme::CATPPUCCIN_MACCHIATO,
+    );
