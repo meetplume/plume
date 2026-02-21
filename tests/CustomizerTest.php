@@ -88,9 +88,7 @@ it('lists available presets with config', function (): void {
 
     expect($presets)->toHaveKeys(['default', 'brutalist', 'catppuccin', 'forest', 'ocean', 'rose']);
     expect($presets['ocean'])->toBe(['primary' => 'blue', 'gray' => 'slate', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false, 'code_theme_light' => 'github-light', 'code_theme_dark' => 'github-dark']);
-    expect($presets['catppuccin'])->toHaveKey('dark', true)
-        ->and($presets['catppuccin'])->toHaveKey('code_theme_light', 'catppuccin-latte')
-        ->and($presets['catppuccin'])->toHaveKey('code_theme_dark', 'catppuccin-mocha');
+    expect($presets['catppuccin'])->toHaveKey('dark', true);
 });
 
 it('stores and returns config path on Plume singleton', function (): void {

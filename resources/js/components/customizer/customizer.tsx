@@ -20,6 +20,29 @@ import {
 
 const codeThemes = bundledThemesInfo;
 
+type CodeThemePreview = { bg: string; c1: string; c2: string };
+
+function extractPreviewColors(theme: {
+    colors?: Record<string, string>;
+    tokenColors?: Array<{ scope?: string | string[]; settings?: { foreground?: string } }>;
+}): CodeThemePreview {
+    const bg = theme.colors?.['editor.background'] ?? '#1e1e1e';
+    const fg = theme.colors?.['editor.foreground'] ?? '#d4d4d4';
+    let keyword: string | null = null;
+    let entity: string | null = null;
+
+    for (const t of theme.tokenColors ?? []) {
+        const scopes = Array.isArray(t.scope) ? t.scope : [t.scope];
+        const color = t.settings?.foreground;
+        if (color == null) continue;
+        if (keyword == null && scopes.some((s) => s?.includes('keyword'))) keyword = color;
+        if (entity == null && scopes.some((s) => s === 'entity.name.function' || s === 'entity' || s === 'entity.name')) entity = color;
+        if (keyword && entity) break;
+    }
+
+    return { bg, c1: keyword ?? fg, c2: entity ?? fg };
+}
+
 type PresetConfig = {
     primary: string;
     gray: string;
@@ -84,7 +107,26 @@ function SwatchTooltip({ label, children }: { label: string; children: React.Rea
     );
 }
 
-function CodeThemeDropdown({ label, value, onChange }: { label: string; value: string; onChange: (id: string) => void }) {
+function CodeThemeDots({ preview }: { preview: CodeThemePreview }) {
+    return (
+        <span className="cz-code-theme-dots" style={{ backgroundColor: preview.bg }}>
+            <span className="cz-preset-dot" style={{ backgroundColor: preview.c1 }} />
+            <span className="cz-preset-dot" style={{ backgroundColor: preview.c2 }} />
+        </span>
+    );
+}
+
+function CodeThemeDropdown({
+    label,
+    value,
+    onChange,
+    previews,
+}: {
+    label: string;
+    value: string;
+    onChange: (id: string) => void;
+    previews: Record<string, CodeThemePreview>;
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const current = codeThemes.find((t) => t.id === value);
 
@@ -94,6 +136,7 @@ function CodeThemeDropdown({ label, value, onChange }: { label: string; value: s
             <div className="cz-preset-dropdown">
                 <button type="button" className="cz-preset-trigger" onClick={() => setIsOpen(!isOpen)}>
                     <span className="cz-preset-trigger-left">
+                        {previews[value] && <CodeThemeDots preview={previews[value]} />}
                         <span>{current?.displayName ?? value}</span>
                     </span>
                     <ChevronDown className="cz-preset-chevron" data-open={isOpen} />
@@ -111,7 +154,8 @@ function CodeThemeDropdown({ label, value, onChange }: { label: string; value: s
                                     setIsOpen(false);
                                 }}
                             >
-                                {t.displayName}
+                                {previews[t.id] && <CodeThemeDots preview={previews[t.id]} />}
+                                <span>{t.displayName}</span>
                             </button>
                         ))}
                     </div>
@@ -131,6 +175,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const [customColor, setCustomColor] = useState('');
     const [saving, setSaving] = useState(false);
     const [presetOpen, setPresetOpen] = useState(false);
+    const [codeThemePreviews, setCodeThemePreviews] = useState<Record<string, CodeThemePreview>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
@@ -145,6 +190,16 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
             setCustomColor(config.primary);
         }
     }, [isCustomColor, config]);
+
+    useEffect(() => {
+        import('shiki').then(({ bundledThemes }) => {
+            Promise.all(
+                codeThemes.map((t) =>
+                    bundledThemes[t.id as keyof typeof bundledThemes]().then((m) => [t.id, extractPreviewColors(m.default)] as const),
+                ),
+            ).then((entries) => setCodeThemePreviews(Object.fromEntries(entries)));
+        });
+    }, []);
 
     const updateConfig = useCallback(
         (partial: Partial<ThemeConfig>) => {
@@ -423,6 +478,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                 label="Code theme (light)"
                                 value={config.code_theme_light}
                                 onChange={(id) => updateConfig({ code_theme_light: id })}
+                                previews={codeThemePreviews}
                             />
 
                             {/* Code theme dark */}
@@ -430,6 +486,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                 label="Code theme (dark)"
                                 value={config.code_theme_dark}
                                 onChange={(id) => updateConfig({ code_theme_dark: id })}
+                                previews={codeThemePreviews}
                             />
 
                             {/* Save & Restore */}
