@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-type Footer1Props = React.ComponentProps<'footer'> & {
+export type Footer1Props = React.ComponentProps<'footer'> & {
     label?: string;
     image?: React.ReactNode | string;
     imageDark?: React.ReactNode | string;
