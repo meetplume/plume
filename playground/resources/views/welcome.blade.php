@@ -14,6 +14,7 @@
                 <a href="/movies" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Movies</a>
                 <a href="/tv-shows" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">TV Shows</a>
                 <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
+                <a href="/laravel-zero-md" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero MD</a>
                 <a href="/docs/build-interactive-menus" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Build interactive menus</a>
             </div>
         </div>
