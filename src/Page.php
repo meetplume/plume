@@ -20,9 +20,12 @@ class Page
 
         if (app()->bound(ThemeConfig::class)) {
             $themeConfig = app(ThemeConfig::class);
+            $themeArray = $themeConfig->toArray();
 
             $plumeData = [
-                'theme' => $themeConfig->toArray(),
+                'theme' => $themeArray,
+                'codeThemeLight' => $themeArray['code_theme_light'],
+                'codeThemeDark' => $themeArray['code_theme_dark'],
             ];
 
             if (app()->environment('local') && $themeConfig->isCustomizerEnabled()) {

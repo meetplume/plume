@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
 import rehypeExternalLinks from 'rehype-external-links';
@@ -28,6 +29,25 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     const [html, setHtml] = useState('');
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const sharedProps = usePage().props as Record<string, unknown>;
+    const plume = sharedProps.plume as { codeThemeLight?: string; codeThemeDark?: string } | undefined;
+
+    const initialLight = page.codeThemeLight ?? plume?.codeThemeLight ?? 'github-light';
+    const initialDark = page.codeThemeDark ?? plume?.codeThemeDark ?? 'github-dark';
+
+    const [codeThemeLight, setCodeThemeLight] = useState(initialLight);
+    const [codeThemeDark, setCodeThemeDark] = useState(initialDark);
+
+    useEffect(() => {
+        const handler = (e: Event) => {
+            const { light, dark } = (e as CustomEvent<{ light: string; dark: string }>).detail;
+            setCodeThemeLight(light);
+            setCodeThemeDark(dark);
+        };
+        window.addEventListener('plume:code-theme', handler);
+        return () => window.removeEventListener('plume:code-theme', handler);
+    }, []);
+
     const processor = useMemo(
         () =>
             unified()
@@ -37,15 +57,12 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
                 .use(remarkRehype, { allowDangerousHtml: true })
                 .use(rehypeRaw)
                 .use(rehypeExpressiveCode, {
-                    themes: [
-                        (page.codeThemeDark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
-                        (page.codeThemeLight ?? 'github-light') as ThemeObjectOrShikiThemeName,
-                    ],
+                    themes: [codeThemeDark as ThemeObjectOrShikiThemeName, codeThemeLight as ThemeObjectOrShikiThemeName],
                 })
                 .use(rehypeSlug)
                 .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
                 .use(rehypeStringify),
-        [page.codeThemeLight, page.codeThemeDark],
+        [codeThemeLight, codeThemeDark],
     );
 
     useEffect(() => {
