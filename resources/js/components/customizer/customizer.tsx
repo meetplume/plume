@@ -185,11 +185,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                 <div>
                                     <div className="cz-label">Preset</div>
                                     <div className="cz-preset-dropdown">
-                                        <button
-                                            type="button"
-                                            className="cz-preset-trigger"
-                                            onClick={() => setPresetOpen(!presetOpen)}
-                                        >
+                                        <button type="button" className="cz-preset-trigger" onClick={() => setPresetOpen(!presetOpen)}>
                                             <span className="cz-preset-trigger-left">
                                                 {preset && presets[preset] ? (
                                                     <>
@@ -216,9 +212,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                         }}
                                                     >
                                                         <PresetDots preset={presets[name]} />
-                                                        <span className="cz-preset-name">
-                                                            {name.charAt(0).toUpperCase() + name.slice(1)}
-                                                        </span>
+                                                        <span className="cz-preset-name">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
                                                     </button>
                                                 ))}
                                             </div>

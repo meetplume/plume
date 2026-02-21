@@ -83,7 +83,7 @@ it('lists available presets with config', function (): void {
     $presets = ThemeConfig::presets();
 
     expect($presets)->toHaveKeys(['default', 'brutalist', 'catppuccin', 'forest', 'ocean', 'rose']);
-    expect($presets['ocean'])->toBe(['primary' => 'blue', 'gray' => 'slate', 'dark' => false]);
+    expect($presets['ocean'])->toBe(['primary' => 'blue', 'gray' => 'slate', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false]);
     expect($presets['catppuccin'])->toHaveKey('dark', true);
 });
 
