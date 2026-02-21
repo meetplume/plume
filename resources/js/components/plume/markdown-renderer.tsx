@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -14,6 +15,8 @@ export interface PlumePageContext {
     title?: string;
     description?: string;
     meta?: Record<string, unknown>;
+    codeThemeLight?: string;
+    codeThemeDark?: string;
 }
 
 interface MarkdownRendererProps {
@@ -21,24 +24,46 @@ interface MarkdownRendererProps {
     className?: string;
 }
 
-const processor = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkFrontmatter)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeSlug)
-    .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
-    .use(rehypeStringify);
-
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     const [html, setHtml] = useState('');
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const processor = useMemo(
+        () =>
+            unified()
+                .use(remarkParse)
+                .use(remarkGfm)
+                .use(remarkFrontmatter)
+                .use(remarkRehype, { allowDangerousHtml: true })
+                .use(rehypeRaw)
+                .use(rehypeExpressiveCode, {
+                    themes: [
+                        (page.codeThemeDark ?? 'github-dark') as ThemeObjectOrShikiThemeName,
+                        (page.codeThemeLight ?? 'github-light') as ThemeObjectOrShikiThemeName,
+                    ],
+                })
+                .use(rehypeSlug)
+                .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+                .use(rehypeStringify),
+        [page.codeThemeLight, page.codeThemeDark],
+    );
 
     useEffect(() => {
         processor.process(page.content).then((file) => {
             setHtml(String(file));
         });
-    }, [page.content]);
+    }, [processor, page.content]);
 
-    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
+    useEffect(() => {
+        if (!containerRef.current || !html) return;
+
+        const range = document.createRange();
+        range.selectNode(containerRef.current);
+        const fragment = range.createContextualFragment(html);
+
+        containerRef.current.innerHTML = '';
+        containerRef.current.append(fragment);
+    }, [html]);
+
+    return <div ref={containerRef} className={className} />;
 }
