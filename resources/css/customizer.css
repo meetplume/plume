@@ -51,6 +51,10 @@
     }
 }
 
+.dark .cz-panel {
+    background: oklch(0.222 0 90 / 0.9);
+}
+
 .cz-title {
     margin-bottom: 16px;
     font-weight: 600;
@@ -129,6 +133,10 @@
         border-color 0.15s;
 }
 
+.dark .cz-pill {
+    background: oklch(0.222 0 90 / 0.3);
+}
+
 .cz-pill:hover {
     background: var(--cz-hover-bg);
 }
@@ -162,6 +170,10 @@
         background 0.15s,
         border-color 0.15s;
     text-align: left;
+}
+
+.dark .cz-preset-item {
+    background: oklch(0.222 0 90 / 0.3);
 }
 
 .cz-preset-item:hover {
