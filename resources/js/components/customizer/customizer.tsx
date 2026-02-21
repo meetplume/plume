@@ -146,6 +146,10 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                 {open && config && (
                     <div className="cz-panel">
                         <div className="cz-title">Customizer</div>
+                        <div className="cz-description">
+                            Here you can customize your Plume theme. Options will be stored in your <code>content/config.yml</code>. This tool only
+                            shows in local environment.
+                        </div>
 
                         <div className="cz-sections">
                             {/* Preset list */}
