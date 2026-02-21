@@ -5,7 +5,7 @@ theme: default
 primary: '#338737'
 
 # available values for gray: slate, gray, zinc, neutral, stone, mauve, olive, mist, taupe
-gray: neutral
+gray: gray
 
 # available values for radius: none, small, medium, large
 radius: large
