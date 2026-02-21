@@ -1,9 +1,10 @@
 import { Footer1 } from '@/components/blocks/footer1';
 import { Hero1 } from '@/components/blocks/hero1';
-import type { Link } from '@/types/Link';
+import type { Link as LinkType } from '@/types/Link';
+import { Link } from '@/components/link';
 
 export default function App() {
-    const links: Link[] = [
+    const links: LinkType[] = [
         { label: 'Browse movies', href: '#', icon: 'ArrowRight' },
         { label: 'Top rated', href: '#', variant: 'ghost', icon: 'ArrowUpRight' },
     ];
@@ -26,9 +27,7 @@ export default function App() {
                     imageAlt="Movie reel"
                     description="Now playing in theaters and streaming everywhere. Experience the story that critics are calling unforgettable."
                     links={
-                        <Link href="#" className="underline">
-                            Find showtimes
-                        </Link>
+                        <Link href="#" className="underline" label="Find showtimes" />
                     }
                 />
             </div>
