@@ -12,6 +12,10 @@ class ThemeConfig
     /** @var array{primary: string, gray: string, radius: string, spacing: string, dark: bool} */
     private array $resolved;
 
+    private readonly bool $customizerEnabled;
+
+    private readonly string $activePreset;
+
     private const array DEFAULTS = [
         'primary' => 'neutral',
         'gray' => 'neutral',
@@ -26,7 +30,10 @@ class ThemeConfig
 
     public function __construct(string $configPath)
     {
-        $this->resolved = $this->resolve($configPath);
+        $config = $this->parseYaml($configPath);
+        $this->customizerEnabled = ! isset($config['customizer']) || $config['customizer'] !== false;
+        $this->activePreset = isset($config['theme']) && is_string($config['theme']) ? $config['theme'] : '';
+        $this->resolved = $this->resolve($config);
     }
 
     /**
@@ -42,12 +49,101 @@ class ThemeConfig
         return $this->resolved['dark'];
     }
 
+    public function isCustomizerEnabled(): bool
+    {
+        return $this->customizerEnabled;
+    }
+
+    public function activePreset(): string
+    {
+        return $this->activePreset;
+    }
+
     /**
      * @return array{primary: string, gray: string, radius: string, spacing: string, dark: bool}
      */
-    private function resolve(string $configPath): array
+    public static function defaults(): array
     {
-        $config = $this->parseYaml($configPath);
+        return self::DEFAULTS;
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    public static function write(string $path, array $config): void
+    {
+        $comments = [
+            'theme' => '# available values for theme: '.implode(', ', array_keys(self::presets())),
+            'primary' => '# available values for primary: any tailwindcss color like (blue, red, green, yellow, ...) or arbitrary value',
+            'gray' => '# available values for gray: slate, gray, zinc, neutral, stone, mauve, olive, mist, taupe',
+            'radius' => '# available values for radius: '.implode(', ', self::VALID_RADIUS),
+            'spacing' => '# available values for spacing: '.implode(', ', self::VALID_SPACING),
+            'dark' => '# available values for dark: true, false',
+            'customizer' => '# available values for customizer: true, false',
+        ];
+
+        $lines = [];
+        foreach ($config as $key => $value) {
+            if (isset($comments[$key])) {
+                $lines[] = $comments[$key];
+            }
+
+            $lines[] = Yaml::dump([$key => $value], 2, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
+        }
+
+        file_put_contents($path, implode("\n", $lines));
+    }
+
+    /**
+     * @return array<string, array{primary: string, gray: string, dark: bool}>
+     */
+    public static function presets(): array
+    {
+        $presets = [];
+        $dir = __DIR__.'/../resources/presets';
+
+        if (! is_dir($dir)) {
+            return $presets;
+        }
+
+        foreach (glob($dir.'/*.yml') ?: [] as $file) {
+            $name = pathinfo($file, PATHINFO_FILENAME);
+            $config = new self($file);
+            $data = $config->toArray();
+            $presets[$name] = [
+                'primary' => $data['primary'],
+                'gray' => $data['gray'],
+                'dark' => $data['dark'],
+            ];
+        }
+
+        ksort($presets);
+
+        return $presets;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function validRadius(): array
+    {
+        return self::VALID_RADIUS;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function validSpacing(): array
+    {
+        return self::VALID_SPACING;
+    }
+
+    /**
+     * @param  array<string, mixed>  $config
+     * @return array{primary: string, gray: string, radius: string, spacing: string, dark: bool}
+     */
+    private function resolve(array $config): array
+    {
         $preset = $this->parseYaml($this->presetPath($config));
 
         $primary = $config['primary'] ?? $preset['primary'] ?? self::DEFAULTS['primary'];

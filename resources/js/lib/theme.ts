@@ -68,16 +68,6 @@ const primaryColors: Record<string, ColorScale> = {
             '--primary-foreground': 'oklch(0.205 0 0)',
         },
     },
-    blue: {
-        light: {
-            '--primary': 'oklch(0.546 0.245 262.881)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-        dark: {
-            '--primary': 'oklch(0.546 0.245 262.881)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-    },
     red: {
         light: {
             '--primary': 'oklch(0.577 0.245 27.325)',
@@ -88,26 +78,6 @@ const primaryColors: Record<string, ColorScale> = {
             '--primary-foreground': 'oklch(0.985 0 0)',
         },
     },
-    green: {
-        light: {
-            '--primary': 'oklch(0.527 0.185 155.023)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-        dark: {
-            '--primary': 'oklch(0.527 0.185 155.023)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-    },
-    violet: {
-        light: {
-            '--primary': 'oklch(0.541 0.281 293.009)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-        dark: {
-            '--primary': 'oklch(0.702 0.183 293.541)',
-            '--primary-foreground': 'oklch(0.205 0 0)',
-        },
-    },
     orange: {
         light: {
             '--primary': 'oklch(0.705 0.213 47.604)',
@@ -115,16 +85,6 @@ const primaryColors: Record<string, ColorScale> = {
         },
         dark: {
             '--primary': 'oklch(0.705 0.213 47.604)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-    },
-    rose: {
-        light: {
-            '--primary': 'oklch(0.585 0.233 14.645)',
-            '--primary-foreground': 'oklch(0.985 0 0)',
-        },
-        dark: {
-            '--primary': 'oklch(0.585 0.233 14.645)',
             '--primary-foreground': 'oklch(0.985 0 0)',
         },
     },
@@ -138,6 +98,36 @@ const primaryColors: Record<string, ColorScale> = {
             '--primary-foreground': 'oklch(0.205 0 0)',
         },
     },
+    yellow: {
+        light: {
+            '--primary': 'oklch(0.795 0.184 86.047)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.795 0.184 86.047)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+    },
+    lime: {
+        light: {
+            '--primary': 'oklch(0.768 0.233 130.85)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.768 0.233 130.85)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+    },
+    green: {
+        light: {
+            '--primary': 'oklch(0.527 0.185 155.023)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.527 0.185 155.023)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
     emerald: {
         light: {
             '--primary': 'oklch(0.596 0.178 163.231)',
@@ -145,6 +135,106 @@ const primaryColors: Record<string, ColorScale> = {
         },
         dark: {
             '--primary': 'oklch(0.596 0.178 163.231)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    teal: {
+        light: {
+            '--primary': 'oklch(0.627 0.194 175.071)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.627 0.194 175.071)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    cyan: {
+        light: {
+            '--primary': 'oklch(0.715 0.143 215.221)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.715 0.143 215.221)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+    },
+    sky: {
+        light: {
+            '--primary': 'oklch(0.685 0.169 237.323)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.685 0.169 237.323)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    blue: {
+        light: {
+            '--primary': 'oklch(0.546 0.245 262.881)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.546 0.245 262.881)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    indigo: {
+        light: {
+            '--primary': 'oklch(0.511 0.262 276.966)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.511 0.262 276.966)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    violet: {
+        light: {
+            '--primary': 'oklch(0.541 0.281 293.009)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.702 0.183 293.541)',
+            '--primary-foreground': 'oklch(0.205 0 0)',
+        },
+    },
+    purple: {
+        light: {
+            '--primary': 'oklch(0.553 0.261 303.37)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.553 0.261 303.37)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    fuchsia: {
+        light: {
+            '--primary': 'oklch(0.591 0.293 322.896)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.591 0.293 322.896)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    pink: {
+        light: {
+            '--primary': 'oklch(0.592 0.249 0.584)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.592 0.249 0.584)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+    },
+    rose: {
+        light: {
+            '--primary': 'oklch(0.585 0.233 14.645)',
+            '--primary-foreground': 'oklch(0.985 0 0)',
+        },
+        dark: {
+            '--primary': 'oklch(0.585 0.233 14.645)',
             '--primary-foreground': 'oklch(0.985 0 0)',
         },
     },
@@ -331,6 +421,42 @@ const grayPalettes: Record<string, ColorScale> = {
             '--ring': 'oklch(0.444 0.011 73.639)',
         },
     },
+    taupe: {
+        light: {
+            '--background': 'oklch(1 0 0)',
+            '--foreground': 'oklch(0.147 0.004 49.3)',
+            '--card': 'oklch(1 0 0)',
+            '--card-foreground': 'oklch(0.147 0.004 49.3)',
+            '--popover': 'oklch(1 0 0)',
+            '--popover-foreground': 'oklch(0.147 0.004 49.3)',
+            '--secondary': 'oklch(0.96 0.002 17.2)',
+            '--secondary-foreground': 'oklch(0.214 0.009 43.1)',
+            '--muted': 'oklch(0.96 0.002 17.2)',
+            '--muted-foreground': 'oklch(0.547 0.021 43.1)',
+            '--accent': 'oklch(0.96 0.002 17.2)',
+            '--accent-foreground': 'oklch(0.214 0.009 43.1)',
+            '--border': 'oklch(0.922 0.005 34.3)',
+            '--input': 'oklch(0.922 0.005 34.3)',
+            '--ring': 'oklch(0.714 0.014 41.2)',
+        },
+        dark: {
+            '--background': 'oklch(0.147 0.004 49.3)',
+            '--foreground': 'oklch(0.986 0.002 67.8)',
+            '--card': 'oklch(0.147 0.004 49.3)',
+            '--card-foreground': 'oklch(0.986 0.002 67.8)',
+            '--popover': 'oklch(0.147 0.004 49.3)',
+            '--popover-foreground': 'oklch(0.986 0.002 67.8)',
+            '--secondary': 'oklch(0.268 0.011 36.5)',
+            '--secondary-foreground': 'oklch(0.986 0.002 67.8)',
+            '--muted': 'oklch(0.268 0.011 36.5)',
+            '--muted-foreground': 'oklch(0.714 0.014 41.2)',
+            '--accent': 'oklch(0.268 0.011 36.5)',
+            '--accent-foreground': 'oklch(0.986 0.002 67.8)',
+            '--border': 'oklch(0.268 0.011 36.5)',
+            '--input': 'oklch(0.268 0.011 36.5)',
+            '--ring': 'oklch(0.367 0.016 35.7)',
+        },
+    },
     mauve: {
         light: {
             '--background': 'oklch(1 0 0)',
@@ -365,42 +491,6 @@ const grayPalettes: Record<string, ColorScale> = {
             '--border': 'oklch(0.263 0.024 320.12)',
             '--input': 'oklch(0.263 0.024 320.12)',
             '--ring': 'oklch(0.364 0.029 323.89)',
-        },
-    },
-    olive: {
-        light: {
-            '--background': 'oklch(1 0 0)',
-            '--foreground': 'oklch(0.153 0.006 107.1)',
-            '--card': 'oklch(1 0 0)',
-            '--card-foreground': 'oklch(0.153 0.006 107.1)',
-            '--popover': 'oklch(1 0 0)',
-            '--popover-foreground': 'oklch(0.153 0.006 107.1)',
-            '--secondary': 'oklch(0.966 0.005 106.5)',
-            '--secondary-foreground': 'oklch(0.228 0.013 107.4)',
-            '--muted': 'oklch(0.966 0.005 106.5)',
-            '--muted-foreground': 'oklch(0.58 0.031 107.3)',
-            '--accent': 'oklch(0.966 0.005 106.5)',
-            '--accent-foreground': 'oklch(0.228 0.013 107.4)',
-            '--border': 'oklch(0.93 0.007 106.5)',
-            '--input': 'oklch(0.93 0.007 106.5)',
-            '--ring': 'oklch(0.737 0.021 106.9)',
-        },
-        dark: {
-            '--background': 'oklch(0.153 0.006 107.1)',
-            '--foreground': 'oklch(0.988 0.003 106.5)',
-            '--card': 'oklch(0.153 0.006 107.1)',
-            '--card-foreground': 'oklch(0.988 0.003 106.5)',
-            '--popover': 'oklch(0.153 0.006 107.1)',
-            '--popover-foreground': 'oklch(0.988 0.003 106.5)',
-            '--secondary': 'oklch(0.286 0.016 107.4)',
-            '--secondary-foreground': 'oklch(0.988 0.003 106.5)',
-            '--muted': 'oklch(0.286 0.016 107.4)',
-            '--muted-foreground': 'oklch(0.737 0.021 106.9)',
-            '--accent': 'oklch(0.286 0.016 107.4)',
-            '--accent-foreground': 'oklch(0.988 0.003 106.5)',
-            '--border': 'oklch(0.286 0.016 107.4)',
-            '--input': 'oklch(0.286 0.016 107.4)',
-            '--ring': 'oklch(0.394 0.023 107.4)',
         },
     },
     mist: {
@@ -439,40 +529,40 @@ const grayPalettes: Record<string, ColorScale> = {
             '--ring': 'oklch(0.378 0.015 216)',
         },
     },
-    taupe: {
+    olive: {
         light: {
             '--background': 'oklch(1 0 0)',
-            '--foreground': 'oklch(0.147 0.004 49.3)',
+            '--foreground': 'oklch(0.153 0.006 107.1)',
             '--card': 'oklch(1 0 0)',
-            '--card-foreground': 'oklch(0.147 0.004 49.3)',
+            '--card-foreground': 'oklch(0.153 0.006 107.1)',
             '--popover': 'oklch(1 0 0)',
-            '--popover-foreground': 'oklch(0.147 0.004 49.3)',
-            '--secondary': 'oklch(0.96 0.002 17.2)',
-            '--secondary-foreground': 'oklch(0.214 0.009 43.1)',
-            '--muted': 'oklch(0.96 0.002 17.2)',
-            '--muted-foreground': 'oklch(0.547 0.021 43.1)',
-            '--accent': 'oklch(0.96 0.002 17.2)',
-            '--accent-foreground': 'oklch(0.214 0.009 43.1)',
-            '--border': 'oklch(0.922 0.005 34.3)',
-            '--input': 'oklch(0.922 0.005 34.3)',
-            '--ring': 'oklch(0.714 0.014 41.2)',
+            '--popover-foreground': 'oklch(0.153 0.006 107.1)',
+            '--secondary': 'oklch(0.966 0.005 106.5)',
+            '--secondary-foreground': 'oklch(0.228 0.013 107.4)',
+            '--muted': 'oklch(0.966 0.005 106.5)',
+            '--muted-foreground': 'oklch(0.58 0.031 107.3)',
+            '--accent': 'oklch(0.966 0.005 106.5)',
+            '--accent-foreground': 'oklch(0.228 0.013 107.4)',
+            '--border': 'oklch(0.93 0.007 106.5)',
+            '--input': 'oklch(0.93 0.007 106.5)',
+            '--ring': 'oklch(0.737 0.021 106.9)',
         },
         dark: {
-            '--background': 'oklch(0.147 0.004 49.3)',
-            '--foreground': 'oklch(0.986 0.002 67.8)',
-            '--card': 'oklch(0.147 0.004 49.3)',
-            '--card-foreground': 'oklch(0.986 0.002 67.8)',
-            '--popover': 'oklch(0.147 0.004 49.3)',
-            '--popover-foreground': 'oklch(0.986 0.002 67.8)',
-            '--secondary': 'oklch(0.268 0.011 36.5)',
-            '--secondary-foreground': 'oklch(0.986 0.002 67.8)',
-            '--muted': 'oklch(0.268 0.011 36.5)',
-            '--muted-foreground': 'oklch(0.714 0.014 41.2)',
-            '--accent': 'oklch(0.268 0.011 36.5)',
-            '--accent-foreground': 'oklch(0.986 0.002 67.8)',
-            '--border': 'oklch(0.268 0.011 36.5)',
-            '--input': 'oklch(0.268 0.011 36.5)',
-            '--ring': 'oklch(0.367 0.016 35.7)',
+            '--background': 'oklch(0.153 0.006 107.1)',
+            '--foreground': 'oklch(0.988 0.003 106.5)',
+            '--card': 'oklch(0.153 0.006 107.1)',
+            '--card-foreground': 'oklch(0.988 0.003 106.5)',
+            '--popover': 'oklch(0.153 0.006 107.1)',
+            '--popover-foreground': 'oklch(0.988 0.003 106.5)',
+            '--secondary': 'oklch(0.286 0.016 107.4)',
+            '--secondary-foreground': 'oklch(0.988 0.003 106.5)',
+            '--muted': 'oklch(0.286 0.016 107.4)',
+            '--muted-foreground': 'oklch(0.737 0.021 106.9)',
+            '--accent': 'oklch(0.286 0.016 107.4)',
+            '--accent-foreground': 'oklch(0.988 0.003 106.5)',
+            '--border': 'oklch(0.286 0.016 107.4)',
+            '--input': 'oklch(0.286 0.016 107.4)',
+            '--ring': 'oklch(0.394 0.023 107.4)',
         },
     },
 };
@@ -522,7 +612,38 @@ export function applyTheme(config: ThemeConfig): void {
     window.__plumeTheme = { light: lightVars, dark: darkVars };
 }
 
+export const availablePrimaryColors = Object.keys(primaryColors);
+
+export const availableGrayPalettes = Object.keys(grayPalettes);
+
+export const availableRadii = Object.keys(radiusStyles);
+
+export const availableSpacings = Object.keys(spacingSizes);
+
+export const primaryColorPreview: Record<string, string> = Object.fromEntries(
+    Object.entries(primaryColors).map(([name, scale]) => [name, scale.light['--primary']]),
+);
+
+export const grayColorPreview: Record<string, string> = Object.fromEntries(
+    Object.entries(grayPalettes).map(([name, scale]) => [name, scale.light['--muted-foreground']]),
+);
+
+export function setDarkMode(isDark: boolean): void {
+    const root = document.documentElement;
+    if (isDark) {
+        root.classList.add('dark');
+    } else {
+        root.classList.remove('dark');
+    }
+
+    const theme = window.__plumeTheme;
+    if (theme) {
+        applyVars(isDark ? theme.dark : theme.light);
+    }
+}
+
 declare global {
+    // noinspection JSUnusedGlobalSymbols
     interface Window {
         __plumeTheme?: { light: CssVars; dark: CssVars };
     }

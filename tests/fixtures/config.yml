@@ -1,0 +1,6 @@
+theme: ocean
+primary: blue
+gray: slate
+radius: small
+spacing: compact
+dark: true
