@@ -89,6 +89,6 @@ class ThemeConfig
             return [];
         }
 
-        return is_array($parsed) ? array_filter($parsed, fn ($key): bool => is_string($key), ARRAY_FILTER_USE_KEY) : [];
+        return is_array($parsed) ? array_filter($parsed, is_string(...), ARRAY_FILTER_USE_KEY) : [];
     }
 }
