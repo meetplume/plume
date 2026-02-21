@@ -352,10 +352,17 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 1px dashed var(--cz-muted);
+    border: 1px solid var(--cz-border);
     cursor: pointer;
     padding: 0;
     transition: transform 0.1s;
+    background-image: url(data:image/webp;base64,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);
+    background-size: cover;
+    background-position: center;
+}
+
+.cz-custom-color[data-active='true'] {
+    background-image: none;
 }
 
 .cz-custom-color:hover {
@@ -379,6 +386,11 @@
     cursor: pointer;
     background: none;
     overflow: hidden;
+    opacity: 0;
+}
+
+.cz-custom-color[data-active='true'] .cz-color-input {
+    opacity: 1;
 }
 
 .cz-color-input::-webkit-color-swatch-wrapper {
@@ -405,6 +417,26 @@
 .cz-check {
     width: 14px;
     height: 14px;
+    color: #fff;
+}
+
+.cz-new {
+    width: 14px;
+    height: 14px;
+}
+
+.cz-new-wrapper {
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #111;
+    border-radius: 50%;
+    position: relative;
+    padding: 1px;
+}
+
+.dark .cz-new-wrapper {
+    background: rgba(17, 17, 17, 0.9);
     color: #fff;
 }
 
