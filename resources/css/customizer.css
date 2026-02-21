@@ -110,7 +110,8 @@
 
 /* Pill buttons (radius, spacing) */
 .cz-pills {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     flex-wrap: wrap;
     gap: 6px;
 }
@@ -118,8 +119,8 @@
 .cz-pill {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
+    gap: 6px;
+    padding: 6px 12px;
     font-size: 12px;
     font-weight: 500;
     border-radius: 6px;
@@ -305,26 +306,26 @@
     height: 12px;
     border-top: 2px solid currentColor;
     border-left: 2px solid currentColor;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 /* Spacing preview icon inside pill — 3 lines with varying gap */
 .cz-spacing-icon {
     display: flex;
     flex-direction: column;
-    width: 10px;
-    opacity: 0.5;
+    width: 12px;
+    opacity: 0.4;
 }
 
 .cz-spacing-icon span {
     width: 100%;
-    height: 1.5px;
+    height: 2px;
     background: currentColor;
     border-radius: 1px;
 }
 
 .cz-spacing-icon[data-spacing='dense'] {
-    height: 6px;
+    height: 7px;
     justify-content: space-between;
 }
 
@@ -334,12 +335,12 @@
 }
 
 .cz-spacing-icon[data-spacing='default'] {
-    height: 10px;
+    height: 9px;
     justify-content: space-between;
 }
 
 .cz-spacing-icon[data-spacing='spacious'] {
-    height: 12px;
+    height: 10px;
     justify-content: space-between;
 }
 
