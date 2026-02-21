@@ -1,6 +1,6 @@
 import '../../../css/customizer.css';
 
-import { Check, Paintbrush, Plus, RotateCcw } from 'lucide-react';
+import { Check, Paintbrush, Pipette, Plus, RotateCcw } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -206,7 +206,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                     }, 100);
                                                 }}
                                             />
-                                            {isCustomColor && <Check className="cz-check" />}
+                                            {isCustomColor && <Pipette className="cz-check" />}
                                             {!isCustomColor && (
                                                 <span className="cz-new-wrapper">
                                                     <Plus className="cz-new" />
