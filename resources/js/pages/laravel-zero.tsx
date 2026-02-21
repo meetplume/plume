@@ -1,9 +1,11 @@
 import { CallToAction, CallToActionProps } from '@/components/blocks/call-to-action';
 import { type FeaturesProps, Features } from '@/components/blocks/features';
 import { type Footer2Props, Footer2 } from '@/components/blocks/footer2';
+import { type Header1Props, Header1 } from '@/components/blocks/header1';
 import { type Hero2Props, Hero2 } from '@/components/blocks/hero2';
 
 type Props = {
+    header: Header1Props;
     hero: Hero2Props;
     features1: FeaturesProps;
     callToAction: CallToActionProps;
@@ -11,9 +13,11 @@ type Props = {
     footer: Footer2Props;
 };
 
-export default function App({ hero, features1, callToAction, features2, footer }: Props) {
+export default function App({ header, hero, features1, callToAction, features2, footer }: Props) {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
+            <Header1 {...header} />
+
             <div className="flex grow flex-col">
                 <Hero2 {...hero} />
 
