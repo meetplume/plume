@@ -1,7 +1,7 @@
 import { Footer1 } from '@/components/blocks/footer1';
 import { Hero1 } from '@/components/blocks/hero1';
-import type { Link as LinkType } from '@/types/Link';
 import { Link } from '@/components/link';
+import type { Link as LinkType } from '@/types/Link';
 
 export default function App() {
     const links: LinkType[] = [
@@ -26,9 +26,7 @@ export default function App() {
                     image="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=200&auto=format&fit=crop"
                     imageAlt="Movie reel"
                     description="Now playing in theaters and streaming everywhere. Experience the story that critics are calling unforgettable."
-                    links={
-                        <Link href="#" className="underline" label="Find showtimes" />
-                    }
+                    links={<Link href="#" className="underline" label="Find showtimes" />}
                 />
             </div>
         </div>
