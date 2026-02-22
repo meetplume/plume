@@ -1,10 +1,11 @@
-import '../../../css/customizer.css';
-
-import { Check, ChevronDown, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
+import { Check, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { bundledThemesInfo } from 'shiki';
 
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
     applyTheme,
@@ -17,6 +18,7 @@ import {
     setDarkMode,
     type ThemeConfig,
 } from '@/lib/theme';
+import { cn } from '@/lib/utils';
 
 const codeThemes = bundledThemesInfo;
 
@@ -86,14 +88,21 @@ const radiusPreviewValues: Record<string, string> = {
     large: '10px',
 };
 
+const spacingGaps: Record<string, string> = {
+    dense: '1px',
+    compact: '2px',
+    default: '3px',
+    spacious: '5px',
+};
+
 function PresetDots({ preset }: { preset: PresetConfig }) {
     const primaryColor = primaryColorPreview[preset.primary] ?? preset.primary;
     const grayColor = grayColorPreview[preset.gray] ?? preset.gray;
 
     return (
-        <span className="cz-preset-dots" data-dark={preset.dark}>
-            <span className="cz-preset-dot" style={{ backgroundColor: primaryColor }} />
-            <span className="cz-preset-dot" style={{ backgroundColor: grayColor }} />
+        <span className="inline-flex items-center gap-0.5 rounded-sm border px-1 py-0.5" data-dark={preset.dark}>
+            <span className="size-2 rounded-full" style={{ backgroundColor: primaryColor }} />
+            <span className="size-2 rounded-full" style={{ backgroundColor: grayColor }} />
         </span>
     );
 }
@@ -102,21 +111,21 @@ function SwatchTooltip({ label, children }: { label: string; children: React.Rea
     return (
         <Tooltip>
             <TooltipTrigger asChild>{children}</TooltipTrigger>
-            <TooltipContent className="plume-customizer-tooltip">{label}</TooltipContent>
+            <TooltipContent className="theme-reset">{label}</TooltipContent>
         </Tooltip>
     );
 }
 
 function CodeThemeDots({ preview }: { preview: CodeThemePreview }) {
     return (
-        <span className="cz-code-theme-dots" style={{ backgroundColor: preview.bg }}>
-            <span className="cz-preset-dot" style={{ backgroundColor: preview.c1 }} />
-            <span className="cz-preset-dot" style={{ backgroundColor: preview.c2 }} />
+        <span className="inline-flex items-center gap-0.5 rounded-sm border px-1 py-0.5" style={{ backgroundColor: preview.bg }}>
+            <span className="size-2 rounded-full" style={{ backgroundColor: preview.c1 }} />
+            <span className="size-2 rounded-full" style={{ backgroundColor: preview.c2 }} />
         </span>
     );
 }
 
-function CodeThemeDropdown({
+function CodeThemeSelect({
     label,
     value,
     onChange,
@@ -127,40 +136,29 @@ function CodeThemeDropdown({
     onChange: (id: string) => void;
     previews: Record<string, CodeThemePreview>;
 }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const current = codeThemes.find((t) => t.id === value);
-
     return (
         <div>
-            <div className="cz-label">{label}</div>
-            <div className="cz-preset-dropdown">
-                <button type="button" className="cz-preset-trigger" onClick={() => setIsOpen(!isOpen)}>
-                    <span className="cz-preset-trigger-left">
-                        {previews[value] && <CodeThemeDots preview={previews[value]} />}
-                        <span>{current?.displayName ?? value}</span>
-                    </span>
-                    <ChevronDown className="cz-preset-chevron" data-open={isOpen} />
-                </button>
-                {isOpen && (
-                    <div className="cz-code-theme-list">
-                        {codeThemes.map((t) => (
-                            <button
-                                key={t.id}
-                                type="button"
-                                className="cz-code-theme-item"
-                                data-active={value === t.id}
-                                onClick={() => {
-                                    onChange(t.id);
-                                    setIsOpen(false);
-                                }}
-                            >
+            <div className="mb-1.5 text-xs font-medium">{label}</div>
+            <Select value={value} onValueChange={onChange}>
+                <SelectTrigger size="sm" className="w-full text-xs">
+                    <SelectValue>
+                        <span className="flex items-center gap-2">
+                            {previews[value] && <CodeThemeDots preview={previews[value]} />}
+                            <span>{codeThemes.find((t) => t.id === value)?.displayName ?? value}</span>
+                        </span>
+                    </SelectValue>
+                </SelectTrigger>
+                <SelectContent position="popper" className="theme-reset max-h-[200px]">
+                    {codeThemes.map((t) => (
+                        <SelectItem key={t.id} value={t.id} className="text-xs">
+                            <span className="flex items-center gap-2">
                                 {previews[t.id] && <CodeThemeDots preview={previews[t.id]} />}
                                 <span>{t.displayName}</span>
-                            </button>
-                        ))}
-                    </div>
-                )}
-            </div>
+                            </span>
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
         </div>
     );
 }
@@ -174,7 +172,6 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const [preset, setPreset] = useState(customizerConfig?.preset ?? '');
     const [customColor, setCustomColor] = useState('');
     const [saving, setSaving] = useState(false);
-    const [presetOpen, setPresetOpen] = useState(false);
     const [codeThemePreviews, setCodeThemePreviews] = useState<Record<string, CodeThemePreview>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
@@ -296,217 +293,239 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
 
     return (
         <TooltipProvider>
-            <div className="plume-customizer">
+            <div className="theme-reset fixed bottom-5 left-5 z-50 font-sans text-sm">
                 {open && config && (
-                    <div className="cz-panel">
-                        <div className="cz-title">Customizer</div>
-                        <div className="cz-description">
-                            Here you can customize your Plume theme. Options will be stored in your <code>content/config.yml</code>. This tool only
-                            shows in local environment.
-                        </div>
+                    <div className="mb-2 flex max-h-[calc(100vh-94px)] w-[340px] flex-col rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
+                        <div className="flex-1 overflow-y-auto p-4">
+                            <div className="mb-1 text-sm font-semibold">Customizer</div>
+                            <div className="mb-4 text-xs text-muted-foreground">
+                                Here you can customize your Plume theme. Options will be stored in your{' '}
+                                <code className="rounded bg-muted px-1 py-0.5 text-[0.7rem]">content/config.yml</code>. This tool only shows in local
+                                environment.
+                            </div>
 
-                        <div className="cz-sections">
-                            {/* Preset dropdown */}
-                            {presetNames.length > 0 && (
-                                <div>
-                                    <div className="cz-label">Preset</div>
-                                    <div className="cz-preset-dropdown">
-                                        <button type="button" className="cz-preset-trigger" onClick={() => setPresetOpen(!presetOpen)}>
-                                            <span className="cz-preset-trigger-left">
-                                                {preset && presets[preset] ? (
-                                                    <>
-                                                        <PresetDots preset={presets[preset]} />
-                                                        <span>{preset.charAt(0).toUpperCase() + preset.slice(1)}</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="cz-preset-trigger-placeholder">Select a preset</span>
-                                                )}
-                                            </span>
-                                            <ChevronDown className="cz-preset-chevron" data-open={presetOpen} />
-                                        </button>
-                                        {presetOpen && (
-                                            <div className="cz-preset-list">
+                            <div className="flex flex-col gap-5">
+                                {/* Preset dropdown */}
+                                {presetNames.length > 0 && (
+                                    <div>
+                                        <div className="mb-1.5 text-xs font-medium">Preset</div>
+                                        <Select value={preset} onValueChange={switchPreset}>
+                                            <SelectTrigger size="sm" className="w-full text-xs">
+                                                <SelectValue placeholder="Select a preset">
+                                                    {preset && presets[preset] ? (
+                                                        <span className="flex items-center gap-2">
+                                                            <PresetDots preset={presets[preset]} />
+                                                            <span>{preset.charAt(0).toUpperCase() + preset.slice(1)}</span>
+                                                        </span>
+                                                    ) : undefined}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" className="theme-reset">
                                                 {presetNames.map((name) => (
-                                                    <button
-                                                        key={name}
-                                                        type="button"
-                                                        className="cz-preset-item"
-                                                        data-active={preset === name}
-                                                        onClick={() => {
-                                                            switchPreset(name);
-                                                            setPresetOpen(false);
-                                                        }}
-                                                    >
-                                                        <PresetDots preset={presets[name]} />
-                                                        <span className="cz-preset-name">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
-                                                    </button>
+                                                    <SelectItem key={name} value={name} className="text-xs">
+                                                        <span className="flex items-center gap-2">
+                                                            <PresetDots preset={presets[name]} />
+                                                            <span>{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+                                                        </span>
+                                                    </SelectItem>
                                                 ))}
-                                            </div>
-                                        )}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                )}
+
+                                {/* Primary color */}
+                                <div>
+                                    <div className="mb-1.5 text-xs font-medium">Primary color</div>
+                                    <div className="flex flex-wrap gap-1.5 pt-1">
+                                        {availablePrimaryColors.map((color) => (
+                                            <SwatchTooltip key={color} label={color}>
+                                                <button
+                                                    type="button"
+                                                    className={cn(
+                                                        'relative flex size-7 cursor-pointer items-center justify-center rounded-full border border-transparent transition-transform hover:scale-110',
+                                                        config.primary === color && 'ring-2 ring-foreground ring-offset-2 ring-offset-background',
+                                                    )}
+                                                    onClick={() => {
+                                                        setCustomColor('');
+                                                        updateConfig({ primary: color });
+                                                    }}
+                                                    style={{ backgroundColor: primaryColorPreview[color] ?? color }}
+                                                >
+                                                    {config.primary === color && (
+                                                        <Check className="size-3.5 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]" />
+                                                    )}
+                                                </button>
+                                            </SwatchTooltip>
+                                        ))}
+                                        <SwatchTooltip label={isCustomColor ? `custom: ${config.primary}` : 'custom'}>
+                                            <label
+                                                className={cn(
+                                                    'relative flex size-7 cursor-pointer items-center justify-center rounded-full border transition-transform hover:scale-110',
+                                                    isCustomColor ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background' : 'border-none',
+                                                )}
+                                                style={
+                                                    isCustomColor
+                                                        ? { backgroundColor: config.primary }
+                                                        : { background: 'conic-gradient(from 0deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)' }
+                                                }
+                                            >
+                                                <input
+                                                    type="color"
+                                                    className="sr-only"
+                                                    value={customColor || '#000000'}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        setCustomColor(value);
+                                                        if (customColorTimeout.current) {
+                                                            clearTimeout(customColorTimeout.current);
+                                                        }
+                                                        customColorTimeout.current = setTimeout(() => {
+                                                            updateConfig({ primary: value });
+                                                        }, 100);
+                                                    }}
+                                                />
+                                                {isCustomColor && <Pipette className="size-3.5 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]" />}
+                                                {!isCustomColor && (
+                                                    <span className="size-4 rounded-full bg-background p-px">
+                                                        <Plus className="size-3.5 text-primary" />
+                                                    </span>
+                                                )}
+                                            </label>
+                                        </SwatchTooltip>
                                     </div>
                                 </div>
-                            )}
 
-                            {/* Primary color */}
-                            <div>
-                                <div className="cz-label">Primary color</div>
-                                <div className="cz-swatches">
-                                    {availablePrimaryColors.map((color) => (
-                                        <SwatchTooltip key={color} label={color}>
-                                            <button
-                                                type="button"
-                                                className="cz-swatch"
-                                                data-active={config.primary === color}
-                                                onClick={() => {
-                                                    setCustomColor('');
-                                                    updateConfig({ primary: color });
-                                                }}
-                                                style={{ backgroundColor: primaryColorPreview[color] ?? color }}
-                                            >
-                                                {config.primary === color && <Check className="cz-check" />}
-                                            </button>
-                                        </SwatchTooltip>
-                                    ))}
-                                    <SwatchTooltip label={isCustomColor ? `custom: ${config.primary}` : 'custom'}>
-                                        <label className="cz-custom-color" data-active={isCustomColor}>
-                                            <input
-                                                type="color"
-                                                className="cz-color-input"
-                                                value={customColor || '#000000'}
-                                                onChange={(e) => {
-                                                    const value = e.target.value;
-                                                    setCustomColor(value);
-                                                    if (customColorTimeout.current) {
-                                                        clearTimeout(customColorTimeout.current);
-                                                    }
-                                                    customColorTimeout.current = setTimeout(() => {
-                                                        updateConfig({ primary: value });
-                                                    }, 100);
-                                                }}
-                                            />
-                                            {isCustomColor && <Pipette className="cz-check" />}
-                                            {!isCustomColor && (
-                                                <span className="cz-new-wrapper">
-                                                    <Plus className="cz-new" />
-                                                </span>
-                                            )}
-                                        </label>
-                                    </SwatchTooltip>
+                                {/* Gray palette */}
+                                <div>
+                                    <div className="mb-1.5 text-xs font-medium">Gray palette</div>
+                                    <div className="flex flex-wrap gap-1.5 pt-1">
+                                        {availableGrayPalettes.map((gray) => (
+                                            <SwatchTooltip key={gray} label={gray}>
+                                                <button
+                                                    type="button"
+                                                    className={cn(
+                                                        'relative flex size-7 cursor-pointer items-center justify-center rounded-full border border-transparent transition-transform hover:scale-110',
+                                                        config.gray === gray && 'ring-2 ring-foreground ring-offset-2 ring-offset-background',
+                                                    )}
+                                                    onClick={() => updateConfig({ gray })}
+                                                    style={{ backgroundColor: grayColorPreview[gray] ?? gray }}
+                                                >
+                                                    {config.gray === gray && (
+                                                        <Check className="size-3.5 text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]" />
+                                                    )}
+                                                </button>
+                                            </SwatchTooltip>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Gray palette */}
-                            <div>
-                                <div className="cz-label">Gray palette</div>
-                                <div className="cz-swatches">
-                                    {availableGrayPalettes.map((gray) => (
-                                        <SwatchTooltip key={gray} label={gray}>
-                                            <button
-                                                type="button"
-                                                className="cz-swatch"
-                                                data-active={config.gray === gray}
-                                                onClick={() => updateConfig({ gray })}
-                                                style={{ backgroundColor: grayColorPreview[gray] ?? gray }}
-                                            >
-                                                {config.gray === gray && <Check className="cz-check" />}
-                                            </button>
-                                        </SwatchTooltip>
-                                    ))}
+                                {/* Radius & Spacing */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <div className="mb-1.5 text-xs font-medium">Radius</div>
+                                        <Select value={config.radius} onValueChange={(v) => updateConfig({ radius: v })}>
+                                            <SelectTrigger size="sm" className="w-full text-xs">
+                                                <SelectValue>
+                                                    <span className="flex items-center gap-2">
+                                                        <span
+                                                            className="inline-block size-3.5 border-t-2 border-l-2 border-current"
+                                                            style={{ borderRadius: `${radiusPreviewValues[config.radius]} 0 0 0` }}
+                                                        />
+                                                        {config.radius}
+                                                    </span>
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" className="theme-reset">
+                                                {availableRadii.map((radius) => (
+                                                    <SelectItem key={radius} value={radius} className="text-xs">
+                                                        <span className="flex items-center gap-2">
+                                                            <span
+                                                                className="inline-block size-3.5 border-t-2 border-l-2 border-current"
+                                                                style={{ borderRadius: `${radiusPreviewValues[radius]} 0 0 0` }}
+                                                            />
+                                                            {radius}
+                                                        </span>
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                    <div>
+                                        <div className="mb-1.5 text-xs font-medium">Spacing</div>
+                                        <Select value={config.spacing} onValueChange={(v) => updateConfig({ spacing: v })}>
+                                            <SelectTrigger size="sm" className="w-full text-xs">
+                                                <SelectValue>
+                                                    <span className="flex items-center gap-2">
+                                                        <span
+                                                            className="inline-flex flex-col items-center"
+                                                            style={{ gap: spacingGaps[config.spacing] }}
+                                                        >
+                                                            <span className="h-0.5 w-3 rounded-full bg-current" />
+                                                            <span className="h-0.5 w-3 rounded-full bg-current" />
+                                                        </span>
+                                                        {config.spacing}
+                                                    </span>
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent position="popper" className="theme-reset">
+                                                {availableSpacings.map((spacing) => (
+                                                    <SelectItem key={spacing} value={spacing} className="text-xs">
+                                                        <span className="flex items-center gap-2">
+                                                            <span className="inline-flex flex-col items-center" style={{ gap: spacingGaps[spacing] }}>
+                                                                <span className="h-0.5 w-3 rounded-full bg-current" />
+                                                                <span className="h-0.5 w-3 rounded-full bg-current" />
+                                                            </span>
+                                                            {spacing}
+                                                        </span>
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Radius */}
-                            <div>
-                                <div className="cz-label">Radius</div>
-                                <div className="cz-pills">
-                                    {availableRadii.map((radius) => (
-                                        <button
-                                            key={radius}
-                                            type="button"
-                                            className="cz-pill"
-                                            data-active={config.radius === radius}
-                                            onClick={() => updateConfig({ radius: radius })}
-                                        >
-                                            <span className="cz-radius-icon" style={{ borderRadius: `${radiusPreviewValues[radius]} 0 0 0` }} />
-                                            {radius}
-                                        </button>
-                                    ))}
+                                {/* Dark mode toggle */}
+                                <div className="flex items-center justify-between">
+                                    <div className="text-xs font-medium">Dark mode</div>
+                                    <Switch checked={isDark} onCheckedChange={(checked) => updateConfig({ dark: checked })} />
                                 </div>
+
+                                {/* Code theme light */}
+                                <CodeThemeSelect
+                                    label="Code theme (light)"
+                                    value={config.code_theme_light}
+                                    onChange={(id) => updateConfig({ code_theme_light: id })}
+                                    previews={codeThemePreviews}
+                                />
+
+                                {/* Code theme dark */}
+                                <CodeThemeSelect
+                                    label="Code theme (dark)"
+                                    value={config.code_theme_dark}
+                                    onChange={(id) => updateConfig({ code_theme_dark: id })}
+                                    previews={codeThemePreviews}
+                                />
                             </div>
+                        </div>
 
-                            {/* Spacing */}
-                            <div>
-                                <div className="cz-label">Spacing</div>
-                                <div className="cz-pills">
-                                    {availableSpacings.map((spacing) => (
-                                        <button
-                                            key={spacing}
-                                            type="button"
-                                            className="cz-pill"
-                                            data-active={config.spacing === spacing}
-                                            onClick={() => updateConfig({ spacing: spacing })}
-                                        >
-                                            <span className="cz-spacing-icon" data-spacing={spacing}>
-                                                <span />
-                                                <span />
-                                            </span>
-                                            {spacing}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Dark mode toggle */}
-                            <div className="cz-toggle-row">
-                                <div className="cz-label" style={{ marginBottom: 0 }}>
-                                    Dark mode
-                                </div>
-                                <button
-                                    type="button"
-                                    role="switch"
-                                    aria-checked={isDark}
-                                    className="cz-toggle"
-                                    data-on={isDark}
-                                    onClick={() => updateConfig({ dark: !isDark })}
-                                >
-                                    <span className="cz-toggle-knob" />
-                                </button>
-                            </div>
-
-                            {/* Code theme light */}
-                            <CodeThemeDropdown
-                                label="Code theme (light)"
-                                value={config.code_theme_light}
-                                onChange={(id) => updateConfig({ code_theme_light: id })}
-                                previews={codeThemePreviews}
-                            />
-
-                            {/* Code theme dark */}
-                            <CodeThemeDropdown
-                                label="Code theme (dark)"
-                                value={config.code_theme_dark}
-                                onChange={(id) => updateConfig({ code_theme_dark: id })}
-                                previews={codeThemePreviews}
-                            />
-
-                            {/* Save & Restore */}
-                            <div className="cz-actions">
-                                <button type="button" className="cz-save" disabled={!isDirty || saving} onClick={saveConfig}>
-                                    <Save style={{ width: 14, height: 14 }} />
-                                    {saving ? 'Saving…' : 'Save'}
-                                </button>
-                                <button type="button" className="cz-reset" onClick={resetDefaults}>
-                                    <RotateCcw style={{ width: 14, height: 14 }} />
-                                    Restore defaults
-                                </button>
-                            </div>
+                        {/* Save & Restore — pinned at bottom */}
+                        <div className="flex gap-2 border-t border-black/5 p-4 dark:border-white/5">
+                            <Button size="sm" className="flex-1 gap-1.5 text-xs" disabled={!isDirty || saving} onClick={saveConfig}>
+                                <Save className="size-3.5" />
+                                {saving ? 'Saving…' : 'Save'}
+                            </Button>
+                            <Button variant="outline" size="sm" className="flex-1 gap-1.5 text-xs" onClick={resetDefaults}>
+                                <RotateCcw className="size-3.5" />
+                                Restore defaults
+                            </Button>
                         </div>
                     </div>
                 )}
 
-                <button ref={buttonRef} type="button" className="cz-fab" onClick={() => setOpen(!open)}>
-                    <Paintbrush style={{ width: 20, height: 20 }} />
-                </button>
+                <Button ref={buttonRef} size="icon" className="size-12.5 rounded-full shadow-lg" onClick={() => setOpen(!open)}>
+                    <Paintbrush className="size-5" />
+                </Button>
             </div>
         </TooltipProvider>
     );
