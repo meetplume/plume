@@ -429,7 +429,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                 <SelectValue>
                                                     <span className="flex items-center gap-2">
                                                         <span
-                                                            className="inline-block size-3.5 border-t-2 border-l-2 border-current"
+                                                            className="inline-block size-3.5 border-t-2 border-l-2 border-current opacity-40"
                                                             style={{ borderRadius: `${radiusPreviewValues[config.radius]} 0 0 0` }}
                                                         />
                                                         {config.radius}
@@ -441,7 +441,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                     <SelectItem key={radius} value={radius} className="text-xs">
                                                         <span className="flex items-center gap-2">
                                                             <span
-                                                                className="inline-block size-3.5 border-t-2 border-l-2 border-current"
+                                                                className="inline-block size-3.5 border-t-2 border-l-2 border-current opacity-40"
                                                                 style={{ borderRadius: `${radiusPreviewValues[radius]} 0 0 0` }}
                                                             />
                                                             {radius}
@@ -458,7 +458,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                 <SelectValue>
                                                     <span className="flex items-center gap-2">
                                                         <span
-                                                            className="inline-flex flex-col items-center"
+                                                            className="inline-flex flex-col items-center opacity-40"
                                                             style={{ gap: spacingGaps[config.spacing] }}
                                                         >
                                                             <span className="h-0.5 w-3 rounded-full bg-current" />
@@ -472,7 +472,10 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                 {availableSpacings.map((spacing) => (
                                                     <SelectItem key={spacing} value={spacing} className="text-xs">
                                                         <span className="flex items-center gap-2">
-                                                            <span className="inline-flex flex-col items-center" style={{ gap: spacingGaps[spacing] }}>
+                                                            <span
+                                                                className="inline-flex flex-col items-center opacity-40"
+                                                                style={{ gap: spacingGaps[spacing] }}
+                                                            >
                                                                 <span className="h-0.5 w-3 rounded-full bg-current" />
                                                                 <span className="h-0.5 w-3 rounded-full bg-current" />
                                                             </span>
