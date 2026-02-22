@@ -346,7 +346,9 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                     type="button"
                                                     className={cn(
                                                         'relative flex size-7 cursor-pointer items-center justify-center rounded-full border transition-transform hover:scale-110',
-                                                        config.primary === color ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background border-transparent' : 'border-black/10 dark:border-white/15',
+                                                        config.primary === color
+                                                            ? 'border-transparent ring-2 ring-foreground ring-offset-2 ring-offset-background'
+                                                            : 'border-black/10 dark:border-white/15',
                                                     )}
                                                     onClick={() => {
                                                         setCustomColor('');
@@ -408,7 +410,9 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                                     type="button"
                                                     className={cn(
                                                         'relative flex size-7 cursor-pointer items-center justify-center rounded-full border transition-transform hover:scale-110',
-                                                        config.gray === gray ? 'ring-2 ring-foreground ring-offset-2 ring-offset-background border-transparent' : 'border-black/10 dark:border-white/15',
+                                                        config.gray === gray
+                                                            ? 'border-transparent ring-2 ring-foreground ring-offset-2 ring-offset-background'
+                                                            : 'border-black/10 dark:border-white/15',
                                                     )}
                                                     onClick={() => updateConfig({ gray })}
                                                     style={{ backgroundColor: grayColorPreview[gray] ?? gray }}
