@@ -100,7 +100,9 @@ function PresetDots({ preset }: { preset: PresetConfig }) {
     const grayColor = grayColorPreview[preset.gray] ?? preset.gray;
 
     return (
-        <span className="inline-flex items-center gap-0.5 rounded-sm border px-1 py-0.5" data-dark={preset.dark}>
+        <span
+            className={`inline-flex items-center gap-0.5 rounded-sm border px-1 py-0.5 ${preset.dark ? 'border-neutral-700 bg-neutral-800' : 'border-neutral-200 bg-white'}`}
+        >
             <span className="size-2 rounded-full" style={{ backgroundColor: primaryColor }} />
             <span className="size-2 rounded-full" style={{ backgroundColor: grayColor }} />
         </span>
