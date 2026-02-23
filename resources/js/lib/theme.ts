@@ -14,23 +14,23 @@ type ColorScale = { light: CssVars; dark: CssVars };
 const radiusStyles: Record<string, string> = {
     none: `
         :root { --radius: 0rem; }
-        [data-slot="button"] { border-radius: 0; }
-        [data-slot="badge"] { border-radius: 0; }
+        [data-slot="button"]:not(.theme-reset [data-slot="button"]) { border-radius: 0; }
+        [data-slot="badge"]:not(.theme-reset [data-slot="badge"]) { border-radius: 0; }
     `,
     small: `
         :root { --radius: 0.375rem; }
-        [data-slot="button"] { border-radius: var(--radius); }
-        [data-slot="badge"] { border-radius: var(--radius); }
+        [data-slot="button"]:not(.theme-reset [data-slot="button"]) { border-radius: var(--radius); }
+        [data-slot="badge"]:not(.theme-reset [data-slot="badge"]) { border-radius: var(--radius); }
     `,
     medium: `
         :root { --radius: 0.625rem; }
-        [data-slot="button"] { border-radius: var(--radius); }
-        [data-slot="badge"] { border-radius: 9999px; }
+        [data-slot="button"]:not(.theme-reset [data-slot="button"]) { border-radius: var(--radius); }
+        [data-slot="badge"]:not(.theme-reset [data-slot="badge"]) { border-radius: 9999px; }
     `,
     large: `
         :root { --radius: 1rem; }
-        [data-slot="button"] { border-radius: calc(var(--radius) + 16px); }
-        [data-slot="badge"] { border-radius: 9999px; }
+        [data-slot="button"]:not(.theme-reset [data-slot="button"]) { border-radius: calc(var(--radius) + 16px); }
+        [data-slot="badge"]:not(.theme-reset [data-slot="badge"]) { border-radius: 9999px; }
     `,
 };
 

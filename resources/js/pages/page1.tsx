@@ -1,6 +1,7 @@
 import { Footer1 } from '@/components/blocks/footer1';
 import { Hero1 } from '@/components/blocks/hero1';
 import { Link } from '@/components/link';
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Link as LinkType } from '@/types/Link';
 
 export default function App() {
@@ -20,6 +21,20 @@ export default function App() {
                     imageAlt="Exterior of Central Cinema at night with glowing red neon signs, a person sitting at the entrance, and a small table with a chair on the patterned sidewalk."
                     links={links}
                 />
+
+                <Card className="mx-auto max-w-lg">
+                    <CardHeader>
+                        <CardTitle>Card Title</CardTitle>
+                        <CardDescription>Card Description</CardDescription>
+                        <CardAction>Card Action</CardAction>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Card Content</p>
+                    </CardContent>
+                    <CardFooter>
+                        <p>Card Footer</p>
+                    </CardFooter>
+                </Card>
 
                 <Footer1
                     label="A film by"
