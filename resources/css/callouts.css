@@ -68,14 +68,14 @@
     @apply text-red-800 dark:text-red-300;
 }
 
-/* Details — collapsible, slate */
+/* Details — collapsible */
 .plume-callout--details {
-    @apply block border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-600/20;
+    @apply block border-border bg-muted;
 }
 
 .plume-callout__summary {
     @apply flex cursor-pointer list-none items-center gap-3 text-sm font-semibold select-none;
-    @apply text-slate-800 dark:text-slate-300;
+    @apply text-foreground;
 }
 
 .plume-callout__summary::-webkit-details-marker {
@@ -91,5 +91,5 @@
 }
 
 .plume-callout--details .plume-callout__content {
-    @apply mt-3 text-slate-800 dark:text-slate-300;
+    @apply mt-3 text-muted-foreground;
 }
