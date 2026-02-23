@@ -1,3 +1,4 @@
+import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { usePage } from '@inertiajs/react';
 import type { Code, Root } from 'mdast';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -76,6 +77,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
                 .use(remarkRehype, { allowDangerousHtml: true })
                 .use(rehypeExpressiveCode, {
                     themes: [codeThemeDark as ThemeObjectOrShikiThemeName, codeThemeLight as ThemeObjectOrShikiThemeName],
+                    plugins: [pluginCollapsibleSections()],
                 })
                 .use(rehypeRaw)
                 .use(rehypeSlug)
