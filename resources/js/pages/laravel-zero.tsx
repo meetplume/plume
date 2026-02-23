@@ -33,14 +33,12 @@ export default function App({ header, sections, footer }: Props) {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
             {renderHeader(header)}
-
             doo
             <div className="flex grow flex-col">
                 {sections.map((section, index) => (
                     <Section key={index} {...section} />
                 ))}
             </div>
-
             {renderFooter(footer)}
         </div>
     );
