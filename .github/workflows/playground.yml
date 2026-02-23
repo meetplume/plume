@@ -64,7 +64,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config --unset-all http.https://github.com/.extraheader || true
-          git remote add playground-remote https://x-access-token:${{ secrets.PLAYGROUND_PAT }}@github.com/meetplume/plume-playground.git
+          git remote add playground-remote https://x-access-token:${{ secrets.PLAYGROUND_PAT }}@github.com/meetplume/plume-playground-mirror.git
           git add -A
           git commit -m "${{ github.event.head_commit.message || 'Playground commit' }}"
           git push --force playground-remote HEAD:main-playground
