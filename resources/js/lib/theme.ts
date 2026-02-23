@@ -4,6 +4,8 @@ export type ThemeConfig = {
     radius: string;
     spacing: string;
     dark: boolean;
+    code_theme_light: string;
+    code_theme_dark: string;
 };
 
 type CssVars = Record<string, string>;

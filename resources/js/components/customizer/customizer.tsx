@@ -3,6 +3,8 @@ import '../../../css/customizer.css';
 import { Check, ChevronDown, Paintbrush, Pipette, Plus, RotateCcw, Save } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { bundledThemesInfo } from 'shiki';
+
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
     applyTheme,
@@ -16,12 +18,39 @@ import {
     type ThemeConfig,
 } from '@/lib/theme';
 
+const codeThemes = bundledThemesInfo;
+
+type CodeThemePreview = { bg: string; c1: string; c2: string };
+
+function extractPreviewColors(theme: {
+    colors?: Record<string, string>;
+    tokenColors?: Array<{ scope?: string | string[]; settings?: { foreground?: string } }>;
+}): CodeThemePreview {
+    const bg = theme.colors?.['editor.background'] ?? '#1e1e1e';
+    const fg = theme.colors?.['editor.foreground'] ?? '#d4d4d4';
+    let keyword: string | null = null;
+    let entity: string | null = null;
+
+    for (const t of theme.tokenColors ?? []) {
+        const scopes = Array.isArray(t.scope) ? t.scope : [t.scope];
+        const color = t.settings?.foreground;
+        if (color == null) continue;
+        if (keyword == null && scopes.some((s) => s?.includes('keyword'))) keyword = color;
+        if (entity == null && scopes.some((s) => s === 'entity.name.function' || s === 'entity' || s === 'entity.name')) entity = color;
+        if (keyword && entity) break;
+    }
+
+    return { bg, c1: keyword ?? fg, c2: entity ?? fg };
+}
+
 type PresetConfig = {
     primary: string;
     gray: string;
     radius: string;
     spacing: string;
     dark: boolean;
+    code_theme_light: string;
+    code_theme_dark: string;
 };
 
 type CustomizerConfig = {
@@ -78,6 +107,64 @@ function SwatchTooltip({ label, children }: { label: string; children: React.Rea
     );
 }
 
+function CodeThemeDots({ preview }: { preview: CodeThemePreview }) {
+    return (
+        <span className="cz-code-theme-dots" style={{ backgroundColor: preview.bg }}>
+            <span className="cz-preset-dot" style={{ backgroundColor: preview.c1 }} />
+            <span className="cz-preset-dot" style={{ backgroundColor: preview.c2 }} />
+        </span>
+    );
+}
+
+function CodeThemeDropdown({
+    label,
+    value,
+    onChange,
+    previews,
+}: {
+    label: string;
+    value: string;
+    onChange: (id: string) => void;
+    previews: Record<string, CodeThemePreview>;
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const current = codeThemes.find((t) => t.id === value);
+
+    return (
+        <div>
+            <div className="cz-label">{label}</div>
+            <div className="cz-preset-dropdown">
+                <button type="button" className="cz-preset-trigger" onClick={() => setIsOpen(!isOpen)}>
+                    <span className="cz-preset-trigger-left">
+                        {previews[value] && <CodeThemeDots preview={previews[value]} />}
+                        <span>{current?.displayName ?? value}</span>
+                    </span>
+                    <ChevronDown className="cz-preset-chevron" data-open={isOpen} />
+                </button>
+                {isOpen && (
+                    <div className="cz-code-theme-list">
+                        {codeThemes.map((t) => (
+                            <button
+                                key={t.id}
+                                type="button"
+                                className="cz-code-theme-item"
+                                data-active={value === t.id}
+                                onClick={() => {
+                                    onChange(t.id);
+                                    setIsOpen(false);
+                                }}
+                            >
+                                {previews[t.id] && <CodeThemeDots preview={previews[t.id]} />}
+                                <span>{t.displayName}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
 export function Customizer({ initialData }: { initialData?: CustomizerInitialData }) {
     const customizerConfig = initialData?.customizer;
 
@@ -88,6 +175,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const [customColor, setCustomColor] = useState('');
     const [saving, setSaving] = useState(false);
     const [presetOpen, setPresetOpen] = useState(false);
+    const [codeThemePreviews, setCodeThemePreviews] = useState<Record<string, CodeThemePreview>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
@@ -103,6 +191,16 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
         }
     }, [isCustomColor, config]);
 
+    useEffect(() => {
+        import('shiki').then(({ bundledThemes }) => {
+            Promise.all(
+                codeThemes.map((t) =>
+                    bundledThemes[t.id as keyof typeof bundledThemes]().then((m) => [t.id, extractPreviewColors(m.default)] as const),
+                ),
+            ).then((entries) => setCodeThemePreviews(Object.fromEntries(entries)));
+        });
+    }, []);
+
     const updateConfig = useCallback(
         (partial: Partial<ThemeConfig>) => {
             if (!config) return;
@@ -113,6 +211,14 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
 
             if ('dark' in partial) {
                 setDarkMode(next.dark);
+            }
+
+            if ('code_theme_light' in partial || 'code_theme_dark' in partial) {
+                window.dispatchEvent(
+                    new CustomEvent('plume:code-theme', {
+                        detail: { light: next.code_theme_light, dark: next.code_theme_dark },
+                    }),
+                );
             }
         },
         [config],
@@ -142,24 +248,44 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                 radius: presetConfig.radius,
                 spacing: presetConfig.spacing,
                 dark: presetConfig.dark,
+                code_theme_light: presetConfig.code_theme_light,
+                code_theme_dark: presetConfig.code_theme_dark,
             };
             setConfig(next);
             applyTheme(next);
             if (next.dark !== document.documentElement.classList.contains('dark')) {
                 setDarkMode(next.dark);
             }
+            window.dispatchEvent(
+                new CustomEvent('plume:code-theme', {
+                    detail: { light: next.code_theme_light, dark: next.code_theme_dark },
+                }),
+            );
         },
         [config, presets],
     );
 
     const resetDefaults = useCallback(() => {
-        const defaults: ThemeConfig = { primary: 'neutral', gray: 'neutral', radius: 'medium', spacing: 'default', dark: false };
+        const defaults: ThemeConfig = {
+            primary: 'neutral',
+            gray: 'neutral',
+            radius: 'medium',
+            spacing: 'default',
+            dark: false,
+            code_theme_light: 'github-light',
+            code_theme_dark: 'github-dark',
+        };
         setConfig(defaults);
         setPreset('');
         applyTheme(defaults);
         if (defaults.dark !== document.documentElement.classList.contains('dark')) {
             setDarkMode(defaults.dark);
         }
+        window.dispatchEvent(
+            new CustomEvent('plume:code-theme', {
+                detail: { light: defaults.code_theme_light, dark: defaults.code_theme_dark },
+            }),
+        );
     }, []);
 
     if (!customizerConfig?.enabled) {
@@ -346,6 +472,22 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                                     <span className="cz-toggle-knob" />
                                 </button>
                             </div>
+
+                            {/* Code theme light */}
+                            <CodeThemeDropdown
+                                label="Code theme (light)"
+                                value={config.code_theme_light}
+                                onChange={(id) => updateConfig({ code_theme_light: id })}
+                                previews={codeThemePreviews}
+                            />
+
+                            {/* Code theme dark */}
+                            <CodeThemeDropdown
+                                label="Code theme (dark)"
+                                value={config.code_theme_dark}
+                                onChange={(id) => updateConfig({ code_theme_dark: id })}
+                                previews={codeThemePreviews}
+                            />
 
                             {/* Save & Restore */}
                             <div className="cz-actions">

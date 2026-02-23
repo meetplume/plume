@@ -11,6 +11,8 @@ it('returns expected defaults', function (): void {
         'radius' => 'medium',
         'spacing' => 'default',
         'dark' => false,
+        'code_theme_light' => 'github-light',
+        'code_theme_dark' => 'github-dark',
     ]);
 });
 
@@ -35,6 +37,8 @@ it('writes valid YAML', function (): void {
         'radius' => 'small',
         'spacing' => 'compact',
         'dark' => true,
+        'code_theme_light' => 'github-light',
+        'code_theme_dark' => 'github-dark',
     ]);
 
     unlink($path);
@@ -83,7 +87,7 @@ it('lists available presets with config', function (): void {
     $presets = ThemeConfig::presets();
 
     expect($presets)->toHaveKeys(['default', 'brutalist', 'catppuccin', 'forest', 'ocean', 'rose']);
-    expect($presets['ocean'])->toBe(['primary' => 'blue', 'gray' => 'slate', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false]);
+    expect($presets['ocean'])->toBe(['primary' => 'blue', 'gray' => 'slate', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false, 'code_theme_light' => 'github-light', 'code_theme_dark' => 'github-dark']);
     expect($presets['catppuccin'])->toHaveKey('dark', true);
 });
 

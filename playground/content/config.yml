@@ -15,3 +15,9 @@ spacing: default
 
 # available values for dark: true, false
 dark: false
+
+# available values for code_theme_light: https://expressive-code.com/guides/themes/
+code_theme_light: catppuccin-latte
+
+# available values for code_theme_dark: https://expressive-code.com/guides/themes/
+code_theme_dark: catppuccin-macchiato

@@ -8,9 +8,9 @@ use Meetplume\Plume\Enums\CodeTheme;
 
 final class PageDefinition
 {
-    private CodeTheme $codeThemeLight = CodeTheme::GITHUB_LIGHT;
+    private ?CodeTheme $codeThemeLight = null;
 
-    private CodeTheme $codeThemeDark = CodeTheme::GITHUB_DARK;
+    private ?CodeTheme $codeThemeDark = null;
 
     public function __construct(
         public readonly string $filePath,
@@ -25,7 +25,7 @@ final class PageDefinition
     }
 
     /**
-     * @return array{content: string, title: ?string, description: ?string, meta: array<string, mixed>, codeThemeLight: string, codeThemeDark: string}
+     * @return array{content: string, title: ?string, description: ?string, meta: array<string, mixed>, codeThemeLight: ?string, codeThemeDark: ?string}
      */
     public function toInertiaProps(): array
     {
@@ -37,8 +37,8 @@ final class PageDefinition
             'title' => $frontmatter['title'] ?? null,
             'description' => $frontmatter['description'] ?? null,
             'meta' => $frontmatter,
-            'codeThemeLight' => $this->codeThemeLight->value,
-            'codeThemeDark' => $this->codeThemeDark->value,
+            'codeThemeLight' => $this->codeThemeLight?->value,
+            'codeThemeDark' => $this->codeThemeDark?->value,
         ];
     }
 }

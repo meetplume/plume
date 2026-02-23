@@ -21,6 +21,8 @@ class CustomizerController
             'radius' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validRadius())],
             'spacing' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validSpacing())],
             'dark' => ['sometimes', 'boolean'],
+            'code_theme_light' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
+            'code_theme_dark' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
         ]);
 
         $configPath = app(Plume::class)->configPath();
