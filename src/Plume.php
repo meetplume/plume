@@ -9,10 +9,18 @@ use Meetplume\Plume\Http\Controllers\PageController;
 
 class Plume
 {
+    private ?string $configPath = null;
+
     public function config(string $configPath): void
     {
+        $this->configPath = $configPath;
         $themeConfig = new ThemeConfig($configPath);
         app()->instance(ThemeConfig::class, $themeConfig);
+    }
+
+    public function configPath(): ?string
+    {
+        return $this->configPath;
     }
 
     public function page(string $uri, string $filePath): PageDefinition
