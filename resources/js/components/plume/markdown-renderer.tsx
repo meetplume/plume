@@ -1,3 +1,4 @@
+import { normalizeCalloutSyntax, remarkCallouts } from '@/lib/remark-callouts';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
@@ -5,8 +6,10 @@ import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
+import remarkDirective from 'remark-directive';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
@@ -54,6 +57,9 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
                 .use(remarkParse)
                 .use(remarkGfm)
                 .use(remarkFrontmatter)
+                .use(remarkGithubAdmonitionsToDirectives)
+                .use(remarkDirective)
+                .use(remarkCallouts)
                 .use(remarkRehype, { allowDangerousHtml: true })
                 .use(rehypeRaw)
                 .use(rehypeExpressiveCode, {
@@ -66,7 +72,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     );
 
     useEffect(() => {
-        processor.process(page.content).then((file) => {
+        processor.process(normalizeCalloutSyntax(page.content)).then((file) => {
             setHtml(String(file));
         });
     }, [processor, page.content]);

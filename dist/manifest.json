@@ -7,23 +7,23 @@
       "node_modules/@shikijs/langs/dist/html.mjs"
     ]
   },
-  "_feather-NwCrdBai.js": {
-    "file": "assets/feather-NwCrdBai.js",
+  "_feather-sHmm3V7Y.js": {
+    "file": "assets/feather-sHmm3V7Y.js",
     "name": "feather",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
-  "_hero1-Drc1ZGIQ.js": {
-    "file": "assets/hero1-Drc1ZGIQ.js",
+  "_hero1-nlxh02BG.js": {
+    "file": "assets/hero1-nlxh02BG.js",
     "name": "hero1",
     "imports": [
       "resources/js/app.tsx",
-      "_feather-NwCrdBai.js"
+      "_feather-sHmm3V7Y.js"
     ]
   },
-  "_langs-Cc0f2jus.js": {
-    "file": "assets/langs-Cc0f2jus.js",
+  "_langs-ByawSAcq.js": {
+    "file": "assets/langs-ByawSAcq.js",
     "name": "langs",
     "imports": [
       "resources/js/app.tsx"
@@ -2470,18 +2470,18 @@
     "isDynamicEntry": true
   },
   "node_modules/shiki/dist/index.mjs": {
-    "file": "assets/index-REfuSc7A.js",
+    "file": "assets/index-DCAhpeqg.js",
     "name": "index",
     "src": "node_modules/shiki/dist/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/shiki/dist/engine-oniguruma.mjs",
-      "_langs-Cc0f2jus.js",
+      "_langs-ByawSAcq.js",
       "resources/js/app.tsx",
       "node_modules/shiki/dist/engine-javascript.mjs"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   },
   "node_modules/shiki/dist/wasm.mjs": {
@@ -2491,7 +2491,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DS6_y9Xi.css",
+    "file": "assets/app-DpGx1I53.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -2500,7 +2500,7 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-Bu0miVrM.js",
+    "file": "assets/app-DmZSdT2h.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -2576,58 +2576,58 @@
       "resources/js/pages/plume/page.tsx"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   },
   "resources/js/pages/laravel-zero.tsx": {
-    "file": "assets/laravel-zero-5MpRzVxs.js",
+    "file": "assets/laravel-zero-DwjuXzOp.js",
     "name": "laravel-zero",
     "src": "resources/js/pages/laravel-zero.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-Drc1ZGIQ.js",
-      "_feather-NwCrdBai.js"
+      "_hero1-nlxh02BG.js",
+      "_feather-sHmm3V7Y.js"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   },
   "resources/js/pages/page1.tsx": {
-    "file": "assets/page1-CUB_UyYz.js",
+    "file": "assets/page1-DhiPGR4M.js",
     "name": "page1",
     "src": "resources/js/pages/page1.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-Drc1ZGIQ.js",
-      "_feather-NwCrdBai.js"
+      "_hero1-nlxh02BG.js",
+      "_feather-sHmm3V7Y.js"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   },
   "resources/js/pages/page2.tsx": {
-    "file": "assets/page2-DZb6V9h6.js",
+    "file": "assets/page2-Coa8Mayb.js",
     "name": "page2",
     "src": "resources/js/pages/page2.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_feather-NwCrdBai.js"
+      "_feather-sHmm3V7Y.js"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   },
   "resources/js/pages/plume/page.tsx": {
-    "file": "assets/page-CqdEF_Kh.js",
+    "file": "assets/page-DfGQnDyY.js",
     "name": "page",
     "src": "resources/js/pages/plume/page.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_langs-Cc0f2jus.js"
+      "_langs-ByawSAcq.js"
     ],
     "dynamicImports": [
       "node_modules/shiki/dist/engine-javascript.mjs",
@@ -2635,7 +2635,7 @@
       "node_modules/shiki/dist/wasm.mjs"
     ],
     "css": [
-      "assets/app-DS6_y9Xi.css"
+      "assets/app-DpGx1I53.css"
     ]
   }
 }

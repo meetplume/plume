@@ -1,0 +1,95 @@
+/* Callouts (::: tip, ::: warning, etc.) */
+.plume-callout {
+    @apply my-4 flex gap-3 overflow-hidden rounded-md border px-5 py-4;
+}
+
+.plume-callout__icon {
+    @apply mt-0.5 shrink-0;
+}
+
+.plume-callout__content {
+    @apply prose w-full max-w-none min-w-0 text-sm dark:prose-invert;
+}
+
+.plume-callout__content > *:first-child {
+    @apply mt-0;
+}
+
+.plume-callout__content > *:last-child {
+    @apply mb-0;
+}
+
+.plume-callout__title {
+    @apply mt-0 mb-1 text-sm font-semibold;
+}
+
+/* Tip — green */
+.plume-callout--tip {
+    @apply border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-600/20;
+}
+.plume-callout--tip .plume-callout__icon,
+.plume-callout--tip .plume-callout__content {
+    @apply text-green-800 dark:text-green-300;
+}
+
+/* Info — blue */
+.plume-callout--info {
+    @apply border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-600/20;
+}
+.plume-callout--info .plume-callout__icon,
+.plume-callout--info .plume-callout__content {
+    @apply text-blue-800 dark:text-blue-300;
+}
+
+/* Note — purple */
+.plume-callout--note {
+    @apply border-purple-200 bg-purple-50 dark:border-purple-900 dark:bg-purple-600/20;
+}
+.plume-callout--note .plume-callout__icon,
+.plume-callout--note .plume-callout__content {
+    @apply text-purple-800 dark:text-purple-300;
+}
+
+/* Warning — amber */
+.plume-callout--warning {
+    @apply border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-600/20;
+}
+.plume-callout--warning .plume-callout__icon,
+.plume-callout--warning .plume-callout__content {
+    @apply text-amber-800 dark:text-amber-300;
+}
+
+/* Danger — red */
+.plume-callout--danger {
+    @apply border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-600/20;
+}
+.plume-callout--danger .plume-callout__icon,
+.plume-callout--danger .plume-callout__content {
+    @apply text-red-800 dark:text-red-300;
+}
+
+/* Details — collapsible, slate */
+.plume-callout--details {
+    @apply block border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-600/20;
+}
+
+.plume-callout__summary {
+    @apply flex cursor-pointer list-none items-center gap-3 text-sm font-semibold select-none;
+    @apply text-slate-800 dark:text-slate-300;
+}
+
+.plume-callout__summary::-webkit-details-marker {
+    @apply hidden;
+}
+
+.plume-callout__summary .plume-callout__icon svg {
+    @apply transition-transform duration-200;
+}
+
+.plume-callout--details[open] .plume-callout__icon svg {
+    @apply rotate-90;
+}
+
+.plume-callout--details .plume-callout__content {
+    @apply mt-3 text-slate-800 dark:text-slate-300;
+}
