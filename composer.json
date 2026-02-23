@@ -1,7 +1,13 @@
 {
     "name": "meetplume/plume",
     "description": "An utility for markdown content - pages, docs, wikis and more.",
-    "keywords": ["markdown", "content", "laravel", "documentation", "wiki"],
+    "keywords": [
+        "markdown",
+        "content",
+        "laravel",
+        "documentation",
+        "wiki"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -61,6 +67,18 @@
             "@test:type-coverage",
             "@test:unit",
             "@test:refactor"
+        ],
+        "open": [
+            "cd playground && herd open",
+            "npm run dev"
+        ],
+        "setup": [
+            "composer install",
+            "npm install",
+            "npm run build",
+            "cd playground && composer install",
+            "cd playground && npm install",
+            "cd playground && npm run build"
         ]
     },
     "extra": {
