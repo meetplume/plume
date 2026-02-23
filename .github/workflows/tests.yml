@@ -60,5 +60,7 @@ jobs:
   playground:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: ci
+    permissions:
+      contents: write
     uses: ./.github/workflows/playground.yml
     secrets: inherit
