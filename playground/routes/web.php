@@ -30,4 +30,4 @@ Route::get('/laravel-zero-md', function () {
     return Page::render('laravel-zero', base_path('page-sources/index-frontmatter.md'));
 });
 
-Plume::page('/docs/build-interactive-menus', base_path('content/docs/build-interactive-menus.md'));
+Plume::page('/docs/build-interactive-menus', base_path('content/laravel-zero/build-interactive-menus.md'));
