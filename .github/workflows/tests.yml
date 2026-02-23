@@ -38,20 +38,27 @@ jobs:
         key: dependencies-php-${{ matrix.php }}-os-${{ matrix.os }}-version-${{ matrix.dependency-version }}-composer-${{ hashFiles('composer.json') }}
         restore-keys: dependencies-php-${{ matrix.php }}-os-${{ matrix.os }}-version-${{ matrix.dependency-version }}-composer-
 
-    - name: Install Composer dependencies
-      run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
-
-    - name: Integration Tests
-      run: composer test
-
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: 24
+        cache: npm
+
+    - name: Install PHP and JS dependencies
+      run: |
+        composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
+        npm ci
+
+    - name: Integration Tests
+      run: composer test
 
     - name: Ensure Assets are built
       run: |
-        npm ci
         npm run build
         git diff --exit-code
 
+  playground:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: ci
+    uses: ./.github/workflows/playground.yml
+    secrets: inherit

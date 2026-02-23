@@ -1,9 +1,8 @@
 name: Playground Branch
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
