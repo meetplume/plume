@@ -1,4 +1,4 @@
-name: Playground Branch
+name: Update Playground Mirror
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  restructure:
+  push-to-mirror:
     runs-on: ubuntu-latest
 
     steps:
