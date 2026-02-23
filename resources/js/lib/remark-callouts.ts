@@ -50,7 +50,7 @@ const typesPattern = ALL_NAMES.join('|');
  * `::: tip My Title`  → `:::tip[My Title]`
  */
 export function normalizeCalloutSyntax(markdown: string): string {
-    return markdown.replace(new RegExp(`^::: *(${typesPattern})(?: +(.+))?$`, 'gmi'), (_, name: string, title?: string) => {
+    return markdown.replace(new RegExp(`^::: *(${typesPattern})(?: +(.+?))? *$`, 'gmi'), (_, name: string, title?: string) => {
         if (title) {
             return `:::${name.toLowerCase()}[${title.trim()}]`;
         }
