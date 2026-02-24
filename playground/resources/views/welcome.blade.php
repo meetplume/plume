@@ -13,8 +13,10 @@
             <div class="flex gap-4 justify-center">
                 <a href="/movies" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Movies</a>
                 <a href="/tv-shows" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">TV Shows</a>
-                <a href="/laravel-zero/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
-                <a href="/minglejs/docs/what-is-minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS</a>
+                <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
+                <a href="/laravel-zero-md" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero MD</a>
+                <a href="/laravel-zero/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero Docs</a>
+                <a href="/minglejs/docs/what-is-minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS Docs</a>
             </div>
         </div>
     </body>
