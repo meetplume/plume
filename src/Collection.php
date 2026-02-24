@@ -6,7 +6,7 @@ namespace Meetplume\Plume;
 
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Enums\CodeTheme;
-use Meetplume\Plume\Http\Controllers\CollectionPageController;
+use Meetplume\Plume\Http\Controllers\PageController;
 
 final class Collection
 {
@@ -73,6 +73,16 @@ final class Collection
         return $this->description;
     }
 
+    public function getCodeThemeLight(): ?CodeTheme
+    {
+        return $this->codeThemeLight;
+    }
+
+    public function getCodeThemeDark(): ?CodeTheme
+    {
+        return $this->codeThemeDark;
+    }
+
     /**
      * @return array<int, NavGroup|PageItem>
      */
@@ -100,7 +110,7 @@ final class Collection
         if (file_exists($filePath)) {
             $frontmatter = Frontmatter::parse((string) file_get_contents($filePath));
 
-            if (isset($frontmatter['title'])) {
+            if (isset($frontmatter['title']) && is_string($frontmatter['title'])) {
                 return $frontmatter['title'];
             }
         }
@@ -197,7 +207,7 @@ final class Collection
         $prefix = trim($this->prefix, '/');
 
         foreach ($this->resolvedPages as $slug => $page) {
-            Route::get(sprintf('%s/%s', $prefix, $slug), CollectionPageController::class)
+            Route::get(sprintf('%s/%s', $prefix, $slug), PageController::class)
                 ->defaults('collection', $this)
                 ->defaults('pageItem', $page)
                 ->name(sprintf('plume.%s.%s', $prefix, $slug));

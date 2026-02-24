@@ -34,15 +34,15 @@ class Plume
         return $this->configPath;
     }
 
-    public function page(string $uri, string $filePath): PageDefinition
+    public function page(string $uri, string $filePath): PageItem
     {
-        $definition = new PageDefinition($filePath);
+        $pageItem = new PageItem(trim($uri, '/'))->filePath($filePath);
         $trimmedUri = trim($uri, '/');
 
         Route::get($uri, PageController::class)
-            ->defaults('pageDefinition', $definition)
+            ->defaults('pageItem', $pageItem)
             ->name('plume.'.$trimmedUri);
 
-        return $definition;
+        return $pageItem;
     }
 }
