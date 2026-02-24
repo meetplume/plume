@@ -11,6 +11,17 @@ class Plume
 {
     private ?string $configPath = null;
 
+    /** @var array<string, Collection> */
+    private array $collections = [];
+
+    public function collection(string $prefix, string $contentPath): Collection
+    {
+        $collection = new Collection($prefix, $contentPath);
+        $this->collections[trim($prefix, '/')] = $collection;
+
+        return $collection;
+    }
+
     public function config(string $configPath): void
     {
         $this->configPath = $configPath;
