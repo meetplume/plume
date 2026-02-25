@@ -52,11 +52,7 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
     }, []);
 
     return (
-        <nav
-            id="plume-sidebar-nav"
-            ref={navRef}
-            className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto border-r border-border py-8 pr-4 pl-6"
-        >
+        <nav id="plume-sidebar-nav" ref={navRef} className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto py-8 pr-4 pl-6 text-sm">
             <ul className="space-y-6">
                 {navigation.map((item) => {
                     if (item.type === 'group') {
@@ -81,8 +77,8 @@ function NavGroup({ group }: { group: NavGroupItem }) {
 
     return (
         <li>
-            <div className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-wide text-foreground">
-                {Icon && <Icon className="size-3.5" />}
+            <div className="flex items-center gap-2 px-4 py-1.5 font-semibold tracking-wide text-foreground">
+                {Icon && <Icon className="size-3.5 shrink-0" />}
                 {group.label}
             </div>
             <ul className="space-y-0.5">
@@ -100,8 +96,10 @@ function NavLink({ page }: { page: NavPage }) {
     return (
         <Link
             href={page.href}
-            className={`block rounded-md px-2.5 py-1.5 text-[13px] leading-snug transition-colors ${
-                page.active ? 'font-medium text-primary' : 'text-muted-foreground hover:text-foreground'
+            className={`block rounded-xl px-4 py-1.5 leading-snug transition-colors ${
+                page.active
+                    ? 'dark:text-primary-light dark:bg-primary-light/10 bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]'
+                    : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground'
             }`}
         >
             {page.label}
