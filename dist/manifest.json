@@ -7,23 +7,15 @@
       "node_modules/@shikijs/langs/dist/html.mjs"
     ]
   },
-  "_feather-Vbox3QZq.js": {
-    "file": "assets/feather-Vbox3QZq.js",
-    "name": "feather",
+  "_hero1-CitzVApL.js": {
+    "file": "assets/hero1-CitzVApL.js",
+    "name": "hero1",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
-  "_hero1-BQfVv47x.js": {
-    "file": "assets/hero1-BQfVv47x.js",
-    "name": "hero1",
-    "imports": [
-      "resources/js/app.tsx",
-      "_feather-Vbox3QZq.js"
-    ]
-  },
-  "_langs-DiiB10gS.js": {
-    "file": "assets/langs-DiiB10gS.js",
+  "_langs-CXFouEL1.js": {
+    "file": "assets/langs-CXFouEL1.js",
     "name": "langs",
     "imports": [
       "resources/js/app.tsx"
@@ -2470,18 +2462,18 @@
     "isDynamicEntry": true
   },
   "node_modules/shiki/dist/index.mjs": {
-    "file": "assets/index-CGOs3CqG.js",
+    "file": "assets/index-Dp-P0nEH.js",
     "name": "index",
     "src": "node_modules/shiki/dist/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/shiki/dist/engine-oniguruma.mjs",
-      "_langs-DiiB10gS.js",
+      "_langs-CXFouEL1.js",
       "resources/js/app.tsx",
       "node_modules/shiki/dist/engine-javascript.mjs"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   },
   "node_modules/shiki/dist/wasm.mjs": {
@@ -2491,7 +2483,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DXG6GvXr.css",
+    "file": "assets/app-AYEah3jG.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -2500,7 +2492,7 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-1_seZSmM.js",
+    "file": "assets/app-BFwSb3Ma.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -2576,58 +2568,55 @@
       "resources/js/pages/plume/page.tsx"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   },
   "resources/js/pages/laravel-zero.tsx": {
-    "file": "assets/laravel-zero-jxG8c73W.js",
+    "file": "assets/laravel-zero-CY-13bi8.js",
     "name": "laravel-zero",
     "src": "resources/js/pages/laravel-zero.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-BQfVv47x.js",
-      "_feather-Vbox3QZq.js"
+      "_hero1-CitzVApL.js"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   },
   "resources/js/pages/page1.tsx": {
-    "file": "assets/page1-BreSsFbb.js",
+    "file": "assets/page1-DOCZiMaC.js",
     "name": "page1",
     "src": "resources/js/pages/page1.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-BQfVv47x.js",
-      "_feather-Vbox3QZq.js"
+      "_hero1-CitzVApL.js"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   },
   "resources/js/pages/page2.tsx": {
-    "file": "assets/page2-7NEbGugc.js",
+    "file": "assets/page2-BiSJMnQU.js",
     "name": "page2",
     "src": "resources/js/pages/page2.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.tsx",
-      "_feather-Vbox3QZq.js"
+      "resources/js/app.tsx"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   },
   "resources/js/pages/plume/page.tsx": {
-    "file": "assets/page-BvJsQ60H.js",
+    "file": "assets/page-DdkaOuHM.js",
     "name": "page",
     "src": "resources/js/pages/plume/page.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_langs-DiiB10gS.js"
+      "_langs-CXFouEL1.js"
     ],
     "dynamicImports": [
       "node_modules/shiki/dist/engine-javascript.mjs",
@@ -2635,7 +2624,7 @@
       "node_modules/shiki/dist/wasm.mjs"
     ],
     "css": [
-      "assets/app-DXG6GvXr.css"
+      "assets/app-AYEah3jG.css"
     ]
   }
 }

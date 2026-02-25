@@ -1,3 +1,4 @@
+import { resolveIcon } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 
@@ -75,11 +76,15 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
 
 function NavGroup({ group }: { group: NavGroupItem }) {
     const visiblePages = group.pages.filter((p) => !p.hidden);
+    const Icon = group.icon ? resolveIcon(group.icon) : null;
     if (visiblePages.length === 0) return null;
 
     return (
         <li>
-            <div className="mb-2 text-xs font-semibold tracking-wide text-muted-foreground/70 uppercase">{group.label}</div>
+            <div className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-wide text-foreground">
+                {Icon && <Icon className="size-3.5" />}
+                {group.label}
+            </div>
             <ul className="space-y-0.5">
                 {visiblePages.map((page) => (
                     <li key={page.key}>
