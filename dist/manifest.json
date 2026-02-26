@@ -7,15 +7,15 @@
       "node_modules/@shikijs/langs/dist/html.mjs"
     ]
   },
-  "_hero1-BdkY8vT6.js": {
-    "file": "assets/hero1-BdkY8vT6.js",
+  "_hero1-Vs54aJoJ.js": {
+    "file": "assets/hero1-Vs54aJoJ.js",
     "name": "hero1",
     "imports": [
       "resources/js/app.tsx"
     ]
   },
-  "_langs-CaVlaJgx.js": {
-    "file": "assets/langs-CaVlaJgx.js",
+  "_langs-C7mwpnt9.js": {
+    "file": "assets/langs-C7mwpnt9.js",
     "name": "langs",
     "imports": [
       "resources/js/app.tsx"
@@ -2462,18 +2462,18 @@
     "isDynamicEntry": true
   },
   "node_modules/shiki/dist/index.mjs": {
-    "file": "assets/index-CvZNiMzZ.js",
+    "file": "assets/index-DB3zLcTe.js",
     "name": "index",
     "src": "node_modules/shiki/dist/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/shiki/dist/engine-oniguruma.mjs",
-      "_langs-CaVlaJgx.js",
+      "_langs-C7mwpnt9.js",
       "resources/js/app.tsx",
       "node_modules/shiki/dist/engine-javascript.mjs"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   },
   "node_modules/shiki/dist/wasm.mjs": {
@@ -2483,7 +2483,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-qCNzkxjL.css",
+    "file": "assets/app-DDjKEhSE.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -2492,7 +2492,7 @@
     ]
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-C7UZt9P7.js",
+    "file": "assets/app-pw5l-6Ai.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -2568,37 +2568,37 @@
       "resources/js/pages/plume/page.tsx"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   },
   "resources/js/pages/laravel-zero.tsx": {
-    "file": "assets/laravel-zero-BIb9Mltn.js",
+    "file": "assets/laravel-zero-cD-t48N6.js",
     "name": "laravel-zero",
     "src": "resources/js/pages/laravel-zero.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-BdkY8vT6.js"
+      "_hero1-Vs54aJoJ.js"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   },
   "resources/js/pages/page1.tsx": {
-    "file": "assets/page1-B17kYklb.js",
+    "file": "assets/page1-C_tUcclK.js",
     "name": "page1",
     "src": "resources/js/pages/page1.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_hero1-BdkY8vT6.js"
+      "_hero1-Vs54aJoJ.js"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   },
   "resources/js/pages/page2.tsx": {
-    "file": "assets/page2-CweaXuLI.js",
+    "file": "assets/page2-IkkTT8GJ.js",
     "name": "page2",
     "src": "resources/js/pages/page2.tsx",
     "isDynamicEntry": true,
@@ -2606,17 +2606,17 @@
       "resources/js/app.tsx"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   },
   "resources/js/pages/plume/page.tsx": {
-    "file": "assets/page-Zkaban31.js",
+    "file": "assets/page-D6qE4OAc.js",
     "name": "page",
     "src": "resources/js/pages/plume/page.tsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.tsx",
-      "_langs-CaVlaJgx.js"
+      "_langs-C7mwpnt9.js"
     ],
     "dynamicImports": [
       "node_modules/shiki/dist/engine-javascript.mjs",
@@ -2624,7 +2624,7 @@
       "node_modules/shiki/dist/wasm.mjs"
     ],
     "css": [
-      "assets/app-qCNzkxjL.css"
+      "assets/app-DDjKEhSE.css"
     ]
   }
 }

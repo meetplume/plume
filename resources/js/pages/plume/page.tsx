@@ -17,13 +17,14 @@ export default function Page(page: CollectionPageProps) {
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
             {hasNav ? (
-                <div className="flex min-h-screen">
+                <div className="mx-auto flex min-h-screen max-w-368 gap-8 lg:px-8">
                     <SidebarNav navigation={page.navigation!} collection={page.collection} />
                     <main className="min-w-0 flex-1">
-                        <article className="mx-auto prose max-w-3xl px-8 py-12 dark:prose-invert">
+                        <article className="mx-auto prose max-w-3xl pt-8 pb-14 dark:prose-invert">
                             <MarkdownRenderer page={page} />
                         </article>
                     </main>
+                    <div className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-xl:hidden"></div>
                 </div>
             ) : (
                 <article className="mx-auto prose max-w-3xl px-6 py-12 dark:prose-invert">

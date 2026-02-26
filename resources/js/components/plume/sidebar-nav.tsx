@@ -52,8 +52,9 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
     }, []);
 
     return (
-        <nav id="plume-sidebar-nav" ref={navRef} className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto py-8 pr-4 pl-6 text-sm">
-            <ul className="space-y-6">
+        <nav id="plume-sidebar-nav" ref={navRef} className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-lg:hidden">
+            <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
+            <ul className="space-y-6 pr-8">
                 {navigation.map((item) => {
                     if (item.type === 'group') {
                         return <NavGroup key={item.key} group={item} />;
@@ -96,7 +97,7 @@ function NavLink({ page }: { page: NavPage }) {
     return (
         <Link
             href={page.href}
-            className={`block rounded-xl px-4 py-1.5 leading-snug transition-colors ${
+            className={`block rounded-[calc(var(--radius)-4px)] px-4 py-1.5 leading-snug ${
                 page.active
                     ? 'dark:text-primary-light dark:bg-primary-light/10 bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]'
                     : 'text-muted-foreground hover:bg-foreground/5 hover:text-foreground'
