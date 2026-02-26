@@ -7,6 +7,11 @@ use Inertia\Response;
 
 class Page
 {
+    public static function make(string $key): PageItem
+    {
+        return new PageItem($key);
+    }
+
     /**
      * @param  array<string, mixed>|string  $props  Array of props or path to a frontmatter file.
      */

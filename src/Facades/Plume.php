@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Meetplume\Plume\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Meetplume\Plume\PageDefinition;
+use Meetplume\Plume\Collection;
+use Meetplume\Plume\PageItem;
 
 /**
- * @method static PageDefinition page(string $uri, string $filePath)
+ * @method static PageItem page(string $uri, string $filePath)
+ * @method static Collection collection(string $prefix, string $contentPath)
  * @method static void config(string $configPath)
  *
  * @see \Meetplume\Plume\Plume

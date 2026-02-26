@@ -11,6 +11,17 @@ class Plume
 {
     private ?string $configPath = null;
 
+    /** @var array<string, Collection> */
+    private array $collections = [];
+
+    public function collection(string $prefix, string $contentPath): Collection
+    {
+        $collection = new Collection($prefix, $contentPath);
+        $this->collections[trim($prefix, '/')] = $collection;
+
+        return $collection;
+    }
+
     public function config(string $configPath): void
     {
         $this->configPath = $configPath;
@@ -23,15 +34,15 @@ class Plume
         return $this->configPath;
     }
 
-    public function page(string $uri, string $filePath): PageDefinition
+    public function page(string $uri, string $filePath): PageItem
     {
-        $definition = new PageDefinition($filePath);
+        $pageItem = new PageItem(trim($uri, '/'))->filePath($filePath);
         $trimmedUri = trim($uri, '/');
 
         Route::get($uri, PageController::class)
-            ->defaults('pageDefinition', $definition)
+            ->defaults('pageItem', $pageItem)
             ->name('plume.'.$trimmedUri);
 
-        return $definition;
+        return $pageItem;
     }
 }
