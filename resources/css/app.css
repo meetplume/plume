@@ -1,12 +1,12 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import './callouts.css';
 @plugin "@tailwindcss/typography";
 
+@plugin "@tailwindcss/typography";
 @source "../..";
-
 @custom-variant dark (&:where(.dark, .dark *));
-
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -45,7 +45,6 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 }
-
 :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
@@ -119,8 +118,17 @@
     * {
         @apply border-border outline-ring/50;
     }
+
     body {
         @apply bg-background text-foreground;
+    }
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *)) {
+        @apply relative rounded-[8px] bg-muted px-[0.3rem] py-[0.2rem] font-mono text-[0.8em] wrap-break-word;
+        font-weight: inherit !important;
+    }
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *))::before,
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *))::after {
+        content: none !important;
     }
 }
 
@@ -196,4 +204,8 @@
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
     --spacing: 0.25rem;
+}
+
+.expressive-code + .expressive-code {
+    margin-top: 1rem;
 }
