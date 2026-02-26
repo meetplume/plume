@@ -1,3 +1,4 @@
+import { TextAlignStart } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface TocEntry {
@@ -136,7 +137,10 @@ export function TableOfContents({ contentSelector = 'article' }: TableOfContents
     return (
         <nav aria-label="Table of contents">
             <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
-            <p className="px-4 py-1.5 font-semibold tracking-wide text-foreground">On this page</p>
+            <div className="flex items-center gap-2 pt-1.5 pr-4 pb-2">
+                <TextAlignStart className="size-4 shrink-0 text-muted-foreground" />
+                <p className="font-semibold tracking-wide text-foreground">On this page</p>
+            </div>
             <ul ref={listRef} className="relative border-l border-border">
                 {/* Animated active indicator */}
                 {indicator && (
