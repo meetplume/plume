@@ -1,3 +1,4 @@
+import { normalizeCalloutSyntax, remarkCallouts } from '@/lib/remark-callouts';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { usePage } from '@inertiajs/react';
 import type { Code, Root } from 'mdast';
@@ -7,8 +8,10 @@ import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
+import remarkDirective from 'remark-directive';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
@@ -73,6 +76,9 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
                 .use(remarkParse)
                 .use(remarkGfm)
                 .use(remarkFrontmatter)
+                .use(remarkGithubAdmonitionsToDirectives)
+                .use(remarkDirective)
+                .use(remarkCallouts)
                 .use(remarkCodeMeta)
                 .use(remarkRehype, { allowDangerousHtml: true })
                 .use(rehypeExpressiveCode, {
@@ -87,7 +93,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     );
 
     useEffect(() => {
-        processor.process(page.content).then((file) => {
+        processor.process(normalizeCalloutSyntax(page.content)).then((file) => {
             setHtml(String(file));
         });
     }, [processor, page.content]);
