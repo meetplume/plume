@@ -26,6 +26,7 @@
         "typescript-eslint": "^8.23.0"
     },
     "dependencies": {
+        "@expressive-code/plugin-collapsible-sections": "^0.41.7",
         "@inertiajs/react": "^2.3.13",
         "@tailwindcss/vite": "^4.1.11",
         "@types/react": "^19.2.0",
