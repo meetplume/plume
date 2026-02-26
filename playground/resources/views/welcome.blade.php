@@ -15,6 +15,7 @@
                 <a href="/tv-shows" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">TV Shows</a>
                 <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
                 <a href="/laravel-zero-md" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero MD</a>
+                <a href="/plume/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Our Docs</a>
                 <a href="/laravel-zero/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero Docs</a>
                 <a href="/minglejs/docs/what-is-minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS Docs</a>
             </div>
