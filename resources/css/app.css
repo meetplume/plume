@@ -122,6 +122,14 @@
     body {
         @apply bg-background text-foreground;
     }
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *)) {
+        @apply relative rounded-[8px] bg-muted px-[0.3rem] py-[0.2rem] font-mono text-[0.8em] wrap-break-word;
+        font-weight: inherit !important;
+    }
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *))::before,
+    .prose :where(code):not(:where(pre *, [class~='not-prose'] *))::after {
+        content: none !important;
+    }
 }
 
 /* Reset theme vars to neutral defaults for the customizer,
