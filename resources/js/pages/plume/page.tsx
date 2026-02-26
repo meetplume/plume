@@ -1,5 +1,6 @@
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
 import { type CollectionInfo, type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
+import { TableOfContents } from '@/components/plume/table-of-contents';
 import { Head } from '@inertiajs/react';
 
 interface CollectionPageProps extends PlumePageContext {
@@ -24,7 +25,9 @@ export default function Page(page: CollectionPageProps) {
                             <MarkdownRenderer page={page} />
                         </article>
                     </main>
-                    <div className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-xl:hidden"></div>
+                    <div className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-xl:hidden">
+                        <TableOfContents />
+                    </div>
                 </div>
             ) : (
                 <article className="mx-auto prose max-w-3xl px-6 py-12 dark:prose-invert">
