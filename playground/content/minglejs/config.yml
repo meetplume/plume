@@ -2,10 +2,10 @@
 theme: default
 
 # available values for primary: any tailwindcss color like (blue, red, green, yellow, ...) or arbitrary value
-primary: red
+primary: indigo
 
 # available values for gray: slate, gray, zinc, neutral, stone, mauve, olive, mist, taupe
-gray: neutral
+gray: zinc
 
 # available values for radius: none, small, medium, large
 radius: large
@@ -14,10 +14,10 @@ radius: large
 spacing: default
 
 # available values for dark: true, false
-dark: false
+dark: true
 
 # available values for code_theme_light: https://expressive-code.com/guides/themes/
-code_theme_light: material-theme-darker
+code_theme_light: github-light
 
 # available values for code_theme_dark: https://expressive-code.com/guides/themes/
-code_theme_dark: material-theme-darker
+code_theme_dark: github-dark

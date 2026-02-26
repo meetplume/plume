@@ -6,6 +6,7 @@ namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Meetplume\Plume\Collection;
 use Meetplume\Plume\Plume;
 use Meetplume\Plume\ThemeConfig;
 use Symfony\Component\Yaml\Yaml;
@@ -23,9 +24,16 @@ class CustomizerController
             'dark' => ['sometimes', 'boolean'],
             'code_theme_light' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
             'code_theme_dark' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
+            'collection' => ['sometimes', 'nullable', 'string'],
         ]);
 
-        $configPath = app(Plume::class)->configPath();
+        $plume = app(Plume::class);
+        $globalConfigPath = $plume->configPath();
+        /** @var ?string $collectionPrefix */
+        $collectionPrefix = $validated['collection'] ?? null;
+        unset($validated['collection']);
+
+        [$configPath, $fallbackConfigPath] = $this->resolveConfigPaths($plume, $globalConfigPath, $collectionPrefix);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -42,15 +50,20 @@ class CustomizerController
 
         ThemeConfig::write($configPath, $config);
 
-        $themeConfig = new ThemeConfig($configPath);
+        $themeConfig = new ThemeConfig($configPath, $fallbackConfigPath);
         app()->instance(ThemeConfig::class, $themeConfig);
 
         return response()->json($themeConfig->toArray());
     }
 
-    public function reset(): JsonResponse
+    public function reset(Request $request): JsonResponse
     {
-        $configPath = app(Plume::class)->configPath();
+        $plume = app(Plume::class);
+        $globalConfigPath = $plume->configPath();
+        /** @var ?string $collectionPrefix */
+        $collectionPrefix = $request->input('collection');
+
+        [$configPath, $fallbackConfigPath] = $this->resolveConfigPaths($plume, $globalConfigPath, $collectionPrefix);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -66,10 +79,26 @@ class CustomizerController
 
         ThemeConfig::write($configPath, $config);
 
-        $themeConfig = new ThemeConfig($configPath);
+        $themeConfig = new ThemeConfig($configPath, $fallbackConfigPath);
         app()->instance(ThemeConfig::class, $themeConfig);
 
         return response()->json($themeConfig->toArray());
+    }
+
+    /**
+     * @return array{0: ?string, 1: ?string}
+     */
+    private function resolveConfigPaths(Plume $plume, ?string $globalConfigPath, ?string $collectionPrefix): array
+    {
+        if ($collectionPrefix !== null) {
+            $collection = $plume->getCollection($collectionPrefix);
+
+            if ($collection instanceof Collection && $collection->getConfigPath() !== null) {
+                return [$collection->getConfigPath(), $globalConfigPath];
+            }
+        }
+
+        return [$globalConfigPath, null];
     }
 
     /**

@@ -18,6 +18,8 @@ final class Collection
 
     private ?CodeTheme $codeThemeDark = null;
 
+    private ?string $configPath = null;
+
     /** @var array<int, NavGroup|PageItem> */
     private array $navigation = [];
 
@@ -27,7 +29,14 @@ final class Collection
     public function __construct(
         public readonly string $prefix,
         public readonly string $contentPath,
-    ) {}
+    ) {
+        $this->discoverConfigPath();
+    }
+
+    public function getConfigPath(): ?string
+    {
+        return $this->configPath;
+    }
 
     public function title(string $title): self
     {
@@ -211,6 +220,15 @@ final class Collection
                 ->defaults('collection', $this)
                 ->defaults('pageItem', $page)
                 ->name(sprintf('plume.%s.%s', $prefix, $slug));
+        }
+    }
+
+    private function discoverConfigPath(): void
+    {
+        $path = rtrim($this->contentPath, '/').'/config.yml';
+
+        if (file_exists($path)) {
+            $this->configPath = $path;
         }
     }
 }

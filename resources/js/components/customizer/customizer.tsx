@@ -59,6 +59,7 @@ type CustomizerConfig = {
     enabled: boolean;
     preset: string;
     presets: Record<string, PresetConfig>;
+    collection?: string | null;
 };
 
 export type CustomizerInitialData = {
@@ -227,13 +228,17 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
         if (!config || !isDirty) return;
 
         setSaving(true);
-        postCustomizer('/_plume/customizer', config).then((resolved) => {
+        const data: Record<string, unknown> = { ...config };
+        if (customizerConfig?.collection) {
+            data.collection = customizerConfig.collection;
+        }
+        postCustomizer('/_plume/customizer', data).then((resolved) => {
             setSavedConfig(resolved);
             setConfig(resolved);
             applyTheme(resolved);
             setSaving(false);
         });
-    }, [config, isDirty]);
+    }, [config, isDirty, customizerConfig?.collection]);
 
     const switchPreset = useCallback(
         (name: string) => {
@@ -265,27 +270,25 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     );
 
     const resetDefaults = useCallback(() => {
-        const defaults: ThemeConfig = {
-            primary: 'neutral',
-            gray: 'neutral',
-            radius: 'medium',
-            spacing: 'default',
-            dark: false,
-            code_theme_light: 'github-light',
-            code_theme_dark: 'github-dark',
-        };
-        setConfig(defaults);
-        setPreset('');
-        applyTheme(defaults);
-        if (defaults.dark !== document.documentElement.classList.contains('dark')) {
-            setDarkMode(defaults.dark);
+        const data: Record<string, unknown> = {};
+        if (customizerConfig?.collection) {
+            data.collection = customizerConfig.collection;
         }
-        window.dispatchEvent(
-            new CustomEvent('plume:code-theme', {
-                detail: { light: defaults.code_theme_light, dark: defaults.code_theme_dark },
-            }),
-        );
-    }, []);
+        postCustomizer('/_plume/customizer/reset', data).then((resolved) => {
+            setConfig(resolved);
+            setSavedConfig(resolved);
+            setPreset('');
+            applyTheme(resolved);
+            if (resolved.dark !== document.documentElement.classList.contains('dark')) {
+                setDarkMode(resolved.dark);
+            }
+            window.dispatchEvent(
+                new CustomEvent('plume:code-theme', {
+                    detail: { light: resolved.code_theme_light, dark: resolved.code_theme_dark },
+                }),
+            );
+        });
+    }, [customizerConfig?.collection]);
 
     if (!customizerConfig?.enabled) {
         return null;
