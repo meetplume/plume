@@ -46,6 +46,7 @@
     --color-sidebar-ring: var(--sidebar-ring);
 }
 :root {
+    --ec-brdRad: calc(var(--radius) - 2px) !important;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -130,6 +131,10 @@
     .prose :where(code):not(:where(pre *, [class~='not-prose'] *))::after {
         content: none !important;
     }
+}
+
+.expressive-code .copy button {
+    border-radius: calc(var(--radius) - 8px) !important;
 }
 
 /* Reset theme vars to neutral defaults for the customizer,
