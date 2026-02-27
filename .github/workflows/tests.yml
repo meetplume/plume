@@ -3,6 +3,25 @@ name: Tests
 on: ['push', 'pull_request']
 
 jobs:
+  changelog:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Changelog
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Validate unreleased section has content
+      run: |
+        CONTENT=$(sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p}' CHANGELOG.md | sed '/^$/d')
+        if [ -z "$CONTENT" ]; then
+          echo "::error::No content found under ## [Unreleased] in CHANGELOG.md. Add changelog entries before merging."
+          exit 1
+        fi
+        echo "Unreleased content found:"
+        echo "$CONTENT"
+
   ci:
     runs-on: ${{ matrix.os }}
     strategy:
