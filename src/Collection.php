@@ -6,6 +6,7 @@ namespace Meetplume\Plume;
 
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Enums\CodeTheme;
+use Meetplume\Plume\Http\Controllers\ContentAssetController;
 use Meetplume\Plume\Http\Controllers\PageController;
 
 final class Collection
@@ -221,6 +222,11 @@ final class Collection
                 ->defaults('pageItem', $page)
                 ->name(sprintf('plume.%s.%s', $prefix, $slug));
         }
+
+        Route::get(sprintf('%s/_content/{path}', $prefix), ContentAssetController::class)
+            ->where('path', '.*')
+            ->defaults('collection', $this)
+            ->name(sprintf('plume.%s._content', $prefix));
     }
 
     private function discoverConfigPath(): void

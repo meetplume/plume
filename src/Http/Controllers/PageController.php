@@ -42,6 +42,16 @@ class PageController
                 'description' => $collection->getDescription(),
             ];
             $props['navigation'] = $collection->toNavigationArray($pageItem->getSlug());
+
+            $prefix = trim($collection->prefix, '/');
+            $pageDir = dirname($pageItem->getPath());
+            $assetBase = '/'.$prefix.'/_content';
+
+            if ($pageDir !== '.') {
+                $assetBase .= '/'.trim($pageDir, '/');
+            }
+
+            $props['contentAssetBase'] = $assetBase;
         }
 
         return Page::render('plume/page', $props, $collection);

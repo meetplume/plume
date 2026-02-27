@@ -18,6 +18,23 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
+function isRelativePath(src: string): boolean {
+    return !src.startsWith('/') && !src.startsWith('http://') && !src.startsWith('https://') && !src.startsWith('data:') && !src.startsWith('#');
+}
+
+/**
+ * Rewrites relative image/video/source src attributes to point to the content asset route.
+ */
+function rehypeContentAssets(assetBase: string) {
+    return (tree: Root) => {
+        visit(tree, 'element', (node: any) => {
+            if (node.tagName === 'img' && node.properties?.src && isRelativePath(node.properties.src)) {
+                node.properties.src = `${assetBase}/${node.properties.src}`;
+            }
+        });
+    };
+}
+
 /**
  * Splits meta from lang in code blocks so ```js{3-5} works like ```js {3-5}.
  */
@@ -41,6 +58,7 @@ export interface PlumePageContext {
     meta?: Record<string, unknown>;
     codeThemeLight?: string;
     codeThemeDark?: string;
+    contentAssetBase?: string;
 }
 
 interface MarkdownRendererProps {
@@ -71,34 +89,38 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
         return () => window.removeEventListener('plume:code-theme', handler);
     }, []);
 
-    const processor = useMemo(
-        () =>
-            unified()
-                .use(remarkParse)
-                .use(remarkGfm)
-                .use(remarkFrontmatter)
-                .use(remarkGithubAdmonitionsToDirectives)
-                .use(remarkDirective)
-                .use(remarkCallouts)
-                .use(remarkCodeMeta)
-                .use(remarkRehype, { allowDangerousHtml: true })
-                .use(rehypeExpressiveCode, {
-                    themes: [codeThemeDark as ThemeObjectOrShikiThemeName, codeThemeLight as ThemeObjectOrShikiThemeName],
-                    plugins: [pluginCollapsibleSections()],
-                    styleOverrides: {
-                        frames: {
-                            copyIcon: createInlineSvgUrl(
-                                `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-                            ),
-                        },
+    const processor = useMemo(() => {
+        const pipeline = unified()
+            .use(remarkParse)
+            .use(remarkGfm)
+            .use(remarkFrontmatter)
+            .use(remarkGithubAdmonitionsToDirectives)
+            .use(remarkDirective)
+            .use(remarkCallouts)
+            .use(remarkCodeMeta)
+            .use(remarkRehype, { allowDangerousHtml: true })
+            .use(rehypeExpressiveCode, {
+                themes: [codeThemeDark as ThemeObjectOrShikiThemeName, codeThemeLight as ThemeObjectOrShikiThemeName],
+                plugins: [pluginCollapsibleSections()],
+                styleOverrides: {
+                    frames: {
+                        copyIcon: createInlineSvgUrl(
+                            `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+                        ),
                     },
-                })
-                .use(rehypeRaw)
-                .use(rehypeSlug)
-                .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
-                .use(rehypeStringify),
-        [codeThemeLight, codeThemeDark],
-    );
+                },
+            })
+            .use(rehypeRaw);
+
+        if (page.contentAssetBase) {
+            pipeline.use(() => rehypeContentAssets(page.contentAssetBase!));
+        }
+
+        return pipeline
+            .use(rehypeSlug)
+            .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+            .use(rehypeStringify);
+    }, [codeThemeLight, codeThemeDark, page.contentAssetBase]);
 
     useEffect(() => {
         processor.process(normalizeCalloutSyntax(page.content)).then((file) => {
