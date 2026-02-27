@@ -15,7 +15,7 @@ class Page
     /**
      * @param  array<string, mixed>|string  $props  Array of props or path to a frontmatter file.
      */
-    public static function render(string $component, array|string $props = []): Response
+    public static function render(string $component, array|string $props = [], ?Collection $collection = null): Response
     {
         if (is_string($props)) {
             abort_unless(file_exists($props), 404);
@@ -38,6 +38,7 @@ class Page
                     'enabled' => true,
                     'preset' => $themeConfig->activePreset(),
                     'presets' => ThemeConfig::presets(),
+                    'collection' => $collection?->prefix,
                 ];
             }
 

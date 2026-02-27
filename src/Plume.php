@@ -34,6 +34,11 @@ class Plume
         return $this->configPath;
     }
 
+    public function getCollection(string $prefix): ?Collection
+    {
+        return $this->collections[trim($prefix, '/')] ?? null;
+    }
+
     public function page(string $uri, string $filePath): PageItem
     {
         $pageItem = new PageItem(trim($uri, '/'))->filePath($filePath);

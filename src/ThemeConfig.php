@@ -31,12 +31,16 @@ class ThemeConfig
 
     private const array VALID_SPACING = ['dense', 'compact', 'default', 'spacious'];
 
-    public function __construct(string $configPath)
+    public function __construct(string $configPath, ?string $fallbackConfigPath = null)
     {
         $config = $this->parseYaml($configPath);
-        $this->customizerEnabled = ! isset($config['customizer']) || $config['customizer'] !== false;
-        $this->activePreset = isset($config['theme']) && is_string($config['theme']) ? $config['theme'] : '';
-        $this->resolved = $this->resolve($config);
+        $fallback = $fallbackConfigPath !== null ? $this->parseYaml($fallbackConfigPath) : [];
+
+        $merged = array_merge($fallback, $config);
+
+        $this->customizerEnabled = ! isset($merged['customizer']) || $merged['customizer'] !== false;
+        $this->activePreset = isset($merged['theme']) && is_string($merged['theme']) ? $merged['theme'] : '';
+        $this->resolved = $this->resolve($merged);
     }
 
     /**

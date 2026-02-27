@@ -9,6 +9,8 @@ use Inertia\Response;
 use Meetplume\Plume\Collection;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\PageItem;
+use Meetplume\Plume\Plume;
+use Meetplume\Plume\ThemeConfig;
 
 class PageController
 {
@@ -19,6 +21,12 @@ class PageController
 
         /** @var ?Collection $collection */
         $collection = $request->route()->defaults['collection'] ?? null;
+
+        if ($collection !== null && $collection->getConfigPath() !== null) {
+            $globalConfigPath = app(Plume::class)->configPath();
+            $themeConfig = new ThemeConfig($collection->getConfigPath(), $globalConfigPath);
+            app()->instance(ThemeConfig::class, $themeConfig);
+        }
 
         $filePath = $collection
             ? $collection->resolveFilePath($pageItem)
@@ -36,6 +44,6 @@ class PageController
             $props['navigation'] = $collection->toNavigationArray($pageItem->getSlug());
         }
 
-        return Page::render('plume/page', $props);
+        return Page::render('plume/page', $props, $collection);
     }
 }
