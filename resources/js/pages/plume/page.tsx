@@ -25,7 +25,7 @@ export default function Page(page: CollectionPageProps) {
                             <MarkdownRenderer page={page} />
                         </article>
                     </main>
-                    <div className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-xl:hidden">
+                    <div className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto pb-8 text-sm max-xl:hidden">
                         <TableOfContents />
                     </div>
                 </div>
