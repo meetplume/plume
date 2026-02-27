@@ -28,7 +28,8 @@ jobs:
       - name: Compute next version
         id: version
         run: |
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          LATEST_TAG="${LATEST_TAG:-v0.0.0}"
           VERSION="${LATEST_TAG#v}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
