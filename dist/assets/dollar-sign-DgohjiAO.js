@@ -1,0 +1,1 @@
+import{c as o}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["line",{x1:"12",x2:"12",y1:"2",y2:"22",key:"7eqyqh"}],["path",{d:"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",key:"1b0p4s"}]],c=o("dollar-sign",t);export{t as __iconNode,c as default};

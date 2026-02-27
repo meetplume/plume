@@ -1,0 +1,1 @@
+import{c as t}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const r=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"m10 8 4 4-4 4",key:"1wy4r4"}]],h=t("square-chevron-right",r);export{r as __iconNode,h as default};

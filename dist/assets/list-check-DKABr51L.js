@@ -1,0 +1,1 @@
+import{c as t}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const e=[["path",{d:"M16 5H3",key:"m91uny"}],["path",{d:"M16 12H3",key:"1a2rj7"}],["path",{d:"M11 19H3",key:"zflm78"}],["path",{d:"m15 18 2 2 4-4",key:"1szwhi"}]],m=t("list-check",e);export{e as __iconNode,m as default};

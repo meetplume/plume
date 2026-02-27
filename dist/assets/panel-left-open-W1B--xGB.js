@@ -1,0 +1,1 @@
+import{c as e}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"M9 3v18",key:"fh3hqa"}],["path",{d:"m14 9 3 3-3 3",key:"8010ee"}]],c=e("panel-left-open",t);export{t as __iconNode,c as default};

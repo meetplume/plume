@@ -1,0 +1,1 @@
+import{c as e}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["path",{d:"M4.5 3h15",key:"c7n0jr"}],["path",{d:"M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3",key:"m1uhx7"}],["path",{d:"M6 14h12",key:"4cwo0f"}]],h=e("beaker",o);export{o as __iconNode,h as default};

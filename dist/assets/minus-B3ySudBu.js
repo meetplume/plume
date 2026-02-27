@@ -1,0 +1,1 @@
+import{c as o}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M5 12h14",key:"1ays0h"}]],p=o("minus",t);export{t as __iconNode,p as default};

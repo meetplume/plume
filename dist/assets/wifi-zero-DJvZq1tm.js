@@ -1,0 +1,1 @@
+import{c as o}from"./createLucideIcon-B5DSqRxs.js";import"./app-CZ7AnfjB.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const i=[["path",{d:"M12 20h.01",key:"zekei9"}]],m=o("wifi-zero",i);export{i as __iconNode,m as default};
