@@ -50,12 +50,41 @@ const typesPattern = ALL_NAMES.join('|');
  * `::: tip My Title`  → `:::tip[My Title]`
  */
 export function normalizeCalloutSyntax(markdown: string): string {
-    return markdown.replace(new RegExp(`^::: *(${typesPattern})(?: +(.+?))? *$`, 'gmi'), (_, name: string, title?: string) => {
-        if (title) {
-            return `:::${name.toLowerCase()}[${title.trim()}]`;
+    const calloutRe = new RegExp(`^::: *(${typesPattern})(?: +(.+?))? *$`, 'gmi');
+    const fenceRe = /^(`{3,}|~{3,})/;
+
+    const lines = markdown.split('\n');
+    let insideFence = false;
+    let fenceChar = '';
+    let fenceLen = 0;
+
+    for (let i = 0; i < lines.length; i++) {
+        const trimmed = lines[i].trimStart();
+        if (insideFence) {
+            const closing = trimmed.match(fenceRe);
+            if (closing && closing[1][0] === fenceChar && closing[1].length >= fenceLen && trimmed.slice(closing[1].length).trim() === '') {
+                insideFence = false;
+            }
+            continue;
         }
-        return `:::${name.toLowerCase()}`;
-    });
+
+        const fenceMatch = trimmed.match(fenceRe);
+        if (fenceMatch) {
+            insideFence = true;
+            fenceChar = fenceMatch[1][0];
+            fenceLen = fenceMatch[1].length;
+            continue;
+        }
+
+        lines[i] = lines[i].replace(calloutRe, (_, name: string, title?: string) => {
+            if (title) {
+                return `:::${name.toLowerCase()}[${title.trim()}]`;
+            }
+            return `:::${name.toLowerCase()}`;
+        });
+    }
+
+    return lines.join('\n');
 }
 
 export const remarkCallouts: Plugin<[], Root> = () => {
