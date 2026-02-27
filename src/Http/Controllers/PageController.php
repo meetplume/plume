@@ -16,11 +16,21 @@ class PageController
 {
     public function __invoke(Request $request): Response
     {
-        /** @var PageItem $pageItem */
-        $pageItem = $request->route()->defaults['pageItem'];
+        /** @var string|null $collectionPrefix */
+        $collectionPrefix = $request->route()->defaults['collectionPrefix'] ?? null;
 
         /** @var ?Collection $collection */
-        $collection = $request->route()->defaults['collection'] ?? null;
+        $collection = $collectionPrefix !== null
+            ? app(Plume::class)->getCollection($collectionPrefix)
+            : null;
+
+        /** @var string $slug */
+        $slug = $request->route('slug');
+
+        /** @var PageItem $pageItem */
+        $pageItem = $collection
+            ? $collection->getPage($slug)
+            : $request->route()->defaults['pageItem'];
 
         if ($collection !== null && $collection->getConfigPath() !== null) {
             $globalConfigPath = app(Plume::class)->configPath();
