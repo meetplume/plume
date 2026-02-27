@@ -68,8 +68,11 @@
             "@test:unit",
             "@test:refactor"
         ],
+        "open": [
+            "open https://playground.test"
+        ],
         "dev": [
-            "open https://playground.test",
+            "@open",
             "npm run dev"
         ],
         "setup": [
