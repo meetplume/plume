@@ -54,7 +54,7 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
     return (
         <nav id="plume-sidebar-nav" ref={navRef} className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto text-sm max-lg:hidden">
             <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
-            <ul className="space-y-6 pr-8">
+            <ul className="space-y-6 pr-8 pb-8">
                 {navigation.map((item) => {
                     if (item.type === 'group') {
                         return <NavGroup key={item.key} group={item} />;

@@ -31,6 +31,24 @@ Route::get('/laravel-zero-md', function () {
     return Page::render('laravel-zero', base_path('page-sources/index-frontmatter.md'));
 });
 
+Plume::collection('plume/docs', base_path('/../docs'))
+    ->title('Plume')
+    ->navigation([
+        NavGroup::make('getting-started')
+            ->icon('rocket')
+            ->pages([
+                Page::make('index')->label('Introduction')->slug('introduction'),
+                Page::make('installation'),
+            ]),
+
+        NavGroup::make('how-to-write')
+            ->icon('notebook-pen')
+            ->pages([
+                Page::make('configuration')->label('Configuration'),
+                Page::make('callouts'),
+            ]),
+    ]);
+
 Plume::collection('/laravel-zero/docs', base_path('content/laravel-zero'))
     ->title('Laravel Zero')
     ->navigation([
