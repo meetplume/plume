@@ -6,16 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Try deploy hook.
+
 ## [0.3.2] - 2026-02-27
 
-- Docs are shipped, again.
-
-## [0.3.1] - 2026-02-27
-
 - Docs are shipped.
-
-## [0.3.0] - 2026-02-27
-
 - Release system
 
 ## [0.2.0] - 2026-02-27
