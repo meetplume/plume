@@ -2,6 +2,7 @@ import { normalizeCalloutSyntax, remarkCallouts } from '@/lib/remark-callouts';
 import { createInlineSvgUrl } from '@expressive-code/core';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { usePage } from '@inertiajs/react';
+import type { Element, Root as HastRoot } from 'hast';
 import type { Code, Root } from 'mdast';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
@@ -26,10 +27,11 @@ function isRelativePath(src: string): boolean {
  * Rewrites relative image/video/source src attributes to point to the content asset route.
  */
 function rehypeContentAssets(assetBase: string) {
-    return (tree: Root) => {
-        visit(tree, 'element', (node: any) => {
-            if (node.tagName === 'img' && node.properties?.src && isRelativePath(node.properties.src)) {
-                node.properties.src = `${assetBase}/${node.properties.src}`;
+    return (tree: HastRoot) => {
+        visit(tree, 'element', (node: Element) => {
+            const src = node.properties?.src;
+            if (node.tagName === 'img' && typeof src === 'string' && isRelativePath(src)) {
+                node.properties.src = `${assetBase}/${src}`;
             }
         });
     };

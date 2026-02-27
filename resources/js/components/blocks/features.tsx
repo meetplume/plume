@@ -1,6 +1,6 @@
 import { Link } from '@/components/link';
-import { useIcon } from '@/lib/icons';
 import { type Columns, columnsClass } from '@/lib/columns';
+import { useIcon } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import { type Feature } from '@/types/Feature';
 import { type Link as LinkType } from '@/types/Link';

@@ -12,7 +12,7 @@ function toKebabCase(value: string): string {
 }
 
 export function useIcon(name: string | undefined | null): LucideIcon | null {
-    const [Icon, setIcon] = useState<LucideIcon | null>(() => (name ? cache.get(toKebabCase(name)) ?? null : null));
+    const [Icon, setIcon] = useState<LucideIcon | null>(() => (name ? (cache.get(toKebabCase(name)) ?? null) : null));
 
     useEffect(() => {
         if (!name) return;
