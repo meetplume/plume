@@ -1,0 +1,30 @@
+#!/bin/bash
+PATH=./node_modules/.bin:$PATH
+
+function release {
+    local bump="${1:-}"
+    if [[ -z "$bump" ]]; then
+        echo "Usage: ./run release <patch|minor|major>"
+        return 1
+    fi
+    if [[ "$bump" != "patch" && "$bump" != "minor" && "$bump" != "major" ]]; then
+        echo "Invalid bump type: $bump (must be patch, minor, or major)"
+        return 1
+    fi
+    gh workflow run release.yml -f bump="$bump"
+    echo "Release workflow triggered with bump=$bump"
+    echo "Watch progress: gh run watch"
+}
+
+function default {
+    help
+}
+
+function help {
+    echo "$0 <task> <args>"
+    echo "Tasks:"
+    compgen -A function | cat -n
+}
+
+TIMEFORMAT="Task completed in %3lR"
+time ${@:-default}

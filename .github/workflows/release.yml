@@ -1,0 +1,108 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          VERSION="${LATEST_TAG#v}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          case "${{ inputs.bump }}" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEXT="$MAJOR.$MINOR.$PATCH"
+          echo "tag=v$NEXT" >> "$GITHUB_OUTPUT"
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "Next version: v$NEXT"
+
+      - name: Validate unreleased section has content
+        run: |
+          # Extract everything between ## [Unreleased] and the next ## heading
+          CONTENT=$(sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p}' CHANGELOG.md | sed '/^$/d')
+          if [ -z "$CONTENT" ]; then
+            echo "::error::No content found under ## [Unreleased] in CHANGELOG.md. Write your changelog entries before releasing."
+            exit 1
+          fi
+          echo "Unreleased content found:"
+          echo "$CONTENT"
+
+      - name: Update CHANGELOG.md
+        run: |
+          sed -i "s/^## \[Unreleased\]/## [Unreleased]\n\n## [${{ steps.version.outputs.version }}] - ${{ steps.version.outputs.date }}/" CHANGELOG.md
+
+      - name: Extract release notes
+        id: notes
+        run: |
+          # Extract content between the new version heading and the next ## heading
+          NOTES=$(sed -n '/^## \[${{ steps.version.outputs.version }}\]/,/^## \[/{/^## \[/!p}' CHANGELOG.md)
+          # Write to file for gh release
+          echo "$NOTES" > /tmp/release-notes.md
+          echo "Release notes:"
+          cat /tmp/release-notes.md
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Commit changelog and built assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git add -f dist/
+          git commit -m "release: ${{ steps.version.outputs.tag }}"
+
+      - name: Create tag
+        run: git tag "${{ steps.version.outputs.tag }}"
+
+      - name: Push commit and tag
+        run: git push origin HEAD "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes-file /tmp/release-notes.md
+
+      - name: Trigger playground workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run playground.yml
