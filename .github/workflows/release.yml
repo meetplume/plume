@@ -99,3 +99,6 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             --title "${{ steps.version.outputs.tag }}" \
             --notes-file /tmp/release-notes.md
+
+      - name: Trigger deploy
+        run: curl -fsSL "${{ secrets.DEPLOY_DOCS_HOOK_URL }}"
