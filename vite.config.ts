@@ -24,5 +24,25 @@ export default defineConfig(({ command }) => ({
     build: {
         outDir: 'dist',
         emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ['react', 'react-dom', 'react/jsx-runtime'],
+                    markdown: [
+                        'unified',
+                        'remark-parse',
+                        'remark-gfm',
+                        'remark-frontmatter',
+                        'remark-directive',
+                        'remark-github-admonitions-to-directives',
+                        'remark-rehype',
+                        'rehype-raw',
+                        'rehype-slug',
+                        'rehype-external-links',
+                        'rehype-stringify',
+                    ],
+                },
+            },
+        },
     },
 }));

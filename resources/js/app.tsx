@@ -2,10 +2,12 @@ import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { StrictMode } from 'react';
+import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Customizer, type CustomizerInitialData } from './components/customizer/customizer';
+import type { CustomizerInitialData } from './components/customizer/customizer';
 import { applyTheme } from './lib/theme';
+
+const LazyCustomizer = lazy(() => import('./components/customizer/customizer').then((m) => ({ default: m.Customizer })));
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -24,7 +26,9 @@ createInertiaApp({
         root.render(
             <StrictMode>
                 <App {...props} />
-                <Customizer initialData={plume} />
+                <Suspense>
+                    <LazyCustomizer initialData={plume} />
+                </Suspense>
             </StrictMode>,
         );
     },

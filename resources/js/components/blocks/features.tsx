@@ -1,9 +1,9 @@
 import { Link } from '@/components/link';
+import { useIcon } from '@/lib/icons';
 import { type Columns, columnsClass } from '@/lib/columns';
 import { cn } from '@/lib/utils';
 import { type Feature } from '@/types/Feature';
 import { type Link as LinkType } from '@/types/Link';
-import * as LucideIcons from 'lucide-react';
 
 export type FeaturesProps = {
     className?: string;
@@ -26,23 +26,9 @@ export function Features({ className, title, description, columns = 2, features,
             )}
 
             <div className={cn('mx-auto grid max-w-6xl gap-x-12 gap-y-10', columnsClass(columns))}>
-                {features.map((feature) => {
-                    const Icon = feature.icon ? LucideIcons[feature.icon] : null;
-
-                    return (
-                        <div key={feature.title} className="flex items-start gap-4">
-                            {Icon && (
-                                <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                                    <Icon className="size-5 text-primary" />
-                                </div>
-                            )}
-                            <div>
-                                <h3 className="font-bold text-foreground">{feature.title}</h3>
-                                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
-                            </div>
-                        </div>
-                    );
-                })}
+                {features.map((feature) => (
+                    <FeatureItem key={feature.title} feature={feature} />
+                ))}
             </div>
 
             {(footerTitle || footerLinks) && (
@@ -58,5 +44,23 @@ export function Features({ className, title, description, columns = 2, features,
                 </div>
             )}
         </section>
+    );
+}
+
+function FeatureItem({ feature }: { feature: Feature }) {
+    const Icon = useIcon(feature.icon);
+
+    return (
+        <div className="flex items-start gap-4">
+            {Icon && (
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                    <Icon className="size-5 text-primary" />
+                </div>
+            )}
+            <div>
+                <h3 className="font-bold text-foreground">{feature.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+            </div>
+        </div>
     );
 }

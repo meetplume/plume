@@ -1,4 +1,4 @@
-import { resolveIcon } from '@/lib/utils';
+import { useIcon } from '@/lib/icons';
 import { Link, router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 
@@ -73,7 +73,7 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
 
 function NavGroup({ group }: { group: NavGroupItem }) {
     const visiblePages = group.pages.filter((p) => !p.hidden);
-    const Icon = group.icon ? resolveIcon(group.icon) : null;
+    const Icon = useIcon(group.icon);
     if (visiblePages.length === 0) return null;
 
     return (
