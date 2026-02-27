@@ -15,4 +15,5 @@
 
 # Frontend
 /node_modules/
+/dist/
 starter-kit
