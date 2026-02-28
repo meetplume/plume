@@ -6,6 +6,7 @@ namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Meetplume\Plume\Collection;
+use Meetplume\Plume\Plume;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ContentAssetController
@@ -19,8 +20,11 @@ class ContentAssetController
      */
     public function __invoke(Request $request): BinaryFileResponse
     {
+        /** @var string $collectionPrefix */
+        $collectionPrefix = $request->route()->defaults['collectionPrefix'];
+
         /** @var Collection $collection */
-        $collection = $request->route()->defaults['collection'];
+        $collection = app(Plume::class)->getCollection($collectionPrefix);
         $relativePath = $request->route('path');
 
         // Resolve the content root to an absolute, canonical path.
