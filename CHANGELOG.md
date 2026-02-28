@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Dev: fix routing system
+
 ## [0.3.4] - 2026-02-27
 
 - We may present Image URL's, preserving them in the content root directory.

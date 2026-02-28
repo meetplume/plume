@@ -212,20 +212,24 @@ final class Collection
         }
     }
 
+    public function getPage(string $slug): ?PageItem
+    {
+        return $this->resolvedPages[$slug] ?? null;
+    }
+
     private function registerRoutes(): void
     {
         $prefix = trim($this->prefix, '/');
+        $slugs = array_keys($this->resolvedPages);
 
-        foreach ($this->resolvedPages as $slug => $page) {
-            Route::get(sprintf('%s/%s', $prefix, $slug), PageController::class)
-                ->defaults('collection', $this)
-                ->defaults('pageItem', $page)
-                ->name(sprintf('plume.%s.%s', $prefix, $slug));
-        }
+        Route::get(sprintf('%s/{slug}', $prefix), PageController::class)
+            ->where('slug', implode('|', array_map(preg_quote(...), $slugs)))
+            ->defaults('collectionPrefix', $prefix)
+            ->name(sprintf('plume.%s', $prefix));
 
         Route::get(sprintf('%s/_content/{path}', $prefix), ContentAssetController::class)
             ->where('path', '.*')
-            ->defaults('collection', $this)
+            ->defaults('collectionPrefix', $prefix)
             ->name(sprintf('plume.%s._content', $prefix));
     }
 
