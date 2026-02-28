@@ -67,6 +67,12 @@ jobs:
       run: |
         composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
         npm ci
+        npm run build
+        cd playground
+        composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
+        npm ci
+        npm run build
+        php artisan vendor:publish --tag plume-assets
 
     - name: Integration Tests
       run: composer test
