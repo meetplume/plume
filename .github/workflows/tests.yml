@@ -69,13 +69,13 @@ jobs:
         npm ci
         npm run build
         cd playground
+        ls -alh
+        pwd
+        touch database/database.sqlite
         composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
         npm ci
         npm run build
         php artisan vendor:publish --tag plume-assets
-        ls -alh
-        pwd
-        touch database/database.sqlite
         php artisan migrate --seed
 
     - name: Integration Tests
