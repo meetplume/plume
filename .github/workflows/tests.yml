@@ -73,6 +73,8 @@ jobs:
         npm ci
         npm run build
         php artisan vendor:publish --tag plume-assets
+        touch database/database.sqlite
+        php artisan migrate --seed
 
     - name: Integration Tests
       run: composer test
