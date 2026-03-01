@@ -124,7 +124,7 @@
         @apply bg-background text-foreground;
     }
     .prose :where(h2, h3, h4):not(:where([class~='not-prose'] *)) {
-        @apply scroll-mt-8;
+        scroll-margin-top: calc((var(--spacing) * 8) + (var(--spacing) * 16 + 1px));
     }
     .prose :where(code):not(:where(pre *, [class~='not-prose'] *)) {
         @apply relative rounded-[8px] bg-muted px-[0.3rem] py-[0.2rem] font-mono text-[0.8em] wrap-break-word;

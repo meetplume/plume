@@ -62,6 +62,19 @@ class PageController
             }
 
             $props['contentAssetBase'] = $assetBase;
+
+            // Pass blocks data from frontmatter and collection
+            if (! empty($props['meta']['sections'])) {
+                $props['sections'] = $props['meta']['sections'];
+            }
+
+            if ($collection->getHeader() !== null) {
+                $props['header'] = $collection->getHeader();
+            }
+
+            if ($collection->getFooter() !== null) {
+                $props['footer'] = $collection->getFooter();
+            }
         }
 
         return Page::render('plume/page', $props, $collection);

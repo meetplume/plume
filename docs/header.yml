@@ -1,0 +1,12 @@
+logo: /plume/docs/_content/images/plume-logo-inline-light.svg
+logoDark: /plume/docs/_content/images/plume-logo-inline-dark.svg
+links:
+    -   label: Docs
+        href: /plume/docs/introduction
+    -   label: GitHub
+        href: https://github.com/meetplume/plume
+socials:
+    -   url: https://twitter.com/meetplume
+        icon: x
+    -   url: https://github.com/meetplume/plume
+        icon: github

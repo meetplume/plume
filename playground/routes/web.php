@@ -37,6 +37,7 @@ Plume::collection('plume/docs', base_path('/../docs'))
         NavGroup::make('getting-started')
             ->icon('rocket')
             ->pages([
+                Page::make('home'),
                 Page::make('index')->label('Introduction')->slug('introduction'),
                 Page::make('installation'),
             ]),
