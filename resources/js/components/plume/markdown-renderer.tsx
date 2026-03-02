@@ -102,7 +102,11 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
             .use(remarkCodeMeta)
             .use(remarkRehype, { allowDangerousHtml: true })
             .use(rehypeExpressiveCode, {
-                themes: [codeThemeDark as ThemeObjectOrShikiThemeName, codeThemeLight as ThemeObjectOrShikiThemeName],
+                themes: [codeThemeLight as ThemeObjectOrShikiThemeName, codeThemeDark as ThemeObjectOrShikiThemeName],
+                themeCssSelector: (theme, { styleVariants }) => {
+                    const index = styleVariants.findIndex((v) => v.theme === theme);
+                    return index === 0 ? ':root:not(.dark)' : '.dark';
+                },
                 plugins: [pluginCollapsibleSections()],
                 styleOverrides: {
                     frames: {

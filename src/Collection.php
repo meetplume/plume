@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Enums\CodeTheme;
 use Meetplume\Plume\Http\Controllers\ContentAssetController;
 use Meetplume\Plume\Http\Controllers\PageController;
+use Symfony\Component\Yaml\Yaml;
 
 final class Collection
 {
@@ -21,6 +22,12 @@ final class Collection
 
     private ?string $configPath = null;
 
+    /** @var array<string, mixed>|null */
+    private ?array $header = null;
+
+    /** @var array<string, mixed>|null */
+    private ?array $footer = null;
+
     /** @var array<int, NavGroup|PageItem> */
     private array $navigation = [];
 
@@ -32,6 +39,7 @@ final class Collection
         public readonly string $contentPath,
     ) {
         $this->discoverConfigPath();
+        $this->discoverBlocks();
     }
 
     public function getConfigPath(): ?string
@@ -73,9 +81,9 @@ final class Collection
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
-        return $this->title;
+        return $this->title ?? config('app.name', 'Laravel');
     }
 
     public function getDescription(): ?string
@@ -91,6 +99,22 @@ final class Collection
     public function getCodeThemeDark(): ?CodeTheme
     {
         return $this->codeThemeDark;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getHeader(): ?array
+    {
+        return $this->header;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getFooter(): ?array
+    {
+        return $this->footer;
     }
 
     /**
@@ -239,6 +263,21 @@ final class Collection
 
         if (file_exists($path)) {
             $this->configPath = $path;
+        }
+    }
+
+    private function discoverBlocks(): void
+    {
+        $dir = rtrim($this->contentPath, '/');
+
+        $headerPath = $dir.'/header.yml';
+        if (file_exists($headerPath)) {
+            $this->header = Yaml::parseFile($headerPath);
+        }
+
+        $footerPath = $dir.'/footer.yml';
+        if (file_exists($footerPath)) {
+            $this->footer = Yaml::parseFile($footerPath);
         }
     }
 }
