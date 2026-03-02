@@ -31,7 +31,7 @@ Route::get('/laravel-zero-md', function () {
     return Page::render('laravel-zero', base_path('page-sources/index-frontmatter.md'));
 });
 
-Plume::collection('plume/docs', base_path('/../docs'))
+Plume::collection('plume/docs', base_path('vendor/meetplume/plume/docs'))
     ->title('Plume')
     ->navigation([
         NavGroup::make('getting-started')

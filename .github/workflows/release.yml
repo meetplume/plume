@@ -45,16 +45,27 @@ jobs:
           echo "date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
           echo "Next version: v$NEXT"
 
-      - name: Validate unreleased section has content
+      - name: Validate unreleased section has new content
         run: |
           # Extract everything between ## [Unreleased] and the next ## heading
-          CONTENT=$(sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p}' CHANGELOG.md | sed '/^$/d')
-          if [ -z "$CONTENT" ]; then
+          CURRENT=$(sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p}' CHANGELOG.md | sed '/^$/d')
+          if [ -z "$CURRENT" ]; then
             echo "::error::No content found under ## [Unreleased] in CHANGELOG.md. Write your changelog entries before releasing."
             exit 1
           fi
-          echo "Unreleased content found:"
-          echo "$CONTENT"
+
+          # Compare against the last tagged version to ensure new content was added
+          LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          if [ -n "$LATEST_TAG" ] && git show "$LATEST_TAG:CHANGELOG.md" &>/dev/null; then
+            PREVIOUS=$(git show "$LATEST_TAG:CHANGELOG.md" | sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p}' | sed '/^$/d')
+            if [ "$CURRENT" = "$PREVIOUS" ]; then
+              echo "::error::No new content under ## [Unreleased] since $LATEST_TAG. Write your changelog entries before releasing."
+              exit 1
+            fi
+          fi
+
+          echo "New unreleased content found:"
+          echo "$CURRENT"
 
       - name: Update CHANGELOG.md
         run: |

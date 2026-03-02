@@ -82,7 +82,7 @@
             "npm ci",
             "cd playground && composer install",
             "rm -rf playground/public/vendor/plume",
-            "cd playground && npm ci"
+            "cd playground && npm ci && npm run build"
         ]
     },
     "extra": {
