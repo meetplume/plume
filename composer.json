@@ -78,11 +78,11 @@
         ],
         "setup": [
             "composer install",
+            "rm -rf dist",
             "npm ci",
-            "npm run build",
             "cd playground && composer install",
-            "cd playground && npm ci",
-            "cd playground && npm run build"
+            "rm -rf playground/public/vendor/plume",
+            "cd playground && npm ci"
         ]
     },
     "extra": {
