@@ -74,6 +74,7 @@
         ],
         "dev": [
             "@open",
+            "Composer\\Config::disableProcessTimeout",
             "npm run dev"
         ],
         "setup": [
