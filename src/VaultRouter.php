@@ -6,6 +6,7 @@ namespace Meetplume\Plume;
 
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Http\Controllers\ContentAssetController;
+use Meetplume\Plume\Http\Controllers\DiagnosticsController;
 use Meetplume\Plume\Http\Controllers\VaultPageController;
 
 final class VaultRouter
@@ -38,6 +39,7 @@ final class VaultRouter
             ? array_map(fn (string $k): string => preg_quote($k, '/'), $vault->collectAllTabKeys())
             : [];
 
+        $this->registerDiagnosticsRoute($prefix);
         $this->registerContentAssetRoute($prefix);
 
         $rootSlug = array_find($allSlugs, fn (string $s): bool => $s === '/');
@@ -45,7 +47,7 @@ final class VaultRouter
         if ($rootSlug !== null) {
             $allSlugs = array_values(array_filter($allSlugs, fn (string $s): bool => $s !== '/'));
             $slugConstraint = implode('|', array_map(fn (string $s): string => preg_quote($s, '/'), $allSlugs));
-            $this->registerRootRoute($prefix, $vault);
+            $this->registerRootRoute($prefix);
         }
 
         if ($allSlugs === []) {
@@ -198,12 +200,23 @@ final class VaultRouter
         }
     }
 
-    private function registerRootRoute(string $prefix, Vault $vault): void
+    private function registerRootRoute(string $prefix): void
     {
         Route::get($prefix, VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
             ->name('plume.'.$prefix.'.root');
+    }
+
+    private function registerDiagnosticsRoute(string $prefix): void
+    {
+        if (! app()->isLocal() && ! app()->runningUnitTests()) {
+            return;
+        }
+
+        Route::get(sprintf('%s/_plume', $prefix), DiagnosticsController::class)
+            ->defaults('vaultPrefix', $prefix)
+            ->name(sprintf('plume.%s._plume', $prefix));
     }
 
     private function registerContentAssetRoute(string $prefix): void

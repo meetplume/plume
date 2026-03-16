@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Meetplume\Plume;
 
 use Illuminate\Http\Request;
+use Meetplume\Plume\Enums\Discovery;
 use ReflectionMethod;
 
 class Vault
@@ -15,10 +16,22 @@ class Vault
 
     protected string $layout = 'page';
 
+    protected Discovery $discovery = Discovery::Manual;
+
     /**
      * @return array<int, NavGroup>
      */
     public function navigation(): array
+    {
+        return [];
+    }
+
+    /**
+     * Extra routable pages not in the sidebar navigation.
+     *
+     * @return array<int, Page>
+     */
+    public function pages(): array
     {
         return [];
     }
@@ -83,6 +96,11 @@ class Vault
         return $this->layout;
     }
 
+    public function getDiscovery(): Discovery
+    {
+        return $this->discovery;
+    }
+
     public function hasNavigation(): bool
     {
         if ($this->isMethodOverridden('navigation')) {
@@ -90,6 +108,15 @@ class Vault
         }
 
         return $this->navigation() !== [];
+    }
+
+    public function hasPages(): bool
+    {
+        if ($this->isMethodOverridden('pages')) {
+            return true;
+        }
+
+        return $this->pages() !== [];
     }
 
     public function hasTabs(): bool
@@ -123,9 +150,10 @@ class Vault
      * Resolve the navigation groups for the given context.
      *
      * Resolution order (ADR §2.10):
-     * 1. Has versions? → find version, check if it has its own tabs
-     * 2. Has tabs? → find tab → use tab's groups
-     * 3. Fall back to navigation()
+     * 1. Auto discovery? → derive from filesystem
+     * 2. Has versions? → find version, check if it has its own tabs
+     * 3. Has tabs? → find tab → use tab's groups
+     * 4. Fall back to navigation()
      *
      * @return array<int, NavGroup>
      */
@@ -134,6 +162,12 @@ class Vault
         ?string $version = null,
         ?string $tab = null,
     ): array {
+        if ($this->discovery === Discovery::Auto) {
+            $scanner = new FilesystemScanner($this->getScanBasePath($language, $version));
+
+            return $scanner->scanNavigation();
+        }
+
         $tabs = $this->resolveActiveTabs($version);
 
         if ($tabs !== [] && $tab !== null) {
@@ -172,6 +206,22 @@ class Vault
             }
         }
 
+        foreach ($this->pages() as $page) {
+            if (! isset($pages[$page->getSlug()])) {
+                $pages[$page->getSlug()] = $page;
+            }
+        }
+
+        if ($this->discovery !== Discovery::Manual) {
+            $scanner = new FilesystemScanner($this->getScanBasePath($language, $version));
+
+            foreach ($scanner->scanPages() as $page) {
+                if (! isset($pages[$page->getSlug()])) {
+                    $pages[$page->getSlug()] = $page;
+                }
+            }
+        }
+
         return $pages;
     }
 
@@ -203,36 +253,10 @@ class Vault
      */
     public function collectAllSlugs(): array
     {
-        $slugs = [];
-
-        $allGroups = $this->navigation();
-        foreach ($allGroups as $group) {
-            foreach ($group->getPages() as $page) {
-                $slugs[] = $page->getSlug();
-            }
-        }
-
-        foreach ($this->tabs() as $tab) {
-            foreach ($tab->getGroups() as $group) {
-                foreach ($group->getPages() as $page) {
-                    $slugs[] = $page->getSlug();
-                }
-            }
-        }
-
-        foreach ($this->versions() as $version) {
-            if ($version->hasTabs()) {
-                foreach ($version->getTabs() ?? [] as $tab) {
-                    foreach ($tab->getGroups() as $group) {
-                        foreach ($group->getPages() as $page) {
-                            $slugs[] = $page->getSlug();
-                        }
-                    }
-                }
-            }
-        }
-
-        return array_values(array_unique($slugs));
+        return match ($this->discovery) {
+            Discovery::Manual => $this->collectManualSlugs(),
+            Discovery::Mapped, Discovery::Auto => $this->collectDiscoveredSlugs(),
+        };
     }
 
     /**
@@ -289,6 +313,111 @@ class Vault
         $versions = $this->versions();
 
         return $versions !== [] ? $versions[0] : null;
+    }
+
+    /**
+     * Build the base path for filesystem scanning, including language/version segments.
+     */
+    private function getScanBasePath(?string $language = null, ?string $version = null): string
+    {
+        $basePath = rtrim($this->getAbsolutePath(), '/');
+
+        if ($language !== null) {
+            $basePath .= '/'.$language;
+        }
+
+        if ($version !== null) {
+            $basePath .= '/'.$version;
+        }
+
+        return $basePath;
+    }
+
+    /**
+     * Collect slugs from navigation(), tabs(), versions(), and pages().
+     *
+     * @return array<int, string>
+     */
+    private function collectManualSlugs(): array
+    {
+        $slugs = [];
+
+        foreach ($this->navigation() as $group) {
+            foreach ($group->getPages() as $page) {
+                $slugs[] = $page->getSlug();
+            }
+        }
+
+        foreach ($this->tabs() as $tab) {
+            foreach ($tab->getGroups() as $group) {
+                foreach ($group->getPages() as $page) {
+                    $slugs[] = $page->getSlug();
+                }
+            }
+        }
+
+        foreach ($this->versions() as $version) {
+            if ($version->hasTabs()) {
+                foreach ($version->getTabs() ?? [] as $tab) {
+                    foreach ($tab->getGroups() as $group) {
+                        foreach ($group->getPages() as $page) {
+                            $slugs[] = $page->getSlug();
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($this->pages() as $page) {
+            $slugs[] = $page->getSlug();
+        }
+
+        return array_values(array_unique($slugs));
+    }
+
+    /**
+     * Collect slugs from filesystem scanning + pages() + navigation() (for Mapped).
+     *
+     * @return array<int, string>
+     */
+    private function collectDiscoveredSlugs(): array
+    {
+        $scanner = new FilesystemScanner($this->getAbsolutePath());
+        $slugs = $scanner->scanSlugs();
+
+        foreach ($this->pages() as $page) {
+            $slugs[] = $page->getSlug();
+        }
+
+        if ($this->discovery === Discovery::Mapped) {
+            foreach ($this->navigation() as $group) {
+                foreach ($group->getPages() as $page) {
+                    $slugs[] = $page->getSlug();
+                }
+            }
+
+            foreach ($this->tabs() as $tab) {
+                foreach ($tab->getGroups() as $group) {
+                    foreach ($group->getPages() as $page) {
+                        $slugs[] = $page->getSlug();
+                    }
+                }
+            }
+
+            foreach ($this->versions() as $version) {
+                if ($version->hasTabs()) {
+                    foreach ($version->getTabs() ?? [] as $tab) {
+                        foreach ($tab->getGroups() as $group) {
+                            foreach ($group->getPages() as $page) {
+                                $slugs[] = $page->getSlug();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return array_values(array_unique($slugs));
     }
 
     /**
