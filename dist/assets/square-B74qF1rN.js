@@ -1,0 +1,1 @@
+import{d as t}from"./utils-BGwxUcjH.js";import"./react-Ba5Cz7M3.js";import"./app-ZLd4DTZS.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}]],m=t("square",o);export{o as __iconNode,m as default};

@@ -1,0 +1,1 @@
+import{d as t}from"./utils-BGwxUcjH.js";import"./react-Ba5Cz7M3.js";import"./app-ZLd4DTZS.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["path",{d:"M4 10a8 8 0 1 1 8 8H4",key:"svv66n"}],["path",{d:"m8 22-4-4 4-4",key:"6g7gki"}]],c=t("iteration-cw",o);export{o as __iconNode,c as default};

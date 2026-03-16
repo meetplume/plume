@@ -1,0 +1,1 @@
+import{d as o}from"./utils-BGwxUcjH.js";import"./react-Ba5Cz7M3.js";import"./app-ZLd4DTZS.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"m6 17 5-5-5-5",key:"xnjwq"}],["path",{d:"m13 17 5-5-5-5",key:"17xmmf"}]],c=o("chevrons-right",t);export{t as __iconNode,c as default};

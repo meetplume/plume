@@ -1,0 +1,1 @@
+import{d as o}from"./utils-BGwxUcjH.js";import"./react-Ba5Cz7M3.js";import"./app-ZLd4DTZS.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M5 12h14",key:"1ays0h"}]],s=o("minus",t);export{t as __iconNode,s as default};
