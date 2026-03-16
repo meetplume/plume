@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Http\Controllers\CustomizerController;
 
-if (app()->isLocal()) {
+if (app()->isLocal() || app()->runningUnitTests()) {
     Route::post('/_plume/customizer', [CustomizerController::class, 'update']);
     Route::post('/_plume/customizer/reset', [CustomizerController::class, 'reset']);
 }
