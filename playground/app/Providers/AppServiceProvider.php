@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Plume::configure()
             ->name('Plume Playground')
-            ->configPath(base_path('content/config.yml'))
             ->theme('default')
             ->header(
                 Header::make('header1')

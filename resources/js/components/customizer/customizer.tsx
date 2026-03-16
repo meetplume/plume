@@ -59,7 +59,7 @@ type CustomizerConfig = {
     enabled: boolean;
     preset: string;
     presets: Record<string, PresetConfig>;
-    collection?: string | null;
+    vault?: string | null;
 };
 
 export type CustomizerInitialData = {
@@ -225,20 +225,17 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     );
 
     const saveConfig = useCallback(() => {
-        if (!config || !isDirty) return;
+        if (!config || !isDirty || !customizerConfig?.vault) return;
 
         setSaving(true);
-        const data: Record<string, unknown> = { ...config };
-        if (customizerConfig?.collection) {
-            data.collection = customizerConfig.collection;
-        }
+        const data: Record<string, unknown> = { ...config, vault: customizerConfig.vault };
         postCustomizer('/_plume/customizer', data).then((resolved) => {
             setSavedConfig(resolved);
             setConfig(resolved);
             applyTheme(resolved);
             setSaving(false);
         });
-    }, [config, isDirty, customizerConfig?.collection]);
+    }, [config, isDirty, customizerConfig?.vault]);
 
     const switchPreset = useCallback(
         (name: string) => {
@@ -270,10 +267,9 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     );
 
     const resetDefaults = useCallback(() => {
-        const data: Record<string, unknown> = {};
-        if (customizerConfig?.collection) {
-            data.collection = customizerConfig.collection;
-        }
+        if (!customizerConfig?.vault) return;
+
+        const data: Record<string, unknown> = { vault: customizerConfig.vault };
         postCustomizer('/_plume/customizer/reset', data).then((resolved) => {
             setConfig(resolved);
             setSavedConfig(resolved);
@@ -288,7 +284,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                 }),
             );
         });
-    }, [customizerConfig?.collection]);
+    }, [customizerConfig?.vault]);
 
     if (!customizerConfig?.enabled) {
         return null;

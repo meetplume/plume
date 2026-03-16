@@ -128,7 +128,7 @@ class VaultPageController
         $props['prev'] = $prevNext['prev'];
         $props['next'] = $prevNext['next'];
 
-        $this->shareThemeData();
+        $this->shareThemeData($vault);
 
         Inertia::setRootView('plume::app');
 
@@ -345,13 +345,16 @@ class VaultPageController
         return '/'.implode('/', $segments);
     }
 
-    private function shareThemeData(): void
+    private function shareThemeData(Vault $vault): void
     {
-        if (! app()->bound(ThemeConfig::class)) {
+        $themeConfig = $this->resolveVaultThemeConfig($vault);
+
+        if ($themeConfig === null) {
             return;
         }
 
-        $themeConfig = app(ThemeConfig::class);
+        app()->instance(ThemeConfig::class, $themeConfig);
+
         $themeArray = $themeConfig->toArray();
         $plumeData = [
             'theme' => $themeArray,
@@ -363,10 +366,26 @@ class VaultPageController
                 'enabled' => true,
                 'preset' => $themeConfig->activePreset(),
                 'presets' => ThemeConfig::presets(),
+                'vault' => trim($vault->getPrefix(), '/'),
             ];
         }
 
         Inertia::share('plume', $plumeData);
+    }
+
+    private function resolveVaultThemeConfig(Vault $vault): ?ThemeConfig
+    {
+        $vaultConfigPath = $vault->getConfigPath();
+
+        if (file_exists($vaultConfigPath)) {
+            return new ThemeConfig($vaultConfigPath);
+        }
+
+        if (app()->bound(ThemeConfig::class)) {
+            return app(ThemeConfig::class);
+        }
+
+        return null;
     }
 
     /**

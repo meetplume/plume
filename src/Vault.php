@@ -67,6 +67,11 @@ class Vault
         return $path;
     }
 
+    public function getConfigPath(): string
+    {
+        return $this->getAbsolutePath().'/config.yml';
+    }
+
     public function getLayout(): string
     {
         return $this->layout;

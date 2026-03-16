@@ -15,6 +15,7 @@ class CustomizerController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'vault' => ['required', 'string'],
             'theme' => ['sometimes', 'string'],
             'primary' => ['sometimes', 'string'],
             'gray' => ['sometimes', 'string'],
@@ -25,7 +26,8 @@ class CustomizerController
             'code_theme_dark' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
         ]);
 
-        $configPath = $this->resolveConfigPath();
+        $configPath = $this->resolveConfigPath($validated['vault']);
+        unset($validated['vault']);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -49,7 +51,11 @@ class CustomizerController
 
     public function reset(Request $request): JsonResponse
     {
-        $configPath = $this->resolveConfigPath();
+        $validated = $request->validate([
+            'vault' => ['required', 'string'],
+        ]);
+
+        $configPath = $this->resolveConfigPath($validated['vault']);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -70,7 +76,7 @@ class CustomizerController
         return response()->json($themeConfig->toArray());
     }
 
-    private function resolveConfigPath(): ?string
+    private function resolveConfigPath(string $vaultPrefix): ?string
     {
         $config = app(Plume::class)->getConfiguration();
 
@@ -78,19 +84,13 @@ class CustomizerController
             return null;
         }
 
-        if ($config->getConfigPath() !== null) {
-            return $config->getConfigPath();
-        }
+        $vault = $config->getVault($vaultPrefix);
 
-        $theme = $config->getTheme();
-
-        if ($theme === null) {
+        if ($vault === null) {
             return null;
         }
 
-        $presetPath = __DIR__.'/../../resources/presets/'.basename($theme).'.yml';
-
-        return file_exists($presetPath) ? $presetPath : null;
+        return $vault->getConfigPath();
     }
 
     /**

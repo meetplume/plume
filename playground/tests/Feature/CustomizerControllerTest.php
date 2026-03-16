@@ -2,21 +2,45 @@
 
 use Meetplume\Plume\Facades\Plume;
 use Meetplume\Plume\ThemeConfig;
+use Meetplume\Plume\Vault;
 
 beforeEach(function (): void {
-    $this->configPath = sys_get_temp_dir().'/plume_test_'.uniqid().'.yml';
+    $this->configDir = sys_get_temp_dir().'/plume_vault_test_'.uniqid();
+    mkdir($this->configDir);
+    $this->configPath = $this->configDir.'/config.yml';
     ThemeConfig::write($this->configPath, ['theme' => 'default', 'primary' => 'neutral', 'gray' => 'neutral', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false]);
-    Plume::configure()->configPath($this->configPath);
+
+    $configDir = $this->configDir;
+    $vault = new class($configDir) extends Vault
+    {
+        protected string $prefix = '/test-vault/docs';
+
+        protected string $layout = 'docs';
+
+        public function __construct(string $path)
+        {
+            $this->path = $path;
+        }
+    };
+
+    Plume::configure()->vaults([]);
+    $config = Plume::getConfiguration();
+    $reflection = new ReflectionProperty($config, 'vaults');
+    $reflection->setValue($config, ['test-vault/docs' => $vault]);
 });
 
 afterEach(function (): void {
     if (file_exists($this->configPath)) {
         unlink($this->configPath);
     }
+    if (is_dir($this->configDir)) {
+        rmdir($this->configDir);
+    }
 });
 
 it('updates config file and returns resolved values', function (): void {
     $response = $this->postJson('/_plume/customizer', [
+        'vault' => 'test-vault/docs',
         'primary' => 'blue',
         'radius' => 'large',
     ]);
@@ -31,7 +55,16 @@ it('updates config file and returns resolved values', function (): void {
 
 it('returns 422 for invalid radius', function (): void {
     $response = $this->postJson('/_plume/customizer', [
+        'vault' => 'test-vault/docs',
         'radius' => 'invalid',
+    ]);
+
+    $response->assertUnprocessable();
+});
+
+it('returns 422 when vault is missing', function (): void {
+    $response = $this->postJson('/_plume/customizer', [
+        'primary' => 'blue',
     ]);
 
     $response->assertUnprocessable();
@@ -39,6 +72,7 @@ it('returns 422 for invalid radius', function (): void {
 
 it('switches preset when theme sent alone', function (): void {
     $response = $this->postJson('/_plume/customizer', [
+        'vault' => 'test-vault/docs',
         'theme' => 'ocean',
     ]);
 
@@ -50,16 +84,16 @@ it('switches preset when theme sent alone', function (): void {
 });
 
 it('resets to defaults', function (): void {
-    $this->postJson('/_plume/customizer', ['primary' => 'red']);
+    $this->postJson('/_plume/customizer', ['vault' => 'test-vault/docs', 'primary' => 'red']);
 
-    $response = $this->postJson('/_plume/customizer/reset');
+    $response = $this->postJson('/_plume/customizer/reset', ['vault' => 'test-vault/docs']);
 
     $response->assertSuccessful();
     $response->assertJsonFragment(['primary' => 'neutral', 'radius' => 'medium']);
 });
 
 it('preserves theme key on reset', function (): void {
-    $response = $this->postJson('/_plume/customizer/reset');
+    $response = $this->postJson('/_plume/customizer/reset', ['vault' => 'test-vault/docs']);
 
     $response->assertSuccessful();
 

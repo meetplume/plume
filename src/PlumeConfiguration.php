@@ -18,8 +18,6 @@ final class PlumeConfiguration
 
     private ?string $theme = null;
 
-    private ?string $configPath = null;
-
     private ?Header $header = null;
 
     private ?Footer $footer = null;
@@ -64,13 +62,6 @@ final class PlumeConfiguration
     public function theme(string $preset): self
     {
         $this->theme = $preset;
-
-        return $this;
-    }
-
-    public function configPath(string $configPath): self
-    {
-        $this->configPath = $configPath;
 
         return $this;
     }
@@ -127,11 +118,6 @@ final class PlumeConfiguration
     public function getTheme(): ?string
     {
         return $this->theme;
-    }
-
-    public function getConfigPath(): ?string
-    {
-        return $this->configPath;
     }
 
     public function getHeader(): ?Header
@@ -199,13 +185,6 @@ final class PlumeConfiguration
 
     private function initTheme(): void
     {
-        if ($this->configPath !== null && file_exists($this->configPath)) {
-            $themeConfig = new ThemeConfig($this->configPath);
-            app()->instance(ThemeConfig::class, $themeConfig);
-
-            return;
-        }
-
         if ($this->theme === null) {
             return;
         }
