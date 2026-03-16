@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
+use Illuminate\Http\Request;
 use ReflectionMethod;
 
 class Vault
@@ -44,6 +45,11 @@ class Vault
     public function languages(): array
     {
         return [];
+    }
+
+    public function canAccess(Request $request): bool
+    {
+        return false;
     }
 
     public function getPrefix(): string

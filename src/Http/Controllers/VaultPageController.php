@@ -28,6 +28,7 @@ class VaultPageController
         $vault = $config->getVault($vaultPrefix);
 
         abort_unless($vault !== null, 404);
+        abort_unless($vault->canAccess($request), 403);
 
         $language = $request->route('language');
         $version = $request->route('version');

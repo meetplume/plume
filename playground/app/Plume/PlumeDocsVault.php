@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Plume;
 
+use Illuminate\Http\Request;
 use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Vault;
@@ -25,8 +26,8 @@ class PlumeDocsVault extends Vault
             NavGroup::make('getting-started')
                 ->icon('rocket')
                 ->pages([
-                    Page::make('index'),
                     Page::make('home'),
+                    Page::make('index')->label('Introduction'),
                     Page::make('installation'),
                 ]),
 
@@ -37,5 +38,10 @@ class PlumeDocsVault extends Vault
                     Page::make('callouts'),
                 ]),
         ];
+    }
+
+    public function canAccess(Request $request): bool
+    {
+        return true;
     }
 }

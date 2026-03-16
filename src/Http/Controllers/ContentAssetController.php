@@ -27,6 +27,7 @@ class ContentAssetController
         $vault = app(Plume::class)->getVault($vaultPrefix);
 
         abort_unless($vault !== null, 404);
+        abort_unless($vault->canAccess($request), 403);
 
         $relativePath = $request->route('path');
 
