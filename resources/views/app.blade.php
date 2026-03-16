@@ -10,9 +10,9 @@
     @else
         @vite('resources/js/app.tsx', 'vendor/plume/dist')
     @endif
-    @inertiaHead
+    @plumeInertiaHead
 </head>
 <body class="text-foreground bg-background">
-@inertia
+@plumeInertia
 </body>
 </html>

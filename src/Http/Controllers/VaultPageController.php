@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
+use Meetplume\Plume\Inertia\PlumeInertia;
+use Meetplume\Plume\Inertia\PlumeInertiaResponse;
 use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Plume;
@@ -15,7 +15,7 @@ use Meetplume\Plume\Vault;
 
 class VaultPageController
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): PlumeInertiaResponse
     {
         /** @var string $vaultPrefix */
         $vaultPrefix = $request->route()->defaults['vaultPrefix'];
@@ -130,11 +130,13 @@ class VaultPageController
         $props['prev'] = $prevNext['prev'];
         $props['next'] = $prevNext['next'];
 
-        $this->shareThemeData($vault);
+        $inertia = app(PlumeInertia::class);
 
-        Inertia::setRootView('plume::app');
+        $this->shareThemeData($vault, $inertia);
 
-        return Inertia::render($component, $props);
+        $inertia->setRootView('plume::app');
+
+        return $inertia->render($component, $props);
     }
 
     /**
@@ -349,7 +351,7 @@ class VaultPageController
         return '/'.implode('/', $segments);
     }
 
-    private function shareThemeData(Vault $vault): void
+    private function shareThemeData(Vault $vault, PlumeInertia $inertia): void
     {
         $themeConfig = $this->resolveVaultThemeConfig($vault);
 
@@ -374,7 +376,7 @@ class VaultPageController
             ];
         }
 
-        Inertia::share('plume', $plumeData);
+        $inertia->share('plume', $plumeData);
     }
 
     private function resolveVaultThemeConfig(Vault $vault): ?ThemeConfig
