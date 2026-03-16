@@ -19,8 +19,7 @@ sections:
         command: composer global require laravel-zero/installer
         links:
             -   label: Get Started
-                href: https://laravel-zero.com/docs/introduction
-                target: _blank
+                href: /laravel-zero/docs
 
     -   type: features
         columns: { default: 1, md: 3 }

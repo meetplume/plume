@@ -369,7 +369,9 @@ class Vault
         }
 
         foreach ($this->pages() as $page) {
-            $slugs[] = $page->getSlug();
+            if ($page->getRoute() === null) {
+                $slugs[] = $page->getSlug();
+            }
         }
 
         return array_values(array_unique($slugs));
@@ -386,7 +388,9 @@ class Vault
         $slugs = $scanner->scanSlugs();
 
         foreach ($this->pages() as $page) {
-            $slugs[] = $page->getSlug();
+            if ($page->getRoute() === null) {
+                $slugs[] = $page->getSlug();
+            }
         }
 
         if ($this->discovery === Discovery::Mapped) {

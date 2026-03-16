@@ -14,6 +14,10 @@ final class Page
 
     private ?int $order = null;
 
+    private ?string $layout = null;
+
+    private ?string $route = null;
+
     private bool $hidden = false;
 
     public function __construct(
@@ -53,6 +57,20 @@ final class Page
         return $this;
     }
 
+    public function layout(string $layout): self
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    public function route(string $route): self
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
     public function hidden(bool $hidden = true): self
     {
         $this->hidden = $hidden;
@@ -78,6 +96,16 @@ final class Page
     public function getOrder(): ?int
     {
         return $this->order;
+    }
+
+    public function getLayout(): ?string
+    {
+        return $this->layout;
+    }
+
+    public function getRoute(): ?string
+    {
+        return $this->route;
     }
 
     public function isHidden(): bool

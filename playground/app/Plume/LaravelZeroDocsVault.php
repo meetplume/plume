@@ -15,7 +15,14 @@ class LaravelZeroDocsVault extends Vault
 
     protected string $path = 'content/laravel-zero';
 
-    protected string $layout = 'docs';f
+    protected string $layout = 'docs';
+
+    public function pages(): array
+    {
+        return [
+            Page::make('laravel-zero-homepage')->route('/laravel-zero')->layout('page'),
+        ];
+    }
 
     /**
      * @return array<int, NavGroup>
@@ -25,7 +32,7 @@ class LaravelZeroDocsVault extends Vault
         return [
             NavGroup::make('getting-started')
                 ->pages([
-                    Page::make('introduction'),
+                    Page::make('introduction')->slug('/'),
                     Page::make('installation'),
                     Page::make('commands'),
                     Page::make('service-providers'),

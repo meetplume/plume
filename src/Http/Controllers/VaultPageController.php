@@ -64,11 +64,12 @@ class VaultPageController
         $navigation = $vault->resolveNavigation($language, $version, $tab);
         $navigationArray = $this->buildNavigationArray($navigation, $vault, $page->getSlug(), $language, $version, $tab);
 
-        $component = 'plume/'.$vault->getLayout();
+        $layout = $page->getLayout() ?? $vault->getLayout();
+        $component = 'plume/'.$layout;
 
         $props = [
             ...$pageProps,
-            'layout' => $vault->getLayout(),
+            'layout' => $layout,
             'vault' => [
                 'prefix' => $vault->getPrefix(),
             ],

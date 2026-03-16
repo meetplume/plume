@@ -39,6 +39,7 @@ final class VaultRouter
             ? array_map(fn (string $k): string => preg_quote($k, '/'), $vault->collectAllTabKeys())
             : [];
 
+        $this->registerAbsoluteRoutes($vault, $prefix);
         $this->registerDiagnosticsRoute($prefix);
         $this->registerContentAssetRoute($prefix);
 
@@ -206,6 +207,22 @@ final class VaultRouter
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
             ->name('plume.'.$prefix.'.root');
+    }
+
+    private function registerAbsoluteRoutes(Vault $vault, string $vaultPrefix): void
+    {
+        foreach ($vault->pages() as $page) {
+            if ($page->getRoute() === null) {
+                continue;
+            }
+
+            $routePath = trim($page->getRoute(), '/');
+
+            Route::get($routePath, VaultPageController::class)
+                ->defaults('vaultPrefix', $vaultPrefix)
+                ->defaults('slug', $page->getSlug())
+                ->name('plume.'.$vaultPrefix.'.route.'.$page->key);
+        }
     }
 
     private function registerDiagnosticsRoute(string $prefix): void
