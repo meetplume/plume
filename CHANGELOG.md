@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-16
+
 ### Added
 
 - **Vault system** replacing Collections. Vaults are dedicated PHP classes with support for navigation, tabs, versions, languages, and extra pages.
