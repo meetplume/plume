@@ -2,7 +2,7 @@
 theme: default
 
 # available values for primary: any tailwindcss color like (blue, red, green, yellow, ...) or arbitrary value
-primary: red
+primary: violet
 
 # available values for gray: slate, gray, zinc, neutral, stone, mauve, olive, mist, taupe
 gray: neutral

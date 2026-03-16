@@ -341,7 +341,9 @@ class VaultPageController
             $segments[] = $tab;
         }
 
-        $segments[] = $slug;
+        if ($slug !== '/') {
+            $segments[] = $slug;
+        }
 
         return '/'.implode('/', $segments);
     }

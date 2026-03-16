@@ -40,6 +40,18 @@ final class VaultRouter
 
         $this->registerContentAssetRoute($prefix);
 
+        $rootSlug = array_find($allSlugs, fn (string $s): bool => $s === '/');
+
+        if ($rootSlug !== null) {
+            $allSlugs = array_values(array_filter($allSlugs, fn (string $s): bool => $s !== '/'));
+            $slugConstraint = implode('|', array_map(fn (string $s): string => preg_quote($s, '/'), $allSlugs));
+            $this->registerRootRoute($prefix, $vault);
+        }
+
+        if ($allSlugs === []) {
+            return;
+        }
+
         $this->registerFullRoute($prefix, $slugConstraint, $languageCodes, $versionKeys, $tabKeys);
 
         if ($hasLanguages) {
@@ -184,6 +196,14 @@ final class VaultRouter
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
+    }
+
+    private function registerRootRoute(string $prefix, Vault $vault): void
+    {
+        Route::get($prefix, VaultPageController::class)
+            ->defaults('vaultPrefix', $prefix)
+            ->defaults('slug', '/')
+            ->name('plume.'.$prefix.'.root');
     }
 
     private function registerContentAssetRoute(string $prefix): void

@@ -21,7 +21,7 @@ Plume is a package that allows to conveniently display content in various scopes
 
 ## Documentation
 
-Refer to [Internal docs](./docs/index.md) to understand the project's architecture.
+Refer to [Internal docs](docs/introduction.md) to understand the project's architecture.
 
 ## Credits
 
