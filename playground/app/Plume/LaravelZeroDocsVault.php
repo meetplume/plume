@@ -15,7 +15,7 @@ class LaravelZeroDocsVault extends Vault
 
     protected string $path = 'content/laravel-zero';
 
-    protected string $layout = 'docs';
+    protected string $layout = 'docs';f
 
     /**
      * @return array<int, NavGroup>

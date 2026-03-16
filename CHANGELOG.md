@@ -6,8 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.4.0] - 2026-03-16
-
 ### Added
 
 - **Vault system** replacing Collections. Vaults are dedicated PHP classes with support for navigation, tabs, versions, languages, and extra pages.
@@ -46,6 +44,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Routing: parameterized routes resolve serialization and caching issues.
 - TypeScript type safety in `rehypeContentAssets` (HAST types), icon hook operator precedence, and import ordering.
+
+## [0.4.0] - 2026-03-16
+
+- Triggered a release by mistake.
 
 ## [0.3.4] - 2026-02-27
 
