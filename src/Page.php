@@ -43,6 +43,11 @@ final class Page
         return $this;
     }
 
+    public function home(): self
+    {
+        return $this->slug('/');
+    }
+
     public function path(string $path): self
     {
         $this->path = $path;

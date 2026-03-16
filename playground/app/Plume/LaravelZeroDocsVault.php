@@ -32,7 +32,7 @@ class LaravelZeroDocsVault extends Vault
         return [
             NavGroup::make('getting-started')
                 ->pages([
-                    Page::make('introduction')->slug('/'),
+                    Page::make('introduction')->home(),
                     Page::make('installation'),
                     Page::make('commands'),
                     Page::make('service-providers'),
