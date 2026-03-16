@@ -12,10 +12,9 @@ The Vite development server is run from this package root, but serves the playgr
 
 ## Development workflow
   - Run Vite server: `npm run dev` from this package root.
-  - Open the playground app in Herd, from the `playground` directory.
   - Make changes to the package code, and see them reflected in the playground app.
 
-- We can visit the app with in https://playground.test (make use of the mcp playwright)
+- We can visit the app with in https://playground.test (make use of the agent browser)
 
 ## The playground app instructions
 
