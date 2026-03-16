@@ -6,7 +6,7 @@ sections:
         command: composer require meetplume/plume
         links:
             -   label: Get Started
-                href: introduction
+                href: /plume/docs/introduction
 
     -   type: features
         columns: { default: 1, md: 3 }

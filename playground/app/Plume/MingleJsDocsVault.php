@@ -11,11 +11,22 @@ use Meetplume\Plume\Vault;
 
 class MingleJsDocsVault extends Vault
 {
-    protected string $prefix = '/minglejs/docs';
+    protected string $prefix = '/minglejs';
 
     protected string $path = 'content/minglejs';
 
     protected string $layout = 'docs';
+
+    public function pages(): array
+    {
+        return [
+            Page::make('homepage')
+                ->route('/minglejs')
+                ->layout('page')
+                ->label('What is MingleJS?'),
+
+        ];
+    }
 
     /**
      * @return array<int, NavGroup>
