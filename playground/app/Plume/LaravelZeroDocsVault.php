@@ -13,6 +13,8 @@ class LaravelZeroDocsVault extends Vault
 {
     protected string $prefix = '/laravel-zero/docs';
 
+    protected ?string $home = '/laravel-zero';
+
     protected string $path = 'content/laravel-zero';
 
     protected string $layout = 'docs';

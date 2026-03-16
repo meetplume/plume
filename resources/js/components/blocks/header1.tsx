@@ -18,6 +18,7 @@ type NavLink = {
 export type Header1Props = React.ComponentProps<'header'> & {
     logo: string;
     logoDark?: string;
+    homeUrl?: string;
     links?: NavLink[];
     socials?: Social[];
 };
@@ -45,14 +46,14 @@ function SocialIcon({ icon, className }: { icon: string; className?: string }) {
     );
 }
 
-export function Header1({ className, logo, logoDark, links = [], socials = [], ...props }: Header1Props) {
+export function Header1({ className, logo, logoDark, homeUrl = '/', links = [], socials = [], ...props }: Header1Props) {
     const { isDark, toggle } = useDarkMode();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     return (
         <header data-slot="header1" className={cn('w-full py-4', className)} {...props}>
             <div className="mx-auto flex max-w-6xl items-center gap-6 px-6">
-                <a href="/" className="inline-flex shrink-0 items-center">
+                <a href={homeUrl} className="inline-flex shrink-0 items-center">
                     {logoDark ? (
                         <>
                             <img className="h-8 dark:hidden" loading="lazy" src={logo} alt="Logo" />

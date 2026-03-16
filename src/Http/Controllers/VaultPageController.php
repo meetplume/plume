@@ -96,6 +96,7 @@ class VaultPageController
             $headerArray['collectionTitle'] = $config->getName();
             $headerArray['logo'] = $config->getLogo();
             $headerArray['logoDark'] = $config->getLogoDark();
+            $headerArray['homeUrl'] = $vault->getHome();
             $props['header'] = $headerArray;
         }
 

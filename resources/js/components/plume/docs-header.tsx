@@ -42,6 +42,7 @@ export type DocsHeaderProps = {
     collectionTitle?: string | null;
     logo?: string;
     logoDark?: string;
+    homeUrl?: string;
     links?: NavLink[];
     socials?: Social[];
     tabs?: TabItem[];
@@ -72,14 +73,14 @@ function SocialIcon({ icon, className }: { icon: string; className?: string }) {
     );
 }
 
-export function DocsHeader({ collectionTitle, logo, logoDark, links = [], socials = [], tabs, versions, languages }: DocsHeaderProps) {
+export function DocsHeader({ collectionTitle, logo, logoDark, homeUrl = '/', links = [], socials = [], tabs, versions, languages }: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     return (
         <header data-slot="docs-header" className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm">
             <div className="mx-auto flex max-w-368 items-center gap-6 px-6 lg:px-12">
-                <a href="/" className="inline-flex shrink-0 items-center">
+                <a href={homeUrl} className="inline-flex shrink-0 items-center">
                     {logo ? (
                         logoDark ? (
                             <>

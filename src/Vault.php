@@ -16,6 +16,8 @@ class Vault
 
     protected string $layout = 'page';
 
+    protected ?string $home = null;
+
     protected Discovery $discovery = Discovery::Manual;
 
     /**
@@ -94,6 +96,11 @@ class Vault
     public function getLayout(): string
     {
         return $this->layout;
+    }
+
+    public function getHome(): string
+    {
+        return $this->home ?? '/'.trim($this->prefix, '/');
     }
 
     public function getDiscovery(): Discovery
