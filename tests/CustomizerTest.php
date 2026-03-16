@@ -1,5 +1,6 @@
 <?php
 
+use Meetplume\Plume\Plume;
 use Meetplume\Plume\ThemeConfig;
 
 it('returns expected defaults', function (): void {
@@ -92,7 +93,7 @@ it('lists available presets with config', function (): void {
 });
 
 it('returns null configuration by default on Plume singleton', function (): void {
-    $plume = new \Meetplume\Plume\Plume;
+    $plume = new Plume;
 
     expect($plume->getConfiguration())->toBeNull();
 });

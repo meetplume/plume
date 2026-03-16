@@ -10,6 +10,7 @@ use Meetplume\Plume\Inertia\PlumeInertiaResponse;
 use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Plume;
+use Meetplume\Plume\Tab;
 use Meetplume\Plume\ThemeConfig;
 use Meetplume\Plume\Vault;
 
@@ -76,7 +77,7 @@ class VaultPageController
             'navigation' => $navigationArray,
         ];
 
-        $prefix = trim($vault->getPrefix(), '/');
+        $prefix = trim((string) $vault->getPrefix(), '/');
         $pageDir = dirname($page->getPath());
         $assetBase = '/'.$prefix.'/_content';
 
@@ -187,7 +188,7 @@ class VaultPageController
     }
 
     /**
-     * @param  array<int, \Meetplume\Plume\Tab>  $tabs
+     * @param  array<int, Tab>  $tabs
      * @return list<array{key: string, label: string, icon: ?string, href: string, active: bool}>
      */
     private function buildTabsArray(
@@ -356,7 +357,7 @@ class VaultPageController
     {
         $themeConfig = $this->resolveVaultThemeConfig($vault);
 
-        if (! $themeConfig instanceof \Meetplume\Plume\ThemeConfig) {
+        if (! $themeConfig instanceof ThemeConfig) {
             return;
         }
 
@@ -396,7 +397,7 @@ class VaultPageController
     }
 
     /**
-     * @return array<int, \Meetplume\Plume\Tab>
+     * @return array<int, Tab>
      */
     private function resolveActiveTabs(Vault $vault, ?string $version): array
     {

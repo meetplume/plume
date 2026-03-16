@@ -1,6 +1,8 @@
 <?php
 
 use Meetplume\Plume\FilesystemScanner;
+use Meetplume\Plume\NavGroup;
+use Meetplume\Plume\Page;
 
 $fixturePath = __DIR__.'/fixtures/scanner';
 
@@ -20,7 +22,7 @@ it('creates page objects from md files', function () use ($fixturePath): void {
 
     expect($pages)->toHaveCount(4);
 
-    $keys = array_map(fn (\Meetplume\Plume\Page $p): string => $p->key, $pages);
+    $keys = array_map(fn (Page $p): string => $p->key, $pages);
     expect($keys)->toContain('index', 'getting-started/introduction', 'getting-started/installation', 'advanced/configuration');
 });
 
@@ -79,7 +81,7 @@ it('builds nav groups from directories', function () use ($fixturePath): void {
 
     $groups = $scanner->scanNavigation();
 
-    $keys = array_map(fn (\Meetplume\Plume\NavGroup $g): string => $g->key, $groups);
+    $keys = array_map(fn (NavGroup $g): string => $g->key, $groups);
 
     expect($keys)->toContain('_root', 'getting-started', 'advanced');
 });
@@ -90,7 +92,7 @@ it('sorts pages within groups by order then key', function () use ($fixturePath)
     $groups = $scanner->scanNavigation();
     $gettingStarted = array_find($groups, fn ($g): bool => $g->key === 'getting-started');
 
-    $pageSlugs = array_map(fn (\Meetplume\Plume\Page $p): string => $p->key, $gettingStarted->getPages());
+    $pageSlugs = array_map(fn (Page $p): string => $p->key, $gettingStarted->getPages());
 
     expect($pageSlugs)->toBe(['getting-started/introduction', 'getting-started/installation']);
 });

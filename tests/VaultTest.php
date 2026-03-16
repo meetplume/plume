@@ -410,7 +410,7 @@ it('auto mode derives navigation from filesystem', function (): void {
     };
 
     $groups = $vault->resolveNavigation();
-    $keys = array_map(fn (\Meetplume\Plume\NavGroup $g): string => $g->key, $groups);
+    $keys = array_map(fn (NavGroup $g): string => $g->key, $groups);
 
     expect($keys)->toContain('_root', 'getting-started', 'advanced');
 });

@@ -42,12 +42,8 @@ class PlumeServiceProvider extends ServiceProvider
 
     private function registerBladeDirectives(): void
     {
-        Blade::directive('plumeInertia', function (): string {
-            return '<div id="app" data-page="<?php echo e(json_encode($page)); ?>"></div>';
-        });
+        Blade::directive('plumeInertia', fn (): string => '<div id="app" data-page="<?php echo e(json_encode($page)); ?>"></div>');
 
-        Blade::directive('plumeInertiaHead', function (): string {
-            return '';
-        });
+        Blade::directive('plumeInertiaHead', fn (): string => '');
     }
 }

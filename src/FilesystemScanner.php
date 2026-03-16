@@ -172,7 +172,7 @@ final readonly class FilesystemScanner
         return $files;
     }
 
-    private function buildPage(string $relativePath): \Meetplume\Plume\Page
+    private function buildPage(string $relativePath): Page
     {
         $fullPath = $this->basePath.'/'.$relativePath;
         $frontmatter = $this->readFrontmatter($fullPath);

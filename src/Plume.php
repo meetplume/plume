@@ -13,7 +13,7 @@ class Plume
      */
     public function configure(): PlumeConfiguration
     {
-        if (! $this->configuration instanceof \Meetplume\Plume\PlumeConfiguration) {
+        if (! $this->configuration instanceof PlumeConfiguration) {
             $this->configuration = new PlumeConfiguration;
         }
 
