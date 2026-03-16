@@ -1,20 +1,16 @@
-import { type SectionProps, Section } from '@/components/blocks/section';
 import { type DocsFooterProps, DocsFooter } from '@/components/plume/docs-footer';
 import { type DocsHeaderProps, DocsHeader } from '@/components/plume/docs-header';
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
 import { Head } from '@inertiajs/react';
 
-interface PageLayoutProps extends PlumePageContext {
-    layout: 'page';
-    sections?: SectionProps[];
+interface BlogPageProps extends PlumePageContext {
+    layout: 'blog';
     header?: DocsHeaderProps;
     footer?: DocsFooterProps;
     site?: { name: string; logo: string | null; logoDark: string | null };
 }
 
-export default function PageLayout(page: PageLayoutProps) {
-    const hasSections = page.sections && page.sections.length > 0;
-
+export default function BlogLayout(page: BlogPageProps) {
     return (
         <>
             <Head>
@@ -22,8 +18,10 @@ export default function PageLayout(page: PageLayoutProps) {
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
             <DocsHeader {...page.header} collectionTitle={page.site?.name} />
-            {hasSections && page.sections!.map((section, index) => <Section key={index} {...section} />)}
             <article className="mx-auto prose max-w-full px-6 py-12 lg:max-w-3xl dark:prose-invert">
+                {page.title && <h1>{page.title}</h1>}
+                {page.meta?.date && <time className="text-sm text-muted-foreground">{String(page.meta.date)}</time>}
+                {page.meta?.author && <p className="text-sm text-muted-foreground">By {String(page.meta.author)}</p>}
                 <MarkdownRenderer page={page} />
             </article>
             <DocsFooter {...page.footer} />

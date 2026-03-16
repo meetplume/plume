@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
-final class NavGroup
+class Tab
 {
     private ?string $label = null;
 
     private ?string $icon = null;
 
-    /** @var array<int, Page> */
-    private array $pages = [];
+    /** @var array<int, NavGroup> */
+    private array $groups = [];
 
     public function __construct(
         public readonly string $key,
     ) {}
 
-    public static function make(string $key): self
+    public static function make(string $key): static
     {
-        return new self($key);
+        return new static($key);
     }
 
-    public function label(string $label): self
+    public function label(string $label): static
     {
         $this->label = $label;
 
         return $this;
     }
 
-    public function icon(string $icon): self
+    public function icon(string $icon): static
     {
         $this->icon = $icon;
 
@@ -37,11 +37,11 @@ final class NavGroup
     }
 
     /**
-     * @param  array<int, Page>  $pages
+     * @param  array<int, NavGroup>  $groups
      */
-    public function pages(array $pages): self
+    public function groups(array $groups): static
     {
-        $this->pages = $pages;
+        $this->groups = $groups;
 
         return $this;
     }
@@ -57,10 +57,10 @@ final class NavGroup
     }
 
     /**
-     * @return array<int, Page>
+     * @return array<int, NavGroup>
      */
-    public function getPages(): array
+    public function getGroups(): array
     {
-        return $this->pages;
+        return $this->groups;
     }
 }

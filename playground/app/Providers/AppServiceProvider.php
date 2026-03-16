@@ -2,24 +2,42 @@
 
 namespace App\Providers;
 
+use App\Plume\LaravelZeroDocsVault;
+use App\Plume\MingleJsDocsVault;
+use App\Plume\PlumeDocsVault;
 use Illuminate\Support\ServiceProvider;
 use Meetplume\Plume\Facades\Plume;
+use Meetplume\Plume\Footer;
+use Meetplume\Plume\Header;
+use Meetplume\Plume\Social;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        Plume::config(base_path('content/config.yml'));
+        Plume::configure()
+            ->name('Plume Playground')
+            ->configPath(base_path('content/config.yml'))
+            ->theme('default')
+            ->header(
+                Header::make('header1')
+                    ->socials([
+                        Social::github('https://github.com/meetplume/plume'),
+                    ])
+            )
+            ->footer(
+                Footer::make('footer1')
+                    ->text('Built with Plume')
+            )
+            ->vaults([
+                PlumeDocsVault::class,
+                LaravelZeroDocsVault::class,
+                MingleJsDocsVault::class,
+            ]);
     }
 }

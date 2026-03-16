@@ -6,7 +6,7 @@ use Meetplume\Plume\ThemeConfig;
 beforeEach(function (): void {
     $this->configPath = sys_get_temp_dir().'/plume_test_'.uniqid().'.yml';
     ThemeConfig::write($this->configPath, ['theme' => 'default', 'primary' => 'neutral', 'gray' => 'neutral', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false]);
-    Plume::config($this->configPath);
+    Plume::configure()->configPath($this->configPath);
 });
 
 afterEach(function (): void {

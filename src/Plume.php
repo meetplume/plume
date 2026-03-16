@@ -4,50 +4,35 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
-use Illuminate\Support\Facades\Route;
-use Meetplume\Plume\Http\Controllers\PageController;
-
 class Plume
 {
-    private ?string $configPath = null;
+    private ?PlumeConfiguration $configuration = null;
 
-    /** @var array<string, Collection> */
-    private array $collections = [];
-
-    public function collection(string $prefix, string $contentPath): Collection
+    /**
+     * Start fluent configuration.
+     */
+    public function configure(): PlumeConfiguration
     {
-        $collection = new Collection($prefix, $contentPath);
-        $this->collections[trim($prefix, '/')] = $collection;
+        if (! $this->configuration instanceof \Meetplume\Plume\PlumeConfiguration) {
+            $this->configuration = new PlumeConfiguration;
+        }
 
-        return $collection;
+        return $this->configuration;
     }
 
-    public function config(string $configPath): void
+    /**
+     * Get the current configuration.
+     */
+    public function getConfiguration(): ?PlumeConfiguration
     {
-        $this->configPath = $configPath;
-        $themeConfig = new ThemeConfig($configPath);
-        app()->instance(ThemeConfig::class, $themeConfig);
+        return $this->configuration;
     }
 
-    public function configPath(): ?string
+    /**
+     * Get a vault by prefix.
+     */
+    public function getVault(string $prefix): ?Vault
     {
-        return $this->configPath;
-    }
-
-    public function getCollection(string $prefix): ?Collection
-    {
-        return $this->collections[trim($prefix, '/')] ?? null;
-    }
-
-    public function page(string $uri, string $filePath): PageItem
-    {
-        $pageItem = new PageItem(trim($uri, '/'))->filePath($filePath);
-        $trimmedUri = trim($uri, '/');
-
-        Route::get($uri, PageController::class)
-            ->defaults('pageItem', $pageItem)
-            ->name('plume.'.$trimmedUri);
-
-        return $pageItem;
+        return $this->configuration?->getVault($prefix);
     }
 }

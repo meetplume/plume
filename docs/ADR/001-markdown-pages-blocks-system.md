@@ -70,19 +70,19 @@ class DocsVault extends Vault
     public function navigation(): array
     {
         return [
-            NavGroup::make('Getting Started')
+            NavGroup::make('getting-started')
                 ->icon('rocket')
                 ->pages([
-                    'intro',
-                    'quickstart',
-                    'installation',
+                    Page::make('intro'),
+                    Page::make('quickstart'),
+                    Page::make('installation'),
                 ]),
 
-            NavGroup::make('Configuration')
+            NavGroup::make('configuration')
                 ->icon('settings')
                 ->pages([
-                    'config/basic',
-                    'config/advanced',
+                    Page::make('config/basic'),
+                    Page::make('config/advanced'),
                 ]),
         ];
     }
@@ -122,28 +122,28 @@ class DocsVault extends Vault
                 ->label('Documentation')
                 ->icon('book')
                 ->groups([
-                    NavGroup::make('Getting Started')
-                        ->pages(['intro', 'quickstart']),
-                    NavGroup::make('Configuration')
-                        ->pages(['config/basic', 'config/advanced']),
+                    NavGroup::make('getting-started')
+                        ->pages([Page::make('intro'), Page::make('quickstart')]),
+                    NavGroup::make('configuration')
+                        ->pages([Page::make('config/basic'), Page::make('config/advanced')]),
                 ]),
 
             Tab::make('api')
                 ->label('API Reference')
                 ->icon('code')
                 ->groups([
-                    NavGroup::make('Authentication')
-                        ->pages(['api/overview', 'api/tokens']),
-                    NavGroup::make('Endpoints')
-                        ->pages(['api/users', 'api/projects']),
+                    NavGroup::make('authentication')
+                        ->pages([Page::make('api/overview'), Page::make('api/tokens')]),
+                    NavGroup::make('endpoints')
+                        ->pages([Page::make('api/users'), Page::make('api/projects')]),
                 ]),
 
             Tab::make('changelog')
                 ->label('Changelog')
                 ->icon('clock')
                 ->groups([
-                    NavGroup::make('Changelog')
-                        ->pages(['changelog']),
+                    NavGroup::make('changelog')
+                        ->pages([Page::make('changelog')]),
                 ]),
         ];
     }
@@ -173,12 +173,11 @@ class DocsVault extends Vault
         ];
     }
 
-    // Shared tabs across all versions
     public function tabs(): array
     {
         return [
-            Tab::make('documentation')->groups([...]),
-            Tab::make('api')->groups([...]),
+            Tab::make('documentation')->groups([/* ... */]),
+            Tab::make('api')->groups([/* ... */]),
         ];
     }
 }
@@ -197,13 +196,13 @@ public function versions(): array
     return [
         Version::make('v2')->default()
             ->tabs([
-                Tab::make('documentation')->groups([...]),
-                Tab::make('api')->groups([...]),       // v2 has API docs
+                Tab::make('documentation')->groups([/* ... */]),
+                Tab::make('api')->groups([/* ... */]),       // v2 has API docs
             ]),
 
         Version::make('v1')
             ->tabs([
-                Tab::make('documentation')->groups([...]),
+                Tab::make('documentation')->groups([/* ... */]),
                 // v1 had no API tab
             ]),
     ];
@@ -298,7 +297,7 @@ class DocumentationTab extends Tab
     public function groups(): array
     {
         return [
-            NavGroup::make('Getting Started')
+            NavGroup::make('getting-started')
                 ->icon('rocket')
                 ->pages([
                     Page::make('intro')->label('Introduction'),
@@ -306,9 +305,8 @@ class DocumentationTab extends Tab
                     Page::make('installation'),
                 ]),
 
-            NavGroup::make('Configuration')
+            NavGroup::make('configuration')
                 ->icon('settings')
-                ->root('config/index')
                 ->pages([
                     Page::make('config/basic')->label('Basic'),
                     Page::make('config/advanced')->label('Advanced'),

@@ -91,8 +91,8 @@ it('lists available presets with config', function (): void {
     expect($presets['catppuccin'])->toHaveKey('dark', true);
 });
 
-it('stores and returns config path on Plume singleton', function (): void {
+it('returns null configuration by default on Plume singleton', function (): void {
     $plume = new \Meetplume\Plume\Plume;
 
-    expect($plume->configPath())->toBeNull();
+    expect($plume->getConfiguration())->toBeNull();
 });

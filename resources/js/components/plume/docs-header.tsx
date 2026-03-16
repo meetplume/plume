@@ -16,12 +16,37 @@ type NavLink = {
     href: string;
 };
 
+type TabItem = {
+    key: string;
+    label: string;
+    icon: string | null;
+    href: string;
+    active: boolean;
+};
+
+type VersionItem = {
+    key: string;
+    href: string;
+    active: boolean;
+    default: boolean;
+};
+
+type LanguageItem = {
+    code: string;
+    name: string;
+    href: string;
+    active: boolean;
+};
+
 export type DocsHeaderProps = {
     collectionTitle?: string | null;
     logo?: string;
     logoDark?: string;
     links?: NavLink[];
     socials?: Social[];
+    tabs?: TabItem[];
+    versions?: VersionItem[];
+    languages?: LanguageItem[];
 };
 
 const icons: Record<string, { path: string; title: string }> = {
@@ -47,7 +72,7 @@ function SocialIcon({ icon, className }: { icon: string; className?: string }) {
     );
 }
 
-export function DocsHeader({ collectionTitle, logo, logoDark, links = [], socials = [] }: DocsHeaderProps) {
+export function DocsHeader({ collectionTitle, logo, logoDark, links = [], socials = [], tabs, versions, languages }: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -105,6 +130,67 @@ export function DocsHeader({ collectionTitle, logo, logoDark, links = [], social
                     <Menu className="ml-auto size-6 shrink-0" />
                 </button>
             </div>
+
+            {(tabs || versions || languages) && (
+                <div className="mx-auto flex max-w-368 items-center gap-4 px-6 pt-2 lg:px-12">
+                    {tabs && tabs.length > 0 && (
+                        <nav className="flex items-center gap-1">
+                            {tabs.map((tab) => (
+                                <a
+                                    key={tab.key}
+                                    href={tab.href}
+                                    className={cn(
+                                        'rounded-md px-3 py-1.5 text-sm font-medium',
+                                        tab.active ? 'bg-accent text-foreground' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
+                                    )}
+                                >
+                                    {tab.label}
+                                </a>
+                            ))}
+                        </nav>
+                    )}
+
+                    <div className="ml-auto flex items-center gap-2">
+                        {versions && versions.length > 1 && (
+                            <select
+                                className="rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+                                value={versions.find((v) => v.active)?.key ?? ''}
+                                onChange={(e) => {
+                                    const v = versions.find((ver) => ver.key === e.target.value);
+                                    if (v) {
+                                        window.location.href = v.href;
+                                    }
+                                }}
+                            >
+                                {versions.map((v) => (
+                                    <option key={v.key} value={v.key}>
+                                        {v.key}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+
+                        {languages && languages.length > 1 && (
+                            <select
+                                className="rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
+                                value={languages.find((l) => l.active)?.code ?? ''}
+                                onChange={(e) => {
+                                    const l = languages.find((lang) => lang.code === e.target.value);
+                                    if (l) {
+                                        window.location.href = l.href;
+                                    }
+                                }}
+                            >
+                                {languages.map((l) => (
+                                    <option key={l.code} value={l.code}>
+                                        {l.name}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {mobileOpen &&
                 createPortal(

@@ -6,7 +6,6 @@ namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Meetplume\Plume\Collection;
 use Meetplume\Plume\Plume;
 use Meetplume\Plume\ThemeConfig;
 use Symfony\Component\Yaml\Yaml;
@@ -24,22 +23,14 @@ class CustomizerController
             'dark' => ['sometimes', 'boolean'],
             'code_theme_light' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
             'code_theme_dark' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
-            'collection' => ['sometimes', 'nullable', 'string'],
         ]);
 
-        $plume = app(Plume::class);
-        $globalConfigPath = $plume->configPath();
-        /** @var ?string $collectionPrefix */
-        $collectionPrefix = $validated['collection'] ?? null;
-        unset($validated['collection']);
-
-        [$configPath, $fallbackConfigPath] = $this->resolveConfigPaths($plume, $globalConfigPath, $collectionPrefix);
+        $configPath = $this->resolveConfigPath();
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
         }
 
-        // When only theme (preset) is sent, rewrite config as just the theme key
         if (isset($validated['theme']) && count($validated) === 1) {
             $config = ['theme' => $validated['theme']];
         } else {
@@ -50,7 +41,7 @@ class CustomizerController
 
         ThemeConfig::write($configPath, $config);
 
-        $themeConfig = new ThemeConfig($configPath, $fallbackConfigPath);
+        $themeConfig = new ThemeConfig($configPath);
         app()->instance(ThemeConfig::class, $themeConfig);
 
         return response()->json($themeConfig->toArray());
@@ -58,12 +49,7 @@ class CustomizerController
 
     public function reset(Request $request): JsonResponse
     {
-        $plume = app(Plume::class);
-        $globalConfigPath = $plume->configPath();
-        /** @var ?string $collectionPrefix */
-        $collectionPrefix = $request->input('collection');
-
-        [$configPath, $fallbackConfigPath] = $this->resolveConfigPaths($plume, $globalConfigPath, $collectionPrefix);
+        $configPath = $this->resolveConfigPath();
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -72,33 +58,39 @@ class CustomizerController
         $existing = $this->readExistingConfig($configPath);
         $config = ThemeConfig::defaults();
 
-        // Preserve theme key if it exists
         if (isset($existing['theme'])) {
             $config = ['theme' => $existing['theme'], ...$config];
         }
 
         ThemeConfig::write($configPath, $config);
 
-        $themeConfig = new ThemeConfig($configPath, $fallbackConfigPath);
+        $themeConfig = new ThemeConfig($configPath);
         app()->instance(ThemeConfig::class, $themeConfig);
 
         return response()->json($themeConfig->toArray());
     }
 
-    /**
-     * @return array{0: ?string, 1: ?string}
-     */
-    private function resolveConfigPaths(Plume $plume, ?string $globalConfigPath, ?string $collectionPrefix): array
+    private function resolveConfigPath(): ?string
     {
-        if ($collectionPrefix !== null) {
-            $collection = $plume->getCollection($collectionPrefix);
+        $config = app(Plume::class)->getConfiguration();
 
-            if ($collection instanceof Collection && $collection->getConfigPath() !== null) {
-                return [$collection->getConfigPath(), $globalConfigPath];
-            }
+        if ($config === null) {
+            return null;
         }
 
-        return [$globalConfigPath, null];
+        if ($config->getConfigPath() !== null) {
+            return $config->getConfigPath();
+        }
+
+        $theme = $config->getTheme();
+
+        if ($theme === null) {
+            return null;
+        }
+
+        $presetPath = __DIR__.'/../../resources/presets/'.basename($theme).'.yml';
+
+        return file_exists($presetPath) ? $presetPath : null;
     }
 
     /**
