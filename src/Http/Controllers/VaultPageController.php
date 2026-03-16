@@ -349,7 +349,7 @@ class VaultPageController
     {
         $themeConfig = $this->resolveVaultThemeConfig($vault);
 
-        if ($themeConfig === null) {
+        if (! $themeConfig instanceof \Meetplume\Plume\ThemeConfig) {
             return;
         }
 

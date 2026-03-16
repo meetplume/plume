@@ -25,8 +25,8 @@ class PlumeDocsVault extends Vault
             NavGroup::make('getting-started')
                 ->icon('rocket')
                 ->pages([
-                    Page::make('home')->label('Home')->slug('a'),
-                    Page::make('index')->label('Introduction')->slug('introduction'),
+                    Page::make('index'),
+                    Page::make('home'),
                     Page::make('installation'),
                 ]),
 

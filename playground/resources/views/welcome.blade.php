@@ -11,10 +11,9 @@
         <div class="text-center">
             <h1 class="text-4xl font-bold text-gray-900 mb-8">Plume Playground</h1>
             <div class="flex gap-4 justify-center">
-                <a href="/plume/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Plume</a>
-                <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero Homepage</a>
-                <a href="/laravel-zero/docs/introduction" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero Docs</a>
-                <a href="/minglejs/docs/what-is-minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS Docs</a>
+                <a href="/plume/docs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Plume Docs</a>
+                <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
+                <a href="/minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS</a>
             </div>
         </div>
     </body>
