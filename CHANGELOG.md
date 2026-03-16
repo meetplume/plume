@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-03-16
+
 - Dev: fix routing system
 
 ## [0.3.4] - 2026-02-27
