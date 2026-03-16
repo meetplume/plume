@@ -92,7 +92,7 @@ final readonly class FilesystemScanner
 
             if ($groupKey !== '_root') {
                 $group->label(
-                    str($groupKey)->replace('-', ' ')->title()->toString()
+                    ucwords(str_replace('-', ' ', $groupKey))
                 );
             }
 
