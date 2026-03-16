@@ -1,0 +1,1 @@
+import{c}from"./button-CjzulSV3.js";import"./app-DmntxBp8.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["path",{d:"M12 6v6l4 2",key:"mmk7yg"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],p=c("clock",o);export{o as __iconNode,p as default};

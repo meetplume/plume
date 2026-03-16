@@ -1,0 +1,1 @@
+import{c as t}from"./button-CjzulSV3.js";import"./app-DmntxBp8.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const e=[["path",{d:"M21 5H3",key:"1fi0y6"}],["path",{d:"M21 12H9",key:"dn1m92"}],["path",{d:"M21 19H7",key:"4cu937"}]],a=t("text-align-end",e);export{e as __iconNode,a as default};

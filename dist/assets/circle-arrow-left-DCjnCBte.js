@@ -1,0 +1,1 @@
+import{c as r}from"./button-CjzulSV3.js";import"./app-DmntxBp8.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const c=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m12 8-4 4 4 4",key:"15vm53"}],["path",{d:"M16 12H8",key:"1fr5h0"}]],a=r("circle-arrow-left",c);export{c as __iconNode,a as default};

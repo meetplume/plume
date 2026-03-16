@@ -1,0 +1,1 @@
+import{c as o}from"./button-CjzulSV3.js";import"./app-DmntxBp8.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const i=[["path",{d:"M12 20h.01",key:"zekei9"}]],m=o("wifi-zero",i);export{i as __iconNode,m as default};
