@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    echo "Usage: bin/release.sh <patch|minor|major> [--dry-run]"
+    echo ""
+    echo "Triggers the Release workflow on GitHub Actions."
+    echo "The workflow validates the changelog, creates the tag, and creates a release."
+    echo ""
+    echo "Examples:"
+    echo "  bin/release.sh patch        # v1.0.0 -> v1.0.1"
+    echo "  bin/release.sh minor        # v1.0.0 -> v1.1.0"
+    echo "  bin/release.sh major        # v1.0.0 -> v2.0.0"
+    echo "  bin/release.sh patch --dry-run"
+    exit 1
+}
+
+if [[ $# -lt 1 ]]; then
+    usage
+fi
+
+TYPE="$1"
+DRY_RUN=false
+
+if [[ "${2:-}" == "--dry-run" ]]; then
+    DRY_RUN=true
+fi
+
+if [[ "$TYPE" != "patch" && "$TYPE" != "minor" && "$TYPE" != "major" ]]; then
+    usage
+fi
+
+# Ensure we're on main
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$BRANCH" != "main" ]]; then
+    echo "Error: You must be on the 'main' branch to release. Currently on '$BRANCH'."
+    exit 1
+fi
+
+# Ensure working directory is clean
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Error: Working directory is not clean. Commit or stash your changes first."
+    exit 1
+fi
+
+# Ensure we're up to date with remote
+git fetch origin main --tags --quiet
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/main 2>/dev/null || echo "")
+
+if [[ -n "$REMOTE" && "$LOCAL" != "$REMOTE" ]]; then
+    echo "Error: Local main is not in sync with origin/main. Pull or push first."
+    exit 1
+fi
+
+# Preview version bump
+LATEST_TAG=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+LATEST_TAG="${LATEST_TAG:-v0.0.0}"
+VERSION="${LATEST_TAG#v}"
+IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+case "$TYPE" in
+    major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+    minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+    patch) PATCH=$((PATCH + 1)) ;;
+esac
+
+NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+
+echo ""
+echo "  Current version: $LATEST_TAG"
+echo "  New version:     $NEW_TAG"
+echo ""
+echo "  This will trigger the Release workflow which:"
+echo "    1. Validates the CHANGELOG.md has unreleased content"
+echo "    2. Updates the CHANGELOG.md with the new version"
+echo "    3. Builds assets and creates tag $NEW_TAG"
+echo "    4. Creates a GitHub Release with changelog notes"
+echo ""
+
+if [[ "$DRY_RUN" == true ]]; then
+    echo "(dry run — nothing was changed)"
+    exit 0
+fi
+
+read -rp "Proceed? (y/N) " CONFIRM
+if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+    echo "Aborted."
+    exit 1
+fi
+
+gh workflow run release.yml --field bump="$TYPE"
+
+echo ""
+echo "Release workflow triggered for $NEW_TAG."
+echo "Follow the progress at: $(gh repo view --json url -q .url)/actions"

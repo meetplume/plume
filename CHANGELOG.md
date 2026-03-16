@@ -8,7 +8,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.4.0] - 2026-03-16
 
-- Dev: fix routing system
+### Added
+
+- **Vault system** replacing Collections. Vaults are dedicated PHP classes with support for navigation, tabs, versions, languages, and extra pages.
+- `VaultRouter` for automatic route registration with support for language, version, and tab URL segments.
+- `VaultPageController` replacing `PageController`, with full support for tabs, versions, languages, and prev/next navigation.
+- Fluent `Plume::configure()` API via new `PlumeConfiguration` class for global setup (name, theme, header, footer, vaults).
+- New domain classes: `Header`, `Footer`, `FooterColumn`, `Social`, `Tab`, `Version`, `Language`.
+- `Page` class replacing `PageItem`, with `path()`, `order()`, `slug()`, `label()`, `hidden()` methods.
+- Multiple Inertia page layouts: `docs`, `api`, `blog`, `changelog`, `wiki`, and `page`.
+- Prev/next page navigation in docs footer.
+- Header sub-navigation with tab, version selector, and language selector dropdowns.
+- Vaults are private by default — each vault must override `canAccess()` to grant access.
+- Root/index route support — vaults can declare a page with `->slug('/')` to serve a root route.
+- Diagnostics system (local/test only): JSON endpoint at `/{prefix}/_plume` with vault introspection, plus a Diagnostics panel in the Customizer.
+- `Discovery` enum with three modes: `Manual`, `Mapped`, and `Auto`.
+- `FilesystemScanner` for recursive `.md` file discovery with frontmatter parsing and auto-generated `NavGroup` structures.
+- `DocsHeader` and `DocsFooter` React components with logo, nav links, social icons, dark mode toggle, and mobile menu.
+- `Vault::pages()` method for declaring routable pages that don't appear in sidebar navigation.
+
+### Changed
+
+- Routes now use a single parameterized route per vault instead of per-page route registration.
+- Route defaults pass string identifiers instead of object instances, improving route caching compatibility.
+- Customizer theme configuration is now per-vault instead of global.
+- Playground added to CI test suite with asset building and full setup.
+
+### Removed
+
+- `Collection` class — replaced by `Vault`.
+- `PageItem` class — replaced by `Page`.
+- `PageController` — replaced by `VaultPageController`.
+- `Plume::config()` and `Plume::collection()` facade methods.
+- Global `configPath` — config is now per-vault via `config.yml` in each vault's content directory.
+
+### Fixed
+
+- Routing: parameterized routes resolve serialization and caching issues.
+- TypeScript type safety in `rehypeContentAssets` (HAST types), icon hook operator precedence, and import ordering.
 
 ## [0.3.4] - 2026-02-27
 
