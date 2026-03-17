@@ -1,0 +1,1 @@
+import{d as o}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const c=[["path",{d:"M12 6v6l4-2",key:"1r2kuh"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],p=o("clock-2",c);export{c as __iconNode,p as default};

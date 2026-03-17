@@ -1,0 +1,1 @@
+import{d as o}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["polygon",{points:"3 11 22 2 13 21 11 13 3 11",key:"1ltx0t"}]],e=o("navigation",t);export{t as __iconNode,e as default};
