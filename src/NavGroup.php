@@ -48,7 +48,7 @@ final class NavGroup
 
     public function getLabel(): string
     {
-        return $this->label ?? ucwords(str_replace('-', ' ', $this->key));
+        return $this->label ?? str($this->key)->replace('-', ' ')->title()->toString();
     }
 
     public function getIcon(): ?string

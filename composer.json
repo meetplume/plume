@@ -25,6 +25,7 @@
     },
     "require-dev": {
         "laravel/pint": "^1.24.0",
+        "orchestra/testbench": "^11.0",
         "pestphp/pest": "^4.1.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.2",
         "phpstan/phpstan": "^2.1.26",
@@ -55,7 +56,7 @@
         "refactor": "rector",
         "test:type-coverage": "pest --type-coverage --exactly=100",
         "test:lint": [
-            "pint --test",
+            "pint --parallel --test",
             "npm run format:check",
             "npm run lint:check"
         ],
@@ -67,6 +68,12 @@
             "@test:unit",
             "@test:refactor",
             "cd playground && composer test"
+        ],
+        "test:fix": [
+            "pint --parallel",
+            "./vendor/bin/rector",
+            "npm run format",
+            "npm run lint"
         ],
         "open": [
             "open https://playground.test"

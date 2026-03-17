@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- **Built-in Inertia replacement** — `PlumeInertia` and `PlumeInertiaResponse` classes replace the `inertiajs/inertia-laravel` dependency. The package now handles its own page rendering with `@plumeInertia` and `@plumeInertiaHead` Blade directives.
+- `Page::home()` method as a convenient alias for `->slug('/')`.
+- `Page::route()` method for registering pages at absolute routes outside the vault prefix.
+- `Page::layout()` method for per-page layout override (falls back to the vault layout).
+- `Vault::getHome()` method and `$home` property for configurable home URL in headers.
+- `homeUrl` prop in `Header1` and `DocsHeader` React components, linking the logo to the vault's home URL.
+- Absolute route registration in `VaultRouter` for pages with a custom `route()`.
+- `orchestra/testbench` for package-level testing with full Laravel environment. Tests reorganized into `Unit/` and `Feature/` suites.
+
+### Changed
+
+- Removed `inertiajs/inertia-laravel` as a dependency — the package no longer requires Inertia.
+- Pages with a custom `route()` are excluded from the vault's slug collection to avoid duplicate route registration.
+
 ## [0.5.0] - 2026-03-16
 
 ### Added

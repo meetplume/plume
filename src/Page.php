@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 final class Page
 {
     private ?string $label = null;
@@ -137,7 +135,7 @@ final class Page
             }
         }
 
-        return ucwords(str_replace('-', ' ', $this->key));
+        return str($this->key)->replace('-', ' ')->title()->toString();
     }
 
     /**
@@ -147,9 +145,7 @@ final class Page
     {
         $path = $resolvedFilePath;
 
-        if ($path === null || ! file_exists($path)) {
-            throw new NotFoundHttpException;
-        }
+        abort_unless($path !== null && file_exists($path), 404);
 
         $rawContent = (string) file_get_contents($path);
         $frontmatter = Frontmatter::parse($rawContent);
