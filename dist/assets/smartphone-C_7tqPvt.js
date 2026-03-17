@@ -1,0 +1,1 @@
+import{d as t}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["rect",{width:"14",height:"20",x:"5",y:"2",rx:"2",ry:"2",key:"1yt0o3"}],["path",{d:"M12 18h.01",key:"mhygvu"}]],h=t("smartphone",o);export{o as __iconNode,h as default};

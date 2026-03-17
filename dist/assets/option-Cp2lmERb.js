@@ -1,0 +1,1 @@
+import{d as o}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M3 3h6l6 18h6",key:"ph9rgk"}],["path",{d:"M14 3h7",key:"16f0ms"}]],a=o("option",t);export{t as __iconNode,a as default};

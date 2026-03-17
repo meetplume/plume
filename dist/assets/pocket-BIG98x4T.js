@@ -1,0 +1,1 @@
+import{d as o}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M20 3a2 2 0 0 1 2 2v6a1 1 0 0 1-20 0V5a2 2 0 0 1 2-2z",key:"1uodqw"}],["path",{d:"m8 10 4 4 4-4",key:"1mxd5q"}]],m=o("pocket",t);export{t as __iconNode,m as default};
