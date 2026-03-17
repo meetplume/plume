@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-03-17
+
 ### Added
 
 - **Built-in Inertia replacement** — `PlumeInertia` and `PlumeInertiaResponse` classes replace the `inertiajs/inertia-laravel` dependency. The package now handles its own page rendering with `@plumeInertia` and `@plumeInertiaHead` Blade directives.
