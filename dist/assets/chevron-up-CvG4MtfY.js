@@ -1,0 +1,1 @@
+import{d as o}from"./utils-DRdjAcdp.js";import"./react-Ba5Cz7M3.js";import"./app-BHD_AsgR.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"m18 15-6-6-6 6",key:"153udz"}]],m=o("chevron-up",t);export{t as __iconNode,m as default};
