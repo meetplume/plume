@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-03-26
+
 - Add web middleware to Plume routes.
 
 ## [0.7.0] - 2026-03-17
