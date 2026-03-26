@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
+use Illuminate\Support\Facades\Route;
+
 final class PlumeConfiguration
 {
     private ?string $name = null;
@@ -158,13 +160,15 @@ final class PlumeConfiguration
 
         $router = new VaultRouter;
 
-        foreach ($this->vaultClasses as $vaultClass) {
-            /** @var Vault $vault */
-            $vault = new $vaultClass;
-            $prefix = trim($vault->getPrefix(), '/');
-            $this->vaults[$prefix] = $vault;
-            $router->register($vault);
-        }
+        Route::middleware('web')->group(function () use ($router): void {
+            foreach ($this->vaultClasses as $vaultClass) {
+                /** @var Vault $vault */
+                $vault = new $vaultClass;
+                $prefix = trim($vault->getPrefix(), '/');
+                $this->vaults[$prefix] = $vault;
+                $router->register($vault);
+            }
+        });
     }
 
     /**
