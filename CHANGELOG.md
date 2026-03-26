@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Add web middleware to Plume routes.
+
 ## [0.7.0] - 2026-03-17
 
 - In PlumeServiceProvider, only run configuration if running in console. 
