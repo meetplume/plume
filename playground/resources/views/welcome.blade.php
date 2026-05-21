@@ -10,10 +10,19 @@
     <body class="min-h-screen bg-gray-50 flex items-center justify-center">
         <div class="text-center">
             <h1 class="text-4xl font-bold text-gray-900 mb-8">Plume Playground</h1>
+            @php
+                $links = [
+                    ['url' => '/plume-developer-docs', 'title' => 'Plume Developer Docs'],
+                    ['url' => '/laravel-zero', 'title' => 'Laravel Zero'],
+                    ['url' => '/minglejs', 'title' => 'MingleJS'],
+                ];
+            @endphp
             <div class="flex gap-4 justify-center">
-                <a href="/plume/docs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Plume Docs</a>
-                <a href="/laravel-zero" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">Laravel Zero</a>
-                <a href="/minglejs" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">MingleJS</a>
+                @foreach ($links as $link)
+                    <a href="{{ $link['url'] }}" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition">
+                        {{ $link['title'] }}
+                    </a>
+                @endforeach
             </div>
         </div>
     </body>
