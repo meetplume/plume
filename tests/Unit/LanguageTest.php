@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Meetplume\Plume\Language;
 
 it('creates a language with make()', function (): void {

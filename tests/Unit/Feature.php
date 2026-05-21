@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Meetplume\Plume\Frontmatter;
 
 it('parses frontmatter from markdown content', function (): void {

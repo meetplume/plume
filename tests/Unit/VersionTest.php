@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Meetplume\Plume\Tab;
 use Meetplume\Plume\Version;
 
