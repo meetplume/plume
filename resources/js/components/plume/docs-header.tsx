@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { SearchButton } from '@/components/plume/search-button';
+import { SearchDialog } from '@/components/plume/search-dialog';
 import { useDarkMode } from '@/hooks/use-dark-mode';
+import { useSearchShortcut } from '@/hooks/use-search-shortcut';
 import { cn } from '@/lib/utils';
 import { Menu, Moon, Sun, X as XIcon } from 'lucide-react';
 import { siBluesky, siDiscord, siGithub, siX, siYoutube } from 'simple-icons';
@@ -48,6 +51,7 @@ export type DocsHeaderProps = {
     tabs?: TabItem[];
     versions?: VersionItem[];
     languages?: LanguageItem[];
+    searchIndexUrl?: string | null;
 };
 
 const icons: Record<string, { path: string; title: string }> = {
@@ -73,9 +77,21 @@ function SocialIcon({ icon, className }: { icon: string; className?: string }) {
     );
 }
 
-export function DocsHeader({ collectionTitle, logo, logoDark, homeUrl = '/', links = [], socials = [], tabs, versions, languages }: DocsHeaderProps) {
+export function DocsHeader({
+    collectionTitle,
+    logo,
+    logoDark,
+    homeUrl = '/',
+    links = [],
+    socials = [],
+    tabs,
+    versions,
+    languages,
+    searchIndexUrl,
+}: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const search = useSearchShortcut(Boolean(searchIndexUrl));
 
     return (
         <header data-slot="docs-header" className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm">
@@ -96,6 +112,8 @@ export function DocsHeader({ collectionTitle, logo, logoDark, homeUrl = '/', lin
                 </a>
 
                 <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
+                    {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} shortcut={search.shortcutLabel} />}
+
                     <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
                         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                     </button>
@@ -123,13 +141,13 @@ export function DocsHeader({ collectionTitle, logo, logoDark, homeUrl = '/', lin
                     )}
                 </div>
 
-                <button
-                    onClick={() => setMobileOpen(true)}
-                    className="flex-1 text-right text-muted-foreground hover:text-foreground lg:hidden"
-                    aria-label="Open menu"
-                >
-                    <Menu className="ml-auto size-6 shrink-0" />
-                </button>
+                <div className="flex flex-1 items-center justify-end gap-4 lg:hidden">
+                    {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} variant="icon" />}
+
+                    <button onClick={() => setMobileOpen(true)} className="text-muted-foreground hover:text-foreground" aria-label="Open menu">
+                        <Menu className="size-6 shrink-0" />
+                    </button>
+                </div>
             </div>
 
             {(tabs || versions || languages) && (
@@ -242,6 +260,8 @@ export function DocsHeader({ collectionTitle, logo, logoDark, homeUrl = '/', lin
                     </>,
                     document.body,
                 )}
+
+            {searchIndexUrl && <SearchDialog open={search.open} onOpenChange={search.setOpen} indexUrl={searchIndexUrl} />}
         </header>
     );
 }

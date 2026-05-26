@@ -49,6 +49,7 @@ interface DocsPageProps extends PlumePageContext {
     next?: PrevNextLink | null;
     site?: { name: string; logo: string | null; logoDark: string | null };
     vault?: { prefix: string };
+    searchIndexUrl?: string | null;
 }
 
 export default function DocsLayout(page: DocsPageProps) {
@@ -60,7 +61,14 @@ export default function DocsLayout(page: DocsPageProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} tabs={page.tabs} versions={page.versions} languages={page.languages} />
+            <DocsHeader
+                {...page.header}
+                collectionTitle={page.site?.name}
+                tabs={page.tabs}
+                versions={page.versions}
+                languages={page.languages}
+                searchIndexUrl={page.searchIndexUrl}
+            />
             <div className="mx-auto flex max-w-368 gap-8 px-6 lg:px-8">
                 <SidebarNav navigation={page.navigation} />
                 <main className="min-w-0 flex-1">

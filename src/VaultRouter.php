@@ -7,6 +7,7 @@ namespace Meetplume\Plume;
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Http\Controllers\ContentAssetController;
 use Meetplume\Plume\Http\Controllers\DiagnosticsController;
+use Meetplume\Plume\Http\Controllers\SearchIndexController;
 use Meetplume\Plume\Http\Controllers\VaultPageController;
 
 final class VaultRouter
@@ -42,6 +43,7 @@ final class VaultRouter
         $this->registerAbsoluteRoutes($vault, $prefix);
         $this->registerDiagnosticsRoute($prefix);
         $this->registerContentAssetRoute($prefix);
+        $this->registerSearchIndexRoute($prefix);
 
         $rootSlug = array_find($allSlugs, fn (string $s): bool => $s === '/');
 
@@ -242,6 +244,13 @@ final class VaultRouter
             ->where('path', '.*')
             ->defaults('vaultPrefix', $prefix)
             ->name(sprintf('plume.%s._content', $prefix));
+    }
+
+    private function registerSearchIndexRoute(string $prefix): void
+    {
+        Route::get(sprintf('%s/_plume/search-index.json', $prefix), SearchIndexController::class)
+            ->defaults('vaultPrefix', $prefix)
+            ->name(sprintf('plume.%s._plume.search', $prefix));
     }
 
     private function anyVersionHasTabs(Vault $vault): bool

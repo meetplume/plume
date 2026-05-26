@@ -10,6 +10,7 @@ interface PageLayoutProps extends PlumePageContext {
     header?: DocsHeaderProps;
     footer?: DocsFooterProps;
     site?: { name: string; logo: string | null; logoDark: string | null };
+    searchIndexUrl?: string | null;
 }
 
 export default function PageLayout(page: PageLayoutProps) {
@@ -21,7 +22,7 @@ export default function PageLayout(page: PageLayoutProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} />
+            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
             {hasSections && page.sections!.map((section, index) => <Section key={index} {...section} />)}
             <article className="mx-auto prose max-w-full px-6 py-12 lg:max-w-3xl dark:prose-invert">
                 <MarkdownRenderer page={page} />

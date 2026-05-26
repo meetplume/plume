@@ -11,6 +11,7 @@ interface ApiPageProps extends PlumePageContext {
     header?: DocsHeaderProps;
     footer?: DocsFooterProps;
     site?: { name: string; logo: string | null; logoDark: string | null };
+    searchIndexUrl?: string | null;
 }
 
 export default function ApiLayout(page: ApiPageProps) {
@@ -20,7 +21,7 @@ export default function ApiLayout(page: ApiPageProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} />
+            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
             <div className="mx-auto flex max-w-368 gap-8 px-6 lg:px-8">
                 <SidebarNav navigation={page.navigation} />
                 <main className="min-w-0 flex-1">

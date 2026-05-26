@@ -78,6 +78,14 @@ class VaultPageController
         ];
 
         $prefix = trim((string) $vault->getPrefix(), '/');
+        $searchQuery = array_filter([
+            'lang' => $language,
+            'version' => $version,
+        ], fn (?string $value): bool => $value !== null && $value !== '');
+
+        $props['searchIndexUrl'] = '/'.$prefix.'/_plume/search-index.json'
+            .($searchQuery === [] ? '' : '?'.http_build_query($searchQuery));
+
         $pageDir = dirname($page->getPath());
         $assetBase = '/'.$prefix.'/_content';
 

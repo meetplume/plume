@@ -8,6 +8,7 @@ interface BlogPageProps extends PlumePageContext {
     header?: DocsHeaderProps;
     footer?: DocsFooterProps;
     site?: { name: string; logo: string | null; logoDark: string | null };
+    searchIndexUrl?: string | null;
 }
 
 export default function BlogLayout(page: BlogPageProps) {
@@ -17,7 +18,7 @@ export default function BlogLayout(page: BlogPageProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} />
+            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
             <article className="mx-auto prose max-w-full px-6 py-12 lg:max-w-3xl dark:prose-invert">
                 {page.title && <h1>{page.title}</h1>}
                 {page.meta?.date && <time className="text-sm text-muted-foreground">{String(page.meta.date)}</time>}
