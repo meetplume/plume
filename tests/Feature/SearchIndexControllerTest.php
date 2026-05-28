@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Meetplume\Plume\Plume;
+use Tests\Fixtures\ForbiddenTestVault;
 use Tests\Fixtures\SearchTestVault;
 
 beforeEach(function (): void {
@@ -80,4 +81,12 @@ it('returns 200 with fresh body when If-None-Match is stale', function (): void 
 
 it('returns 404 for unknown vault prefix', function (): void {
     $this->get('/unknown/_plume/search-index.json')->assertNotFound();
+});
+
+it('returns 403 when the vault denies access', function (): void {
+    app()->forgetInstance(Plume::class);
+    app(Plume::class)->configure()->vaults([ForbiddenTestVault::class]);
+    app(Plume::class)->getConfiguration()->boot();
+
+    $this->get('/forbidden/_plume/search-index.json')->assertForbidden();
 });
