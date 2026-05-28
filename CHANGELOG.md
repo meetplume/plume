@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-05-28
+
 ### Added
 
 - Client-side search powered by MiniSearch, with search button and dialog in `DocsHeader`, keyboard shortcut, and a `SearchIndexController` serving a cached per-vault index.
