@@ -9,11 +9,11 @@ use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Vault;
 
-class PlumeDeveloperDocsVault extends Vault
+class PlumeDocsContributingVault extends Vault
 {
-    protected string $prefix = '/plume-developer-docs';
+    protected string $prefix = '/plume-docs-contributing';
 
-    protected string $path = 'vendor/meetplume/plume/docs-developer';
+    protected string $path = 'vendor/meetplume/plume/docs-contributing';
 
     protected string $layout = 'docs';
 

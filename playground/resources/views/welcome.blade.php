@@ -12,7 +12,7 @@
             <h1 class="text-4xl font-bold text-gray-900 mb-8">Plume Playground</h1>
             @php
                 $links = [
-                    ['url' => '/plume-developer-docs', 'title' => 'Plume Developer Docs'],
+                    ['url' => '/plume-docs-contributing', 'title' => 'Plume Docs Contributing'],
                     ['url' => '/laravel-zero', 'title' => 'Laravel Zero'],
                     ['url' => '/minglejs', 'title' => 'MingleJS'],
                 ];
