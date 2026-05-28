@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Client-side search powered by MiniSearch, with search button and dialog in `DocsHeader`, keyboard shortcut, and a `SearchIndexController` serving a cached per-vault index.
+- Developer docs vault: reorganized `docs/` into `docs-developer/` with architecture, getting-started, authoring, and roadmap sections, plus `PlumeDeveloperDocsVault`.
+
 ## [0.7.1] - 2026-03-26
 
 - Add web middleware to Plume routes.
