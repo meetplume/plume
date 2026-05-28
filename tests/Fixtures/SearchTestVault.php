@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures;
 
+use Illuminate\Http\Request;
 use Meetplume\Plume\Enums\Discovery;
 use Meetplume\Plume\Vault;
 
@@ -22,7 +23,7 @@ class SearchTestVault extends Vault
         $this->path = dirname(__DIR__).'/Unit/fixtures/search';
     }
 
-    public function canAccess(\Illuminate\Http\Request $request): bool
+    public function canAccess(Request $request): bool
     {
         return true;
     }

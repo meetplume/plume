@@ -6,9 +6,9 @@ namespace Meetplume\Plume\Actions;
 
 use Meetplume\Plume\Vault;
 
-final class SearchIndexCache
+final readonly class SearchIndexCache
 {
-    private readonly string $storageDirectory;
+    private string $storageDirectory;
 
     public function __construct(?string $storageDirectory = null)
     {

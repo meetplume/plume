@@ -217,7 +217,7 @@ final readonly class SearchIndexBuilder
 
         preg_match_all('/^(#{1,3})\s+(.+?)\s*#*\s*$/m', $clean, $matches);
 
-        return array_values(array_map(fn (string $heading): string => trim($heading), $matches[2] ?? []));
+        return array_values(array_map(trim(...), $matches[2] ?? []));
     }
 
     private function stripFrontmatter(string $raw): string

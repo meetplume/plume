@@ -171,10 +171,10 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
     return (
         <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
             <DialogPrimitive.Portal>
-                <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+                <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
                 <DialogPrimitive.Content
                     aria-describedby={undefined}
-                    className="fixed top-[10vh] left-1/2 z-50 flex max-h-[80vh] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+                    className="fixed top-[10vh] left-1/2 z-50 flex max-h-[80vh] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
                 >
                     <DialogPrimitive.Title className="sr-only">Search documentation</DialogPrimitive.Title>
 
@@ -196,7 +196,9 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
 
                     <div ref={resultsRef} className="min-h-0 flex-1 overflow-y-auto">
                         {status === 'error' && (
-                            <div className="px-4 py-8 text-center text-sm text-muted-foreground">Could not load the search index. Try refreshing the page.</div>
+                            <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+                                Could not load the search index. Try refreshing the page.
+                            </div>
                         )}
 
                         {status !== 'error' && status !== 'ready' && isBrowsing && (
@@ -246,7 +248,10 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
                                                                       )
                                                                     : hit.body && (
                                                                           <div className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-                                                                              <HighlightedText text={buildSnippet(hit.body, tokens)} tokens={tokens} />
+                                                                              <HighlightedText
+                                                                                  text={buildSnippet(hit.body, tokens)}
+                                                                                  tokens={tokens}
+                                                                              />
                                                                           </div>
                                                                       )}
                                                             </div>

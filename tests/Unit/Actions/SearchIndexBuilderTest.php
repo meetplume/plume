@@ -18,7 +18,6 @@ function makeSearchVault(string $absolutePath): Vault
 
             foreach (['path' => $absolutePath, 'prefix' => '/docs', 'discovery' => Discovery::Auto] as $property => $value) {
                 $prop = $reflection->getProperty($property);
-                $prop->setAccessible(true);
                 $prop->setValue($this, $value);
             }
         }
@@ -28,7 +27,7 @@ function makeSearchVault(string $absolutePath): Vault
 it('builds records for every non-hidden page', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
 
     $slugs = array_column($records, 'slug');
 
@@ -39,7 +38,7 @@ it('builds records for every non-hidden page', function () use ($fixturePath): v
 it('uses frontmatter title when present', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
     expect($deploy['title'])->toBe('Deploy to Production');
@@ -48,7 +47,7 @@ it('uses frontmatter title when present', function () use ($fixturePath): void {
 it('falls back to first H1 when frontmatter title is missing', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $troubleshoot = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
 
     expect($troubleshoot['title'])->toBe('Troubleshooting');
@@ -57,7 +56,7 @@ it('falls back to first H1 when frontmatter title is missing', function () use (
 it('reads description from frontmatter', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
     expect($deploy['description'])->toBe('Steps to ship Plume to production');
@@ -66,7 +65,7 @@ it('reads description from frontmatter', function () use ($fixturePath): void {
 it('returns empty description when frontmatter has none', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $troubleshoot = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
 
     expect($troubleshoot['description'])->toBe('');
@@ -75,7 +74,7 @@ it('returns empty description when frontmatter has none', function () use ($fixt
 it('extracts H1 through H3 headings', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
     expect($deploy['headings'])->toBe([
@@ -89,7 +88,7 @@ it('extracts H1 through H3 headings', function () use ($fixturePath): void {
 it('does not extract headings from inside code fences', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
 
     expect($home['headings'])->toBe(['Welcome', 'Why Plume?', 'Features']);
@@ -98,7 +97,7 @@ it('does not extract headings from inside code fences', function () use ($fixtur
 it('strips markdown to plaintext for the body field', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
 
     expect($home['body'])
@@ -111,7 +110,7 @@ it('strips markdown to plaintext for the body field', function () use ($fixtureP
 it('removes images and preserves blockquote text', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $trouble = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
 
     expect($trouble['body'])
@@ -122,7 +121,7 @@ it('removes images and preserves blockquote text', function () use ($fixturePath
 it('builds href from prefix and slug', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
@@ -133,7 +132,7 @@ it('builds href from prefix and slug', function () use ($fixturePath): void {
 it('groups pages by their navigation group label', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
-    $records = (new SearchIndexBuilder($vault))->build();
+    $records = new SearchIndexBuilder($vault)->build();
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
     expect($deploy['group'])->toBe('Guides');

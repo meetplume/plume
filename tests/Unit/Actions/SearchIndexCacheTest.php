@@ -18,7 +18,6 @@ function makeCacheVault(string $absolutePath, string $prefix = '/docs'): Vault
 
             foreach (['path' => $absolutePath, 'prefix' => $prefix, 'discovery' => Discovery::Auto] as $property => $value) {
                 $prop = $reflection->getProperty($property);
-                $prop->setAccessible(true);
                 $prop->setValue($this, $value);
             }
         }
@@ -42,7 +41,7 @@ afterEach(function (): void {
 it('returns records and a signature', function () use ($fixturePath): void {
     $vault = makeCacheVault($fixturePath);
 
-    $result = (new SearchIndexCache($this->cacheDir))->get($vault);
+    $result = new SearchIndexCache($this->cacheDir)->get($vault);
 
     expect($result)->toHaveKeys(['signature', 'records'])
         ->and($result['signature'])->toHaveLength(32)
@@ -52,7 +51,7 @@ it('returns records and a signature', function () use ($fixturePath): void {
 it('writes a JSON file on first call', function () use ($fixturePath): void {
     $vault = makeCacheVault($fixturePath);
 
-    (new SearchIndexCache($this->cacheDir))->get($vault);
+    new SearchIndexCache($this->cacheDir)->get($vault);
 
     $files = glob($this->cacheDir.'/*.json') ?: [];
 

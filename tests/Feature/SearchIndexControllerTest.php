@@ -74,6 +74,7 @@ it('returns 200 with fresh body when If-None-Match is stale', function (): void 
         ->get('/docs/_plume/search-index.json');
 
     $response->assertOk();
+
     expect($response->json())->toBeArray();
 });
 
