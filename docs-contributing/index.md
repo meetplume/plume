@@ -23,3 +23,5 @@ sections:
 ---
 
 Some content
+
+<!-- docs sync test -->

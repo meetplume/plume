@@ -24,3 +24,5 @@ sections:
 
 Welcome to the Plume guide. This manual is for developers who want to **consume Plume in their own
 Laravel applications**. Start with installation and work through configuration and usage.
+
+<!-- docs sync test -->
