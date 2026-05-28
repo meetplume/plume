@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
+use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Meetplume\Plume\Inertia\PlumeInertia;
@@ -49,5 +50,19 @@ class PlumeServiceProvider extends ServiceProvider
         Blade::directive('plumeInertia', fn (): string => '<div id="app" data-page="<?php echo e(json_encode($page)); ?>"></div>');
 
         Blade::directive('plumeInertiaHead', fn (): string => '');
+
+        Blade::directive('plumeAssets', fn (): string => '<?php echo \\'.self::class.'::renderAssets(); ?>');
+    }
+
+    public static function renderAssets(): string
+    {
+        $vite = (new Vite)
+            ->useHotFile(public_path('plume-hot'))
+            ->useBuildDirectory('vendor/plume/dist');
+
+        $refresh = $vite->reactRefresh()?->toHtml() ?? '';
+        $tags = $vite(['resources/js/app.tsx'])->toHtml();
+
+        return $refresh.$tags;
     }
 }

@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => ({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.tsx'],
             refresh: true,
-            hotFile: 'playground/public/hot',
+            hotFile: 'playground/public/plume-hot',
         }),
         react({
             babel: {
