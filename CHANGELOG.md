@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Fix path return type.
+
 ## [0.10.0] - 2026-05-29
 
 ### Added
