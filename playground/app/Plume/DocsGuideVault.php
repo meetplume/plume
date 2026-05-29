@@ -29,7 +29,7 @@ class DocsGuideVault extends Vault
             return 'vendor/meetplume/plume/docs-guide';
         }
 
-        return `content/docs-guide`;
+        return 'content/docs-guide';
     }
 
     /**
