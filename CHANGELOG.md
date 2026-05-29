@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.2] - 2026-05-29
+
 ### Changed
 
 - Adjust scaffolding.
