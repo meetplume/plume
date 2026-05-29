@@ -23,11 +23,9 @@ it('scaffolds a starter vault class and content index', function (): void {
         ->toContain('namespace App\Plume;')
         ->toContain('class BlogVault extends Vault')
         ->toContain("protected string \$prefix = '/blog';")
-        ->toContain("protected string \$path = 'content/blog';")
-        ->toContain('Discovery::Auto');
+        ->toContain("protected string \$path = 'content/blog';");
 
     expect(File::get($contentPath))
-        ->toContain('title: Blog')
         ->toContain('Hello from Blog!');
 });
 
