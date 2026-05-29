@@ -25,7 +25,7 @@ class DocsGuideVault extends Vault
      */
     public function getPath(): string
     {
-        if(basename(base_path()) === 'playground') {
+        if (basename(base_path()) === 'playground') {
             return 'vendor/meetplume/plume/docs-guide';
         }
 
