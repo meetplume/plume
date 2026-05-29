@@ -56,8 +56,19 @@ class MakeVaultCommand extends Command
         ]);
 
         $this->newLine();
-        $this->components->info('Register it in your Plume configuration:');
-        $this->line(sprintf('    \App\Plume\%s::class', $class));
+        $this->components->info('Register it in your AppServiceProvider::boot() method:');
+        $this->line(sprintf(<<<EOT
+        // app/Providers/AppServiceProvider.php
+
+        use App\Plume\DocsGuideVault;
+        use Meetplume\Plume\Facades\Plume;
+
+        Plume::configure()
+            ->vaults([
+                DocsGuideVault::class,
+            ]);
+
+        EOT, $class));
 
         return self::SUCCESS;
     }

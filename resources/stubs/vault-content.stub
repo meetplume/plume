@@ -1,7 +1,3 @@
----
-title: {{ title }}
----
-
 # Hello from {{ title }}!
 
 This is your new **{{ title }}** vault, scaffolded by Plume.

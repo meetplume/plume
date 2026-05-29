@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Plume;
 
 use Illuminate\Http\Request;
-use Meetplume\Plume\Enums\Discovery;
 use Meetplume\Plume\Vault;
 
 class {{ class }} extends Vault
@@ -14,9 +13,7 @@ class {{ class }} extends Vault
 
     protected string $path = '{{ path }}';
 
-    protected string $layout = 'page';
-
-    protected Discovery $discovery = Discovery::Auto;
+    protected string $layout = 'docs';
 
     public function canAccess(Request $request): bool
     {
