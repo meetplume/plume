@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-05-29
+
 - Have same prefix in playground and website, for docs vault.
 
 ## [0.9.0] - 2026-05-29
