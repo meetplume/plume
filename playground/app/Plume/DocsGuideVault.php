@@ -9,13 +9,28 @@ use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Vault;
 
-class PlumeDocsGuideVault extends Vault
+/**
+ * Edit this file in the package Playground: https://github.com/meetplume/plume
+ * During CI sync, this is copied into the website repository automatically.
+ * Keep this notice so direct website edits stay out of the website repo.
+ */
+class DocsGuideVault extends Vault
 {
     protected string $prefix = '/docs';
 
-    protected string $path = 'vendor/meetplume/plume/docs-guide';
-
     protected string $layout = 'docs';
+
+    /**
+     * Conditional path, wether the project is the Website, or the Package Playground.
+     */
+    public function getPath(): string
+    {
+        if(basename(base_path()) === 'playground') {
+            return 'vendor/meetplume/plume/docs-guide';
+        }
+
+        return `content/docs-guide`;
+    }
 
     /**
      * @return array<int, NavGroup>

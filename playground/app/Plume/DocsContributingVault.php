@@ -9,7 +9,7 @@ use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Vault;
 
-class PlumeDocsContributingVault extends Vault
+class DocsContributingVault extends Vault
 {
     protected string $prefix = '/docs-contributing';
 

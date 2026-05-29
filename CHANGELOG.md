@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - `plume:vault {name}` Artisan command that scaffolds a starter vault for quick onboarding: generates an `App\Plume\{Name}Vault` class (with `Discovery::Auto`) and a `content/{name}/index.md` index page.
-- Docsguide update
+- Docs-guide update.
+- Docs sync GH workflow triggers website deployment.
+- Docs sync GH workflow also publishes the playground's `DocsGuideVault.php` to meetplume.com as the example vault class.
+
+### Changed
+
+- `Vault::getAbsolutePath()` now resolves the path through `getPath()` instead of reading the `$path` property directly, so subclasses can override path resolution.
 
 ## [0.9.2] - 2026-05-29
 

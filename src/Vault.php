@@ -79,7 +79,7 @@ class Vault
 
     public function getAbsolutePath(): string
     {
-        $path = $this->path;
+        $path = $this->getPath();
 
         if (! str_starts_with($path, '/')) {
             return base_path($path);
