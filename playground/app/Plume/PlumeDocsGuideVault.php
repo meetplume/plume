@@ -29,12 +29,6 @@ class PlumeDocsGuideVault extends Vault
                     Page::make('index')->label('Home')->home(),
                     Page::make('getting-started/installation')->label('Installation'),
                     Page::make('getting-started/configuration')->label('Configuration'),
-                ]),
-
-            NavGroup::make('usage')
-                ->icon('book')
-                ->pages([
-                    Page::make('usage/vaults')->label('Vaults'),
                     Page::make('usage/navigation')->label('Navigation'),
                 ]),
         ];

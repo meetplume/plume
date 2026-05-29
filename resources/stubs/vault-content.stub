@@ -1,0 +1,9 @@
+---
+title: {{ title }}
+---
+
+# Hello from {{ title }}!
+
+This is your new **{{ title }}** vault, scaffolded by Plume.
+
+Edit this file at `{{ path }}/index.md` to start adding your content.

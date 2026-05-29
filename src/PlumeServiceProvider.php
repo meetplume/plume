@@ -7,6 +7,7 @@ namespace Meetplume\Plume;
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Meetplume\Plume\Commands\MakeVaultCommand;
 use Meetplume\Plume\Inertia\PlumeInertia;
 
 class PlumeServiceProvider extends ServiceProvider
@@ -20,6 +21,8 @@ class PlumeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'plume');
+
+        $this->registerCommands();
 
         $this->publishes([
             __DIR__.'/../dist' => public_path('vendor/plume/dist'),
@@ -39,6 +42,17 @@ class PlumeServiceProvider extends ServiceProvider
                 $config->boot();
             }
         });
+    }
+
+    private function registerCommands(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->commands([
+            MakeVaultCommand::class,
+        ]);
     }
 
     private function registerBladeDirectives(): void

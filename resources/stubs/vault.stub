@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Plume;
+
+use Illuminate\Http\Request;
+use Meetplume\Plume\Enums\Discovery;
+use Meetplume\Plume\Vault;
+
+class {{ class }} extends Vault
+{
+    protected string $prefix = '{{ prefix }}';
+
+    protected string $path = '{{ path }}';
+
+    protected string $layout = 'page';
+
+    protected Discovery $discovery = Discovery::Auto;
+
+    public function canAccess(Request $request): bool
+    {
+        return true;
+    }
+}

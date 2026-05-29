@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `plume:vault {name}` Artisan command that scaffolds a starter vault for quick onboarding: generates an `App\Plume\{Name}Vault` class (with `Discovery::Auto`) and a `content/{name}/index.md` index page.
+- Docsguide update
+
 ## [0.9.2] - 2026-05-29
 
 - Register vault routes in console too, so they show in `route:list` and can be cached with `route:cache` (routes use controllers, not closures, so they are fully cacheable).
