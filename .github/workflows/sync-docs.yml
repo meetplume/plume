@@ -81,7 +81,6 @@ jobs:
           git push
 
       - name: Trigger meetplume.com deploy
-        if: steps.changes.outputs.folders != ''
         env:
           DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
         run: curl -fsS -X POST "$DEPLOY_WEBHOOK_URL"
