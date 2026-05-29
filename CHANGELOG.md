@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Register vault routes in console too, so they show in `route:list` and can be cached with `route:cache` (routes use controllers, not closures, so they are fully cacheable).
+- Update git attributes for export-ignore.
+
 ## [0.9.1] - 2026-05-29
 
 - Have same prefix in playground and website, for docs vault.
