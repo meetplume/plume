@@ -11,7 +11,7 @@ use Meetplume\Plume\Vault;
 
 class PlumeDocsContributingVault extends Vault
 {
-    protected string $prefix = '/plume-docs-contributing';
+    protected string $prefix = '/docs-contributing';
 
     protected string $path = 'vendor/meetplume/plume/docs-contributing';
 

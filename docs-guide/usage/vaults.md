@@ -3,12 +3,36 @@
 Register your vaults with the `Plume` facade so they are served by your application:
 
 ```php
-use App\Plume\HandbookVault;
+<?php
+
+namespace App\Providers;
+
+use App\Plume\DocsGuideVault;
+use Illuminate\Support\ServiceProvider;
 use Meetplume\Plume\Facades\Plume;
 
-Plume::vaults([
-    HandbookVault::class,
-]);
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Plume::configure()
+            ->vaults([
+                DocsGuideVault::class,
+            ]);
+    }
+}
+
 ```
 
 Each vault is independent: it has its own URL prefix, content folder, layout and navigation. Add as
