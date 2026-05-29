@@ -6,6 +6,8 @@
 /docs-contributing  export-ignore
 /docs-guide         export-ignore
 /playground         export-ignore
+/resources/css      export-ignore
+/resources/js       export-ignore
 /tests              export-ignore
 .editorconfig       export-ignore
 .gitattributes      export-ignore
