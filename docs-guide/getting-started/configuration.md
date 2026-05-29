@@ -23,4 +23,4 @@ class HandbookVault extends Vault
 - `layout` — the Blade layout used to render pages.
 
 Register the vault with the `Plume` facade, typically in a service provider's `boot()` method.
-See [Usage](/plume-docs-guide/usage/vaults) for the full picture.
+See [Usage](/docs/usage/vaults) for the full picture.
