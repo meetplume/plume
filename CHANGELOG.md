@@ -12,7 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Documentation reorganized into two vaults: a user-facing `docs-guide` with getting-started and usage sections, and `docs-contributing`, for package developers.
 - Bumped GitHub Actions to Node.js 24-based versions: `actions/checkout@v5`, `actions/setup-node@v5`, `actions/cache@v5`.
+- CI: added a `sync-docs` workflow that publishes documentation to meetplume.com
+- Removed the standalone `playground` workflow.
 
 ## [0.8.0] - 2026-05-28
 
