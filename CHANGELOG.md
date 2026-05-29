@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-05-29
+
 ### Fixed
 
 - Asset loading collision when the consuming Laravel app runs its own Vite dev server. Plume now uses a dedicated `public/plume-hot` file and an isolated `Illuminate\Foundation\Vite` instance via a new `@plumeAssets` Blade directive, so the consuming app's `public/hot` no longer triggers Plume's dev mode by mistake. The package falls back to the published `vendor/plume/dist` assets whenever Plume's own dev server is not running.
