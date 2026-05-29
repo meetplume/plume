@@ -19,47 +19,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect changed docs folders
-        id: changes
-        run: |
-          BEFORE="${{ github.event.before }}"
-          AFTER="${{ github.sha }}"
-
-          # On a brand-new branch, github.event.before is all zeros; fall back to the parent commit.
-          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            BEFORE="$(git rev-parse "$AFTER^" 2>/dev/null || true)"
-          fi
-
-          if [ -n "$BEFORE" ]; then
-            CHANGED="$(git diff --name-only "$BEFORE" "$AFTER")"
-          else
-            # No parent to compare against: treat both folders as changed.
-            CHANGED="$(git ls-files docs-guide docs-contributing)"
-          fi
-
-          FOLDERS=""
-          for d in docs-guide docs-contributing; do
-            if echo "$CHANGED" | grep -q "^$d/"; then
-              FOLDERS="$FOLDERS $d"
-            fi
-          done
-          FOLDERS="$(echo $FOLDERS | xargs)"
-
-          echo "Changed docs folders: $FOLDERS"
-          echo "folders=$FOLDERS" >> "$GITHUB_OUTPUT"
-
       - name: Checkout meetplume.com (target)
-        if: steps.changes.outputs.folders != ''
         uses: actions/checkout@v5
         with:
           repository: meetplume/meetplume.com
           ssh-key: ${{ secrets.DOCS_DEPLOY_KEY }}
           path: target
 
-      - name: Replace changed folders
-        if: steps.changes.outputs.folders != ''
+      - name: Replace docs folders
         run: |
-          for d in ${{ steps.changes.outputs.folders }}; do
+          for d in docs-guide docs-contributing; do
             dest="target/content/$d"
             echo "Replacing $dest with contents of $d"
             rm -rf "$dest"
@@ -68,7 +37,6 @@ jobs:
           done
 
       - name: Replace DocsGuideVault.php with playground version
-        if: steps.changes.outputs.folders != ''
         run: |
           src="playground/app/Plume/DocsGuideVault.php"
           dest="target/app/Plume/DocsGuideVault.php"
@@ -76,8 +44,9 @@ jobs:
           mkdir -p "$(dirname "$dest")"
           cp -a "$src" "$dest"
 
-      - name: Commit and push to meetplume.com
-        if: steps.changes.outputs.folders != ''
+      - name: Commit, push and deploy meetplume.com
+        env:
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
         run: |
           cd target
           git config user.name "github-actions[bot]"
@@ -89,8 +58,4 @@ jobs:
           fi
           git commit -m "Sync docs from plume@${GITHUB_SHA::7}"
           git push
-
-      - name: Trigger meetplume.com deploy
-        env:
-          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
-        run: curl -fsS -o /dev/null -X POST "$DEPLOY_WEBHOOK_URL"
+          curl -fsS -o /dev/null -X POST "$DEPLOY_WEBHOOK_URL"
