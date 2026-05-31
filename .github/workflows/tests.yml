@@ -1,6 +1,16 @@
 name: Tests
 
-on: ['push', 'pull_request']
+on:
+  push:
+  pull_request:
+  workflow_call:
+
+concurrency:
+  # Standalone push/PR runs share a per-ref group with the Release workflow so
+  # they never run in parallel. When called from Release (workflow_call), use a
+  # unique per-run group to avoid deadlocking against the caller's group.
+  group: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') && format('plume-ci-{0}', github.ref) || format('plume-ci-nested-{0}', github.run_id) }}
+  cancel-in-progress: false
 
 jobs:
   changelog:

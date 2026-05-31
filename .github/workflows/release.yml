@@ -15,8 +15,19 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  # Shared per-ref group with the Tests workflow: a push to a ref and a release
+  # of that same ref are serialized, never run in parallel. cancel-in-progress
+  # is false so an in-flight release is never aborted by a new push.
+  group: plume-ci-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  test:
+    uses: ./.github/workflows/tests.yml
+
   release:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
