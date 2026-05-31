@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.3] - 2026-05-31
+
 ### Changed
 
 - Adds tests on release, with a concurrency check
