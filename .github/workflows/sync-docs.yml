@@ -8,6 +8,7 @@ on:
       - 'docs-guide/**'
       - 'docs-contributing/**'
       - 'playground/app/Plume/DocsGuideVault.php'
+      - 'playground/app/Plume/DocsContributingVault.php'
 
 jobs:
   sync:
@@ -36,13 +37,15 @@ jobs:
             cp -a "$d" "$dest"
           done
 
-      - name: Replace DocsGuideVault.php with playground version
+      - name: Replace vault files with playground versions
         run: |
-          src="playground/app/Plume/DocsGuideVault.php"
-          dest="target/app/Plume/DocsGuideVault.php"
-          echo "Replacing $dest with $src"
-          mkdir -p "$(dirname "$dest")"
-          cp -a "$src" "$dest"
+          for f in DocsGuideVault DocsContributingVault; do
+            src="playground/app/Plume/$f.php"
+            dest="target/app/Plume/$f.php"
+            echo "Replacing $dest with $src"
+            mkdir -p "$(dirname "$dest")"
+            cp -a "$src" "$dest"
+          done
 
       - name: Commit, push and deploy meetplume.com
         env:
