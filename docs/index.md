@@ -22,7 +22,6 @@ sections:
                 icon: Terminal
 ---
 
-Welcome to the Plume guide. This manual is for developers who want to **consume Plume in their own
-Laravel applications**. Start with installation and work through configuration and usage.
-
-<!-- docs sync test -->
+Welcome to the Plume guide. This documentation is for developers who want to **consume Plume in their
+own Laravel applications**. Start with [Installation](/docs/getting-started/installation), then follow
+the [Quick Start](/docs/getting-started/quick-start) to render your first page.

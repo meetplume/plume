@@ -1,81 +1,25 @@
+---
+title: Installation
+description: Install Plume into your Laravel application via Composer.
+---
+
 # Installation
 
-Install Plume into your Laravel application via Composer:
+Plume is a Laravel package. Install it into any Laravel application with Composer:
 
 ```bash
 composer require meetplume/plume
 ```
 
+That's it — there is nothing to publish and no database to migrate. Plume serves
+Markdown files straight from your project.
 
-## Scaffold your first vault
+## Requirements
 
-With Plume installed, the fastest way to get started is the `plume:vault` command:
+- PHP 8.3+
+- Laravel 11+
 
-```bash
-php artisan plume:vault Docs
-```
+## Next steps
 
-This scaffolds two things for you:
-
-- `app/Plume/DocsVault.php` — a vault class served under the `/docs` prefix, with
-  filesystem auto-discovery enabled.
-- `content/docs/index.md` — a starter index page, so the vault renders something right away.
-
-The command accepts multi-word names too — `php artisan plume:vault BlogPosts` creates a
-`BlogPostsVault` served under `/blog-posts` from `content/blog-posts`.
-
-The last step is to register the vaultso Plume knows to serve it.
-
-## Vault registration
-
-Register your vaults with the `Plume` facade so they are served by your application:
-
-You just have to add the following to you `AppServiceProvider` file:
-
-```php
-use App\Plume\DocsVault;
-use Meetplume\Plume\Facades\Plume;
-
-Plume::configure()
-    ->vaults([
-        DocsVault::class,
-    ]);
-```
-
-In the end, it may look something like this:
-
-```php
-<?php
-
-namespace App\Providers;
-
-use App\Plume\DocsVault;
-use Illuminate\Support\ServiceProvider;
-use Meetplume\Plume\Facades\Plume;
-
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        Plume::configure()
-            ->vaults([
-                DocsVault::class,
-            ]);
-    }
-}
-
-```
-
-Each vault is independent: it has its own URL prefix, content folder, layout and navigation. Add as
-many vaults as you need — one for a marketing page, another for product docs, another for a wiki.
+Head to the [Quick Start](/docs/getting-started/quick-start) to scaffold your first
+vault and see content on screen in under a minute.
