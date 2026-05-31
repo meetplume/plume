@@ -1,0 +1,1 @@
+import{d as t}from"./utils-707vJt7y.js";import"./react-Ba5Cz7M3.js";import"./app-Cw7_BFIa.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"M12 3v18",key:"108xh3"}]],p=t("columns-2",o);export{o as __iconNode,p as default};

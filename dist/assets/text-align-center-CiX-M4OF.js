@@ -1,0 +1,1 @@
+import{d as t}from"./utils-707vJt7y.js";import"./react-Ba5Cz7M3.js";import"./app-Cw7_BFIa.js";/* empty css            */import"./markdown-BESpOmNu.js";const e=[["path",{d:"M21 5H3",key:"1fi0y6"}],["path",{d:"M17 12H7",key:"16if0g"}],["path",{d:"M19 19H5",key:"vjpgq2"}]],n=t("text-align-center",e);export{e as __iconNode,n as default};
