@@ -33,12 +33,12 @@ Register your vaults with the `Plume` facade so they are served by your applicat
 You just have to add the following to you `AppServiceProvider` file:
 
 ```php
-use App\Plume\DocsGuideVault;
+use App\Plume\DocsVault;
 use Meetplume\Plume\Facades\Plume;
 
 Plume::configure()
     ->vaults([
-        DocsGuideVault::class,
+        DocsVault::class,
     ]);
 ```
 
@@ -49,7 +49,7 @@ In the end, it may look something like this:
 
 namespace App\Providers;
 
-use App\Plume\DocsGuideVault;
+use App\Plume\DocsVault;
 use Illuminate\Support\ServiceProvider;
 use Meetplume\Plume\Facades\Plume;
 
@@ -70,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Plume::configure()
             ->vaults([
-                DocsGuideVault::class,
+                DocsVault::class,
             ]);
     }
 }

@@ -5,9 +5,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs-guide/**'
+      - 'docs/**'
       - 'docs-contributing/**'
-      - 'playground/app/Plume/DocsGuideVault.php'
+      - 'playground/app/Plume/DocsVault.php'
       - 'playground/app/Plume/DocsContributingVault.php'
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
 
       - name: Replace docs folders
         run: |
-          for d in docs-guide docs-contributing; do
+          for d in docs docs-contributing; do
             dest="target/content/$d"
             echo "Replacing $dest with contents of $d"
             rm -rf "$dest"
@@ -39,7 +39,7 @@ jobs:
 
       - name: Replace vault files with playground versions
         run: |
-          for f in DocsGuideVault DocsContributingVault; do
+          for f in DocsVault DocsContributingVault; do
             src="playground/app/Plume/$f.php"
             dest="target/app/Plume/$f.php"
             echo "Replacing $dest with $src"

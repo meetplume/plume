@@ -14,7 +14,7 @@ use Meetplume\Plume\Vault;
  * During CI sync, this is copied into the website repository automatically.
  * Keep this notice so direct website edits stay out of the website repo.
  */
-class DocsGuideVault extends Vault
+class DocsVault extends Vault
 {
     protected string $prefix = '/docs';
 
@@ -26,10 +26,10 @@ class DocsGuideVault extends Vault
     public function getPath(): string
     {
         if (basename(base_path()) === 'playground') {
-            return 'vendor/meetplume/plume/docs-guide';
+            return 'vendor/meetplume/plume/docs';
         }
 
-        return 'content/docs-guide';
+        return 'content/docs';
     }
 
     /**

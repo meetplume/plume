@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Plume\DocsContributingVault;
-use App\Plume\DocsGuideVault;
+use App\Plume\DocsVault;
 use App\Plume\LaravelZeroDocsVault;
 use App\Plume\MingleJsDocsVault;
 use Illuminate\Support\ServiceProvider;
@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 LaravelZeroDocsVault::class,
                 MingleJsDocsVault::class,
                 DocsContributingVault::class,
-                DocsGuideVault::class,
+                DocsVault::class,
             ]);
     }
 }

@@ -60,12 +60,12 @@ class MakeVaultCommand extends Command
         $this->line(sprintf(<<<EOT
         // app/Providers/AppServiceProvider.php
 
-        use App\Plume\DocsGuideVault;
+        use App\Plume\DocsVault;
         use Meetplume\Plume\Facades\Plume;
 
         Plume::configure()
             ->vaults([
-                DocsGuideVault::class,
+                DocsVault::class,
             ]);
 
         EOT, $class));
