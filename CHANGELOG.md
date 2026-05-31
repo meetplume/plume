@@ -1,10 +1,16 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
+
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+### Changed
+
+- Adds tests on release, with a concurrency check
 
 ## [0.10.2] - 2026-05-29
 
@@ -66,7 +72,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.7.0] - 2026-03-17
 
-- In PlumeServiceProvider, only run configuration if running in console. 
+- In PlumeServiceProvider, only run configuration if running in console.
 
 ## [0.6.0] - 2026-03-17
 
@@ -155,3 +161,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial release of Plume package with playground application for testing.
 - 2 sample pages in the playground demonstrating basic content rendering.
+
