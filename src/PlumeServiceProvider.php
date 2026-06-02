@@ -8,6 +8,7 @@ use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Meetplume\Plume\Commands\MakeVaultCommand;
+use Meetplume\Plume\Commands\UpdateAssetsCommand;
 use Meetplume\Plume\Inertia\PlumeInertia;
 
 class PlumeServiceProvider extends ServiceProvider
@@ -52,6 +53,7 @@ class PlumeServiceProvider extends ServiceProvider
 
         $this->commands([
             MakeVaultCommand::class,
+            UpdateAssetsCommand::class,
         ]);
     }
 

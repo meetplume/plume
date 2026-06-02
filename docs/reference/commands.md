@@ -52,3 +52,16 @@ See the [Quick Start](/docs/getting-started/quick-start) for the full flow.
 ::: note
 If the vault class already exists, the command stops without overwriting it.
 :::
+
+## `plume:update-assets`
+
+Refreshes Plume's published front-end assets in your app's `public` directory.
+
+```bash
+php artisan plume:update-assets
+```
+
+It deletes `public/vendor/plume` and republishes the assets that ship with the
+installed package version, ensuring stale hashed files are removed. Run it after
+updating the package — see [Installation](/docs/getting-started/installation#updating-plume)
+for how to wire it into a deploy script.

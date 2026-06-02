@@ -19,6 +19,32 @@ Markdown files straight from your project.
 - PHP 8.3+
 - Laravel 11+
 
+## Updating Plume
+
+Plume ships its compiled front-end assets (the docs UI, search palette, etc.) with
+the package. Whenever you update the package, refresh the copy published into your
+app's `public` directory so browsers receive the new build:
+
+```bash
+composer update meetplume/plume
+php artisan plume:update-assets
+```
+
+`plume:update-assets` removes the previously published assets and republishes the
+current ones, so stale hashed files don't linger. Add it to your deploy script,
+**after** `composer install`, so production always serves the assets that match the
+installed version:
+
+```bash
+composer install --no-interaction --prefer-dist --optimize-autoloader
+php artisan plume:update-assets
+```
+
+::: note
+Skipping this step is a common cause of "production looks outdated" issues — for
+example the search palette serving a smaller, older index than your local copy.
+:::
+
 ## Next steps
 
 Head to the [Quick Start](/docs/getting-started/quick-start) to scaffold your first
