@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Search palette (Cmd-K) could keep serving a stale, smaller index after new docs were added. The client cached the index in `sessionStorage` and never revalidated; it now revalidates against the server with `If-None-Match` (using the stored ETag) and replaces the cached index on a `200`, while still serving the cache instantly and keeping it on a `304` or network error.
+
 ## [0.10.3] - 2026-05-31
 
 ### Changed
