@@ -1,0 +1,1 @@
+import{d as o}from"./utils-ju9k0crx.js";import"./react-Ba5Cz7M3.js";import"./app-BCbLV8Ju.js";/* empty css            */import"./markdown-BESpOmNu.js";const r=[["path",{d:"M12 5v14",key:"s699le"}],["path",{d:"m19 12-7 7-7-7",key:"1idqje"}]],a=o("arrow-down",r);export{r as __iconNode,a as default};
