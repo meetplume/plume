@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.5] - 2026-06-02
+
 ### Added
 
 - `plume:update-assets` Artisan command that removes the previously published assets at `public/vendor/plume` and republishes the current ones, so stale hashed files don't linger after a package update. Run it after `composer install`/`composer update` in your deploy script. See the Installation docs.
