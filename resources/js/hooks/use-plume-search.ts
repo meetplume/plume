@@ -95,29 +95,43 @@ export function usePlumeSearch({ url, enabled = true }: UsePlumeSearchOptions): 
 
         const cached = readSessionCache(url);
 
+        // Serve the cached index immediately so search is usable without a round-trip…
         if (cached) {
             recordsRef.current = cached.records;
             setStatus('ready');
-            return undefined;
         }
 
+        // …then always revalidate against the server. With a cached ETag we send a
+        // conditional request: a 304 keeps the cache, a 200 replaces a stale index
+        // (e.g. docs added since the entry was first cached this session).
         const cancelIdle = scheduleIdle(() => {
             const controller = new AbortController();
             abortRef.current = controller;
-            setStatus('loading');
 
-            fetch(url, { signal: controller.signal, credentials: 'same-origin' })
+            if (!cached) setStatus('loading');
+
+            const headers: HeadersInit = {};
+            if (cached?.etag) headers['If-None-Match'] = cached.etag;
+
+            fetch(url, { signal: controller.signal, credentials: 'same-origin', headers })
                 .then(async (response) => {
+                    if (response.status === 304) {
+                        // Cache is still fresh; nothing to update.
+                        return;
+                    }
                     if (!response.ok) throw new Error(`Search index responded with ${response.status}`);
+
                     const etag = response.headers.get('ETag');
                     const records = (await response.json()) as SearchRecord[];
                     writeSessionCache(url, { etag, records });
                     recordsRef.current = records;
+                    indexRef.current = null; // force a rebuild from the fresh records on next search
                     setStatus('ready');
                 })
                 .catch((error: unknown) => {
                     if (error instanceof DOMException && error.name === 'AbortError') return;
-                    setStatus('error');
+                    // Keep serving the cached index if we have one; only surface errors on a cold load.
+                    if (!recordsRef.current) setStatus('error');
                 });
         });
 
