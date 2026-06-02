@@ -11,7 +11,7 @@ class UpdateAssetsCommand extends Command
 {
     protected $signature = 'plume:update-assets';
 
-    protected $description = 'Refresh Plume\'s published assets, removing stale ones before republishing';
+    protected $description = "Refresh Plume's published assets, removing stale ones before republishing";
 
     public function __construct(private readonly Filesystem $files)
     {
