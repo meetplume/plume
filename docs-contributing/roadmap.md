@@ -5,17 +5,20 @@ description: "What's already implemented in Plume vs. what ADR-001 still propose
 
 # Roadmap
 
-Reference ADR: [`adr/001-markdown-pages-blocks-system`](/dev-docs/adr/001-markdown-pages-blocks-system) — status **In discussion**.
+Reference ADR: [`adr/001-markdown-pages-blocks-system`](/docs-contributing/adr/001-markdown-pages-blocks-system) — status **In discussion**.
 
 ## Already implemented
 
 - Vaults with the full hierarchy `languages → versions → tabs → navigation → pages` (every layer optional).
-- Router building the 5 URL variants (FULL → FLAT) plus root, absolute, diagnostics and content-asset routes.
+- Router building the URL variants (FULL → FLAT) plus root, absolute, diagnostics, search-index and content-asset routes — registered in console too, so they show in `route:list` and survive `route:cache`.
 - Discovery modes `Manual | Mapped | Auto` with `FilesystemScanner` (recursive, frontmatter-aware, ordered).
 - Per-vault `config.yml` for theme and customizer (local only).
 - React layouts: `docs`, `page`, `blog`, `api`, `wiki`, `changelog`.
-- Built-in blocks via the `sections` frontmatter array (`hero1/2`, `features`, `cta`, `header1`, `footer1/2`).
+- Built-in blocks via the `sections` frontmatter array (`hero1/2`, `features`, `call-to-action`, `header1`, `footer1/2`).
 - Own Inertia implementation (`PlumeInertia`) — no external dependency.
+- Isolated Vite assets via `@plumeAssets` + dedicated `plume-hot` file (no collision with the consuming app's Vite).
+- Client-side search (MiniSearch) with a cached per-vault index served from `{prefix}/_plume/search-index.json`.
+- `php artisan plume:vault {name}` scaffolding command.
 - Prev/Next and breadcrumbs derived from navigation.
 
 ## Described in the ADR but not yet implemented
@@ -48,14 +51,18 @@ Reference ADR: [`adr/001-markdown-pages-blocks-system`](/dev-docs/adr/001-markdo
 - Conditional content (`if: hasApiKey`).
 - Shared block wrappers (background, container width, anchor ID).
 - Data cascade global→vault→folder/index.yml→page.
-- Auto sitemap, RSS/Atom for blogs, robots.txt, search provider, custom 404.
+- Auto sitemap, RSS/Atom for blogs, robots.txt, custom 404.
 - Draft status via frontmatter.
 - Configurable language file strategy (subfolder vs `.pt.md` suffix).
 
 ## Release history snapshot
 
-- **0.7.0** (2026-03-17) — `runningInConsole` early-return in the ServiceProvider.
-- **0.6.0** (2026-03-17) — Own Inertia, `Page::home/route/layout`, `Vault::getHome`, Testbench-based tests.
+- **0.10.0** (2026-05-29) — `plume:vault` scaffolding command; docs-sync workflow publishes docs (and the example vault) to meetplume.com; `getAbsolutePath()` resolves through `getPath()`.
+- **0.9.0** (2026-05-29) — isolated assets (`@plumeAssets`, `plume-hot`); docs split into `docs` (user guide) and `docs-contributing` (this site); `sync-docs` CI workflow; routes registered in console (0.9.2).
+- **0.8.0** (2026-05-28) — client-side search (MiniSearch) with `SearchIndexController`.
+- **0.7.1** (2026-03-26) — `web` middleware on Plume routes.
+- **0.6.0** (2026-03-17) — own Inertia, `Page::home/route/layout`, `Vault::getHome`, Testbench-based tests.
 - **0.5.0** (2026-03-16) — Vault system replacing Collections, parametric VaultRouter, tabs/versions/languages, Discovery enum + FilesystemScanner, multiple layouts, diagnostics.
 
 See `CHANGELOG.md` at the repo root for the full history.
+</content>

@@ -1,9 +1,11 @@
 ---
 title: Development workflow
-description: "Setting up, running the dev server, and the test suite."
+description: "Setting up, running the dev server, scaffolding a vault, and the test suite."
 ---
 
 # Development workflow
+
+TL;DR: `composer setup && composer dev` (assumes Herd serving <https://playground.test>).
 
 ## First-time setup
 
@@ -28,7 +30,7 @@ It assumes you serve the playground via Herd at <https://playground.test>. If yo
 composer dev
 ```
 
-That opens <https://playground.test> and starts Vite (`npm run dev`) **from the package root** — the Vite config writes `playground/public/hot` so the playground's Blade picks up the dev server automatically.
+That opens <https://playground.test> and starts Vite (`npm run dev`) **from the package root**. Vite writes a hot file at `playground/public/plume-hot`; the playground's Blade root (`@plumeAssets`) looks for it to switch into HMR mode.
 
 You can also run Vite directly:
 
@@ -37,6 +39,33 @@ npm run dev
 ```
 
 The Solo process `npm:dev` is registered in `solo.yml` (with `auto_start: false`).
+
+::: note
+Plume uses its **own** hot file (`plume-hot`) and an isolated Vite instance, so running the playground's or a consuming app's own Vite dev server never collides with Plume's assets. See [Frontend Pipeline](/docs-contributing/architecture/frontend).
+:::
+
+## Scaffolding a vault
+
+Plume ships an Artisan command to bootstrap a new vault quickly:
+
+```bash
+php artisan plume:vault Blog
+```
+
+That generates:
+
+- `app/Plume/BlogVault.php` — a starter `Vault` subclass (`prefix` `/blog`, `path` `content/blog`, `docs` layout, `canAccess()` returning `true`).
+- `content/blog/index.md` — a starter index page (only if it doesn't already exist).
+
+The generated vault uses **`Discovery::Manual`** by default and has no `navigation()` yet, so add pages — or switch it to `Discovery::Auto` to derive the sidebar from the filesystem. Finally, register it in `AppServiceProvider::boot()`:
+
+```php
+Plume::configure()->vaults([
+    BlogVault::class,
+]);
+```
+
+The command prints these reminders when it finishes.
 
 ## Test suite
 
@@ -84,3 +113,4 @@ PHP rules of note (Laravel Boost guidelines apply):
 ::: tip
 Every change should be covered by a test — either a new one or an update to an existing one. Type coverage is enforced at 100%.
 :::
+</content>

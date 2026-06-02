@@ -53,6 +53,7 @@ class DocsContributingVault extends Vault
                 ->pages([
                     Page::make('architecture/php-backend')->label('PHP Backend'),
                     Page::make('architecture/frontend')->label('Frontend Pipeline'),
+                    Page::make('architecture/search')->label('Search'),
                 ]),
 
             NavGroup::make('authoring')

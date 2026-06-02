@@ -1,42 +1,38 @@
-# Plume
-
-A Markdown tool for content - pages, docs, wikis and more.
-
-## Introduction
-
-This Internal documentation is for planning and development.
-
-Plume is a package that allows to conveniently display content in various scopes, like a page in a route or a documentation folder.
-
-### Testing the package in a real context, with UI, etc
-
-Because this is a Laravel package, we need a Laravel application to test it in a real context, with UI, etc.
-At root level, it's the code for the package itself, distributed with Packagist.
-In the `playground` directory, there's a complete Laravel application that uses the package like we would on a real Laravel project. It's a `laravel new` without any starter kit - the most plain and simple, only Blade.
-It's located in the `playground` directory. Differences from a real project:
-- Includes the package via symlink (`composer.repositories`).
-- It does not ignore the `.env` file.
-  It's optimized to run tests and experiment with the package in a real context, with UI, etc.
-  The Vite development server is run from this package root, but serves the playground app.
-
-### Development workflow
-
-TLDR: `composer setup ; composer dev` (Supposes Herd serving https://playground.test)
-
+---
+title: Introduction
+description: "What Plume is, how the repository is split between package and playground, and the core idea."
 ---
 
-- Run Vite server: `npm run dev` from this package root.
-- Open the playground app in Herd or `php artisan serve`, from the `playground` directory.
-- Make changes to the package code, and see them reflected in the playground app.
+# Introduction
 
-### Testing
+Plume is a Laravel package that conveniently displays Markdown content in various scopes — a page on a route, a documentation folder, a wiki, a blog, and more. It is distributed on Packagist as `meetplume/plume` (`Meetplume\Plume\` namespace).
 
-Run the entire test suite:
-```bash
-composer test
-```
+## The core idea
 
-### Contributing
+Content lives in Markdown files. Organization lives in PHP. Each **Vault** is a class that owns a URL prefix, a content path, a layout, and (optionally) navigation, tabs, versions and languages. Override a method and you unlock that layer — the `VaultRouter` adapts the URL shape for you. This is the same mental model as Filament resources: declarative classes, fluent builders, sensible defaults.
 
-Always update [CHANGELOG.md](../CHANGELOG.md) file to keep track of changes.
+See [PHP Backend](/docs-contributing/architecture/php-backend) for the full anatomy of a Vault.
 
+## How the repository is split
+
+This repo is **two things at once**:
+
+- **At root level** — the package itself (`src/`, `resources/`, `routes/`, `tests/`), the code shipped to Packagist.
+- **In `playground/`** — a complete, plain Laravel 12 app (no starter kit, only Blade) that consumes the package the way a real project would, so we can develop and test against real UI.
+
+The playground differs from a real consumer in two deliberate ways:
+
+- It includes the package via a **symlink** (configured in `composer.repositories`), so any change to `src/` is visible immediately.
+- It **does not gitignore `.env`** — the environment is committed so the setup is reproducible.
+
+The Vite dev server runs from the **package root** but serves the playground app. See [Playground](/docs-contributing/getting-started/playground) for the wiring.
+
+## Next steps
+
+- [Development workflow](/docs-contributing/getting-started/development-workflow) — set up, run the dev server, run the tests, scaffold a vault.
+- [Playground](/docs-contributing/getting-started/playground) — the vaults registered and how to iterate.
+
+::: tip
+Always update [`CHANGELOG.md`](https://github.com/meetplume/plume/blob/main/CHANGELOG.md) when you change behavior — the release and docs-sync workflows depend on it.
+:::
+</content>
