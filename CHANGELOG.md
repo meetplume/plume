@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - With languages, Auto and Mapped discovery served no page at all: slugs were collected from the vault root (`en/guide`) instead of each language folder. Each language home (`/docs/pt`) is now routed too.
 - In a vault with languages, relative images of a page pointed outside its language folder (`/docs/_content/guides/shot.png` for `pt/guides/deploy.md`) and answered 404.
 - `Language::slugs()` was documented but never applied: translated slugs now drive the routes, the sidebar, the search results and the language menu.
+- Below the `lg` breakpoint the sidebar was hidden and the mobile menu did not list the navigation: no other page could be reached on a phone. The mobile menu now lists the sidebar's groups and pages, and closes on navigation.
 
 ## [0.10.5] - 2026-06-02
 

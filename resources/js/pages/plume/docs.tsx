@@ -76,6 +76,7 @@ export default function DocsLayout(page: DocsPageProps) {
                 versions={page.versions}
                 languages={page.languages}
                 searchIndexUrl={page.searchIndexUrl}
+                navigation={page.navigation}
             />
             <div className="mx-auto flex max-w-368 gap-8 px-6 lg:px-8">
                 <SidebarNav navigation={page.navigation} />
