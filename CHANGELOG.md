@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Pages had no doctype and rendered in quirks mode.
 - The tab title ended with "Laravel" (`VITE_APP_NAME` at Plume's build) instead of the site name set by `Plume::configure()->name()`.
 - Search snippets (Cmd-K) no longer show raw callout syntax such as `:::tip[Title]`, `::: warning Title`, `:::` or `> [!TIP]`: the markers are dropped, the callout title and text stay searchable. Code fences written with tildes or nested in a longer fence are now left out of the index like other code blocks.
+- Search snippets (Cmd-K) no longer show raw table syntax (`| | |`, `|---|:---:|`): the delimiter row and the pipes are dropped, the cells keep their text. Inline code now keeps its text in the index instead of leaving a gap, so a search for `npm run build` finds the page that mentions it.
 
 ### Security
 
