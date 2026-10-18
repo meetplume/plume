@@ -22,6 +22,7 @@ class PlumeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'plume');
+        $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
 
         $this->registerCommands();
 

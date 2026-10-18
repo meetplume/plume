@@ -5,6 +5,7 @@ import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/mark
 import { type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
 import { TableOfContents } from '@/components/plume/table-of-contents';
 import { Head } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 interface TabItem {
     key: string;
@@ -50,10 +51,17 @@ interface DocsPageProps extends PlumePageContext {
     site?: { name: string; logo: string | null; logoDark: string | null };
     vault?: { prefix: string };
     searchIndexUrl?: string | null;
+    locale?: string;
 }
 
 export default function DocsLayout(page: DocsPageProps) {
     const hasSections = page.sections && page.sections.length > 0;
+
+    useEffect(() => {
+        if (page.locale) {
+            document.documentElement.lang = page.locale.replace('_', '-');
+        }
+    }, [page.locale]);
 
     return (
         <>

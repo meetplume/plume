@@ -1,3 +1,4 @@
+import { useTexts } from '@/lib/texts';
 import { TextAlignStart } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -12,6 +13,7 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ contentSelector = 'article' }: TableOfContentsProps) {
+    const t = useTexts();
     const [headings, setHeadings] = useState<TocEntry[]>([]);
     const [activeIds, setActiveIds] = useState<Set<string>>(new Set());
     const [indicator, setIndicator] = useState<{ top: number; height: number } | null>(null);
@@ -135,11 +137,11 @@ export function TableOfContents({ contentSelector = 'article' }: TableOfContents
     const minLevel = Math.min(...headings.map((h) => h.level));
 
     return (
-        <nav aria-label="Table of contents">
+        <nav aria-label={t('Table of contents')}>
             <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
             <div className="flex items-center gap-2 pt-1.5 pr-4 pb-2">
                 <TextAlignStart className="size-4 shrink-0 text-muted-foreground" />
-                <p className="font-semibold tracking-wide text-foreground">On this page</p>
+                <p className="font-semibold tracking-wide text-foreground">{t('On this page')}</p>
             </div>
             <ul ref={listRef} className="relative border-l border-border">
                 {/* Animated active indicator */}

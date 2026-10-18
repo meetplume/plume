@@ -97,3 +97,20 @@ The vault then serves that language at the bare prefix (`/docs/installation`): t
 no language switcher and no language segment in routes or links. A page not translated
 yet is served from the default language, and listed in the sidebar and search in its
 place. A code the vault does not offer serves the default language.
+
+## Interface texts
+
+Plume's own words — search, *On this page*, menus, the copy button of code blocks —
+follow the language of the page (or the app locale when the vault has no languages).
+Plume ships French, Portuguese and Spanish; any other locale falls back to English.
+
+They are Laravel JSON translations keyed by the English text. To change one, or to
+add a language, put the key in your app's `lang/{locale}.json`:
+
+```json
+{
+    "On this page": "In this guide"
+}
+```
+
+The page's `<html lang>` follows the same locale.

@@ -1,4 +1,5 @@
 import { usePlumeSearch } from '@/hooks/use-plume-search';
+import { useTexts } from '@/lib/texts';
 import { cn } from '@/lib/utils';
 import type { SearchHit } from '@/types/search';
 import { router } from '@inertiajs/react';
@@ -86,11 +87,11 @@ function buildSnippet(body: string, tokens: string[], maxLength = 220): string {
     return prefix + body.slice(start, end).trim() + suffix;
 }
 
-function groupHits(hits: SearchHit[]): Array<{ label: string; hits: SearchHit[] }> {
+function groupHits(hits: SearchHit[], otherLabel: string): Array<{ label: string; hits: SearchHit[] }> {
     const groups = new Map<string, SearchHit[]>();
 
     for (const hit of hits) {
-        const label = hit.group ?? 'Other';
+        const label = hit.group ?? otherLabel;
         const existing = groups.get(label);
         if (existing) {
             existing.push(hit);
@@ -104,6 +105,7 @@ function groupHits(hits: SearchHit[]): Array<{ label: string; hits: SearchHit[] 
 
 export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps) {
     const { status, search, listAll } = usePlumeSearch({ url: indexUrl, enabled: true });
+    const t = useTexts();
     const [query, setQuery] = useState('');
     const [activeIndex, setActiveIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -117,7 +119,7 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
         return search(trimmedQuery, RESULT_LIMIT);
     }, [open, trimmedQuery, search, listAll]);
     const tokens = useMemo(() => tokensFromQuery(query), [query]);
-    const grouped = useMemo(() => groupHits(rawHits), [rawHits]);
+    const grouped = useMemo(() => groupHits(rawHits, t('Other')), [rawHits, t]);
     const hits = useMemo(() => grouped.flatMap((group) => group.hits), [grouped]);
 
     useEffect(() => {
@@ -176,7 +178,7 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
                     aria-describedby={undefined}
                     className="fixed top-[10vh] left-1/2 z-50 flex max-h-[80vh] w-full max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
                 >
-                    <DialogPrimitive.Title className="sr-only">Search documentation</DialogPrimitive.Title>
+                    <DialogPrimitive.Title className="sr-only">{t('Search documentation')}</DialogPrimitive.Title>
 
                     <div className="flex items-center gap-3 border-b border-border px-4 py-3">
                         <Search className="size-4 shrink-0 text-muted-foreground" />
@@ -185,7 +187,7 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
                             onKeyDown={onKeyDown}
-                            placeholder="Search documentation…"
+                            placeholder={t('Search documentation…')}
                             className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                             autoComplete="off"
                             spellCheck={false}
@@ -197,17 +199,17 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
                     <div ref={resultsRef} className="min-h-0 flex-1 overflow-y-auto">
                         {status === 'error' && (
                             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-                                Could not load the search index. Try refreshing the page.
+                                {t('Could not load the search index. Try refreshing the page.')}
                             </div>
                         )}
 
                         {status !== 'error' && status !== 'ready' && isBrowsing && (
-                            <div className="px-4 py-8 text-center text-sm text-muted-foreground">Preparing the search index…</div>
+                            <div className="px-4 py-8 text-center text-sm text-muted-foreground">{t('Preparing the search index…')}</div>
                         )}
 
                         {status !== 'error' && !isBrowsing && hits.length === 0 && (
                             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-                                No results for <span className="font-medium text-foreground">{query}</span>
+                                {t('No results for')} <span className="font-medium text-foreground">{query}</span>
                             </div>
                         )}
 
@@ -276,15 +278,15 @@ export function SearchDialog({ open, onOpenChange, indexUrl }: SearchDialogProps
                         <span className="flex items-center gap-1">
                             <kbd className="rounded border border-border bg-background px-1 py-0.5">↑</kbd>
                             <kbd className="rounded border border-border bg-background px-1 py-0.5">↓</kbd>
-                            to navigate
+                            {t('to navigate')}
                         </span>
                         <span className="flex items-center gap-1">
                             <kbd className="rounded border border-border bg-background px-1 py-0.5">⏎</kbd>
-                            to open
+                            {t('to open')}
                         </span>
                         <span className="flex items-center gap-1">
                             <kbd className="rounded border border-border bg-background px-1 py-0.5">ESC</kbd>
-                            to close
+                            {t('to close')}
                         </span>
                     </div>
                 </DialogPrimitive.Content>

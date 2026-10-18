@@ -7,6 +7,7 @@ namespace Meetplume\Plume\Http\Controllers;
 use Illuminate\Http\Request;
 use Meetplume\Plume\Inertia\PlumeInertia;
 use Meetplume\Plume\Inertia\PlumeInertiaResponse;
+use Meetplume\Plume\InterfaceTexts;
 use Meetplume\Plume\NavGroup;
 use Meetplume\Plume\Page;
 use Meetplume\Plume\Plume;
@@ -74,9 +75,13 @@ class VaultPageController
         $layout = $page->getLayout() ?? $vault->getLayout();
         $component = 'plume/'.$layout;
 
+        $locale = is_string($language) ? $language : app()->getLocale();
+
         $props = [
             ...$pageProps,
             'layout' => $layout,
+            'locale' => $locale,
+            'texts' => InterfaceTexts::for($locale),
             'vault' => [
                 'prefix' => $vault->getPrefix(),
             ],

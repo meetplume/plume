@@ -87,7 +87,7 @@ export function normalizeCalloutSyntax(markdown: string): string {
     return lines.join('\n');
 }
 
-export const remarkCallouts: Plugin<[], Root> = () => {
+export const remarkCallouts: Plugin<[{ detailsLabel?: string }?], Root> = ({ detailsLabel = 'Details' } = {}) => {
     return (tree: Root) => {
         visit(tree, 'containerDirective', (node: Node, index: number | undefined, parent: Parent | undefined) => {
             const directive = node as DirectiveNode;
@@ -112,7 +112,7 @@ export const remarkCallouts: Plugin<[], Root> = () => {
             if (isDetails) {
                 const openTag = {
                     type: 'html' as const,
-                    value: `<details class="plume-callout plume-callout--details"><summary class="plume-callout__summary"><div class="plume-callout__icon">${icon}</div><span>${escapeHtml(title ?? 'Details')}</span></summary><div class="plume-callout__content">`,
+                    value: `<details class="plume-callout plume-callout--details"><summary class="plume-callout__summary"><div class="plume-callout__icon">${icon}</div><span>${escapeHtml(title ?? detailsLabel)}</span></summary><div class="plume-callout__content">`,
                 };
                 const closingNode = { type: 'html' as const, value: '</div></details>' };
 
