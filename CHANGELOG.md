@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Apply the rules Rector 2.7 adds (`??=`, `__DIR__` paths), so `composer test` passes again with current dependencies.
+
 ## [0.10.5] - 2026-06-02
 
 ### Added

@@ -214,18 +214,14 @@ class Vault
         }
 
         foreach ($this->pages() as $page) {
-            if (! isset($pages[$page->getSlug()])) {
-                $pages[$page->getSlug()] = $page;
-            }
+            $pages[$page->getSlug()] ??= $page;
         }
 
         if ($this->discovery !== Discovery::Manual) {
             $scanner = new FilesystemScanner($this->getScanBasePath($language, $version));
 
             foreach ($scanner->scanPages() as $page) {
-                if (! isset($pages[$page->getSlug()])) {
-                    $pages[$page->getSlug()] = $page;
-                }
+                $pages[$page->getSlug()] ??= $page;
             }
         }
 
