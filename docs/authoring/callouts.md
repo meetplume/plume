@@ -12,12 +12,12 @@ and Docusaurus. It also supports the GitHub `> [!TIP]` syntax.
 
 ```md
 ::: tip
-Callouts can include `code` and other [markdown](https://en.wikipedia.org/wiki/Markdown) elements.
+Callouts can include `code`, **bold** and other [markdown](https://en.wikipedia.org/wiki/Markdown) elements.
 :::
 ```
 
 ::: tip
-Callouts can include `code` and other [markdown](https://en.wikipedia.org/wiki/Markdown) elements.
+Callouts can include `code`, **bold** and other [markdown](https://en.wikipedia.org/wiki/Markdown) elements.
 :::
 
 The five built-in types are `tip`, `info`, `note`, `warning` and `danger`:
