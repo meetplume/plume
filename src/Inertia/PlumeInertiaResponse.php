@@ -34,7 +34,10 @@ class PlumeInertiaResponse implements Responsable
         ];
     }
 
-    public function toResponse($request): SymfonyResponse
+    /**
+     * @param  Request  $request
+     */
+    public function toResponse(mixed $request): SymfonyResponse
     {
         $page = $this->toPageObject($request);
 

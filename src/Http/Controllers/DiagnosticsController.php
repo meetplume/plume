@@ -6,6 +6,7 @@ namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Meetplume\Plume\Plume;
 use Meetplume\Plume\Vault;
 
@@ -49,8 +50,8 @@ class DiagnosticsController
         }
 
         $routes = collect(app('router')->getRoutes()->getRoutes())
-            ->filter(fn ($route): bool => ($route->defaults['vaultPrefix'] ?? null) === $prefix)
-            ->map(fn ($route): array => [
+            ->filter(fn (Route $route): bool => ($route->defaults['vaultPrefix'] ?? null) === $prefix)
+            ->map(fn (Route $route): array => [
                 'uri' => $route->uri(),
                 'name' => $route->getName(),
                 'methods' => $route->methods(),
