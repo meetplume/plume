@@ -86,6 +86,20 @@ it('builds nav groups from directories', function () use ($fixturePath): void {
     expect($keys)->toContain('_root', 'getting-started', 'advanced');
 });
 
+it('labels a group from the folder name unless a page sets group_label, and leaves the root group unlabelled', function () use ($fixturePath): void {
+    $scanner = new FilesystemScanner($fixturePath);
+
+    $labels = [];
+
+    foreach ($scanner->scanNavigation() as $group) {
+        $labels[$group->key] = $group->getLabel();
+    }
+
+    expect($labels['_root'])->toBe('')
+        ->and($labels['getting-started'])->toBe('Getting Started')
+        ->and($labels['advanced'])->toBe('Réglages avancés');
+});
+
 it('sorts pages within groups by order then key', function () use ($fixturePath): void {
     $scanner = new FilesystemScanner($fixturePath);
 

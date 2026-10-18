@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Page menu next to the page title: copy the page as Markdown, view it as Markdown, open it in ChatGPT or Claude, or export it as a PDF through the browser's print dialog. Every page is also served as Markdown at its address followed by `.md`, through the same middleware and `canAccess()` as the page. `Vault::pageActions()` picks the entries; return `PageAction::internal()` for a vault behind a login, or `[]` to leave the menu out. Its words, and the question put to ChatGPT and Claude, follow the language of the page. See the Page Actions docs.
 - `Vault::middleware()`: the route middleware of a vault's pages, search index and content assets (`['web']` by default). Add `auth` to send guests to the login page instead of a 403, or a middleware that keeps the vault off some hosts.
 - `Vault::canSeePage()`: show some pages to some readers only, from their key and frontmatter (say, the feature or permission they document). Hidden pages are left out of the sidebar, search, previous/next links and tabs, and answer 404.
+- `group_label` frontmatter key: the label of the page's group in Auto discovery, instead of the title-cased folder name (`etudes-de-rentabilite` read "Etudes De Rentabilite").
 
 ### Changed
 
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Language::slugs()` was documented but never applied: translated slugs now drive the routes, the sidebar, the search results and the language menu.
 - Below the `lg` breakpoint the sidebar was hidden and the mobile menu did not list the navigation: no other page could be reached on a phone. The mobile menu now lists the sidebar's groups and pages, and closes on navigation.
 - Inside an Inertia app, every visit to a Plume page answered 409 and reloaded the whole page: the host's Inertia middleware compared its asset version with Plume's. Vault routes now leave the host's Inertia middleware out.
+- Auto discovery showed the root group as "_Root" in the sidebar, and its pages under that label in search results; it is now unlabelled.
 
 ### Security
 

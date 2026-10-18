@@ -129,13 +129,15 @@ it('builds href from prefix and slug', function () use ($fixturePath): void {
         ->and($deploy['href'])->toBe('/docs/guides/deploy');
 });
 
-it('groups pages by their navigation group label', function () use ($fixturePath): void {
+it('groups pages by their navigation group label, and root pages under none', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
     $records = new SearchIndexBuilder($vault)->build();
+    $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
     $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
 
-    expect($deploy['group'])->toBe('Guides');
+    expect($deploy['group'])->toBe('Guides')
+        ->and($home['group'])->toBeNull();
 });
 
 it('produces a stable signature for the same files', function () use ($fixturePath): void {
