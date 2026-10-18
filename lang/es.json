@@ -21,5 +21,18 @@
     "Copy to clipboard": "Copiar al portapapeles",
     "Copied!": "¡Copiado!",
     "Previous": "Anterior",
-    "Next": "Siguiente"
+    "Next": "Siguiente",
+    "Copy page": "Copiar página",
+    "More page actions": "Más acciones de la página",
+    "Page": "Página",
+    "Copy page as Markdown for LLMs": "Copiar la página en Markdown para una IA",
+    "View as Markdown": "Ver en Markdown",
+    "View this page as plain text": "Ver esta página como texto sin formato",
+    "Open in ChatGPT": "Abrir en ChatGPT",
+    "Ask ChatGPT about this page": "Preguntar a ChatGPT sobre esta página",
+    "Open in Claude": "Abrir en Claude",
+    "Ask Claude about this page": "Preguntar a Claude sobre esta página",
+    "Export as PDF": "Exportar como PDF",
+    "Print this page or save it as a PDF": "Imprimir esta página o guardarla como PDF",
+    "Read :url and answer questions about the content.": "Lee :url y responde a las preguntas sobre su contenido."
 }

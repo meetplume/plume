@@ -6,6 +6,7 @@ namespace Meetplume\Plume;
 
 use Illuminate\Http\Request;
 use Meetplume\Plume\Enums\Discovery;
+use Meetplume\Plume\Enums\PageAction;
 use ReflectionMethod;
 
 class Vault
@@ -101,6 +102,18 @@ class Vault
         }
 
         return $this->getDefaultLanguage()?->code;
+    }
+
+    /**
+     * The entries of the page menu, next to the page title. Return `[]` to
+     * leave the menu out, or `PageAction::internal()` for a vault that ChatGPT
+     * and Claude cannot read, behind a login for instance.
+     *
+     * @return array<int, PageAction>
+     */
+    public function pageActions(): array
+    {
+        return PageAction::cases();
     }
 
     public function getPrefix(): string

@@ -2,6 +2,7 @@ import { type SectionProps, Section } from '@/components/blocks/section';
 import { type DocsFooterProps, DocsFooter } from '@/components/plume/docs-footer';
 import { type DocsHeaderProps, DocsHeader } from '@/components/plume/docs-header';
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
+import { type PageActionsContext, PageActions } from '@/components/plume/page-actions';
 import { type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
 import { TableOfContents } from '@/components/plume/table-of-contents';
 import { Head } from '@inertiajs/react';
@@ -34,7 +35,7 @@ interface PrevNextLink {
     href: string;
 }
 
-interface DocsPageProps extends PlumePageContext {
+interface DocsPageProps extends PlumePageContext, PageActionsContext {
     layout: 'docs';
     navigation: NavItem[];
     sections?: SectionProps[];
@@ -83,6 +84,7 @@ export default function DocsLayout(page: DocsPageProps) {
                 <main className="min-w-0 flex-1">
                     {hasSections && page.sections!.map((section, index) => <Section key={index} {...section} />)}
                     <article className="mx-auto prose max-w-full pt-8 pb-14 lg:max-w-3xl dark:prose-invert">
+                        {!hasSections && <PageActions content={page.content} markdownUrl={page.markdownUrl} actions={page.pageActions} />}
                         <MarkdownRenderer page={page} />
                     </article>
                     <DocsFooter {...page.footer} prev={page.prev} next={page.next} />
