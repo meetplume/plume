@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { type HeaderMenuItem, HeaderMenu } from '@/components/plume/header-menu';
 import { SearchButton } from '@/components/plume/search-button';
 import { SearchDialog } from '@/components/plume/search-dialog';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { useSearchShortcut } from '@/hooks/use-search-shortcut';
 import { useTexts } from '@/lib/texts';
 import { cn } from '@/lib/utils';
-import { Menu, Moon, Sun, X as XIcon } from 'lucide-react';
+import { Languages, Menu, Moon, Sun, Tag, X as XIcon } from 'lucide-react';
 import { siBluesky, siDiscord, siGithub, siX, siYoutube } from 'simple-icons';
 
 type Social = {
@@ -95,6 +96,11 @@ export function DocsHeader({
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const search = useSearchShortcut(Boolean(searchIndexUrl));
 
+    const versionItems: HeaderMenuItem[] =
+        versions && versions.length > 1 ? versions.map((v) => ({ key: v.key, label: v.key, href: v.href, active: v.active })) : [];
+    const languageItems: HeaderMenuItem[] =
+        languages && languages.length > 1 ? languages.map((l) => ({ key: l.code, label: l.name, href: l.href, active: l.active, lang: l.code })) : [];
+
     return (
         <header data-slot="docs-header" className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm">
             <div className="mx-auto flex max-w-368 items-center gap-6 px-6 lg:px-12">
@@ -115,6 +121,10 @@ export function DocsHeader({
 
                 <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
                     {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} shortcut={search.shortcutLabel} />}
+
+                    {versionItems.length > 0 && <HeaderMenu label={t('Version')} icon={Tag} items={versionItems} />}
+
+                    {languageItems.length > 0 && <HeaderMenu label={t('Language')} icon={Languages} items={languageItems} />}
 
                     <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label={t('Toggle dark mode')}>
                         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -152,65 +162,21 @@ export function DocsHeader({
                 </div>
             </div>
 
-            {(tabs || versions || languages) && (
-                <div className="mx-auto flex max-w-368 items-center gap-4 px-6 pt-2 lg:px-12">
-                    {tabs && tabs.length > 0 && (
-                        <nav className="flex items-center gap-1">
-                            {tabs.map((tab) => (
-                                <a
-                                    key={tab.key}
-                                    href={tab.href}
-                                    className={cn(
-                                        'rounded-md px-3 py-1.5 text-sm font-medium',
-                                        tab.active ? 'bg-accent text-foreground' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
-                                    )}
-                                >
-                                    {tab.label}
-                                </a>
-                            ))}
-                        </nav>
-                    )}
-
-                    <div className="ml-auto flex items-center gap-2">
-                        {versions && versions.length > 1 && (
-                            <select
-                                className="rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
-                                value={versions.find((v) => v.active)?.key ?? ''}
-                                onChange={(e) => {
-                                    const v = versions.find((ver) => ver.key === e.target.value);
-                                    if (v) {
-                                        window.location.href = v.href;
-                                    }
-                                }}
-                            >
-                                {versions.map((v) => (
-                                    <option key={v.key} value={v.key}>
-                                        {v.key}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-
-                        {languages && languages.length > 1 && (
-                            <select
-                                className="rounded-md border border-border bg-background px-2 py-1 text-sm text-foreground"
-                                value={languages.find((l) => l.active)?.code ?? ''}
-                                onChange={(e) => {
-                                    const l = languages.find((lang) => lang.code === e.target.value);
-                                    if (l) {
-                                        window.location.href = l.href;
-                                    }
-                                }}
-                            >
-                                {languages.map((l) => (
-                                    <option key={l.code} value={l.code}>
-                                        {l.name}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-                    </div>
-                </div>
+            {tabs && tabs.length > 0 && (
+                <nav className="mx-auto flex max-w-368 items-center gap-1 px-6 pt-2 lg:px-12">
+                    {tabs.map((tab) => (
+                        <a
+                            key={tab.key}
+                            href={tab.href}
+                            className={cn(
+                                'rounded-md px-3 py-1.5 text-sm font-medium',
+                                tab.active ? 'bg-accent text-foreground' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
+                            )}
+                        >
+                            {tab.label}
+                        </a>
+                    ))}
+                </nav>
             )}
 
             {mobileOpen &&
@@ -219,6 +185,24 @@ export function DocsHeader({
                         <div className="fixed inset-0 z-40 h-screen bg-black/10 backdrop-blur-xs lg:hidden" onClick={() => setMobileOpen(false)} />
                         <aside className="fixed inset-y-0 right-0 z-50 flex h-screen w-72 flex-col border-l border-black/10 bg-background px-6 py-4 shadow-lg lg:hidden dark:border-white/10">
                             <div className="flex h-8 items-center justify-end gap-3">
+                                {versionItems.length > 0 && (
+                                    <HeaderMenu
+                                        variant="icon"
+                                        label={t('Version')}
+                                        icon={Tag}
+                                        items={versionItems}
+                                        onNavigate={() => setMobileOpen(false)}
+                                    />
+                                )}
+                                {languageItems.length > 0 && (
+                                    <HeaderMenu
+                                        variant="icon"
+                                        label={t('Language')}
+                                        icon={Languages}
+                                        items={languageItems}
+                                        onNavigate={() => setMobileOpen(false)}
+                                    />
+                                )}
                                 <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label={t('Toggle dark mode')}>
                                     {isDark ? <Sun className="size-6" /> : <Moon className="size-6" />}
                                 </button>

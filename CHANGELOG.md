@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Relative links to Markdown files (`setup.md`, `../guides/deploy.md#step-2`), as written for GitHub, point to their page, resolved from the folder of the current file.
 - `Vault::languageFor()`: let the app pick the language of each request (a per-tenant setting, a user preference). The vault then serves it with no language switcher and no language segment in routes or links, and fills in the pages it lacks from the default language.
 - Plume's interface (search, "On this page", menus, the copy button of code blocks) follows the language of the page, through Laravel JSON translations. French, Portuguese and Spanish ship with Plume; the host app overrides any key in its own `lang/{locale}.json`. The page's `<html lang>` follows too.
+- A language menu in the header, also next to the light/dark switch of the mobile menu (versions get the same), replacing the native selects on a row of their own. Each language links to the same page in that language, or to its home while the page is not translated, through an Inertia visit.
 
 ### Changed
 
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - The `test:type-coverage` script now fails when type coverage drops below 100%. It passed `--exactly=100`, which the type coverage plugin ignores, so it always exited `0`; it now uses `--min=100`. The untyped parameters this let through are typed: two closures in `DiagnosticsController`, and `PlumeInertiaResponse::toResponse()`, only reported with the lowest dependencies.
 - With languages, Auto and Mapped discovery served no page at all: slugs were collected from the vault root (`en/guide`) instead of each language folder. Each language home (`/docs/pt`) is now routed too.
 - In a vault with languages, relative images of a page pointed outside its language folder (`/docs/_content/guides/shot.png` for `pt/guides/deploy.md`) and answered 404.
+- `Language::slugs()` was documented but never applied: translated slugs now drive the routes, the sidebar, the search results and the language menu.
 
 ## [0.10.5] - 2026-06-02
 
