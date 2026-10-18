@@ -113,3 +113,8 @@ redefine the variable from the head partial:
 
 A font your app bundles with Vite can be loaded with an `@font-face` whose `src` is
 `Vite::asset('path/to/font.woff2')`.
+
+## Printing
+
+A printed page keeps only the article, in light mode, at full width; callouts, code
+blocks, tables and figures are not split across pages.
