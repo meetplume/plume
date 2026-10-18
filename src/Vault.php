@@ -81,6 +81,17 @@ class Vault
     }
 
     /**
+     * A link back to the app the vault lives in, at the bottom of the sidebar,
+     * e.g. `['label' => __('Back to the app'), 'href' => '/']`.
+     *
+     * @return array{label: string, href: string}|null
+     */
+    public function backLink(Request $request): ?array
+    {
+        return null;
+    }
+
+    /**
      * Whether the app, through `languageFor()`, picks the language rather than the URL.
      */
     public function hasAppLanguage(): bool

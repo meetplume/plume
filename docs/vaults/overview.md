@@ -75,7 +75,25 @@ A vault declares its structure by overriding methods. All are optional except
 | `versions()`      | `array<Version>`      | Versioned documentation. See [Versions](/docs/navigation/versions). |
 | `languages()`     | `array<Language>`     | Localized documentation. See [Languages](/docs/navigation/languages). |
 | `canAccess()`     | `bool`                | Authorization gate. See [Access Control](/docs/vaults/access-control). |
+| `backLink()`      | `array\|null`         | A link back to the app, at the bottom of the sidebar. See [Back to the app](#back-to-the-app). |
 | `pageActions()`   | `array<PageAction>`   | The entries of the page menu. See [Page Actions](/docs/vaults/page-actions). |
+
+## Back to the app
+
+A vault that lives inside an app can lead its readers back to it. `backLink()`
+returns the label and the address of a link shown at the bottom of the sidebar,
+and at the bottom of the menu on small screens:
+
+```php
+public function backLink(Request $request): ?array
+{
+    return ['label' => __('Back to the app'), 'href' => '/dashboard'];
+}
+```
+
+It receives the request, so the address can depend on the domain or the reader.
+It returns `null` by default: no link. Layouts without a sidebar (`page`, `blog`,
+`changelog`) show none.
 
 ## Multiple vaults
 

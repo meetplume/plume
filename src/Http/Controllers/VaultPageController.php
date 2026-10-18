@@ -151,6 +151,8 @@ class VaultPageController
             'poweredBy' => $config->showsPoweredBy(),
         ];
 
+        $props['backLink'] = $vault->backLink($request);
+
         if ($vault->hasTabs() || $this->versionHasTabs($vault, $version)) {
             $activeTabs = $this->resolveActiveTabs($vault, $version);
             $props['tabs'] = $this->buildTabsArray($request, $activeTabs, $vault, $tab, $language, $version);

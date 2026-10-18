@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
-import { type HeaderMenuItem, HeaderMenu } from '@/components/plume/header-menu';
+import { HeaderMenu, type HeaderMenuItem } from '@/components/plume/header-menu';
 import { SearchButton } from '@/components/plume/search-button';
 import { SearchDialog } from '@/components/plume/search-dialog';
-import { type NavItem, NavTree } from '@/components/plume/sidebar-nav';
+import { type BackLink, BackToApp, type NavItem, NavTree } from '@/components/plume/sidebar-nav';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { useSearchShortcut } from '@/hooks/use-search-shortcut';
 import { useTexts } from '@/lib/texts';
@@ -59,6 +59,8 @@ export type DocsHeaderProps = {
     searchIndexUrl?: string | null;
     /** The sidebar navigation, which the mobile menu lists below the `lg` breakpoint. */
     navigation?: NavItem[];
+    /** Shown at the bottom of the mobile menu, as at the bottom of the sidebar. */
+    backLink?: BackLink | null;
 };
 
 const icons: Record<string, { path: string; title: string }> = {
@@ -97,6 +99,7 @@ export function DocsHeader({
     languages,
     searchIndexUrl,
     navigation,
+    backLink,
 }: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
     const t = useTexts();
@@ -257,6 +260,12 @@ export function DocsHeader({
                                             <SocialIcon icon={social.icon} />
                                         </a>
                                     ))}
+                                </div>
+                            )}
+
+                            {backLink && (
+                                <div className="mt-auto border-t border-border/40 pt-4 text-sm">
+                                    <BackToApp link={backLink} />
                                 </div>
                             )}
                         </aside>

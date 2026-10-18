@@ -2,7 +2,7 @@ import { type DocsFooterProps, DocsFooter } from '@/components/plume/docs-footer
 import { type DocsHeaderProps, DocsHeader } from '@/components/plume/docs-header';
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
 import { type PageActionsContext, PageActions } from '@/components/plume/page-actions';
-import { type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
+import { type BackLink, type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
 import { TableOfContents } from '@/components/plume/table-of-contents';
 import { Head } from '@inertiajs/react';
 
@@ -13,6 +13,7 @@ interface ApiPageProps extends PlumePageContext, PageActionsContext {
     footer?: DocsFooterProps;
     site?: { name: string; logo: string | null; logoDark: string | null };
     searchIndexUrl?: string | null;
+    backLink?: BackLink | null;
 }
 
 export default function ApiLayout(page: ApiPageProps) {
@@ -22,9 +23,9 @@ export default function ApiLayout(page: ApiPageProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
+            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} backLink={page.backLink} />
             <div className="mx-auto flex max-w-368 gap-8 px-6 lg:px-8">
-                <SidebarNav navigation={page.navigation} />
+                <SidebarNav navigation={page.navigation} backLink={page.backLink} />
                 <main className="min-w-0 flex-1">
                     <article className="mx-auto prose max-w-full pt-8 pb-14 lg:max-w-3xl dark:prose-invert">
                         <PageActions content={page.content} markdownUrl={page.markdownUrl} actions={page.pageActions} />
