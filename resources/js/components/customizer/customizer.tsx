@@ -493,8 +493,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
         if (!config || !isDirty || !customizerConfig?.vault) return;
 
         setSaving(true);
-        const data: Record<string, unknown> = { ...config, vault: customizerConfig.vault };
-        postCustomizer('/_plume/customizer', data).then((resolved) => {
+        postCustomizer(`/${customizerConfig.vault}/_plume/customizer`, { ...config }).then((resolved) => {
             setSavedConfig(resolved);
             setConfig(resolved);
             applyTheme(resolved);
@@ -534,8 +533,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const resetDefaults = useCallback(() => {
         if (!customizerConfig?.vault) return;
 
-        const data: Record<string, unknown> = { vault: customizerConfig.vault };
-        postCustomizer('/_plume/customizer/reset', data).then((resolved) => {
+        postCustomizer(`/${customizerConfig.vault}/_plume/customizer/reset`, {}).then((resolved) => {
             setConfig(resolved);
             setSavedConfig(resolved);
             setPreset('');

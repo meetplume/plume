@@ -15,7 +15,6 @@ class CustomizerController
     public function update(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'vault' => ['required', 'string'],
             'theme' => ['sometimes', 'string'],
             'primary' => ['sometimes', 'string'],
             'gray' => ['sometimes', 'string'],
@@ -26,8 +25,7 @@ class CustomizerController
             'code_theme_dark' => ['sometimes', 'string', 'in:'.implode(',', ThemeConfig::validCodeThemes())],
         ]);
 
-        $configPath = $this->resolveConfigPath($validated['vault']);
-        unset($validated['vault']);
+        $configPath = $this->resolveConfigPath($request);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -51,11 +49,7 @@ class CustomizerController
 
     public function reset(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'vault' => ['required', 'string'],
-        ]);
-
-        $configPath = $this->resolveConfigPath($validated['vault']);
+        $configPath = $this->resolveConfigPath($request);
 
         if ($configPath === null) {
             return response()->json(['error' => 'No config path configured'], 422);
@@ -76,19 +70,22 @@ class CustomizerController
         return response()->json($themeConfig->toArray());
     }
 
-    private function resolveConfigPath(string $vaultPrefix): ?string
+    /**
+     * The customizer routes belong to a vault, behind its middleware: they
+     * write that vault's config.yml, so only a reader of the vault may.
+     */
+    private function resolveConfigPath(Request $request): ?string
     {
-        $config = app(Plume::class)->getConfiguration();
+        /** @var string $vaultPrefix */
+        $vaultPrefix = $request->route()->defaults['vaultPrefix'];
 
-        if ($config === null) {
-            return null;
-        }
-
-        $vault = $config->getVault($vaultPrefix);
+        $vault = app(Plume::class)->getVault($vaultPrefix);
 
         if ($vault === null) {
             return null;
         }
+
+        abort_unless($vault->canAccess($request), 403);
 
         return $vault->getConfigPath();
     }

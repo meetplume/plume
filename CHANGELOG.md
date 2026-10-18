@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 
 - The search index, which holds the text of every page, is sent `Cache-Control: private` instead of `public`, so a shared cache never keeps the index of a vault gated by `canAccess()`.
+- The theme customizer routes, loaded in `local` and `testing`, had no middleware at all (no session, no CSRF check, on every host) and write a vault's `config.yml`. They now live under each vault (`/{prefix}/_plume/customizer`), behind its middleware and `canAccess()`.
 
 ## [0.10.5] - 2026-06-02
 
