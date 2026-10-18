@@ -51,6 +51,10 @@ final class VaultRouter
             $allSlugs = array_values(array_filter($allSlugs, fn (string $s): bool => $s !== '/'));
             $slugConstraint = implode('|', array_map(fn (string $s): string => preg_quote($s, '/'), $allSlugs));
             $this->registerRootRoute($prefix);
+
+            if ($languageCodes !== []) {
+                $this->registerLanguageRootRoute($prefix, $languageCodes);
+            }
         }
 
         if ($allSlugs === []) {
@@ -209,6 +213,20 @@ final class VaultRouter
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
             ->name('plume.'.$prefix.'.root');
+    }
+
+    /**
+     * The home of each language, e.g. `/docs/pt` (the bare prefix serves the default one).
+     *
+     * @param  array<int, string>  $languageCodes
+     */
+    private function registerLanguageRootRoute(string $prefix, array $languageCodes): void
+    {
+        Route::get($prefix.'/{language}', VaultPageController::class)
+            ->where('language', implode('|', $languageCodes))
+            ->defaults('vaultPrefix', $prefix)
+            ->defaults('slug', '/')
+            ->name('plume.'.$prefix.'.root.lang');
     }
 
     private function registerAbsoluteRoutes(Vault $vault, string $vaultPrefix): void
