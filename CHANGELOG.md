@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Apply the rules Rector 2.7 adds (`??=`, `__DIR__` paths), so `composer test` passes again with current dependencies.
 
+### Fixed
+
+- The `test:type-coverage` script now fails when type coverage drops below 100%. It passed `--exactly=100`, which the type coverage plugin ignores, so it always exited `0`; it now uses `--min=100`. The untyped parameters this let through are typed: two closures in `DiagnosticsController`, and `PlumeInertiaResponse::toResponse()`, only reported with the lowest dependencies.
+
 ## [0.10.5] - 2026-06-02
 
 ### Added
