@@ -66,6 +66,11 @@ final readonly class SearchIndexBuilder
 
         sort($parts);
 
+        // Records of a vault that filters its pages carry their key and frontmatter.
+        if ($this->vault->hasPageVisibility()) {
+            $parts[] = 'visibility';
+        }
+
         return md5(implode("\n", $parts));
     }
 
@@ -177,6 +182,7 @@ final readonly class SearchIndexBuilder
             'body' => $this->stripMarkdown($body),
             'href' => $this->buildHref($page->getSlug(), $tab),
             'group' => $group,
+            ...($this->vault->hasPageVisibility() ? ['key' => $page->key, 'frontmatter' => $frontmatter] : []),
         ];
     }
 

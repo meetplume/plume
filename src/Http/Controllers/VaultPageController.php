@@ -67,7 +67,7 @@ class VaultPageController
         /** @var Page|null $page */
         $page = $pages[$slug] ?? null;
 
-        abort_unless($page !== null, 404);
+        abort_unless($page !== null && $vault->pageIsVisible($request, $page, $language, $version), 404);
 
         $filePath = $vault->resolveFilePath($page, $language, $version);
 
@@ -77,7 +77,7 @@ class VaultPageController
 
         $pageProps = $page->toInertiaProps($filePath);
 
-        $navigation = $vault->resolveNavigation($language, $version, $tab);
+        $navigation = $vault->visibleNavigation($request, $language, $version, $tab);
         $navigationArray = $this->buildNavigationArray($navigation, $vault, $page->getSlug(), $language, $version, $tab);
 
         $layout = $page->getLayout() ?? $vault->getLayout();
@@ -143,7 +143,7 @@ class VaultPageController
 
         if ($vault->hasTabs() || $this->versionHasTabs($vault, $version)) {
             $activeTabs = $this->resolveActiveTabs($vault, $version);
-            $props['tabs'] = $this->buildTabsArray($activeTabs, $vault, $tab, $language, $version);
+            $props['tabs'] = $this->buildTabsArray($request, $activeTabs, $vault, $tab, $language, $version);
             $props['activeTab'] = $tab;
         }
 
@@ -221,6 +221,7 @@ class VaultPageController
      * @return list<array{key: string, label: string, icon: ?string, href: string, active: bool}>
      */
     private function buildTabsArray(
+        Request $request,
         array $tabs,
         Vault $vault,
         ?string $activeTab,
@@ -233,10 +234,10 @@ class VaultPageController
         foreach ($tabs as $tabObj) {
             $firstSlug = null;
             foreach ($tabObj->getGroups() as $group) {
-                $pages = $group->getPages();
+                $first = array_find($group->getPages(), fn (Page $page): bool => $vault->pageIsVisible($request, $page, $language, $version));
 
-                if ($pages !== []) {
-                    $firstSlug = $pages[0]->getSlug();
+                if ($first !== null) {
+                    $firstSlug = $first->getSlug();
                     break;
                 }
             }
