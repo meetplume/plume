@@ -52,6 +52,7 @@ class DocsVault extends Vault
                     Page::make('vaults/overview')->label('Overview'),
                     Page::make('vaults/discovery')->label('Discovery Modes'),
                     Page::make('vaults/access-control')->label('Access Control'),
+                    Page::make('vaults/embedding')->label('Embedding'),
                     Page::make('vaults/page-actions')->label('Page Actions'),
                 ]),
 

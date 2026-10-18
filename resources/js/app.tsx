@@ -5,6 +5,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import type { CustomizerInitialData } from './components/customizer/customizer';
+import { embedded } from './lib/embed';
 import { applyTheme } from './lib/theme';
 
 const LazyCustomizer = lazy(() => import('./components/customizer/customizer').then((m) => ({ default: m.Customizer })));
@@ -32,7 +33,7 @@ window.addEventListener('afterprint', () => showDarkMode(printedFromDark));
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${siteName}` : siteName),
-    resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
+    resolve: (name) => resolvePageComponent(`./pages/${embedded ? 'plume/embed' : name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
         const initialProps = props.initialPage.props as Record<string, unknown>;
         const plume = initialProps.plume as CustomizerInitialData | undefined;
@@ -51,7 +52,7 @@ createInertiaApp({
         root.render(
             <StrictMode>
                 <App {...props} />
-                {plume?.customizer?.enabled && (
+                {!embedded && plume?.customizer?.enabled && (
                     <Suspense>
                         <LazyCustomizer initialData={plume} />
                     </Suspense>
