@@ -1,5 +1,6 @@
 import { useTexts } from '@/lib/texts';
-import { usePage } from '@inertiajs/react';
+import { cn } from '@/lib/utils';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PrevNextLink {
@@ -20,24 +21,10 @@ export function DocsFooter({ text, prev, next }: DocsFooterProps) {
     return (
         <footer data-slot="docs-footer" className="mx-auto w-full max-w-full border-t border-border/40 py-8 lg:max-w-3xl">
             {(prev || next) && (
-                <div className="flex items-center justify-between pb-6">
-                    {prev ? (
-                        <a href={prev.href} className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-                            <ChevronLeft className="size-4" />
-                            <span>{prev.label}</span>
-                        </a>
-                    ) : (
-                        <span />
-                    )}
-                    {next ? (
-                        <a href={next.href} className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-                            <span>{next.label}</span>
-                            <ChevronRight className="size-4" />
-                        </a>
-                    ) : (
-                        <span />
-                    )}
-                </div>
+                <nav className="grid gap-4 pb-8 sm:grid-cols-2">
+                    {prev && <PrevNextCard link={prev} direction="prev" />}
+                    {next && <PrevNextCard link={next} direction="next" />}
+                </nav>
             )}
             <div className="flex items-center justify-between text-sm text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:hover:underline">
                 <div>{text && <span dangerouslySetInnerHTML={{ __html: text }} />}</div>
@@ -56,5 +43,29 @@ export function DocsFooter({ text, prev, next }: DocsFooterProps) {
                 )}
             </div>
         </footer>
+    );
+}
+
+/** An Inertia visit, as in the sidebar: no full reload of the page. */
+function PrevNextCard({ link, direction }: { link: PrevNextLink; direction: 'prev' | 'next' }) {
+    const t = useTexts();
+    const isNext = direction === 'next';
+    const Chevron = isNext ? ChevronRight : ChevronLeft;
+
+    return (
+        <Link
+            href={link.href}
+            rel={direction}
+            className={cn(
+                'group flex items-center gap-3 rounded-xl border border-border px-4 py-3.5 transition-colors hover:border-foreground/20 hover:bg-muted/50',
+                isNext && 'flex-row-reverse text-right sm:col-start-2',
+            )}
+        >
+            <Chevron className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
+            <span className="flex min-w-0 flex-col gap-0.5">
+                <span className="text-sm text-muted-foreground">{t(isNext ? 'Next' : 'Previous')}</span>
+                <span className="font-medium text-foreground">{link.label}</span>
+            </span>
+        </Link>
     );
 }

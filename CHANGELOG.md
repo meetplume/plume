@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- The previous and next links under a page are cards, labelled *Previous* and *Next* (translated), with the page title below. They open their page through an Inertia visit, as the sidebar does, instead of reloading the whole page.
 - Apply the rules Rector 2.7 adds (`??=`, `__DIR__` paths), so `composer test` passes again with current dependencies.
 
 ### Fixed
