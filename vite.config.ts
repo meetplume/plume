@@ -21,6 +21,12 @@ export default defineConfig(({ command }) => ({
         jsx: 'automatic',
     },
     base: command === 'build' ? '/vendor/plume/dist/' : undefined,
+    optimizeDeps: {
+        // Pre-bundled next to `lucide-react`, every icon becomes a shared chunk
+        // that the dev server loads on each page; served as is, only the icons
+        // a page asks for are loaded.
+        exclude: ['lucide-react/dynamicIconImports'],
+    },
     build: {
         outDir: 'dist',
         emptyOutDir: true,
