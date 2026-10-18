@@ -6,7 +6,12 @@ import { usePage } from '@inertiajs/react';
 import type { Element, Root as HastRoot } from 'hast';
 import type { Code, Root } from 'mdast';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import rehypeExpressiveCode, { pluginFramesTexts, type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
+import rehypeExpressiveCode, {
+    createRenderer,
+    pluginFramesTexts,
+    type RehypeExpressiveCodeRenderer,
+    type ThemeObjectOrShikiThemeName,
+} from 'rehype-expressive-code';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -77,6 +82,54 @@ function remarkCodeMeta() {
     };
 }
 
+const copyIcon = createInlineSvgUrl(
+    `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+);
+
+const codeRenderers = new Map<string, Promise<RehypeExpressiveCodeRenderer>>();
+
+/**
+ * One Expressive Code engine per pair of themes, shared by every page: building
+ * it loads the themes and computes their styles, which no visit should repeat.
+ */
+function codeRenderer(light: string, dark: string, locale: string): Promise<RehypeExpressiveCodeRenderer> {
+    const key = `${light}|${dark}|${locale}`;
+    let renderer = codeRenderers.get(key);
+
+    if (!renderer) {
+        renderer = createRenderer({
+            defaultLocale: locale,
+            themes: [light as ThemeObjectOrShikiThemeName, dark as ThemeObjectOrShikiThemeName],
+            themeCssSelector: (theme, { styleVariants }) => {
+                const index = styleVariants.findIndex((v) => v.theme === theme);
+                return index === 0 ? ':root:not(.dark)' : '.dark';
+            },
+            plugins: [pluginCollapsibleSections()],
+            styleOverrides: {
+                frames: { copyIcon },
+            },
+        });
+        renderer.catch(() => codeRenderers.delete(key));
+        codeRenderers.set(key, renderer);
+    }
+
+    return renderer;
+}
+
+/**
+ * Runs the callback once the browser has painted: the animation frame comes
+ * just before the next paint, the timeout just after. A hidden page does not
+ * paint, so the callback runs at once.
+ */
+function afterNextPaint(callback: () => void) {
+    if (document.hidden) {
+        callback();
+        return;
+    }
+
+    requestAnimationFrame(() => setTimeout(callback));
+}
+
 export interface PlumePageContext {
     content: string;
     title?: string;
@@ -94,8 +147,8 @@ interface MarkdownRendererProps {
 }
 
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
-    const [html, setHtml] = useState('');
     const containerRef = useRef<HTMLDivElement>(null);
+    const renderedContent = useRef<string | null>(null);
 
     const sharedProps = usePage().props as Record<string, unknown>;
     const locale = typeof sharedProps.locale === 'string' ? sharedProps.locale : 'en';
@@ -118,69 +171,99 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
         return () => window.removeEventListener('plume:code-theme', handler);
     }, []);
 
-    const processor = useMemo(() => {
+    const processors = useMemo(() => {
         pluginFramesTexts.overrideTexts(locale, {
             copyButtonTooltip: t('Copy to clipboard'),
             copyButtonCopied: t('Copied!'),
         });
 
-        const pipeline = unified()
-            .use(remarkParse)
-            .use(remarkGfm)
-            .use(remarkFrontmatter)
-            .use(remarkGithubAdmonitionsToDirectives)
-            .use(remarkDirective)
-            .use(remarkCallouts, { detailsLabel: t('Details') })
-            .use(remarkCodeMeta)
-            .use(remarkRehype, { allowDangerousHtml: true })
-            .use(rehypeExpressiveCode, {
-                defaultLocale: locale,
-                themes: [codeThemeLight as ThemeObjectOrShikiThemeName, codeThemeDark as ThemeObjectOrShikiThemeName],
-                themeCssSelector: (theme, { styleVariants }) => {
-                    const index = styleVariants.findIndex((v) => v.theme === theme);
-                    return index === 0 ? ':root:not(.dark)' : '.dark';
-                },
-                plugins: [pluginCollapsibleSections()],
-                styleOverrides: {
-                    frames: {
-                        copyIcon: createInlineSvgUrl(
-                            `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-                        ),
-                    },
-                },
-            })
-            .use(rehypeRaw);
+        const build = (highlightCode: boolean) => {
+            const pipeline = unified()
+                .use(remarkParse)
+                .use(remarkGfm)
+                .use(remarkFrontmatter)
+                .use(remarkGithubAdmonitionsToDirectives)
+                .use(remarkDirective)
+                .use(remarkCallouts, { detailsLabel: t('Details') })
+                .use(remarkCodeMeta)
+                .use(remarkRehype, { allowDangerousHtml: true });
 
-        if (page.contentAssetBase) {
-            pipeline.use(() => rehypeContentAssets(page.contentAssetBase!));
-        }
+            if (highlightCode) {
+                pipeline.use(rehypeExpressiveCode, { customCreateRenderer: () => codeRenderer(codeThemeLight, codeThemeDark, locale) });
+            }
 
-        if (page.pageBaseUrl) {
-            pipeline.use(() => rehypeMarkdownLinks(page.pageBaseUrl!));
-        }
+            pipeline.use(rehypeRaw);
 
-        return pipeline
-            .use(rehypeSlug)
-            .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
-            .use(rehypeStringify);
+            if (page.contentAssetBase) {
+                pipeline.use(() => rehypeContentAssets(page.contentAssetBase!));
+            }
+
+            if (page.pageBaseUrl) {
+                pipeline.use(() => rehypeMarkdownLinks(page.pageBaseUrl!));
+            }
+
+            return pipeline
+                .use(rehypeSlug)
+                .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
+                .use(rehypeStringify);
+        };
+
+        return { text: build(false), highlighted: build(true) };
     }, [codeThemeLight, codeThemeDark, page.contentAssetBase, page.pageBaseUrl, locale, t]);
 
+    // Highlighting the code holds the main thread for most of the rendering
+    // time: a new page paints its text first. A theme change keeps the page
+    // as it is until the code is highlighted again.
     useEffect(() => {
-        processor.process(normalizeCalloutSyntax(page.content)).then((file) => {
-            setHtml(String(file));
-        });
-    }, [processor, page.content]);
+        const markdown = normalizeCalloutSyntax(page.content);
+        let cancelled = false;
 
-    useEffect(() => {
-        if (!containerRef.current || !html) return;
+        const show = (html: string) => {
+            const container = containerRef.current;
 
-        const range = document.createRange();
-        range.selectNode(containerRef.current);
-        const fragment = range.createContextualFragment(html);
+            if (cancelled || !container) return false;
 
-        containerRef.current.innerHTML = '';
-        containerRef.current.append(fragment);
-    }, [html]);
+            const range = document.createRange();
+            range.selectNode(container);
+            const fragment = range.createContextualFragment(html);
+
+            container.innerHTML = '';
+            container.append(fragment);
+
+            return true;
+        };
+
+        const highlight = () => {
+            if (cancelled) return;
+
+            processors.highlighted.process(markdown).then((file) => {
+                if (show(String(file))) {
+                    renderedContent.current = page.content;
+                }
+            });
+        };
+
+        if (renderedContent.current === page.content) {
+            highlight();
+        } else {
+            processors.text.process(markdown).then((file) => {
+                const html = String(file);
+
+                if (!show(html)) return;
+
+                // Without a code block, the highlighted page would be the same.
+                if (html.includes('<pre')) {
+                    afterNextPaint(highlight);
+                } else {
+                    renderedContent.current = page.content;
+                }
+            });
+        }
+
+        return () => {
+            cancelled = true;
+        };
+    }, [processors, page.content]);
 
     return <div ref={containerRef} className={className} />;
 }
