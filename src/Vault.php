@@ -205,6 +205,16 @@ class Vault
         ?string $version = null,
         ?string $tab = null,
     ): array {
+        return $this->localizeGroups($this->resolveSourceNavigation($language, $version, $tab), $language);
+    }
+
+    /**
+     * The navigation as declared or discovered, before translated slugs.
+     *
+     * @return array<int, NavGroup>
+     */
+    private function resolveSourceNavigation(?string $language, ?string $version, ?string $tab): array
+    {
         if ($this->discovery === Discovery::Auto) {
             $scanner = $this->scanner($language, $version);
 
@@ -249,7 +259,10 @@ class Vault
             }
         }
 
+        $slugs = $this->translatedSlugs($language);
+
         foreach ($this->pages() as $page) {
+            $page = $this->localizePage($page, $slugs);
             $pages[$page->getSlug()] ??= $page;
         }
 
@@ -257,6 +270,7 @@ class Vault
             $scanner = $this->scanner($language, $version);
 
             foreach ($scanner->scanPages() as $page) {
+                $page = $this->localizePage($page, $slugs);
                 $pages[$page->getSlug()] ??= $page;
             }
         }
@@ -282,10 +296,16 @@ class Vault
      */
     public function collectAllSlugs(): array
     {
-        return match ($this->discovery) {
+        $slugs = match ($this->discovery) {
             Discovery::Manual => $this->collectManualSlugs(),
             Discovery::Mapped, Discovery::Auto => $this->collectDiscoveredSlugs(),
         };
+
+        foreach ($this->languages() as $language) {
+            array_push($slugs, ...array_values($language->getSlugs()));
+        }
+
+        return array_values(array_unique($slugs));
     }
 
     /**
@@ -375,6 +395,54 @@ class Vault
         }
 
         return $basePath;
+    }
+
+    /**
+     * Gives each page the slug its language translates it to (`Language::slugs()`).
+     *
+     * @param  array<int, NavGroup>  $groups
+     * @return array<int, NavGroup>
+     */
+    private function localizeGroups(array $groups, ?string $language): array
+    {
+        $slugs = $this->translatedSlugs($language);
+
+        if ($slugs === []) {
+            return $groups;
+        }
+
+        return array_map(
+            fn (NavGroup $group): NavGroup => (clone $group)->pages(
+                array_map(fn (Page $page): Page => $this->localizePage($page, $slugs), $group->getPages()),
+            ),
+            $groups,
+        );
+    }
+
+    /**
+     * @param  array<string, string>  $slugs  page key => translated slug
+     */
+    private function localizePage(Page $page, array $slugs): Page
+    {
+        if (! isset($slugs[$page->key])) {
+            return $page;
+        }
+
+        return (clone $page)->slug($slugs[$page->key]);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function translatedSlugs(?string $language): array
+    {
+        foreach ($this->languages() as $candidate) {
+            if ($candidate->code === $language) {
+                return $candidate->getSlugs();
+            }
+        }
+
+        return [];
     }
 
     /**

@@ -26,6 +26,8 @@ final class InterfaceTexts
         'On this page',
         'Table of contents',
         'Toggle dark mode',
+        'Language',
+        'Version',
         'Open menu',
         'Close menu',
         'Powered by',

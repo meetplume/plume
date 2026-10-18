@@ -73,7 +73,18 @@ public function languages(): array
 }
 ```
 
-Now the Portuguese installation page is reachable at `/docs/pt/instalacao`.
+Now the Portuguese installation page is reachable at `/docs/pt/instalacao`, in the
+sidebar, the search results and the language switcher alike. The key is the file path
+without its extension (`guides/deploy` for `pt/guides/deploy.md`). With
+[Auto discovery](/docs/vaults/discovery), a `slug` in the page's frontmatter does the same.
+
+## Language switcher
+
+When a vault has more than one language, the header shows a language menu, and the
+mobile menu the same menu next to its light/dark switch. Each language links to **the
+same page** in that language — the file at the same path in its folder — or to that
+language's home while the page is not translated yet. Switching is an Inertia visit, so
+the page does not reload.
 
 ::: note
 Languages, versions and tabs can be combined. The URL segments nest in this order:

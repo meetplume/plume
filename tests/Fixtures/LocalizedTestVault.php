@@ -31,7 +31,7 @@ class LocalizedTestVault extends Vault
     {
         return [
             Language::make('en', 'English')->default(),
-            Language::make('pt', 'Português'),
+            Language::make('pt', 'Português')->slugs(['guides/deploy' => 'guides/publicar']),
         ];
     }
 

@@ -142,7 +142,7 @@ class VaultPageController
         }
 
         if ($vault->hasLanguages() && ! $vault->hasAppLanguage()) {
-            $props['languages'] = $this->buildLanguagesArray($vault, $language, $version, $tab, $slug);
+            $props['languages'] = $this->buildLanguagesArray($vault, $language, $version, $tab, $page);
             $props['activeLanguage'] = $language;
         }
 
@@ -275,16 +275,23 @@ class VaultPageController
         ?string $activeLanguage,
         ?string $version,
         ?string $tab,
-        ?string $slug,
+        Page $page,
     ): array {
         $prefix = trim($vault->getPrefix(), '/');
         $result = [];
 
         foreach ($vault->languages() as $lang) {
+            // The same page in that language — its slug may be translated — or
+            // the language home while the page is not translated yet.
+            $counterpart = array_find(
+                $vault->resolvePages($lang->code, $version, $tab),
+                fn (Page $candidate): bool => $candidate->key === $page->key,
+            );
+
             $result[] = [
                 'code' => $lang->code,
                 'name' => $lang->name,
-                'href' => $this->buildPageHref($prefix, $slug ?? '', $lang->code, $version, $tab),
+                'href' => $this->buildPageHref($prefix, $counterpart?->getSlug() ?? '/', $lang->code, $version, $tab),
                 'active' => $activeLanguage === $lang->code,
             ];
         }
