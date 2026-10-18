@@ -21,13 +21,13 @@ Plume::configure()
 
 ## Methods
 
-| Method                 | Description                                                          |
-|------------------------|----------------------------------------------------------------------|
-| `name($name)`          | The site name. Defaults to `config('app.name')`.                     |
-| `url($url)`            | The canonical site URL.                                              |
-| `logo($light, $dark?)` | Logo image(s). The second argument is an optional dark-mode variant. |
-| `favicon($path)`       | The favicon path.                                                    |
-| `theme($preset)`       | A global [theme preset](/docs/appearance/presets).                   |
+| Method                 | Description                                                                    |
+|------------------------|--------------------------------------------------------------------------------|
+| `name($name)`          | The site name, or a closure that returns it. Defaults to `config('app.name')`. |
+| `url($url)`            | The canonical site URL.                                                        |
+| `logo($light, $dark?)` | Logo image(s). The second argument is an optional dark-mode variant.           |
+| `favicon($path)`       | The favicon path.                                                              |
+| `theme($preset)`       | A global [theme preset](/docs/appearance/presets).                             |
 
 ## Logo
 
@@ -64,6 +64,17 @@ replaces the logo and the name in the header, and receives `$name`, `$logo`,
 Plume wraps it in the link to the vault's home, so it must not hold a link of its
 own. Plume's stylesheet only carries the classes Plume uses: give the partial its own
 styles.
+
+## Name per request
+
+Give `name()` a closure to compute the name on each request, from the request
+(the tenant of a multi-tenant app, say). It names the header and the pages:
+
+```php
+use Illuminate\Http\Request;
+
+->name(fn (Request $request): string => tenant()?->name ?? 'Acme Docs')
+```
 
 ::: note
 `theme()` here sets a **global** preset for vaults that don't define their own
