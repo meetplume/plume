@@ -337,6 +337,27 @@ class Vault
     }
 
     /**
+     * Every content folder the vault reads from: one per language and version
+     * combination, since each lives in its own `{language}/{version}` subfolder.
+     *
+     * @return array<int, string>
+     */
+    private function scanBasePaths(): array
+    {
+        $languages = array_map(fn (Language $language): string => $language->code, $this->languages()) ?: [null];
+        $versions = array_map(fn (Version $version): string => $version->key, $this->versions()) ?: [null];
+        $paths = [];
+
+        foreach ($languages as $language) {
+            foreach ($versions as $version) {
+                $paths[] = $this->getScanBasePath($language, $version);
+            }
+        }
+
+        return $paths;
+    }
+
+    /**
      * Collect slugs from navigation(), tabs(), versions(), and pages().
      *
      * @return array<int, string>
@@ -387,8 +408,11 @@ class Vault
      */
     private function collectDiscoveredSlugs(): array
     {
-        $scanner = new FilesystemScanner($this->getAbsolutePath());
-        $slugs = $scanner->scanSlugs();
+        $slugs = [];
+
+        foreach ($this->scanBasePaths() as $basePath) {
+            array_push($slugs, ...new FilesystemScanner($basePath)->scanSlugs());
+        }
 
         foreach ($this->pages() as $page) {
             if ($page->getRoute() === null) {
