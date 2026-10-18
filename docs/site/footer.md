@@ -54,3 +54,13 @@ A minimal footer can be just a line of text:
 ```php
 Footer::make('footer1')->text('Built with Plume');
 ```
+
+## Plume credit
+
+The docs footer ends with *Powered by Plume*. To leave it out:
+
+```php
+Plume::configure()
+    ->poweredBy(false);
+```
+

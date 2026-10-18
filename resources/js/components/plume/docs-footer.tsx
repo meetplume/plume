@@ -1,4 +1,5 @@
 import { useTexts } from '@/lib/texts';
+import { usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PrevNextLink {
@@ -14,6 +15,7 @@ export type DocsFooterProps = {
 
 export function DocsFooter({ text, prev, next }: DocsFooterProps) {
     const t = useTexts();
+    const site = usePage().props.site as { poweredBy?: boolean } | undefined;
 
     return (
         <footer data-slot="docs-footer" className="mx-auto w-full max-w-full border-t border-border/40 py-8 lg:max-w-3xl">
@@ -39,17 +41,19 @@ export function DocsFooter({ text, prev, next }: DocsFooterProps) {
             )}
             <div className="flex items-center justify-between text-sm text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:hover:underline">
                 <div>{text && <span dangerouslySetInnerHTML={{ __html: text }} />}</div>
-                <div className="text-muted-foreground">
-                    {t('Powered by')}{' '}
-                    <a
-                        href={`https://meetplume.com?ref=${typeof window !== 'undefined' ? window.location.origin : ''}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground"
-                    >
-                        Plume
-                    </a>
-                </div>
+                {site?.poweredBy !== false && (
+                    <div className="text-muted-foreground">
+                        {t('Powered by')}{' '}
+                        <a
+                            href={`https://meetplume.com?ref=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground"
+                        >
+                            Plume
+                        </a>
+                    </div>
+                )}
             </div>
         </footer>
     );

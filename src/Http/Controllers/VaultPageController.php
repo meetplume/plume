@@ -128,6 +128,7 @@ class VaultPageController
             'name' => $config->getName(),
             'logo' => $config->getLogo(),
             'logoDark' => $config->getLogoDark(),
+            'poweredBy' => $config->showsPoweredBy(),
         ];
 
         if ($vault->hasTabs() || $this->versionHasTabs($vault, $version)) {
