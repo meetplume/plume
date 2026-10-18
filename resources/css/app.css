@@ -46,6 +46,8 @@
     --color-sidebar-ring: var(--sidebar-ring);
 }
 :root {
+    /* The header's height until the header measures itself (use-header-height.ts). */
+    --plume-header-height: calc(var(--spacing) * 16 + 1px);
     --ec-brdRad: calc(var(--radius) - 2px) !important;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
@@ -124,7 +126,7 @@
         @apply bg-background text-foreground;
     }
     .prose :where(h2, h3, h4):not(:where([class~='not-prose'] *)) {
-        scroll-margin-top: calc((var(--spacing) * 8) + (var(--spacing) * 16 + 1px));
+        scroll-margin-top: calc(var(--spacing) * 8 + var(--plume-header-height));
     }
     .prose :where(code):not(:where(pre *, [class~='not-prose'] *)) {
         @apply relative rounded-[8px] bg-muted px-[0.3rem] py-[0.2rem] font-mono text-[0.8em] wrap-break-word;

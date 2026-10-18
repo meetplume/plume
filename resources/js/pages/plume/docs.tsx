@@ -93,7 +93,7 @@ export default function DocsLayout(page: DocsPageProps) {
                 </main>
                 <div
                     data-slot="docs-toc"
-                    className="sticky top-[calc(var(--spacing)*16+1px)] h-[calc(100vh-var(--spacing)*16-5px)] w-64 shrink-0 overflow-y-auto pb-8 text-sm max-xl:hidden"
+                    className="sticky top-(--plume-header-height) h-[calc(100vh-var(--plume-header-height)-4px)] w-64 shrink-0 overflow-y-auto pb-8 text-sm max-xl:hidden"
                 >
                     <TableOfContents />
                 </div>
