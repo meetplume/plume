@@ -117,6 +117,68 @@ class Vault
     }
 
     /**
+     * Whether the reader of the request sees a page, from its key and its
+     * frontmatter (say, the feature or the permission it documents). A page
+     * the reader does not see is left out of the sidebar, the search results,
+     * the previous/next links and the tabs, and answers 404.
+     *
+     * @param  array<string, mixed>  $frontmatter
+     */
+    public function canSeePage(Request $request, string $key, array $frontmatter): bool
+    {
+        return true;
+    }
+
+    /**
+     * Whether the vault filters its pages per reader, through `canSeePage()`.
+     */
+    public function hasPageVisibility(): bool
+    {
+        return $this->isMethodOverridden('canSeePage');
+    }
+
+    public function pageIsVisible(Request $request, Page $page, ?string $language = null, ?string $version = null): bool
+    {
+        if (! $this->hasPageVisibility()) {
+            return true;
+        }
+
+        return $this->canSeePage($request, $page->key, $this->frontmatterOf($page, $language, $version));
+    }
+
+    /**
+     * The navigation as the reader of the request sees it.
+     *
+     * @return array<int, NavGroup>
+     */
+    public function visibleNavigation(Request $request, ?string $language = null, ?string $version = null, ?string $tab = null): array
+    {
+        $groups = $this->resolveNavigation($language, $version, $tab);
+
+        if (! $this->hasPageVisibility()) {
+            return $groups;
+        }
+
+        return array_map(
+            fn (NavGroup $group): NavGroup => (clone $group)->pages(array_values(array_filter(
+                $group->getPages(),
+                fn (Page $page): bool => $this->pageIsVisible($request, $page, $language, $version),
+            ))),
+            $groups,
+        );
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function frontmatterOf(Page $page, ?string $language = null, ?string $version = null): array
+    {
+        $path = $this->resolveFilePath($page, $language, $version);
+
+        return is_file($path) ? Frontmatter::parse((string) file_get_contents($path)) : [];
+    }
+
+    /**
      * Route middleware of the vault: its pages, search index and content assets.
      *
      * Keep `web` for the session, and add what the host needs before

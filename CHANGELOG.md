@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Page menu next to the page title: copy the page as Markdown, view it as Markdown, open it in ChatGPT or Claude, or export it as a PDF through the browser's print dialog. Every page is also served as Markdown at its address followed by `.md`, through the same middleware and `canAccess()` as the page. `Vault::pageActions()` picks the entries; return `PageAction::internal()` for a vault behind a login, or `[]` to leave the menu out. See the Page Actions docs.
 - Page menu next to the page title: copy the page as Markdown, view it as Markdown, open it in ChatGPT or Claude, or export it as a PDF through the browser's print dialog. Every page is also served as Markdown at its address followed by `.md`, through the same middleware and `canAccess()` as the page. `Vault::pageActions()` picks the entries; return `PageAction::internal()` for a vault behind a login, or `[]` to leave the menu out. Its words, and the question put to ChatGPT and Claude, follow the language of the page. See the Page Actions docs.
 - `Vault::middleware()`: the route middleware of a vault's pages, search index and content assets (`['web']` by default). Add `auth` to send guests to the login page instead of a 403, or a middleware that keeps the vault off some hosts.
+- `Vault::canSeePage()`: show some pages to some readers only, from their key and frontmatter (say, the feature or permission they document). Hidden pages are left out of the sidebar, search, previous/next links and tabs, and answer 404.
 
 ### Changed
 

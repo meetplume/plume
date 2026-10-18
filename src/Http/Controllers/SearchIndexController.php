@@ -35,7 +35,9 @@ class SearchIndexController
         $version = $this->resolveVersion($vault, $request->query('version'));
 
         $index = $cache->get($vault, $language, $version);
-        $etag = '"'.$index['signature'].'"';
+        $records = $vault->hasPageVisibility() ? $this->visibleRecords($vault, $request, $index['records']) : $index['records'];
+        // The same files can give two readers two indexes.
+        $etag = '"'.md5($index['signature'].'|'.implode(',', array_column($records, 'id'))).'"';
 
         if ($request->headers->get('If-None-Match') === $etag) {
             return response('', 304)
@@ -44,9 +46,33 @@ class SearchIndexController
         }
 
         return response()
-            ->json($index['records'])
+            ->json($records)
             ->header('ETag', $etag)
             ->header('Cache-Control', self::CACHE_CONTROL);
+    }
+
+    /**
+     * The records the reader sees, without the key and frontmatter they carry for this filter.
+     *
+     * @param  list<array<string, mixed>>  $records
+     * @return list<array<string, mixed>>
+     */
+    private function visibleRecords(Vault $vault, Request $request, array $records): array
+    {
+        $visible = [];
+
+        foreach ($records as $record) {
+            $key = is_string($record['key'] ?? null) ? $record['key'] : '';
+            /** @var array<string, mixed> $frontmatter */
+            $frontmatter = is_array($record['frontmatter'] ?? null) ? $record['frontmatter'] : [];
+
+            if ($vault->canSeePage($request, $key, $frontmatter)) {
+                unset($record['key'], $record['frontmatter']);
+                $visible[] = $record;
+            }
+        }
+
+        return $visible;
     }
 
     private function resolveLanguage(Vault $vault, mixed $value): ?string

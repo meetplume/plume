@@ -88,6 +88,34 @@ middleware (`HandleInertiaRequests`), Plume leaves it out of the vault's routes:
 asset version would never match Plume's, and every visit would end in a full reload.
 :::
 
+## Per-page visibility
+
+`canAccess()` opens or closes the whole vault. To show some pages to some readers only,
+override `canSeePage()`. It receives the request, the page's key (its path without
+extension) and its frontmatter — so a page can say what it documents:
+
+```markdown
+---
+title: Opportunities pipeline
+feature: crm
+permission: opportunities.view
+---
+```
+
+```php
+public function canSeePage(Request $request, string $key, array $frontmatter): bool
+{
+    $feature = $frontmatter['feature'] ?? null;
+    $permission = $frontmatter['permission'] ?? null;
+
+    return ($feature === null || Feature::active($feature))
+        && ($permission === null || $request->user()?->can($permission));
+}
+```
+
+A page the reader does not see is left out of the sidebar, the search results, the
+previous/next links and the tabs, and answers `404` — as if it did not exist.
+
 ## Page actions
 
 A page's Markdown, served at its address followed by `.md`, goes through
