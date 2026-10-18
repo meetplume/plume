@@ -119,6 +119,14 @@ class VaultPageController
             $props['sections'] = $pageProps['meta']['sections'];
         }
 
+        $brand = trim(view('plume::brand', [
+            'name' => $config->getName(),
+            'logo' => $config->getLogo(),
+            'logoDark' => $config->getLogoDark(),
+            'homeUrl' => $vault->getHome(),
+            'vault' => $vault,
+        ])->render());
+
         // The logo and the home link apply with or without a configured header.
         $props['header'] = [
             ...($config->getHeader()?->toArray() ?? []),
@@ -126,6 +134,8 @@ class VaultPageController
             'logo' => $config->getLogo(),
             'logoDark' => $config->getLogoDark(),
             'homeUrl' => $vault->getHome(),
+            // The host's own brand markup (its published `brand` partial), in place of the logo and name.
+            'brand' => $brand === '' ? null : $brand,
         ];
 
         $footer = $config->getFooter();
