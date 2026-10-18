@@ -248,7 +248,7 @@ final readonly class SearchIndexBuilder
     {
         $segments = [trim($this->vault->getPrefix(), '/')];
 
-        if ($this->language !== null) {
+        if ($this->language !== null && ! $this->vault->hasAppLanguage()) {
             $segments[] = $this->language;
         }
 

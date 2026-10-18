@@ -16,6 +16,9 @@ use Meetplume\Plume\Vault;
 
 class VaultPageController
 {
+    /** False when the app picks the language: links then carry none. */
+    private bool $languageInUrl = true;
+
     public function __invoke(Request $request): PlumeInertiaResponse
     {
         /** @var string $vaultPrefix */
@@ -36,7 +39,10 @@ class VaultPageController
         $tab = $request->route('tab');
         $slug = $request->route('slug');
 
-        if ($language === null && $vault->hasLanguages()) {
+        if ($vault->hasAppLanguage()) {
+            $language = $vault->appLanguageFor($request);
+            $this->languageInUrl = false;
+        } elseif ($language === null && $vault->hasLanguages()) {
             $language = $vault->getDefaultLanguage()?->code;
         }
 
@@ -89,7 +95,7 @@ class VaultPageController
         // Assets and relative links resolve from the folder of the page's file,
         // inside its language and version folders.
         $pageDir = dirname($page->getPath());
-        $folder = implode('/', array_filter([$language, $version, $pageDir === '.' ? null : trim($pageDir, '/')]));
+        $folder = implode('/', array_filter([$page->getLanguage() ?? $language, $version, $pageDir === '.' ? null : trim($pageDir, '/')]));
 
         $props['contentAssetBase'] = '/'.$prefix.'/_content'.($folder === '' ? '' : '/'.$folder);
         $props['pageBaseUrl'] = $this->buildPageHref($prefix, $pageDir === '.' ? '/' : trim($pageDir, '/'), $language, $version, $tab);
@@ -130,7 +136,7 @@ class VaultPageController
             $props['activeVersion'] = $version;
         }
 
-        if ($vault->hasLanguages()) {
+        if ($vault->hasLanguages() && ! $vault->hasAppLanguage()) {
             $props['languages'] = $this->buildLanguagesArray($vault, $language, $version, $tab, $slug);
             $props['activeLanguage'] = $language;
         }
@@ -341,7 +347,7 @@ class VaultPageController
     ): string {
         $segments = [$prefix];
 
-        if ($language !== null) {
+        if ($language !== null && $this->languageInUrl) {
             $segments[] = $language;
         }
 

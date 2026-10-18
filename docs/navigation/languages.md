@@ -80,3 +80,20 @@ Languages, versions and tabs can be combined. The URL segments nest in this orde
 `/{prefix}/{language}/{version}/{tab}/{slug}` — any segment whose feature isn't used is
 simply omitted.
 :::
+
+## Language picked by the app
+
+When the language comes from the app rather than from the reader — a per-tenant
+setting, a user preference — override `languageFor()`:
+
+```php
+public function languageFor(Request $request): ?string
+{
+    return app()->getLocale();
+}
+```
+
+The vault then serves that language at the bare prefix (`/docs/installation`): there is
+no language switcher and no language segment in routes or links. A page not translated
+yet is served from the default language, and listed in the sidebar and search in its
+place. A code the vault does not offer serves the default language.
