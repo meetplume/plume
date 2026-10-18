@@ -57,6 +57,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - In Auto discovery, the vault home (its root `index.md`) was sorted by name among the other root pages, often mid-list. It now opens its group.
 - The logo and the home link of the header were ignored unless `header()` was configured: the header showed the site name, linking to `/`.
 - An address with an anchor (`/docs/guide#install`) opened the page at the top: the browser looked for the anchor before the page's text was rendered. The page now scrolls to it once its text is in.
+- The copy button of code blocks had a border, and square corners in a theme with a radius of 8px or less. It now has no border, and the radius of a button (`--radius` minus 2px).
 
 ### Security
 

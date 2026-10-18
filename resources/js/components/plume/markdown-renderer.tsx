@@ -107,7 +107,7 @@ function codeRenderer(light: string, dark: string, locale: string): Promise<Rehy
             },
             plugins: [pluginCollapsibleSections()],
             styleOverrides: {
-                frames: { copyIcon },
+                frames: { inlineButtonBorderOpacity: '0', copyIcon },
             },
         });
         renderer.catch(() => codeRenderers.delete(key));
