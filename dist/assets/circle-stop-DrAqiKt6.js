@@ -1,0 +1,1 @@
+import{c}from"./index-BmT1ec6r.js";import"./app-VAgvxNeD.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const o=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["rect",{x:"9",y:"9",width:"6",height:"6",rx:"1",key:"1ssd4o"}]],m=c("circle-stop",o);export{o as __iconNode,m as default};

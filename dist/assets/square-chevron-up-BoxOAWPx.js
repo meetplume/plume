@@ -1,0 +1,1 @@
+import{c as t}from"./index-BmT1ec6r.js";import"./app-VAgvxNeD.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const e=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"m8 14 4-4 4 4",key:"fy2ptz"}]],a=t("square-chevron-up",e);export{e as __iconNode,a as default};
