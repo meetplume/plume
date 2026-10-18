@@ -24,11 +24,11 @@ Constructed with a `Vault` and optional `language` / `version`, it walks the vau
 ```
 
 - **Title** comes from frontmatter `title`, else the first `#` heading, else the page label.
-- **`signature()`** is a cheap fingerprint: it hashes each contributing file's resolved path + `mtime` **without reading contents**, so a cache layer can decide whether to rebuild by stat alone.
+- **`signature()`** is a cheap fingerprint: it hashes each contributing file's resolved path + `mtime` **without reading contents**, so a cache layer can decide whether to rebuild by stat alone. It also hashes `INDEX_FORMAT`: bump that constant whenever a change to the builder alters the records for unchanged docs, or sites that update Plume keep serving the index built by the previous release.
 
 ### `SearchIndexCache` — `src/Actions/SearchIndexCache.php`
 
-Wraps the builder and caches the built records keyed by the `signature()`, so the index is only rebuilt when a source file actually changes.
+Wraps the builder and caches the built records keyed by the `signature()`, so the index is only rebuilt when a source file or the index format changes.
 
 ### `SearchIndexController` — `src/Http/Controllers/SearchIndexController.php`
 

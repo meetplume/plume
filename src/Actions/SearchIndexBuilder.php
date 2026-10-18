@@ -11,10 +11,18 @@ use Meetplume\Plume\Vault;
 
 final readonly class SearchIndexBuilder
 {
+    /**
+     * Version of what build() outputs. Bump it whenever a change to Plume
+     * alters the records for unchanged docs, so caches and ETags built by
+     * an earlier release are dropped after an update.
+     */
+    public const int INDEX_FORMAT = 2;
+
     public function __construct(
         private Vault $vault,
         private ?string $language = null,
         private ?string $version = null,
+        private int $indexFormat = self::INDEX_FORMAT,
     ) {}
 
     /**
@@ -49,6 +57,8 @@ final readonly class SearchIndexBuilder
      *
      * Hashes (resolved path → mtime) without reading any file contents,
      * so cache layers can decide whether to rebuild without parsing markdown.
+     * The index format is mixed in, so a Plume update that changes the
+     * records also changes the fingerprint.
      */
     public function signature(): string
     {
@@ -71,7 +81,7 @@ final readonly class SearchIndexBuilder
             $parts[] = 'visibility';
         }
 
-        return md5(implode("\n", $parts));
+        return md5($this->indexFormat."\n".implode("\n", $parts));
     }
 
     /**
