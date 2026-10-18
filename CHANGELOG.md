@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Vault::middleware()`: the route middleware of a vault's pages, search index and content assets (`['web']` by default). Add `auth` to send guests to the login page instead of a 403, or a middleware that keeps the vault off some hosts.
 - `Vault::canSeePage()`: show some pages to some readers only, from their key and frontmatter (say, the feature or permission they document). Hidden pages are left out of the sidebar, search, previous/next links and tabs, and answer 404.
 - `group_label` frontmatter key: the label of the page's group in Auto discovery, instead of the title-cased folder name (`etudes-de-rentabilite` read "Etudes De Rentabilite").
+- `appearanceKey()` on the configuration: the browser storage key (localStorage and cookie) of the light/dark choice, `theme` by default. Give it the host app's own key to share one choice; a stored `system` follows the OS. The choice now applies before the first paint.
+- A `head` partial: publish `resources/views/vendor/plume/head.blade.php` to add styles, a favicon or scripts to every Plume page, after Plume's stylesheet.
 
 ### Changed
 
@@ -35,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Below the `lg` breakpoint the sidebar was hidden and the mobile menu did not list the navigation: no other page could be reached on a phone. The mobile menu now lists the sidebar's groups and pages, and closes on navigation.
 - Inside an Inertia app, every visit to a Plume page answered 409 and reloaded the whole page: the host's Inertia middleware compared its asset version with Plume's. Vault routes now leave the host's Inertia middleware out.
 - Auto discovery showed the root group as "_Root" in the sidebar, and its pages under that label in search results; it is now unlabelled.
+- Pages had no doctype and rendered in quirks mode.
+- The tab title ended with "Laravel" (`VITE_APP_NAME` at Plume's build) instead of the site name set by `Plume::configure()->name()`.
 
 ### Security
 
