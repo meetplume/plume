@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Pages no longer load every Shiki code theme. The theme customizer was mounted even where it is disabled, production included, and loaded about 60 themes for its previews on each full page load. It is now loaded only where it is enabled, and loads the previews when its panel opens. In production, a cold page load goes from 102 JavaScript files to 25; in the playground, the content shows 420–520 ms sooner on a throttled connection (4G, CPU ×4).
 - Changing page no longer leaves the article blank while its code blocks are highlighted. The page paints its text first, then its highlighted code: on a throttled connection (4G, CPU ×4), the text of the next page shows in 110–150 ms instead of 170–680 ms, and on first load as soon as the layout (0.9 s instead of 2.2–2.7 s). The Expressive Code engine is also built once per pair of code themes instead of on every page.
 - A page without a frontmatter `title` took its tab title and sidebar label from its file name (`acces-mobile` read "Acces Mobile"), while search used its first `# ` heading. Both now use that heading.
+- In Auto discovery, the vault home (its root `index.md`) was sorted by name among the other root pages, often mid-list. It now opens its group.
 
 ### Security
 

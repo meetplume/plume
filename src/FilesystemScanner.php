@@ -271,6 +271,11 @@ final readonly class FilesystemScanner
     private function sortPages(array $pages): array
     {
         usort($pages, function (Page $a, Page $b): int {
+            // The vault's home (its root index.md) opens its group.
+            if ($a->getSlug() === '/' || $b->getSlug() === '/') {
+                return ($b->getSlug() === '/') <=> ($a->getSlug() === '/');
+            }
+
             $aOrder = $a->getOrder();
             $bOrder = $b->getOrder();
 
