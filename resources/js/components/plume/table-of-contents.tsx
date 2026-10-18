@@ -12,6 +12,21 @@ interface TableOfContentsProps {
     contentSelector?: string;
 }
 
+/** Room kept around the active entries, which also clears the fade at the top of the panel. */
+const FOLLOW_MARGIN = 48;
+
+function scrollParent(element: HTMLElement): HTMLElement | null {
+    for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+        const { overflowY } = getComputedStyle(parent);
+
+        if ((overflowY === 'auto' || overflowY === 'scroll') && parent.scrollHeight > parent.clientHeight) {
+            return parent;
+        }
+    }
+
+    return null;
+}
+
 export function TableOfContents({ contentSelector = 'article' }: TableOfContentsProps) {
     const t = useTexts();
     const [headings, setHeadings] = useState<TocEntry[]>([]);
@@ -72,6 +87,29 @@ export function TableOfContents({ contentSelector = 'article' }: TableOfContents
     useEffect(() => {
         updateIndicator();
     }, [updateIndicator]);
+
+    // A long table of contents scrolls in its own panel: keep the active entries in
+    // view as the page scrolls, unless the reader is browsing the panel itself.
+    const indicatorTop = indicator?.top;
+    const indicatorHeight = indicator?.height;
+
+    useEffect(() => {
+        if (indicatorTop === undefined || indicatorHeight === undefined || !listRef.current) return;
+
+        const panel = scrollParent(listRef.current);
+        if (!panel || panel.matches(':hover')) return;
+
+        const listTop = listRef.current.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop;
+        const top = listTop + indicatorTop;
+        const bottom = top + indicatorHeight;
+
+        if (top >= panel.scrollTop + FOLLOW_MARGIN && bottom <= panel.scrollTop + panel.clientHeight - FOLLOW_MARGIN) return;
+
+        const fits = indicatorHeight <= panel.clientHeight - 2 * FOLLOW_MARGIN;
+        const target = fits ? top - (panel.clientHeight - indicatorHeight) / 2 : top - FOLLOW_MARGIN;
+
+        panel.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+    }, [indicatorTop, indicatorHeight]);
 
     // Scroll-spy: track all headings visible in viewport
     useEffect(() => {
