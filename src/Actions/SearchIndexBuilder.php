@@ -267,7 +267,20 @@ final readonly class SearchIndexBuilder
         // Callouts: `:::tip[Title]` and `::: tip Title` keep their title, `:::` and `> [!TIP]` markers go.
         $text = preg_replace('/^[ \t]*:{3,}[ \t]*(?:[a-z][\w-]*)?[ \t]*(?:\[(.*)\])?[ \t]*(?:\{.*\})?[ \t]*(.*)$/im', '$1 $2', $text) ?? $text;
         $text = preg_replace('/^([ \t]*(?:>[ \t]*)+)\[![a-z]+\]/im', '$1', $text) ?? $text;
-        $text = preg_replace('/`[^`\n]+`/', ' ', $text) ?? $text;
+
+        // Inline code keeps its text, set aside so the rules below leave `array<Page>` or `snake_case_name` alone.
+        $codeSpans = [];
+        $text = preg_replace_callback('/(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)/', function (array $matches) use (&$codeSpans): string {
+            $placeholder = "\x1A".count($codeSpans)."\x1A";
+            $codeSpans[$placeholder] = trim($matches[2]);
+
+            return $placeholder;
+        }, $text) ?? $text;
+
+        // Tables: the delimiter row goes, the cells keep their text.
+        $text = preg_replace('/^(?=[^\n]*\|)(?=[^\n]*-)[ \t|:-]+$/m', '', $text) ?? $text;
+        $text = str_replace('|', ' ', $text);
+
         $text = preg_replace('/!\[[^\]]*\]\([^)]*\)/', ' ', $text) ?? $text;
         $text = preg_replace('/\[([^\]]+)\]\([^)]*\)/', '$1', $text) ?? $text;
         $text = preg_replace('/^#{1,6}\s+/m', '', $text) ?? $text;
@@ -276,6 +289,7 @@ final readonly class SearchIndexBuilder
         $text = preg_replace('/^\s*[-*+]\s+/m', '', $text) ?? $text;
         $text = preg_replace('/^\s*\d+\.\s+/m', '', $text) ?? $text;
         $text = preg_replace('/<[^>]+>/', ' ', $text) ?? $text;
+        $text = strtr($text, $codeSpans);
         $text = preg_replace('/\s+/', ' ', $text) ?? $text;
 
         return trim($text);

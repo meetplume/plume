@@ -101,10 +101,40 @@ it('strips markdown to plaintext for the body field', function () use ($fixtureP
     $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
 
     expect($home['body'])
-        ->not->toContain('**', '`', '#', '[installation]', '](', 'composer require')
+        ->not->toContain('**')
+        ->not->toContain('`')
+        ->not->toContain('#')
+        ->not->toContain('[installation]')
+        ->not->toContain('](')
+        ->not->toContain('composer require')
         ->toContain('Get started with Plume')
         ->toContain('installation guide')
         ->toContain('Vaults');
+});
+
+it('keeps the text of inline code', function () use ($fixturePath): void {
+    $vault = makeSearchVault($fixturePath);
+
+    $records = new SearchIndexBuilder($vault)->build();
+    $home = array_find($records, fn (array $r): bool => $r['slug'] === '/');
+    $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
+
+    expect($home['body'])->toContain('It is a fast and simple markdown tool.')
+        ->and($deploy['body'])->toContain('Run composer install')
+        ->and($deploy['body'])->toContain('caddy reload --config <file>');
+});
+
+it('flattens tables to the text of their cells', function () use ($fixturePath): void {
+    $vault = makeSearchVault($fixturePath);
+
+    $records = new SearchIndexBuilder($vault)->build();
+    $deploy = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/deploy');
+
+    expect($deploy['body'])
+        ->not->toContain('|')
+        ->not->toContain(':-')
+        ->not->toContain('---')
+        ->toContain('works great. Server Reload with Nginx nginx -s reload Caddy caddy reload --config <file> Steps');
 });
 
 it('removes images and preserves blockquote text', function () use ($fixturePath): void {
@@ -114,7 +144,8 @@ it('removes images and preserves blockquote text', function () use ($fixturePath
     $trouble = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
 
     expect($trouble['body'])
-        ->not->toContain('![', 'flow.png')
+        ->not->toContain('![')
+        ->not->toContain('flow.png')
         ->toContain('Tip: enable debug mode');
 });
 

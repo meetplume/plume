@@ -16,6 +16,11 @@ You will need a server with PHP 8.4.
 
 Nginx or Caddy works great.
 
+| Server | Reload with                    |
+|--------|:-------------------------------|
+| Nginx  | `nginx -s reload`              |
+| Caddy  | `caddy reload --config <file>` |
+
 ## Steps
 
 1. Pull the latest code
