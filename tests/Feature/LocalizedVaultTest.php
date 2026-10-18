@@ -24,3 +24,9 @@ it('serves discovered pages from their language folder', function (string $url, 
     'default language without its code' => ['/localized/guides/deploy', 'Deploying'],
     'another language under its code' => ['/localized/pt/guides/deploy', 'Publicar'],
 ]);
+
+it('serves the assets of a page from its language folder', function (): void {
+    $this->get('/localized/pt/guides/deploy', ['X-Inertia' => 'true'])
+        ->assertOk()
+        ->assertJsonPath('props.contentAssetBase', '/localized/_content/pt/guides');
+});
