@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - The `test:type-coverage` script now fails when type coverage drops below 100%. It passed `--exactly=100`, which the type coverage plugin ignores, so it always exited `0`; it now uses `--min=100`. The untyped parameters this let through are typed: two closures in `DiagnosticsController`, and `PlumeInertiaResponse::toResponse()`, only reported with the lowest dependencies.
 - With languages, Auto and Mapped discovery served no page at all: slugs were collected from the vault root (`en/guide`) instead of each language folder. Each language home (`/docs/pt`) is now routed too.
+- In a vault with languages, relative images of a page pointed outside its language folder (`/docs/_content/guides/shot.png` for `pt/guides/deploy.md`) and answered 404.
 
 ## [0.10.5] - 2026-06-02
 

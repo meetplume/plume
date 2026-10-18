@@ -86,14 +86,12 @@ class VaultPageController
         $props['searchIndexUrl'] = '/'.$prefix.'/_plume/search-index.json'
             .($searchQuery === [] ? '' : '?'.http_build_query($searchQuery));
 
+        // Assets resolve from the folder of the page's file, inside its
+        // language and version folders.
         $pageDir = dirname($page->getPath());
-        $assetBase = '/'.$prefix.'/_content';
+        $folder = implode('/', array_filter([$language, $version, $pageDir === '.' ? null : trim($pageDir, '/')]));
 
-        if ($pageDir !== '.') {
-            $assetBase .= '/'.trim($pageDir, '/');
-        }
-
-        $props['contentAssetBase'] = $assetBase;
+        $props['contentAssetBase'] = '/'.$prefix.'/_content'.($folder === '' ? '' : '/'.$folder);
 
         if (! empty($pageProps['meta']['sections'])) {
             $props['sections'] = $pageProps['meta']['sections'];
