@@ -6,6 +6,7 @@ import { SearchButton } from '@/components/plume/search-button';
 import { SearchDialog } from '@/components/plume/search-dialog';
 import { type BackLink, BackToApp, type NavItem, NavTree } from '@/components/plume/sidebar-nav';
 import { useDarkMode } from '@/hooks/use-dark-mode';
+import { useHeaderHeight } from '@/hooks/use-header-height';
 import { useSearchShortcut } from '@/hooks/use-search-shortcut';
 import { useTexts } from '@/lib/texts';
 import { cn } from '@/lib/utils';
@@ -104,6 +105,8 @@ export function DocsHeader({
     const { isDark, toggle } = useDarkMode();
     const t = useTexts();
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const headerRef = React.useRef<HTMLElement>(null);
+    useHeaderHeight(headerRef);
     const search = useSearchShortcut(Boolean(searchIndexUrl));
 
     const versionItems: HeaderMenuItem[] =
@@ -112,7 +115,11 @@ export function DocsHeader({
         languages && languages.length > 1 ? languages.map((l) => ({ key: l.code, label: l.name, href: l.href, active: l.active, lang: l.code })) : [];
 
     return (
-        <header data-slot="docs-header" className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm">
+        <header
+            ref={headerRef}
+            data-slot="docs-header"
+            className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm"
+        >
             <div className="mx-auto flex max-w-368 items-center gap-6 px-6 lg:px-12">
                 {brand ? (
                     <a href={homeUrl} className="inline-flex min-w-0 shrink items-center" dangerouslySetInnerHTML={{ __html: brand }} />

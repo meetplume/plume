@@ -64,7 +64,7 @@ export function SidebarNav({ navigation, backLink }: SidebarNavProps) {
         <nav
             id="plume-sidebar-nav"
             ref={navRef}
-            className="sticky top-[calc(var(--spacing)*16+1px)] flex h-[calc(100vh-var(--spacing)*16-1px)] w-64 shrink-0 flex-col overflow-y-auto text-sm max-lg:hidden"
+            className="sticky top-(--plume-header-height) flex h-[calc(100vh-var(--plume-header-height))] w-64 shrink-0 flex-col overflow-y-auto text-sm max-lg:hidden"
         >
             <div className="sticky top-0 z-10 h-8 shrink-0 bg-linear-to-b from-background"></div>
             <NavTree navigation={navigation} className="pr-8 pb-8" />

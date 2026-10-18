@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - The logo and the home link of the header were ignored unless `header()` was configured: the header showed the site name, linking to `/`.
 - An address with an anchor (`/docs/guide#install`) opened the page at the top: the browser looked for the anchor before the page's text was rendered. The page now scrolls to it once its text is in.
 - The copy button of code blocks had a border, and square corners in a theme with a radius of 8px or less. It now has no border, and the radius of a button (`--radius` minus 2px).
+- The sidebar and the table of contents stuck at a fixed 65px from the top: under a taller header (a logo on two lines, a row of tabs) they slid beneath it while scrolling. The header now measures itself (`--plume-header-height`), and headings scroll to just below it too.
 
 ### Security
 
