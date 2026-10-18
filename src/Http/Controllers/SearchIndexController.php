@@ -15,6 +15,12 @@ use Meetplume\Plume\Version;
 
 class SearchIndexController
 {
+    /**
+     * Private: the index holds the text of every page, and a vault behind
+     * canAccess() must not leave it in a shared cache (proxy, CDN).
+     */
+    private const string CACHE_CONTROL = 'private, max-age=300, must-revalidate';
+
     public function __invoke(Request $request, SearchIndexCache $cache): Response|JsonResponse
     {
         /** @var string $vaultPrefix */
@@ -34,13 +40,13 @@ class SearchIndexController
         if ($request->headers->get('If-None-Match') === $etag) {
             return response('', 304)
                 ->header('ETag', $etag)
-                ->header('Cache-Control', 'public, max-age=300, must-revalidate');
+                ->header('Cache-Control', self::CACHE_CONTROL);
         }
 
         return response()
             ->json($index['records'])
             ->header('ETag', $etag)
-            ->header('Cache-Control', 'public, max-age=300, must-revalidate');
+            ->header('Cache-Control', self::CACHE_CONTROL);
     }
 
     private function resolveLanguage(Vault $vault, mixed $value): ?string

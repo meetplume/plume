@@ -27,7 +27,8 @@ it('responds with the search index JSON', function (): void {
         ->assertHeader('Content-Type', 'application/json');
 
     expect($response->headers->get('Cache-Control'))
-        ->toContain('public')
+        ->toContain('private')
+        ->not->toContain('public')
         ->toContain('max-age=300')
         ->toContain('must-revalidate');
 

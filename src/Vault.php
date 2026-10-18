@@ -116,6 +116,20 @@ class Vault
         return PageAction::cases();
     }
 
+    /**
+     * Route middleware of the vault: its pages, search index and content assets.
+     *
+     * Keep `web` for the session, and add what the host needs before
+     * `canAccess()` runs — `auth` to send guests to the login page, or a
+     * middleware that keeps the vault off some hosts.
+     *
+     * @return array<int, string>
+     */
+    public function middleware(): array
+    {
+        return ['web'];
+    }
+
     public function getPrefix(): string
     {
         return $this->prefix;
