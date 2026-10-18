@@ -10,8 +10,15 @@ use SplFileInfo;
 
 final readonly class FilesystemScanner
 {
+    /**
+     * @param  ?string  $fallbackBasePath  A folder whose files fill in the ones missing from `$basePath`
+     *                                     (the default language, while a page is not translated yet).
+     * @param  ?string  $fallbackLanguage  The language of that folder, set on the pages it fills in.
+     */
     public function __construct(
         private string $basePath,
+        private ?string $fallbackBasePath = null,
+        private ?string $fallbackLanguage = null,
     ) {}
 
     /**
@@ -71,8 +78,7 @@ final readonly class FilesystemScanner
             $grouped[$groupKey][] = $page;
 
             if ($groupKey !== '_root' && ! isset($groupMeta[$groupKey])) {
-                $fullPath = $this->basePath.'/'.$relativePath;
-                $frontmatter = $this->readFrontmatter($fullPath);
+                $frontmatter = $this->readFrontmatter($this->fullPath($relativePath));
 
                 $groupMeta[$groupKey] = [];
 
@@ -128,13 +134,41 @@ final readonly class FilesystemScanner
     }
 
     /**
-     * Find all .md files relative to basePath, excluding files starting with _.
+     * Find all .md files relative to basePath, and those of the fallback folder
+     * that basePath lacks, excluding files starting with _.
      *
      * @return array<int, string>
      */
     private function findMarkdownFiles(): array
     {
-        if (! is_dir($this->basePath)) {
+        $files = $this->listMarkdownFiles($this->basePath);
+
+        if ($this->fallbackBasePath !== null) {
+            $files = array_values(array_unique([...$files, ...$this->listMarkdownFiles($this->fallbackBasePath)]));
+            sort($files);
+        }
+
+        return $files;
+    }
+
+    /**
+     * The file behind a relative path: in basePath, or in the fallback folder when basePath lacks it.
+     */
+    private function fullPath(string $relativePath): string
+    {
+        if ($this->fallbackBasePath === null || is_file($this->basePath.'/'.$relativePath)) {
+            return $this->basePath.'/'.$relativePath;
+        }
+
+        return $this->fallbackBasePath.'/'.$relativePath;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function listMarkdownFiles(string $basePath): array
+    {
+        if (! is_dir($basePath)) {
             return [];
         }
 
@@ -142,7 +176,7 @@ final readonly class FilesystemScanner
 
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
-                $this->basePath,
+                $basePath,
                 RecursiveDirectoryIterator::SKIP_DOTS,
             ),
         );
@@ -160,7 +194,7 @@ final readonly class FilesystemScanner
             }
 
             $relativePath = ltrim(
-                str_replace($this->basePath, '', $file->getPathname()),
+                str_replace($basePath, '', $file->getPathname()),
                 '/',
             );
 
@@ -174,7 +208,7 @@ final readonly class FilesystemScanner
 
     private function buildPage(string $relativePath): Page
     {
-        $fullPath = $this->basePath.'/'.$relativePath;
+        $fullPath = $this->fullPath($relativePath);
         $frontmatter = $this->readFrontmatter($fullPath);
 
         $filename = pathinfo($relativePath, PATHINFO_FILENAME);
@@ -204,6 +238,10 @@ final readonly class FilesystemScanner
 
         if (isset($frontmatter['hidden']) && $frontmatter['hidden'] === true) {
             $page->hidden();
+        }
+
+        if ($this->fallbackLanguage !== null && ! str_starts_with($fullPath, $this->basePath.'/')) {
+            $page->language($this->fallbackLanguage);
         }
 
         return $page;

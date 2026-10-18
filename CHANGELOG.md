@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Relative links to Markdown files (`setup.md`, `../guides/deploy.md#step-2`), as written for GitHub, point to their page, resolved from the folder of the current file.
+- `Vault::languageFor()`: let the app pick the language of each request (a per-tenant setting, a user preference). The vault then serves it with no language switcher and no language segment in routes or links, and fills in the pages it lacks from the default language.
 
 ### Changed
 

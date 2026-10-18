@@ -67,6 +67,42 @@ class Vault
         return false;
     }
 
+    /**
+     * Let the app pick the language of each request instead of the URL — a
+     * per-tenant setting, a user preference. Return one of `languages()`:
+     * Plume then serves that language with no language switcher and no
+     * language segment in routes or links, and fills in the pages it lacks
+     * from the default language. Null, or an unknown code, means the default.
+     */
+    public function languageFor(Request $request): ?string
+    {
+        return null;
+    }
+
+    /**
+     * Whether the app, through `languageFor()`, picks the language rather than the URL.
+     */
+    public function hasAppLanguage(): bool
+    {
+        return $this->hasLanguages() && $this->isMethodOverridden('languageFor');
+    }
+
+    /**
+     * The language `languageFor()` picks for the request, among the vault's languages.
+     */
+    public function appLanguageFor(Request $request): ?string
+    {
+        $code = $this->languageFor($request);
+
+        foreach ($this->languages() as $language) {
+            if ($language->code === $code) {
+                return $code;
+            }
+        }
+
+        return $this->getDefaultLanguage()?->code;
+    }
+
     public function getPrefix(): string
     {
         return $this->prefix;
@@ -170,7 +206,7 @@ class Vault
         ?string $tab = null,
     ): array {
         if ($this->discovery === Discovery::Auto) {
-            $scanner = new FilesystemScanner($this->getScanBasePath($language, $version));
+            $scanner = $this->scanner($language, $version);
 
             return $scanner->scanNavigation();
         }
@@ -218,7 +254,7 @@ class Vault
         }
 
         if ($this->discovery !== Discovery::Manual) {
-            $scanner = new FilesystemScanner($this->getScanBasePath($language, $version));
+            $scanner = $this->scanner($language, $version);
 
             foreach ($scanner->scanPages() as $page) {
                 $pages[$page->getSlug()] ??= $page;
@@ -236,17 +272,7 @@ class Vault
         ?string $language = null,
         ?string $version = null,
     ): string {
-        $basePath = rtrim($this->getAbsolutePath(), '/');
-
-        if ($language !== null) {
-            $basePath .= '/'.$language;
-        }
-
-        if ($version !== null) {
-            $basePath .= '/'.$version;
-        }
-
-        return $basePath.'/'.$page->getPath();
+        return $this->getScanBasePath($page->getLanguage() ?? $language, $version).'/'.$page->getPath();
     }
 
     /**
@@ -316,6 +342,21 @@ class Vault
         $versions = $this->versions();
 
         return $versions !== [] ? $versions[0] : null;
+    }
+
+    /**
+     * The scanner of a language folder. When the app picks the language, the
+     * default language fills in the pages that folder lacks.
+     */
+    private function scanner(?string $language, ?string $version): FilesystemScanner
+    {
+        $default = $this->getDefaultLanguage()?->code;
+
+        if (! $this->hasAppLanguage() || $language === null || $language === $default) {
+            return new FilesystemScanner($this->getScanBasePath($language, $version));
+        }
+
+        return new FilesystemScanner($this->getScanBasePath($language, $version), $this->getScanBasePath($default, $version), $default);
     }
 
     /**

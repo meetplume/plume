@@ -20,6 +20,8 @@ final class Page
 
     private bool $hidden = false;
 
+    private ?string $language = null;
+
     public function __construct(
         public readonly string $key,
     ) {}
@@ -116,6 +118,22 @@ final class Page
     public function isHidden(): bool
     {
         return $this->hidden;
+    }
+
+    /**
+     * The language whose folder holds the file, when it is not the language of
+     * the request: a page served in the default language, not translated yet.
+     */
+    public function language(string $code): self
+    {
+        $this->language = $code;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
     }
 
     /**

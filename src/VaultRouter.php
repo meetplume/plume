@@ -15,7 +15,8 @@ final class VaultRouter
     public function register(Vault $vault): void
     {
         $prefix = trim($vault->getPrefix(), '/');
-        $hasLanguages = $vault->hasLanguages();
+        // When the app picks the language, the URL carries none.
+        $hasLanguages = $vault->hasLanguages() && ! $vault->hasAppLanguage();
         $hasVersions = $vault->hasVersions();
         $hasTabs = $vault->hasTabs();
         $vault->hasNavigation();
