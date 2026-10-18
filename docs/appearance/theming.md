@@ -64,3 +64,52 @@ customizer: false
 ```
 
 The customizer only runs in the `local` environment — it never appears in production.
+
+## Sharing light and dark with your app
+
+Plume keeps the reader's light/dark choice in `localStorage` (and a cookie) under the
+`theme` key. Inside an app that has its own switch, give Plume the app's key so both
+read and write the same choice — a stored `system` follows the operating system:
+
+```php
+Plume::configure()
+    ->appearanceKey('appearance');
+```
+
+## Adding to the page head
+
+To add styles, a favicon or a script to every Plume page, publish your own
+`resources/views/vendor/plume/head.blade.php`. It is rendered after Plume's stylesheet,
+so its CSS variables win — for instance to map your app's colors onto Plume's:
+
+```blade
+<style>
+    html:root {
+        --primary: var(--brand-primary);
+        --background: var(--brand-background);
+    }
+</style>
+```
+
+::: note
+A Plume theme (`->theme()` or a vault's `config.yml`) sets its colors inline on `<html>`,
+which beats any stylesheet. Leave the theme unset when the host provides the colors, or
+mark your variables `!important`.
+:::
+
+## Fonts
+
+Plume sets its text in Tailwind's `--font-sans`. To use your app's font, load it and
+redefine the variable from the head partial:
+
+```blade
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700">
+<style>
+    html:root {
+        --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    }
+</style>
+```
+
+A font your app bundles with Vite can be loaded with an `@font-face` whose `src` is
+`Vite::asset('path/to/font.woff2')`.

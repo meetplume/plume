@@ -29,6 +29,8 @@ final class PlumeConfiguration
 
     private ?string $theme = null;
 
+    private string $appearanceKey = 'theme';
+
     private ?Header $header = null;
 
     private ?Footer $footer = null;
@@ -75,6 +77,18 @@ final class PlumeConfiguration
     public function theme(string $preset): self
     {
         $this->theme = $preset;
+
+        return $this;
+    }
+
+    /**
+     * The browser storage key (localStorage and cookie) that keeps the
+     * light/dark choice. Set it to the host app's own key to share the choice
+     * with the app; a stored `system` follows the operating system.
+     */
+    public function appearanceKey(string $key): self
+    {
+        $this->appearanceKey = $key;
 
         return $this;
     }
@@ -146,6 +160,11 @@ final class PlumeConfiguration
     public function showsPoweredBy(): bool
     {
         return $this->poweredBy;
+    }
+
+    public function getAppearanceKey(): string
+    {
+        return $this->appearanceKey;
     }
 
     public function getHeader(): ?Header

@@ -9,13 +9,20 @@ import { applyTheme } from './lib/theme';
 
 const LazyCustomizer = lazy(() => import('./components/customizer/customizer').then((m) => ({ default: m.Customizer })));
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+// The site name set by `Plume::configure()->name()`, read from the first page.
+let siteName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    title: (title) => (title ? `${title} - ${siteName}` : siteName),
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
-        const plume = (props.initialPage.props as Record<string, unknown>).plume as CustomizerInitialData | undefined;
+        const initialProps = props.initialPage.props as Record<string, unknown>;
+        const plume = initialProps.plume as CustomizerInitialData | undefined;
+        const site = initialProps.site as { name?: string } | undefined;
+
+        if (site?.name) {
+            siteName = site.name;
+        }
 
         if (plume?.theme) {
             applyTheme(plume.theme);
