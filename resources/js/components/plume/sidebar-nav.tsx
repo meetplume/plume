@@ -1,6 +1,7 @@
 import { useIcon } from '@/lib/icons';
 import { cn } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
+import { ArrowLeft } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 export interface NavPage {
@@ -28,9 +29,16 @@ export interface CollectionInfo {
     description: string | null;
 }
 
+/** The way back to the app the vault lives in, named by the vault. */
+export interface BackLink {
+    label: string;
+    href: string;
+}
+
 export interface SidebarNavProps {
     navigation: NavItem[];
     collection?: CollectionInfo;
+    backLink?: BackLink | null;
 }
 
 // Module-level: survives component unmount/remount between Inertia navigations
@@ -43,7 +51,7 @@ router.on('before', () => {
     }
 });
 
-export function SidebarNav({ navigation }: SidebarNavProps) {
+export function SidebarNav({ navigation, backLink }: SidebarNavProps) {
     const navRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -56,10 +64,15 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
         <nav
             id="plume-sidebar-nav"
             ref={navRef}
-            className="sticky top-[calc(var(--spacing)*16+1px)] h-[calc(100vh-var(--spacing)*16-1px)] w-64 shrink-0 overflow-y-auto text-sm max-lg:hidden"
+            className="sticky top-[calc(var(--spacing)*16+1px)] flex h-[calc(100vh-var(--spacing)*16-1px)] w-64 shrink-0 flex-col overflow-y-auto text-sm max-lg:hidden"
         >
-            <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
+            <div className="sticky top-0 z-10 h-8 shrink-0 bg-linear-to-b from-background"></div>
             <NavTree navigation={navigation} className="pr-8 pb-8" />
+            {backLink && (
+                <div className="sticky bottom-0 mt-auto shrink-0 border-t border-border/40 bg-background py-4 pr-8">
+                    <BackToApp link={backLink} />
+                </div>
+            )}
         </nav>
     );
 }
@@ -80,6 +93,19 @@ export function NavTree({ navigation, className, onNavigate }: { navigation: Nav
                 );
             })}
         </ul>
+    );
+}
+
+/** A plain link: the app is not part of Plume's Inertia app, so the visit is a full one. */
+export function BackToApp({ link }: { link: BackLink }) {
+    return (
+        <a
+            href={link.href}
+            className="flex items-center gap-2 rounded-[calc(var(--radius)-4px)] px-4 py-1.5 leading-snug text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+        >
+            <ArrowLeft className="size-4 shrink-0" />
+            {link.label}
+        </a>
     );
 }
 

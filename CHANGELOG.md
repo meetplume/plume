@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Print styles: a printed page keeps only the article, in light mode whatever the screen shows, at full width, without splitting a callout, code block, table or figure across pages.
 - A `brand` partial: publish `resources/views/vendor/plume/brand.blade.php` to replace the logo and the site name of the header with any markup (a logo in a colored square, a second line, a badge).
 - `name()` takes a closure, called on each request with the request: a site name that depends on it, such as the tenant of a multi-tenant app.
+- A vault's `backLink()` returns a link back to the app it lives in, shown at the bottom of the sidebar and of the menu on small screens.
 
 ### Changed
 
