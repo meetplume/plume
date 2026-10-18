@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - The tab title ended with "Laravel" (`VITE_APP_NAME` at Plume's build) instead of the site name set by `Plume::configure()->name()`.
 - Search snippets (Cmd-K) no longer show raw callout syntax such as `:::tip[Title]`, `::: warning Title`, `:::` or `> [!TIP]`: the markers are dropped, the callout title and text stay searchable. Code fences written with tildes or nested in a longer fence are now left out of the index like other code blocks.
 - Search snippets (Cmd-K) no longer show raw table syntax (`| | |`, `|---|:---:|`): the delimiter row and the pipes are dropped, the cells keep their text. Inline code now keeps its text in the index instead of leaving a gap, so a search for `npm run build` finds the page that mentions it.
+- The search index is rebuilt after a Plume update that changes how it is built. The cache in `storage/app/plume/search` and the `ETag` used to depend on the docs only, so an existing site kept serving the old index until a page changed; they now include the index format, and this release bumps it so the snippet fixes above apply without clearing anything.
 
 ### Security
 

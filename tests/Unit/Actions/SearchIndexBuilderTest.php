@@ -230,3 +230,12 @@ it('changes signature when a source file is touched', function () use ($fixtureP
 
     expect($after)->not->toBe($before);
 });
+
+it('changes signature when the index format changes', function () use ($fixturePath): void {
+    $vault = makeSearchVault($fixturePath);
+
+    $previous = new SearchIndexBuilder($vault, indexFormat: SearchIndexBuilder::INDEX_FORMAT - 1)->signature();
+    $current = new SearchIndexBuilder($vault)->signature();
+
+    expect($current)->not->toBe($previous);
+});
