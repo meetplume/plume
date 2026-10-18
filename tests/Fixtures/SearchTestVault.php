@@ -20,7 +20,7 @@ class SearchTestVault extends Vault
 
     public function __construct()
     {
-        $this->path = dirname(__DIR__).'/Unit/fixtures/search';
+        $this->path = __DIR__.'/../Unit/fixtures/search';
     }
 
     public function canAccess(Request $request): bool
