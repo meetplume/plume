@@ -136,8 +136,9 @@
     }
 }
 
+/* The radius of a button (`rounded-md`): `--radius - 8px` was 2px by default, and none at all below 8px. */
 .expressive-code .copy button {
-    border-radius: calc(var(--radius) - 8px) !important;
+    border-radius: calc(var(--radius) - 2px) !important;
 }
 
 /* Reset theme vars to neutral defaults for the customizer,
