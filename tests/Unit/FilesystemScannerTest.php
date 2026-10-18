@@ -135,3 +135,17 @@ it('excludes files starting with underscore', function (): void {
     unlink($tmpDir.'/_hidden.md');
     rmdir($tmpDir);
 });
+
+it('puts the vault home first in its group, before pages sorted by name', function (): void {
+    $basePath = sys_get_temp_dir().'/plume-scanner-'.uniqid();
+    mkdir($basePath);
+    file_put_contents($basePath.'/index.md', "# Home\n");
+    file_put_contents($basePath.'/alpha.md', "# Alpha\n");
+
+    $root = new FilesystemScanner($basePath)->scanNavigation()[0];
+
+    expect(array_map(fn (Page $page): string => $page->key, $root->getPages()))->toBe(['index', 'alpha']);
+
+    array_map(unlink(...), glob($basePath.'/*.md') ?: []);
+    rmdir($basePath);
+});
