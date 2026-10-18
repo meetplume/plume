@@ -21,4 +21,12 @@ class Frontmatter
 
         return is_array($parsed) ? $parsed : [];
     }
+
+    /**
+     * The content without its frontmatter, nor the blank lines that follow it.
+     */
+    public static function strip(string $rawContent): string
+    {
+        return ltrim((string) preg_replace('/^---\r?\n(?:.*?\r?\n)??---[ \t]*(?:\r?\n|$)/s', '', $rawContent, 1), "\r\n");
+    }
 }

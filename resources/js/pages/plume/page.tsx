@@ -2,9 +2,10 @@ import { type SectionProps, Section } from '@/components/blocks/section';
 import { type DocsFooterProps, DocsFooter } from '@/components/plume/docs-footer';
 import { type DocsHeaderProps, DocsHeader } from '@/components/plume/docs-header';
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
+import { type PageActionsContext, PageActions } from '@/components/plume/page-actions';
 import { Head } from '@inertiajs/react';
 
-interface PageLayoutProps extends PlumePageContext {
+interface PageLayoutProps extends PlumePageContext, PageActionsContext {
     layout: 'page';
     sections?: SectionProps[];
     header?: DocsHeaderProps;
@@ -25,6 +26,7 @@ export default function PageLayout(page: PageLayoutProps) {
             <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
             {hasSections && page.sections!.map((section, index) => <Section key={index} {...section} />)}
             <article className="mx-auto prose max-w-full px-6 py-12 lg:max-w-3xl dark:prose-invert">
+                {!hasSections && <PageActions content={page.content} markdownUrl={page.markdownUrl} actions={page.pageActions} />}
                 <MarkdownRenderer page={page} />
             </article>
             <DocsFooter {...page.footer} />

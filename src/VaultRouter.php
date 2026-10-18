@@ -113,6 +113,8 @@ final class VaultRouter
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
+
+        $this->registerMarkdownRoute($pattern, 'plume.'.$prefix, $prefix, $constraints);
     }
 
     /**
@@ -146,6 +148,8 @@ final class VaultRouter
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
+
+        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-lang', $prefix, $constraints);
     }
 
     /**
@@ -179,6 +183,8 @@ final class VaultRouter
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
+
+        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-ver', $prefix, $constraints);
     }
 
     /**
@@ -206,6 +212,8 @@ final class VaultRouter
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
+
+        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-lang-ver', $prefix, $constraints);
     }
 
     private function registerRootRoute(string $prefix): void
@@ -214,6 +222,8 @@ final class VaultRouter
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
             ->name('plume.'.$prefix.'.root');
+
+        $this->registerMarkdownRoute($prefix, 'plume.'.$prefix.'.root', $prefix, defaults: ['slug' => '/']);
     }
 
     /**
@@ -228,6 +238,8 @@ final class VaultRouter
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
             ->name('plume.'.$prefix.'.root.lang');
+
+        $this->registerMarkdownRoute($prefix.'/{language}', 'plume.'.$prefix.'.root.lang', $prefix, ['language' => implode('|', $languageCodes)], ['slug' => '/']);
     }
 
     private function registerAbsoluteRoutes(Vault $vault, string $vaultPrefix): void
@@ -243,6 +255,41 @@ final class VaultRouter
                 ->defaults('vaultPrefix', $vaultPrefix)
                 ->defaults('slug', $page->getSlug())
                 ->name('plume.'.$vaultPrefix.'.route.'.$page->key);
+
+            $this->registerMarkdownRoute($routePath, 'plume.'.$vaultPrefix.'.route.'.$page->key, $vaultPrefix, defaults: ['slug' => $page->getSlug()]);
+        }
+    }
+
+    /**
+     * The address of a page's Markdown: the page's own, followed by `.md`.
+     */
+    public static function markdownUri(string $uri): string
+    {
+        $uri = trim($uri, '/');
+
+        return $uri === '' ? 'index.md' : $uri.'.md';
+    }
+
+    /**
+     * The page's Markdown, through the page's own controller: the same
+     * middleware, canAccess() and page lookup guard it.
+     *
+     * @param  array<string, string>  $constraints
+     * @param  array<string, string>  $defaults
+     */
+    private function registerMarkdownRoute(string $uri, string $name, string $vaultPrefix, array $constraints = [], array $defaults = []): void
+    {
+        $route = Route::get(self::markdownUri($uri), VaultPageController::class)
+            ->defaults('vaultPrefix', $vaultPrefix)
+            ->defaults('markdown', true)
+            ->name($name.'.markdown');
+
+        foreach ($defaults as $key => $value) {
+            $route->defaults($key, $value);
+        }
+
+        foreach ($constraints as $param => $constraint) {
+            $route->where($param, $constraint);
         }
     }
 

@@ -36,6 +36,19 @@ final class InterfaceTexts
         'Copied!',
         'Previous',
         'Next',
+        'Copy page',
+        'More page actions',
+        'Page',
+        'Copy page as Markdown for LLMs',
+        'View as Markdown',
+        'View this page as plain text',
+        'Open in ChatGPT',
+        'Ask ChatGPT about this page',
+        'Open in Claude',
+        'Ask Claude about this page',
+        'Export as PDF',
+        'Print this page or save it as a PDF',
+        'Read :url and answer questions about the content.',
     ];
 
     /**

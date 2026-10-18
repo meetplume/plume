@@ -1,11 +1,12 @@
 import { type DocsFooterProps, DocsFooter } from '@/components/plume/docs-footer';
 import { type DocsHeaderProps, DocsHeader } from '@/components/plume/docs-header';
 import { type PlumePageContext, MarkdownRenderer } from '@/components/plume/markdown-renderer';
+import { type PageActionsContext, PageActions } from '@/components/plume/page-actions';
 import { type NavItem, SidebarNav } from '@/components/plume/sidebar-nav';
 import { TableOfContents } from '@/components/plume/table-of-contents';
 import { Head } from '@inertiajs/react';
 
-interface ApiPageProps extends PlumePageContext {
+interface ApiPageProps extends PlumePageContext, PageActionsContext {
     layout: 'api';
     navigation: NavItem[];
     header?: DocsHeaderProps;
@@ -26,6 +27,7 @@ export default function ApiLayout(page: ApiPageProps) {
                 <SidebarNav navigation={page.navigation} />
                 <main className="min-w-0 flex-1">
                     <article className="mx-auto prose max-w-full pt-8 pb-14 lg:max-w-3xl dark:prose-invert">
+                        <PageActions content={page.content} markdownUrl={page.markdownUrl} actions={page.pageActions} />
                         <MarkdownRenderer page={page} />
                     </article>
                     <DocsFooter {...page.footer} />

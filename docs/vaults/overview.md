@@ -75,6 +75,7 @@ A vault declares its structure by overriding methods. All are optional except
 | `versions()`      | `array<Version>`      | Versioned documentation. See [Versions](/docs/navigation/versions). |
 | `languages()`     | `array<Language>`     | Localized documentation. See [Languages](/docs/navigation/languages). |
 | `canAccess()`     | `bool`                | Authorization gate. See [Access Control](/docs/vaults/access-control). |
+| `pageActions()`   | `array<PageAction>`   | The entries of the page menu. See [Page Actions](/docs/vaults/page-actions). |
 
 ## Multiple vaults
 

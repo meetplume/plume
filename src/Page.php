@@ -177,4 +177,14 @@ final class Page
             'codeThemeDark' => null,
         ];
     }
+
+    /**
+     * The page's Markdown, without its frontmatter, as served at its `.md` address.
+     */
+    public function toMarkdown(?string $resolvedFilePath = null): string
+    {
+        abort_unless($resolvedFilePath !== null && file_exists($resolvedFilePath), 404);
+
+        return Frontmatter::strip((string) file_get_contents($resolvedFilePath));
+    }
 }

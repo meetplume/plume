@@ -67,3 +67,9 @@ Access is evaluated per request, so you can vary it by environment, header, or a
 runtime condition — for example, opening a vault publicly in production but requiring
 auth in staging.
 :::
+
+## Page actions
+
+A page's Markdown, served at its address followed by `.md`, goes through
+`canAccess()` too. ChatGPT and Claude cannot read a vault behind a login, though:
+see [Page Actions](/docs/vaults/page-actions) to leave them out of the page menu.

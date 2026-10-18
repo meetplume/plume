@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Meetplume\Plume\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Meetplume\Plume\Enums\PageAction;
 use Meetplume\Plume\Inertia\PlumeInertia;
 use Meetplume\Plume\Inertia\PlumeInertiaResponse;
 use Meetplume\Plume\InterfaceTexts;
@@ -14,13 +16,14 @@ use Meetplume\Plume\Plume;
 use Meetplume\Plume\Tab;
 use Meetplume\Plume\ThemeConfig;
 use Meetplume\Plume\Vault;
+use Meetplume\Plume\VaultRouter;
 
 class VaultPageController
 {
     /** False when the app picks the language: links then carry none. */
     private bool $languageInUrl = true;
 
-    public function __invoke(Request $request): PlumeInertiaResponse
+    public function __invoke(Request $request): PlumeInertiaResponse|Response
     {
         /** @var string $vaultPrefix */
         $vaultPrefix = $request->route()->defaults['vaultPrefix'];
@@ -67,6 +70,11 @@ class VaultPageController
         abort_unless($page !== null, 404);
 
         $filePath = $vault->resolveFilePath($page, $language, $version);
+
+        if (($request->route()->defaults['markdown'] ?? false) === true) {
+            return response($page->toMarkdown($filePath), 200, ['Content-Type' => 'text/markdown; charset=UTF-8']);
+        }
+
         $pageProps = $page->toInertiaProps($filePath);
 
         $navigation = $vault->resolveNavigation($language, $version, $tab);
@@ -104,6 +112,8 @@ class VaultPageController
 
         $props['contentAssetBase'] = '/'.$prefix.'/_content'.($folder === '' ? '' : '/'.$folder);
         $props['pageBaseUrl'] = $this->buildPageHref($prefix, $pageDir === '.' ? '/' : trim($pageDir, '/'), $language, $version, $tab);
+        $props['pageActions'] = array_map(fn (PageAction $action): string => $action->value, array_values($vault->pageActions()));
+        $props['markdownUrl'] = '/'.VaultRouter::markdownUri($request->path());
 
         if (! empty($pageProps['meta']['sections'])) {
             $props['sections'] = $pageProps['meta']['sections'];
