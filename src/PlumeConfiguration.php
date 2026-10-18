@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Route;
 
 final class PlumeConfiguration
 {
+    /**
+     * Plume renders its own Inertia pages, with their own asset version. The
+     * host's Inertia middleware, when the `web` group carries one, would answer
+     * every Plume visit with a 409 (version mismatch, hence a full reload) and
+     * compute the host's shared props for nothing. Excluding the base class
+     * also excludes the host's subclass (`HandleInertiaRequests`).
+     */
+    private const string HOST_INERTIA_MIDDLEWARE = 'Inertia\\Middleware';
+
     private ?string $name = null;
 
     private ?string $url = null;
@@ -177,15 +186,16 @@ final class PlumeConfiguration
 
         $router = new VaultRouter;
 
-        Route::middleware('web')->group(function () use ($router): void {
-            foreach ($this->vaultClasses as $vaultClass) {
-                /** @var Vault $vault */
-                $vault = new $vaultClass;
-                $prefix = trim($vault->getPrefix(), '/');
-                $this->vaults[$prefix] = $vault;
-                $router->register($vault);
-            }
-        });
+        foreach ($this->vaultClasses as $vaultClass) {
+            /** @var Vault $vault */
+            $vault = new $vaultClass;
+            $prefix = trim($vault->getPrefix(), '/');
+            $this->vaults[$prefix] = $vault;
+
+            Route::middleware($vault->middleware())
+                ->withoutMiddleware(self::HOST_INERTIA_MIDDLEWARE)
+                ->group(fn () => $router->register($vault));
+        }
     }
 
     /**

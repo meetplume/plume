@@ -68,6 +68,26 @@ runtime condition — for example, opening a vault publicly in production but re
 auth in staging.
 :::
 
+## Middleware
+
+`canAccess()` answers yes or no: a guest gets a `403`, not your login page. To run
+middleware before it — send guests to log in, keep the vault off some hosts —
+override `middleware()`. It applies to the vault's pages, search index and content
+assets. Keep `web`, which carries the session:
+
+```php
+public function middleware(): array
+{
+    return ['web', 'auth'];
+}
+```
+
+::: note
+Plume renders its own Inertia pages. If your `web` group carries your app's Inertia
+middleware (`HandleInertiaRequests`), Plume leaves it out of the vault's routes: its
+asset version would never match Plume's, and every visit would end in a full reload.
+:::
+
 ## Page actions
 
 A page's Markdown, served at its address followed by `.md`, goes through

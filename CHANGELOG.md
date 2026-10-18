@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Plume::configure()->poweredBy(false)` leaves the *Powered by Plume* credit out of the docs footer.
 - Page menu next to the page title: copy the page as Markdown, view it as Markdown, open it in ChatGPT or Claude, or export it as a PDF through the browser's print dialog. Every page is also served as Markdown at its address followed by `.md`, through the same middleware and `canAccess()` as the page. `Vault::pageActions()` picks the entries; return `PageAction::internal()` for a vault behind a login, or `[]` to leave the menu out. See the Page Actions docs.
 - Page menu next to the page title: copy the page as Markdown, view it as Markdown, open it in ChatGPT or Claude, or export it as a PDF through the browser's print dialog. Every page is also served as Markdown at its address followed by `.md`, through the same middleware and `canAccess()` as the page. `Vault::pageActions()` picks the entries; return `PageAction::internal()` for a vault behind a login, or `[]` to leave the menu out. Its words, and the question put to ChatGPT and Claude, follow the language of the page. See the Page Actions docs.
+- `Vault::middleware()`: the route middleware of a vault's pages, search index and content assets (`['web']` by default). Add `auth` to send guests to the login page instead of a 403, or a middleware that keeps the vault off some hosts.
 
 ### Changed
 
@@ -30,6 +31,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - In a vault with languages, relative images of a page pointed outside its language folder (`/docs/_content/guides/shot.png` for `pt/guides/deploy.md`) and answered 404.
 - `Language::slugs()` was documented but never applied: translated slugs now drive the routes, the sidebar, the search results and the language menu.
 - Below the `lg` breakpoint the sidebar was hidden and the mobile menu did not list the navigation: no other page could be reached on a phone. The mobile menu now lists the sidebar's groups and pages, and closes on navigation.
+- Inside an Inertia app, every visit to a Plume page answered 409 and reloaded the whole page: the host's Inertia middleware compared its asset version with Plume's. Vault routes now leave the host's Inertia middleware out.
+
+### Security
+
+- The search index, which holds the text of every page, is sent `Cache-Control: private` instead of `public`, so a shared cache never keeps the index of a vault gated by `canAccess()`.
 
 ## [0.10.5] - 2026-06-02
 
