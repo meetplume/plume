@@ -137,7 +137,7 @@ final class Page
     }
 
     /**
-     * Resolve label: explicit > frontmatter title > humanized key.
+     * Resolve label: explicit > frontmatter title > first `# ` heading > humanized key.
      */
     public function resolveLabel(?string $resolvedFilePath = null): string
     {
@@ -146,10 +146,17 @@ final class Page
         }
 
         if ($resolvedFilePath !== null && file_exists($resolvedFilePath)) {
-            $frontmatter = Frontmatter::parse((string) file_get_contents($resolvedFilePath));
+            $rawContent = (string) file_get_contents($resolvedFilePath);
+            $frontmatter = Frontmatter::parse($rawContent);
 
             if (isset($frontmatter['title']) && is_string($frontmatter['title'])) {
                 return $frontmatter['title'];
+            }
+
+            $heading = Frontmatter::firstHeading($rawContent);
+
+            if ($heading !== null) {
+                return $heading;
             }
         }
 
@@ -170,7 +177,7 @@ final class Page
 
         return [
             'content' => $rawContent,
-            'title' => $frontmatter['title'] ?? null,
+            'title' => $frontmatter['title'] ?? Frontmatter::firstHeading($rawContent),
             'description' => $frontmatter['description'] ?? null,
             'meta' => $frontmatter,
             'codeThemeLight' => null,

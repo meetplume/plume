@@ -23,7 +23,7 @@ Your content starts here…
 
 | Key           | Type      | Used for                                                            |
 |---------------|-----------|---------------------------------------------------------------------|
-| `title`       | string    | Page `<title>`, the `# H1` fallback, and the nav label fallback.    |
+| `title`       | string    | Page `<title>` and nav label. Without it, the first `# ` heading.   |
 | `description` | string    | The `<meta name="description">` tag.                                |
 | `slug`        | string    | The URL slug (in [Auto/Mapped discovery](/docs/vaults/discovery)).  |
 | `order`       | int       | Sort order in the sidebar (in Auto discovery).                      |

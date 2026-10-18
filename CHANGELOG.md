@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - The Vite dev server no longer loads every Lucide icon on each page of the playground. Pre-bundled next to `lucide-react`, `lucide-react/dynamicIconImports` turned each of the 1,669 icons into a chunk that every page loaded: 1,841 requests and a first paint after 1.1 s. It is now left out of pre-bundling, so a page loads the icons it shows (181 requests, first paint at 0.3 s). Built assets are unchanged.
 - Pages no longer load every Shiki code theme. The theme customizer was mounted even where it is disabled, production included, and loaded about 60 themes for its previews on each full page load. It is now loaded only where it is enabled, and loads the previews when its panel opens. In production, a cold page load goes from 102 JavaScript files to 25; in the playground, the content shows 420–520 ms sooner on a throttled connection (4G, CPU ×4).
 - Changing page no longer leaves the article blank while its code blocks are highlighted. The page paints its text first, then its highlighted code: on a throttled connection (4G, CPU ×4), the text of the next page shows in 110–150 ms instead of 170–680 ms, and on first load as soon as the layout (0.9 s instead of 2.2–2.7 s). The Expressive Code engine is also built once per pair of code themes instead of on every page.
+- A page without a frontmatter `title` took its tab title and sidebar label from its file name (`acces-mobile` read "Acces Mobile"), while search used its first `# ` heading. Both now use that heading.
 
 ### Security
 
