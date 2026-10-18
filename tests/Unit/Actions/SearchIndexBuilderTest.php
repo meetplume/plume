@@ -118,6 +118,38 @@ it('removes images and preserves blockquote text', function () use ($fixturePath
         ->toContain('Tip: enable debug mode');
 });
 
+it('keeps callout titles and text without the directive markers', function () use ($fixturePath): void {
+    $vault = makeSearchVault($fixturePath);
+
+    $records = new SearchIndexBuilder($vault)->build();
+    $trouble = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
+
+    expect($trouble['body'])
+        ->not->toContain(':::')
+        ->not->toContain('[!NOTE]')
+        ->not->toContain('warning')
+        ->not->toContain('details')
+        ->toContain('Read the logs Laravel writes every error to')
+        ->toContain('Stale config Clear the config cache')
+        ->toContain('Queue workers keep old code in memory.')
+        ->toContain('Restart them after each deploy.');
+});
+
+it('drops tilde and nested code fences', function () use ($fixturePath): void {
+    $vault = makeSearchVault($fixturePath);
+
+    $records = new SearchIndexBuilder($vault)->build();
+    $trouble = array_find($records, fn (array $r): bool => $r['slug'] === 'guides/troubleshoot');
+
+    expect($trouble['body'])
+        ->not->toContain('Example heading')
+        ->not->toContain('Never indexed')
+        ->not->toContain('welcome')
+        ->not->toContain('`')
+        ->not->toContain('~')
+        ->and($trouble['headings'])->toBe(['Troubleshooting']);
+});
+
 it('builds href from prefix and slug', function () use ($fixturePath): void {
     $vault = makeSearchVault($fixturePath);
 
