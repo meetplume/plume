@@ -12,6 +12,24 @@ const LazyCustomizer = lazy(() => import('./components/customizer/customizer').t
 // The site name set by `Plume::configure()->name()`, read from the first page.
 let siteName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// Paper is white: print in light mode, whatever the screen shows. A theme
+// sets its colors inline on <html>, so they switch along with the class.
+function showDarkMode(dark: boolean) {
+    document.documentElement.classList.toggle('dark', dark);
+
+    for (const [prop, value] of Object.entries(window.__plumeTheme?.[dark ? 'dark' : 'light'] ?? {})) {
+        document.documentElement.style.setProperty(prop, value);
+    }
+}
+
+let printedFromDark = false;
+
+window.addEventListener('beforeprint', () => {
+    printedFromDark = document.documentElement.classList.contains('dark');
+    showDarkMode(false);
+});
+window.addEventListener('afterprint', () => showDarkMode(printedFromDark));
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${siteName}` : siteName),
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),

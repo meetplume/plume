@@ -89,7 +89,10 @@ export default function DocsLayout(page: DocsPageProps) {
                     </article>
                     <DocsFooter {...page.footer} prev={page.prev} next={page.next} />
                 </main>
-                <div className="sticky top-[calc(var(--spacing)*16+1px)] h-[calc(100vh-var(--spacing)*16-5px)] w-64 shrink-0 overflow-y-auto pb-8 text-sm max-xl:hidden">
+                <div
+                    data-slot="docs-toc"
+                    className="sticky top-[calc(var(--spacing)*16+1px)] h-[calc(100vh-var(--spacing)*16-5px)] w-64 shrink-0 overflow-y-auto pb-8 text-sm max-xl:hidden"
+                >
                     <TableOfContents />
                 </div>
             </div>

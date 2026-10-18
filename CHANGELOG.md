@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `group_label` frontmatter key: the label of the page's group in Auto discovery, instead of the title-cased folder name (`etudes-de-rentabilite` read "Etudes De Rentabilite").
 - `appearanceKey()` on the configuration: the browser storage key (localStorage and cookie) of the light/dark choice, `theme` by default. Give it the host app's own key to share one choice; a stored `system` follows the OS. The choice now applies before the first paint.
 - A `head` partial: publish `resources/views/vendor/plume/head.blade.php` to add styles, a favicon or scripts to every Plume page, after Plume's stylesheet.
+- Print styles: a printed page keeps only the article, in light mode whatever the screen shows, at full width, without splitting a callout, code block, table or figure across pages.
 
 ### Changed
 

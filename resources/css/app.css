@@ -217,3 +217,47 @@
 .expressive-code + .expressive-code {
     margin-top: 1rem;
 }
+
+/* Print the page itself: no header, sidebar, table of contents or footer, the
+   article at full width, and no box cut in two between pages. */
+@media print {
+    [data-slot='docs-header'],
+    #plume-sidebar-nav,
+    [data-slot='docs-toc'],
+    [data-slot='docs-footer'],
+    [data-slot='customizer'],
+    .expressive-code .copy {
+        display: none !important;
+    }
+
+    article.prose {
+        max-width: none;
+        padding-block: 0;
+    }
+
+    .plume-callout,
+    .expressive-code,
+    figure,
+    table,
+    svg,
+    img {
+        break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        break-after: avoid;
+    }
+
+    .expressive-code pre {
+        overflow: visible;
+        white-space: pre-wrap;
+    }
+
+    .plume-callout,
+    .expressive-code {
+        print-color-adjust: exact;
+    }
+}

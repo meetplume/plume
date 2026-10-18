@@ -557,7 +557,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
 
     return (
         <TooltipProvider>
-            <div className="theme-reset fixed bottom-5 left-5 z-50 font-sans text-sm">
+            <div data-slot="customizer" className="theme-reset fixed bottom-5 left-5 z-50 font-sans text-sm">
                 {open && config && (
                     <div className="mb-2 flex max-h-[calc(100vh-94px)] w-[340px] flex-col rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm dark:border-white/10 dark:bg-neutral-900/90">
                         <TabBar active={activeTab} onChange={setActiveTab} />
