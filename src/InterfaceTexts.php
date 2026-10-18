@@ -34,6 +34,8 @@ final class InterfaceTexts
         'Details',
         'Copy to clipboard',
         'Copied!',
+        'Previous',
+        'Next',
     ];
 
     /**
