@@ -1,3 +1,4 @@
+import { useScrollToAnchor } from '@/hooks/use-scroll-to-anchor';
 import { normalizeCalloutSyntax, remarkCallouts } from '@/lib/remark-callouts';
 import { useTexts } from '@/lib/texts';
 import { createInlineSvgUrl } from '@expressive-code/core';
@@ -149,6 +150,8 @@ interface MarkdownRendererProps {
 export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const renderedContent = useRef<string | null>(null);
+    // The last HTML shown, for the scroll to the address's anchor.
+    const [shownHtml, setShownHtml] = useState('');
 
     const sharedProps = usePage().props as Record<string, unknown>;
     const locale = typeof sharedProps.locale === 'string' ? sharedProps.locale : 'en';
@@ -229,6 +232,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
 
             container.innerHTML = '';
             container.append(fragment);
+            setShownHtml(html);
 
             return true;
         };
@@ -264,6 +268,8 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
             cancelled = true;
         };
     }, [processors, page.content]);
+
+    useScrollToAnchor(shownHtml, page.content);
 
     return <div ref={containerRef} className={className} />;
 }
