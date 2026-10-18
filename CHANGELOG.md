@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - A `brand` partial: publish `resources/views/vendor/plume/brand.blade.php` to replace the logo and the site name of the header with any markup (a logo in a colored square, a second line, a badge).
 - `name()` takes a closure, called on each request with the request: a site name that depends on it, such as the tenant of a multi-tenant app.
 - A vault's `backLink()` returns a link back to the app it lives in, shown at the bottom of the sidebar and of the menu on small screens.
+- `?embed` shows a page's content alone, for an app to open it in a drawer or a dialog through an iframe. Inside the frame, the vault's pages open in place without filling the browser's history, other pages of the site open in the whole window, and each page posts its title and address to the app. See the Embedding docs.
+- `?embed` shows a page's content alone, in the compact type scale of a side panel, for an app to open it in a drawer or a dialog through an iframe. Inside the frame, the vault's pages open in place without filling the browser's history, other pages of the site open in the whole window, and each page posts its title and address to the app. See the Embedding docs.
+- `?embed` shows a page's content alone, for an app to open it in a drawer or a dialog through an iframe. Its text uses the compact type scale of a side panel; `&scale=base` or `&scale=lg` picks a larger one. Inside the frame, the vault's pages open in place without filling the browser's history, other pages of the site open in the whole window, and each page posts its title and address to the app. See the Embedding docs.
 
 ### Changed
 
