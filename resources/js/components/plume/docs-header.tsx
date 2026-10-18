@@ -48,6 +48,8 @@ export type DocsHeaderProps = {
     collectionTitle?: string | null;
     logo?: string | null;
     logoDark?: string | null;
+    /** The host app's brand markup (its `brand` partial), shown instead of the logo and name. */
+    brand?: string | null;
     homeUrl?: string;
     links?: NavLink[];
     socials?: Social[];
@@ -86,6 +88,7 @@ export function DocsHeader({
     collectionTitle,
     logo,
     logoDark,
+    brand,
     homeUrl = '/',
     links = [],
     socials = [],
@@ -108,20 +111,24 @@ export function DocsHeader({
     return (
         <header data-slot="docs-header" className="sticky top-0 z-30 w-full border-b border-border/40 bg-background/80 py-4 backdrop-blur-sm">
             <div className="mx-auto flex max-w-368 items-center gap-6 px-6 lg:px-12">
-                <a href={homeUrl} className="inline-flex shrink-0 items-center">
-                    {logo ? (
-                        logoDark ? (
-                            <>
-                                <img className="h-8 dark:hidden" loading="lazy" src={logo} alt={collectionTitle ?? 'Logo'} />
-                                <img className="hidden h-8 dark:block" loading="lazy" src={logoDark} alt={collectionTitle ?? 'Logo'} />
-                            </>
+                {brand ? (
+                    <a href={homeUrl} className="inline-flex min-w-0 shrink items-center" dangerouslySetInnerHTML={{ __html: brand }} />
+                ) : (
+                    <a href={homeUrl} className="inline-flex shrink-0 items-center">
+                        {logo ? (
+                            logoDark ? (
+                                <>
+                                    <img className="h-8 dark:hidden" loading="lazy" src={logo} alt={collectionTitle ?? 'Logo'} />
+                                    <img className="hidden h-8 dark:block" loading="lazy" src={logoDark} alt={collectionTitle ?? 'Logo'} />
+                                </>
+                            ) : (
+                                <img className="h-8" loading="lazy" src={logo} alt={collectionTitle ?? 'Logo'} />
+                            )
                         ) : (
-                            <img className="h-8" loading="lazy" src={logo} alt={collectionTitle ?? 'Logo'} />
-                        )
-                    ) : (
-                        <span className="flex h-8 items-center text-lg font-semibold text-foreground">{collectionTitle}</span>
-                    )}
-                </a>
+                            <span className="flex h-8 items-center text-lg font-semibold text-foreground">{collectionTitle}</span>
+                        )}
+                    </a>
+                )}
 
                 <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
                     {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} shortcut={search.shortcutLabel} />}

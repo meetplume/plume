@@ -47,6 +47,24 @@ Pass a single argument to use the same logo in both modes:
 The logo and name appear in the [header](/docs/site/header), linking back to the
 vault's home.
 
+## Custom brand
+
+For anything a logo and a name don't cover (a logo in a colored square, a second
+line, a badge), publish your own `resources/views/vendor/plume/brand.blade.php`. It
+replaces the logo and the name in the header, and receives `$name`, `$logo`,
+`$logoDark`, `$homeUrl` and `$vault`:
+
+```blade
+<span class="acme-brand">
+    <img src="/images/mark.svg" alt="">
+    <span>{{ $name }} <small>Docs</small></span>
+</span>
+```
+
+Plume wraps it in the link to the vault's home, so it must not hold a link of its
+own. Plume's stylesheet only carries the classes Plume uses: give the partial its own
+styles.
+
 ::: note
 `theme()` here sets a **global** preset for vaults that don't define their own
 `config.yml`. A vault's own [`config.yml`](/docs/appearance/theming) always takes

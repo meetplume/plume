@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `appearanceKey()` on the configuration: the browser storage key (localStorage and cookie) of the light/dark choice, `theme` by default. Give it the host app's own key to share one choice; a stored `system` follows the OS. The choice now applies before the first paint.
 - A `head` partial: publish `resources/views/vendor/plume/head.blade.php` to add styles, a favicon or scripts to every Plume page, after Plume's stylesheet.
 - Print styles: a printed page keeps only the article, in light mode whatever the screen shows, at full width, without splitting a callout, code block, table or figure across pages.
+- A `brand` partial: publish `resources/views/vendor/plume/brand.blade.php` to replace the logo and the site name of the header with any markup (a logo in a colored square, a second line, a badge).
 
 ### Changed
 
