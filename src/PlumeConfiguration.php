@@ -24,6 +24,8 @@ final class PlumeConfiguration
 
     private ?Footer $footer = null;
 
+    private bool $poweredBy = true;
+
     /** @var array<int, class-string<Vault>> */
     private array $vaultClasses = [];
 
@@ -83,6 +85,16 @@ final class PlumeConfiguration
     }
 
     /**
+     * Whether the docs footer credits Plume ("Powered by Plume"). On by default.
+     */
+    public function poweredBy(bool $show = true): self
+    {
+        $this->poweredBy = $show;
+
+        return $this;
+    }
+
+    /**
      * @param  array<int, class-string<Vault>>  $vaults
      */
     public function vaults(array $vaults): self
@@ -120,6 +132,11 @@ final class PlumeConfiguration
     public function getTheme(): ?string
     {
         return $this->theme;
+    }
+
+    public function showsPoweredBy(): bool
+    {
+        return $this->poweredBy;
     }
 
     public function getHeader(): ?Header

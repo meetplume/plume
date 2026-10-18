@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Vault::languageFor()`: let the app pick the language of each request (a per-tenant setting, a user preference). The vault then serves it with no language switcher and no language segment in routes or links, and fills in the pages it lacks from the default language.
 - Plume's interface (search, "On this page", menus, the copy button of code blocks) follows the language of the page, through Laravel JSON translations. French, Portuguese and Spanish ship with Plume; the host app overrides any key in its own `lang/{locale}.json`. The page's `<html lang>` follows too.
 - A language menu in the header, also next to the light/dark switch of the mobile menu (versions get the same), replacing the native selects on a row of their own. Each language links to the same page in that language, or to its home while the page is not translated, through an Inertia visit.
+- `Plume::configure()->poweredBy(false)` leaves the *Powered by Plume* credit out of the docs footer.
 
 ### Changed
 
