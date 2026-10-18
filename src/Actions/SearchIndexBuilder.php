@@ -219,9 +219,7 @@ final readonly class SearchIndexBuilder
      */
     private function extractHeadings(string $body): array
     {
-        $clean = preg_replace('/```.*?```/s', '', $body) ?? $body;
-
-        preg_match_all('/^(#{1,3})\s+(.+?)\s*#*\s*$/m', $clean, $matches);
+        preg_match_all('/^(#{1,3})\s+(.+?)\s*#*\s*$/m', $this->stripCodeFences($body), $matches);
 
         return array_values(array_map(trim(...), $matches[2] ?? []));
     }
@@ -231,11 +229,44 @@ final readonly class SearchIndexBuilder
         return preg_replace('/^---\r?\n.*?\r?\n---\r?\n?/s', '', $raw, 1) ?? $raw;
     }
 
+    /**
+     * Drops fenced code blocks line by line, the way the renderer reads them:
+     * backtick or tilde fences, closed only by the same character at least
+     * as long, so a ```` block can show a ``` one.
+     */
+    private function stripCodeFences(string $markdown): string
+    {
+        $kept = [];
+        $fence = null;
+
+        foreach (preg_split('/\r?\n/', $markdown) ?: [] as $line) {
+            if ($fence !== null) {
+                if (preg_match('/^\s*'.$fence[0].'{'.strlen($fence).',}\s*$/', $line) === 1) {
+                    $fence = null;
+                }
+
+                continue;
+            }
+
+            if (preg_match('/^\s*(`{3,}(?=[^`]*$)|~{3,})/', $line, $matches) === 1) {
+                $fence = $matches[1];
+
+                continue;
+            }
+
+            $kept[] = $line;
+        }
+
+        return implode("\n", $kept);
+    }
+
     private function stripMarkdown(string $body): string
     {
-        $text = $body;
+        $text = $this->stripCodeFences($body);
 
-        $text = preg_replace('/```[a-zA-Z0-9_-]*\r?\n.*?\r?\n```/s', ' ', $text) ?? $text;
+        // Callouts: `:::tip[Title]` and `::: tip Title` keep their title, `:::` and `> [!TIP]` markers go.
+        $text = preg_replace('/^[ \t]*:{3,}[ \t]*(?:[a-z][\w-]*)?[ \t]*(?:\[(.*)\])?[ \t]*(?:\{.*\})?[ \t]*(.*)$/im', '$1 $2', $text) ?? $text;
+        $text = preg_replace('/^([ \t]*(?:>[ \t]*)+)\[![a-z]+\]/im', '$1', $text) ?? $text;
         $text = preg_replace('/`[^`\n]+`/', ' ', $text) ?? $text;
         $text = preg_replace('/!\[[^\]]*\]\([^)]*\)/', ' ', $text) ?? $text;
         $text = preg_replace('/\[([^\]]+)\]\([^)]*\)/', '$1', $text) ?? $text;

@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Auto discovery showed the root group as "_Root" in the sidebar, and its pages under that label in search results; it is now unlabelled.
 - Pages had no doctype and rendered in quirks mode.
 - The tab title ended with "Laravel" (`VITE_APP_NAME` at Plume's build) instead of the site name set by `Plume::configure()->name()`.
+- Search snippets (Cmd-K) no longer show raw callout syntax such as `:::tip[Title]`, `::: warning Title`, `:::` or `> [!TIP]`: the markers are dropped, the callout title and text stay searchable. Code fences written with tildes or nested in a longer fence are now left out of the index like other code blocks.
 
 ### Security
 
