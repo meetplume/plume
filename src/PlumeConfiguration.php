@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Meetplume\Plume;
 
+use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 final class PlumeConfiguration
@@ -17,7 +19,8 @@ final class PlumeConfiguration
      */
     private const string HOST_INERTIA_MIDDLEWARE = 'Inertia\\Middleware';
 
-    private ?string $name = null;
+    /** @var string|(Closure(Request): string)|null */
+    private Closure|string|null $name = null;
 
     private ?string $url = null;
 
@@ -45,7 +48,13 @@ final class PlumeConfiguration
 
     private bool $booted = false;
 
-    public function name(string $name): self
+    /**
+     * The site name. A closure is called on each request, with the request,
+     * for a name that depends on it (the tenant of a multi-tenant app, say).
+     *
+     * @param  string|(Closure(Request): string)  $name
+     */
+    public function name(string|Closure $name): self
     {
         $this->name = $name;
 
@@ -129,7 +138,9 @@ final class PlumeConfiguration
 
     public function getName(): string
     {
-        return $this->name ?? config('app.name', 'Laravel');
+        $name = $this->name instanceof Closure ? ($this->name)(request()) : $this->name;
+
+        return $name ?? config('app.name', 'Laravel');
     }
 
     public function getUrl(): ?string

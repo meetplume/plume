@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - A `head` partial: publish `resources/views/vendor/plume/head.blade.php` to add styles, a favicon or scripts to every Plume page, after Plume's stylesheet.
 - Print styles: a printed page keeps only the article, in light mode whatever the screen shows, at full width, without splitting a callout, code block, table or figure across pages.
 - A `brand` partial: publish `resources/views/vendor/plume/brand.blade.php` to replace the logo and the site name of the header with any markup (a logo in a colored square, a second line, a badge).
+- `name()` takes a closure, called on each request with the request: a site name that depends on it, such as the tenant of a multi-tenant app.
 
 ### Changed
 
