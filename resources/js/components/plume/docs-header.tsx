@@ -46,8 +46,8 @@ type LanguageItem = {
 
 export type DocsHeaderProps = {
     collectionTitle?: string | null;
-    logo?: string;
-    logoDark?: string;
+    logo?: string | null;
+    logoDark?: string | null;
     homeUrl?: string;
     links?: NavLink[];
     socials?: Social[];
