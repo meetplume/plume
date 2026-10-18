@@ -52,3 +52,17 @@ The `_content` route lives under the vault prefix, so each vault serves its own 
 in isolation.
 
 :::
+
+## Links between pages
+
+Link to another page the way you would on GitHub, with the relative path of its
+Markdown file. Plume points the link at the page:
+
+```markdown
+See [Deploying](deploy.md), or [the setup](../getting-started/installation.md#requirements).
+```
+
+`deploy.md` becomes the URL of the `deploy` page, resolved from the folder of the
+current file; `index.md` becomes its folder's home. A file whose `slug` is overridden
+in its frontmatter keeps its own URL, so link to it by that URL instead.
+

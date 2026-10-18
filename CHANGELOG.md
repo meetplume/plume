@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Relative links to Markdown files (`setup.md`, `../guides/deploy.md#step-2`), as written for GitHub, point to their page, resolved from the folder of the current file.
+
 ### Changed
 
 - Apply the rules Rector 2.7 adds (`??=`, `__DIR__` paths), so `composer test` passes again with current dependencies.

@@ -28,5 +28,6 @@ it('serves discovered pages from their language folder', function (string $url, 
 it('serves the assets of a page from its language folder', function (): void {
     $this->get('/localized/pt/guides/deploy', ['X-Inertia' => 'true'])
         ->assertOk()
-        ->assertJsonPath('props.contentAssetBase', '/localized/_content/pt/guides');
+        ->assertJsonPath('props.contentAssetBase', '/localized/_content/pt/guides')
+        ->assertJsonPath('props.pageBaseUrl', '/localized/pt/guides');
 });
