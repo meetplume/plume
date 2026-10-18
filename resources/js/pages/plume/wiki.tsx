@@ -21,7 +21,7 @@ export default function WikiLayout(page: WikiPageProps) {
                 {page.title && <title>{page.title}</title>}
                 {page.description && <meta name="description" content={page.description} />}
             </Head>
-            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} />
+            <DocsHeader {...page.header} collectionTitle={page.site?.name} searchIndexUrl={page.searchIndexUrl} navigation={page.navigation} />
             <div className="mx-auto flex max-w-368 gap-8 px-6 lg:px-8">
                 <SidebarNav navigation={page.navigation} />
                 <main className="min-w-0 flex-1">

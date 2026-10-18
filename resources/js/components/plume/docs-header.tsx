@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { type HeaderMenuItem, HeaderMenu } from '@/components/plume/header-menu';
 import { SearchButton } from '@/components/plume/search-button';
 import { SearchDialog } from '@/components/plume/search-dialog';
+import { type NavItem, NavTree } from '@/components/plume/sidebar-nav';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { useSearchShortcut } from '@/hooks/use-search-shortcut';
 import { useTexts } from '@/lib/texts';
@@ -54,6 +55,8 @@ export type DocsHeaderProps = {
     versions?: VersionItem[];
     languages?: LanguageItem[];
     searchIndexUrl?: string | null;
+    /** The sidebar navigation, which the mobile menu lists below the `lg` breakpoint. */
+    navigation?: NavItem[];
 };
 
 const icons: Record<string, { path: string; title: string }> = {
@@ -90,6 +93,7 @@ export function DocsHeader({
     versions,
     languages,
     searchIndexUrl,
+    navigation,
 }: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
     const t = useTexts();
@@ -183,7 +187,7 @@ export function DocsHeader({
                 createPortal(
                     <>
                         <div className="fixed inset-0 z-40 h-screen bg-black/10 backdrop-blur-xs lg:hidden" onClick={() => setMobileOpen(false)} />
-                        <aside className="fixed inset-y-0 right-0 z-50 flex h-screen w-72 flex-col border-l border-black/10 bg-background px-6 py-4 shadow-lg lg:hidden dark:border-white/10">
+                        <aside className="fixed inset-y-0 right-0 z-50 flex h-screen w-72 flex-col overflow-y-auto border-l border-black/10 bg-background px-6 py-4 shadow-lg lg:hidden dark:border-white/10">
                             <div className="flex h-8 items-center justify-end gap-3">
                                 {versionItems.length > 0 && (
                                     <HeaderMenu
@@ -214,6 +218,12 @@ export function DocsHeader({
                                     <XIcon className="size-7 shrink-0" />
                                 </button>
                             </div>
+
+                            {navigation && navigation.length > 0 && (
+                                <nav className="-mx-1 mt-6 text-sm">
+                                    <NavTree navigation={navigation} onNavigate={() => setMobileOpen(false)} />
+                                </nav>
+                            )}
 
                             <nav className="mt-6 flex flex-col gap-1">
                                 {links.map((link) => (

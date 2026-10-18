@@ -1,4 +1,5 @@
 import { useIcon } from '@/lib/icons';
+import { cn } from '@/lib/utils';
 import { Link, router } from '@inertiajs/react';
 import { useEffect, useRef } from 'react';
 
@@ -58,24 +59,31 @@ export function SidebarNav({ navigation }: SidebarNavProps) {
             className="sticky top-[calc(var(--spacing)*16+1px)] h-[calc(100vh-var(--spacing)*16-1px)] w-64 shrink-0 overflow-y-auto text-sm max-lg:hidden"
         >
             <div className="sticky top-0 z-10 h-8 bg-linear-to-b from-background"></div>
-            <ul className="space-y-6 pr-8 pb-8">
-                {navigation.map((item) => {
-                    if (item.type === 'group') {
-                        return <NavGroup key={item.key} group={item} />;
-                    }
-                    if (item.hidden) return null;
-                    return (
-                        <li key={item.key}>
-                            <NavLink page={item} />
-                        </li>
-                    );
-                })}
-            </ul>
+            <NavTree navigation={navigation} className="pr-8 pb-8" />
         </nav>
     );
 }
 
-function NavGroup({ group }: { group: NavGroupItem }) {
+/** The groups and pages of the navigation: the sidebar on large screens, the mobile menu below. */
+export function NavTree({ navigation, className, onNavigate }: { navigation: NavItem[]; className?: string; onNavigate?: () => void }) {
+    return (
+        <ul className={cn('space-y-6', className)}>
+            {navigation.map((item) => {
+                if (item.type === 'group') {
+                    return <NavGroup key={item.key} group={item} onNavigate={onNavigate} />;
+                }
+                if (item.hidden) return null;
+                return (
+                    <li key={item.key}>
+                        <NavLink page={item} onNavigate={onNavigate} />
+                    </li>
+                );
+            })}
+        </ul>
+    );
+}
+
+function NavGroup({ group, onNavigate }: { group: NavGroupItem; onNavigate?: () => void }) {
     const visiblePages = group.pages.filter((p) => !p.hidden);
     const Icon = useIcon(group.icon);
     if (visiblePages.length === 0) return null;
@@ -89,7 +97,7 @@ function NavGroup({ group }: { group: NavGroupItem }) {
             <ul className="space-y-0.5">
                 {visiblePages.map((page) => (
                     <li key={page.key}>
-                        <NavLink page={page} />
+                        <NavLink page={page} onNavigate={onNavigate} />
                     </li>
                 ))}
             </ul>
@@ -97,10 +105,11 @@ function NavGroup({ group }: { group: NavGroupItem }) {
     );
 }
 
-function NavLink({ page }: { page: NavPage }) {
+function NavLink({ page, onNavigate }: { page: NavPage; onNavigate?: () => void }) {
     return (
         <Link
             href={page.href}
+            onClick={onNavigate}
             className={`block rounded-[calc(var(--radius)-4px)] px-4 py-1.5 leading-snug ${
                 page.active
                     ? 'dark:text-primary-light dark:bg-primary-light/10 bg-primary/10 text-primary [text-shadow:-0.2px_0_0_currentColor,0.2px_0_0_currentColor]'
