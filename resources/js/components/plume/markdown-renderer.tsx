@@ -37,6 +37,29 @@ function rehypeContentAssets(assetBase: string) {
     };
 }
 
+/** A link to another Markdown file of the vault, as written for GitHub: `setup.md`, `../guides/deploy.md#step-2`. */
+const MARKDOWN_LINK = /^(?![a-z][a-z0-9+.-]*:|\/|#)([^?#]*)\.md([?#].*)?$/i;
+
+/**
+ * Points links to sibling Markdown files at their page: `guides/deploy.md`
+ * becomes `/docs/guides/deploy`, resolved from the folder of the current file.
+ */
+function rehypeMarkdownLinks(pageBaseUrl: string) {
+    return (tree: HastRoot) => {
+        visit(tree, 'element', (node: Element) => {
+            const href = node.properties?.href;
+            if (node.tagName !== 'a' || typeof href !== 'string') return;
+
+            const match = href.match(MARKDOWN_LINK);
+            if (!match) return;
+
+            const url = new URL(match[1], `https://plume.invalid${pageBaseUrl.replace(/\/$/, '')}/`);
+            const path = url.pathname.replace(/\/index$/, '') || '/';
+            node.properties.href = path + (match[2] ?? '');
+        });
+    };
+}
+
 /**
  * Splits meta from lang in code blocks so ```js{3-5} works like ```js {3-5}.
  */
@@ -61,6 +84,7 @@ export interface PlumePageContext {
     codeThemeLight?: string;
     codeThemeDark?: string;
     contentAssetBase?: string;
+    pageBaseUrl?: string;
 }
 
 interface MarkdownRendererProps {
@@ -122,11 +146,15 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
             pipeline.use(() => rehypeContentAssets(page.contentAssetBase!));
         }
 
+        if (page.pageBaseUrl) {
+            pipeline.use(() => rehypeMarkdownLinks(page.pageBaseUrl!));
+        }
+
         return pipeline
             .use(rehypeSlug)
             .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
             .use(rehypeStringify);
-    }, [codeThemeLight, codeThemeDark, page.contentAssetBase]);
+    }, [codeThemeLight, codeThemeDark, page.contentAssetBase, page.pageBaseUrl]);
 
     useEffect(() => {
         processor.process(normalizeCalloutSyntax(page.content)).then((file) => {
