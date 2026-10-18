@@ -62,15 +62,25 @@ it('builds inertia props from a markdown file', function (): void {
         ->and($props['content'])->toContain('# Getting Started');
 });
 
-it('builds inertia props from file without frontmatter', function (): void {
+it('takes the title and label of a file without frontmatter from its first heading', function (): void {
     $page = Page::make('no-frontmatter');
 
     $filePath = __DIR__.'/fixtures/pages/no-frontmatter.md';
     $props = $page->toInertiaProps($filePath);
 
-    expect($props['title'])->toBeNull()
+    expect($props['title'])->toBe('Just a heading')
+        ->and($page->resolveLabel($filePath))->toBe('Just a heading')
         ->and($props['description'])->toBeNull()
         ->and($props['content'])->toContain('No frontmatter here.');
+});
+
+it('skips headings inside code blocks when looking for the title', function (): void {
+    $filePath = sys_get_temp_dir().'/plume-heading-'.uniqid().'.md';
+    file_put_contents($filePath, "```bash\n# not a title\n```\n\n# Real title\n");
+
+    expect(Page::make('heading')->resolveLabel($filePath))->toBe('Real title');
+
+    unlink($filePath);
 });
 
 it('supports hidden flag', function (): void {
