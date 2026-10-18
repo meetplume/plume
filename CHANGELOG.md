@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Changing page no longer leaves the article blank while its code blocks are highlighted. The page paints its text first, then its highlighted code: on a throttled connection (4G, CPU ×4), the text of the next page shows in 110–150 ms instead of 170–680 ms, and on first load as soon as the layout (0.9 s instead of 2.2–2.7 s). The Expressive Code engine is also built once per pair of code themes instead of on every page.
 - A page without a frontmatter `title` took its tab title and sidebar label from its file name (`acces-mobile` read "Acces Mobile"), while search used its first `# ` heading. Both now use that heading.
 - In Auto discovery, the vault home (its root `index.md`) was sorted by name among the other root pages, often mid-list. It now opens its group.
+- The logo and the home link of the header were ignored unless `header()` was configured: the header showed the site name, linking to `/`.
 
 ### Security
 

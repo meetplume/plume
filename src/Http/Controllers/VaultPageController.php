@@ -119,15 +119,14 @@ class VaultPageController
             $props['sections'] = $pageProps['meta']['sections'];
         }
 
-        $header = $config->getHeader();
-        if ($header !== null) {
-            $headerArray = $header->toArray();
-            $headerArray['collectionTitle'] = $config->getName();
-            $headerArray['logo'] = $config->getLogo();
-            $headerArray['logoDark'] = $config->getLogoDark();
-            $headerArray['homeUrl'] = $vault->getHome();
-            $props['header'] = $headerArray;
-        }
+        // The logo and the home link apply with or without a configured header.
+        $props['header'] = [
+            ...($config->getHeader()?->toArray() ?? []),
+            'collectionTitle' => $config->getName(),
+            'logo' => $config->getLogo(),
+            'logoDark' => $config->getLogoDark(),
+            'homeUrl' => $vault->getHome(),
+        ];
 
         $footer = $config->getFooter();
         if ($footer !== null) {
