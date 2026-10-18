@@ -51,9 +51,11 @@ createInertiaApp({
         root.render(
             <StrictMode>
                 <App {...props} />
-                <Suspense>
-                    <LazyCustomizer initialData={plume} />
-                </Suspense>
+                {plume?.customizer?.enabled && (
+                    <Suspense>
+                        <LazyCustomizer initialData={plume} />
+                    </Suspense>
+                )}
             </StrictMode>,
         );
     },

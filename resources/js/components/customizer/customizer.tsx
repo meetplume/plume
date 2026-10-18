@@ -443,6 +443,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
     const [codeThemePreviews, setCodeThemePreviews] = useState<Record<string, CodeThemePreview>>({});
     const buttonRef = useRef<HTMLButtonElement>(null);
     const customColorTimeout = useRef<ReturnType<typeof setTimeout>>(null);
+    const previewsRequested = useRef(false);
 
     const presets = useMemo(() => customizerConfig?.presets ?? {}, [customizerConfig?.presets]);
     const presetNames = Object.keys(presets);
@@ -456,7 +457,12 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
         }
     }, [isCustomColor, config]);
 
+    // The previews load every Shiki theme: wait until the panel opens.
     useEffect(() => {
+        if (!open || previewsRequested.current) return;
+
+        previewsRequested.current = true;
+
         import('shiki').then(({ bundledThemes }) => {
             Promise.all(
                 codeThemes.map((t) =>
@@ -464,7 +470,7 @@ export function Customizer({ initialData }: { initialData?: CustomizerInitialDat
                 ),
             ).then((entries) => setCodeThemePreviews(Object.fromEntries(entries)));
         });
-    }, []);
+    }, [open]);
 
     const updateConfig = useCallback(
         (partial: Partial<ThemeConfig>) => {

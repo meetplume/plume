@@ -27,7 +27,7 @@ description: "Build setup, Inertia entry point, React layouts, blocks, markdown 
 
 - `createInertiaApp` with `resolve` doing a glob over `./pages/**/*.tsx`.
 - Reads `props.initialPage.props.plume` (shared from the controller) and applies the theme via `applyTheme` **before** mounting.
-- The `Customizer` is lazy-loaded and only renders if the backend shared it (local environment).
+- The `Customizer` is lazy-loaded, and only when the backend enables it (local environment). It loads the Shiki themes for its previews when its panel opens.
 
 ## Layouts — `resources/js/pages/plume/`
 
