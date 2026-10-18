@@ -63,7 +63,8 @@ Pipeline based on unified/remark/rehype:
 - `remark-gfm`, `remark-frontmatter`, `remark-directive`.
 - `remark-github-admonitions-to-directives` — supports both `:::` directives and GitHub-style `> [!TIP]` callouts (see [Callouts](/docs-contributing/authoring/callouts)).
 - `rehype-raw`, `rehype-slug`, `rehype-external-links`.
-- Code highlighting via Expressive Code (themes set by `code_theme_light/dark`).
+- Code highlighting via Expressive Code (themes set by `code_theme_light/dark`). Its engine is built once per pair of themes and shared by every page.
+- A new page paints its text first, then its highlighted code: highlighting takes most of the rendering time. A theme change keeps the page as it is until the code is highlighted again.
 - `rehypeContentAssets` — rewrites relative image URLs to use the page's `contentAssetBase` so assets resolve through the `/_content/{path}` route.
 
 ## Search UI — `components/plume/search-*` + `hooks/`
