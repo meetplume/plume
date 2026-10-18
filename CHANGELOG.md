@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-18
+
 ### Added
 
 - Relative links to Markdown files (`setup.md`, `../guides/deploy.md#step-2`), as written for GitHub, point to their page, resolved from the folder of the current file.
