@@ -29,6 +29,7 @@ Your content starts here…
 | `order`       | int       | Sort order in the sidebar (in Auto discovery).                      |
 | `hidden`      | bool      | Keep the page routable but hide it from the sidebar.                |
 | `group_icon`  | string    | The [Lucide](https://lucide.dev/icons) icon for the page's group (Auto discovery). |
+| `group_label` | string    | The label of the page's group, instead of the humanized folder name (Auto discovery). |
 
 ::: tip
 In **Manual discovery**, the `Page` builder (`->label()`, `->slug()`, `->order()`,

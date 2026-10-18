@@ -96,7 +96,7 @@ final readonly class SearchIndexBuilder
                     }
 
                     $seen[$slug] = true;
-                    $entries[] = ['page' => $page, 'group' => $group->getLabel(), 'tab' => $tabKey];
+                    $entries[] = ['page' => $page, 'group' => $group->getLabel() !== '' ? $group->getLabel() : null, 'tab' => $tabKey];
                 }
             }
         }

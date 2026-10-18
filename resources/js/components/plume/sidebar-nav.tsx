@@ -90,10 +90,12 @@ function NavGroup({ group, onNavigate }: { group: NavGroupItem; onNavigate?: () 
 
     return (
         <li>
-            <div className="flex items-center gap-2 px-4 py-1.5 font-semibold tracking-wide text-foreground">
-                {Icon && <Icon className="size-3.5 shrink-0" />}
-                {group.label}
-            </div>
+            {group.label && (
+                <div className="flex items-center gap-2 px-4 py-1.5 font-semibold tracking-wide text-foreground">
+                    {Icon && <Icon className="size-3.5 shrink-0" />}
+                    {group.label}
+                </div>
+            )}
             <ul className="space-y-0.5">
                 {visiblePages.map((page) => (
                     <li key={page.key}>

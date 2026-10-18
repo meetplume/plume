@@ -88,6 +88,7 @@ slug: install               # overrides the URL slug
 order: 1                    # sorts pages (and their group) — lower comes first
 hidden: true                # keep routable, but hide from the sidebar
 group_icon: rocket          # sets the icon for the page's group
+group_label: Démarrage      # sets the label of the page's group (defaults to the folder name)
 ---
 ```
 

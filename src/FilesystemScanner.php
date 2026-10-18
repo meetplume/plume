@@ -85,6 +85,10 @@ final readonly class FilesystemScanner
                 if (isset($frontmatter['group_icon']) && is_string($frontmatter['group_icon'])) {
                     $groupMeta[$groupKey]['icon'] = $frontmatter['group_icon'];
                 }
+
+                if (isset($frontmatter['group_label']) && is_string($frontmatter['group_label'])) {
+                    $groupMeta[$groupKey]['label'] = $frontmatter['group_label'];
+                }
             }
         }
 
@@ -96,13 +100,12 @@ final readonly class FilesystemScanner
             $group = NavGroup::make($groupKey)
                 ->pages($sortedPages);
 
-            if ($groupKey !== '_root') {
-                $group->label(
-                    str($groupKey)->replace('-', ' ')->title()->toString()
-                );
-            }
-
             $meta = $groupMeta[$groupKey] ?? [];
+
+            $group->label(match ($groupKey) {
+                '_root' => '',
+                default => $meta['label'] ?? str($groupKey)->replace('-', ' ')->title()->toString(),
+            });
 
             if (isset($meta['icon'])) {
                 $group->icon($meta['icon']);
