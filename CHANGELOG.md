@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Search snippets (Cmd-K) no longer show raw table syntax (`| | |`, `|---|:---:|`): the delimiter row and the pipes are dropped, the cells keep their text. Inline code now keeps its text in the index instead of leaving a gap, so a search for `npm run build` finds the page that mentions it.
 - The search index is rebuilt after a Plume update that changes how it is built. The cache in `storage/app/plume/search` and the `ETag` used to depend on the docs only, so an existing site kept serving the old index until a page changed; they now include the index format, and this release bumps it so the snippet fixes above apply without clearing anything.
 - On a long page, the table of contents scrolls in its own panel, but the active entries left it as the reader went on. The panel now follows them, unless the pointer is over it.
+- The Vite dev server no longer loads every Lucide icon on each page of the playground. Pre-bundled next to `lucide-react`, `lucide-react/dynamicIconImports` turned each of the 1,669 icons into a chunk that every page loaded: 1,841 requests and a first paint after 1.1 s. It is now left out of pre-bundling, so a page loads the icons it shows (181 requests, first paint at 0.3 s). Built assets are unchanged.
 
 ### Security
 

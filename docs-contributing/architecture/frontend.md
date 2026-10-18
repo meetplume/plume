@@ -11,6 +11,7 @@ description: "Build setup, Inertia entry point, React layouts, blocks, markdown 
 - `hotFile: 'playground/public/plume-hot'` — in development the playground's Blade root looks for this file to switch into HMR mode. Plume deliberately uses its **own** hot file (not `public/hot`) so the consuming app's Vite dev server never triggers Plume's dev mode by mistake (since 0.9.0).
 - Build output: `outDir: 'dist'`, with `base: '/vendor/plume/dist/'` so the published assets resolve correctly. The ServiceProvider publishes `dist/` to `public/vendor/plume/dist` under the tag `plume-assets`.
 - `manualChunks` splits `react` and the `markdown` pipeline (unified/remark/rehype) for better caching.
+- `optimizeDeps.exclude` keeps `lucide-react/dynamicIconImports` out of the dev server's pre-bundling: bundled next to `lucide-react`, it made every page load all 1,669 icons as separate chunks.
 
 ## Root view — `resources/views/app.blade.php`
 
