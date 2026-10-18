@@ -1,3 +1,4 @@
+import { useTexts } from '@/lib/texts';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 
@@ -9,12 +10,14 @@ type SearchButtonProps = {
 };
 
 export function SearchButton({ onClick, shortcut, className, variant = 'desktop' }: SearchButtonProps) {
+    const t = useTexts();
+
     if (variant === 'icon') {
         return (
             <button
                 type="button"
                 onClick={onClick}
-                aria-label="Search documentation"
+                aria-label={t('Search documentation')}
                 className={cn('text-muted-foreground hover:text-foreground', className)}
             >
                 <Search className="size-5" />
@@ -32,7 +35,7 @@ export function SearchButton({ onClick, shortcut, className, variant = 'desktop'
             )}
         >
             <Search className="size-4 shrink-0" />
-            <span>Search…</span>
+            <span>{t('Search…')}</span>
             {shortcut && (
                 <kbd className="ml-auto hidden rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline-block">
                     {shortcut}

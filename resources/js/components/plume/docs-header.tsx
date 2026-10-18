@@ -5,6 +5,7 @@ import { SearchButton } from '@/components/plume/search-button';
 import { SearchDialog } from '@/components/plume/search-dialog';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { useSearchShortcut } from '@/hooks/use-search-shortcut';
+import { useTexts } from '@/lib/texts';
 import { cn } from '@/lib/utils';
 import { Menu, Moon, Sun, X as XIcon } from 'lucide-react';
 import { siBluesky, siDiscord, siGithub, siX, siYoutube } from 'simple-icons';
@@ -90,6 +91,7 @@ export function DocsHeader({
     searchIndexUrl,
 }: DocsHeaderProps) {
     const { isDark, toggle } = useDarkMode();
+    const t = useTexts();
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const search = useSearchShortcut(Boolean(searchIndexUrl));
 
@@ -114,7 +116,7 @@ export function DocsHeader({
                 <div className="hidden flex-1 items-center justify-end gap-6 lg:flex">
                     {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} shortcut={search.shortcutLabel} />}
 
-                    <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
+                    <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label={t('Toggle dark mode')}>
                         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                     </button>
 
@@ -144,7 +146,7 @@ export function DocsHeader({
                 <div className="flex flex-1 items-center justify-end gap-4 lg:hidden">
                     {searchIndexUrl && <SearchButton onClick={() => search.setOpen(true)} variant="icon" />}
 
-                    <button onClick={() => setMobileOpen(true)} className="text-muted-foreground hover:text-foreground" aria-label="Open menu">
+                    <button onClick={() => setMobileOpen(true)} className="text-muted-foreground hover:text-foreground" aria-label={t('Open menu')}>
                         <Menu className="size-6 shrink-0" />
                     </button>
                 </div>
@@ -217,13 +219,13 @@ export function DocsHeader({
                         <div className="fixed inset-0 z-40 h-screen bg-black/10 backdrop-blur-xs lg:hidden" onClick={() => setMobileOpen(false)} />
                         <aside className="fixed inset-y-0 right-0 z-50 flex h-screen w-72 flex-col border-l border-black/10 bg-background px-6 py-4 shadow-lg lg:hidden dark:border-white/10">
                             <div className="flex h-8 items-center justify-end gap-3">
-                                <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
+                                <button onClick={toggle} className="text-muted-foreground hover:text-foreground" aria-label={t('Toggle dark mode')}>
                                     {isDark ? <Sun className="size-6" /> : <Moon className="size-6" />}
                                 </button>
                                 <button
                                     onClick={() => setMobileOpen(false)}
                                     className="size-7 text-muted-foreground hover:text-foreground"
-                                    aria-label="Close menu"
+                                    aria-label={t('Close menu')}
                                 >
                                     <XIcon className="size-7 shrink-0" />
                                 </button>

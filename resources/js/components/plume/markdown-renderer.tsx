@@ -1,11 +1,12 @@
 import { normalizeCalloutSyntax, remarkCallouts } from '@/lib/remark-callouts';
+import { useTexts } from '@/lib/texts';
 import { createInlineSvgUrl } from '@expressive-code/core';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { usePage } from '@inertiajs/react';
 import type { Element, Root as HastRoot } from 'hast';
 import type { Code, Root } from 'mdast';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import rehypeExpressiveCode, { type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
+import rehypeExpressiveCode, { pluginFramesTexts, type ThemeObjectOrShikiThemeName } from 'rehype-expressive-code';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -97,6 +98,8 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const sharedProps = usePage().props as Record<string, unknown>;
+    const locale = typeof sharedProps.locale === 'string' ? sharedProps.locale : 'en';
+    const t = useTexts();
     const plume = sharedProps.plume as { codeThemeLight?: string; codeThemeDark?: string } | undefined;
 
     const initialLight = page.codeThemeLight ?? plume?.codeThemeLight ?? 'github-light';
@@ -116,16 +119,22 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
     }, []);
 
     const processor = useMemo(() => {
+        pluginFramesTexts.overrideTexts(locale, {
+            copyButtonTooltip: t('Copy to clipboard'),
+            copyButtonCopied: t('Copied!'),
+        });
+
         const pipeline = unified()
             .use(remarkParse)
             .use(remarkGfm)
             .use(remarkFrontmatter)
             .use(remarkGithubAdmonitionsToDirectives)
             .use(remarkDirective)
-            .use(remarkCallouts)
+            .use(remarkCallouts, { detailsLabel: t('Details') })
             .use(remarkCodeMeta)
             .use(remarkRehype, { allowDangerousHtml: true })
             .use(rehypeExpressiveCode, {
+                defaultLocale: locale,
                 themes: [codeThemeLight as ThemeObjectOrShikiThemeName, codeThemeDark as ThemeObjectOrShikiThemeName],
                 themeCssSelector: (theme, { styleVariants }) => {
                     const index = styleVariants.findIndex((v) => v.theme === theme);
@@ -154,7 +163,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
             .use(rehypeSlug)
             .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
             .use(rehypeStringify);
-    }, [codeThemeLight, codeThemeDark, page.contentAssetBase, page.pageBaseUrl]);
+    }, [codeThemeLight, codeThemeDark, page.contentAssetBase, page.pageBaseUrl, locale, t]);
 
     useEffect(() => {
         processor.process(normalizeCalloutSyntax(page.content)).then((file) => {

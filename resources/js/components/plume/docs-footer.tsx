@@ -1,3 +1,4 @@
+import { useTexts } from '@/lib/texts';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PrevNextLink {
@@ -12,6 +13,8 @@ export type DocsFooterProps = {
 };
 
 export function DocsFooter({ text, prev, next }: DocsFooterProps) {
+    const t = useTexts();
+
     return (
         <footer data-slot="docs-footer" className="mx-auto w-full max-w-full border-t border-border/40 py-8 lg:max-w-3xl">
             {(prev || next) && (
@@ -37,7 +40,7 @@ export function DocsFooter({ text, prev, next }: DocsFooterProps) {
             <div className="flex items-center justify-between text-sm text-muted-foreground [&_a]:font-medium [&_a]:text-foreground [&_a]:hover:underline">
                 <div>{text && <span dangerouslySetInnerHTML={{ __html: text }} />}</div>
                 <div className="text-muted-foreground">
-                    Powered by{' '}
+                    {t('Powered by')}{' '}
                     <a
                         href={`https://meetplume.com?ref=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                         target="_blank"

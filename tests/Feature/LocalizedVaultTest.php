@@ -31,3 +31,13 @@ it('serves the assets of a page from its language folder', function (): void {
         ->assertJsonPath('props.contentAssetBase', '/localized/_content/pt/guides')
         ->assertJsonPath('props.pageBaseUrl', '/localized/pt/guides');
 });
+
+it('words its interface in the language of the page', function (string $url, string $locale, string $tableOfContents): void {
+    $this->get($url, ['X-Inertia' => 'true'])
+        ->assertOk()
+        ->assertJsonPath('props.locale', $locale)
+        ->assertJsonPath('props.texts.On this page', $tableOfContents);
+})->with([
+    'English, the source of the texts' => ['/localized', 'en', 'On this page'],
+    'a language Plume translates' => ['/localized/pt', 'pt', 'Nesta página'],
+]);
