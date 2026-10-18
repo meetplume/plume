@@ -19,6 +19,17 @@
     @apply mb-0;
 }
 
+/* A colored callout tints its bold text, links, list markers and headings too,
+   instead of the prose palette (dark gray on a green tip). Inline code keeps its own. */
+.plume-callout:not(.plume-callout--details) .plume-callout__content {
+    --tw-prose-headings: currentColor;
+    --tw-prose-links: currentColor;
+    --tw-prose-bold: currentColor;
+    --tw-prose-counters: currentColor;
+    --tw-prose-bullets: currentColor;
+    --tw-prose-quotes: currentColor;
+}
+
 .plume-callout__title {
     @apply mt-0 mb-1 text-sm font-semibold;
 }
