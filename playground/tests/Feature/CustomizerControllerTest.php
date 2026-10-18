@@ -1,37 +1,52 @@
 <?php
 
-use Meetplume\Plume\Facades\Plume;
+use Illuminate\Http\Request;
+use Meetplume\Plume\Enums\Discovery;
+use Meetplume\Plume\Plume;
 use Meetplume\Plume\ThemeConfig;
 use Meetplume\Plume\Vault;
+
+class CustomizerTestVault extends Vault
+{
+    public static string $contentPath = '';
+
+    public static bool $allowed = true;
+
+    protected string $prefix = '/test-vault/docs';
+
+    protected string $layout = 'docs';
+
+    protected Discovery $discovery = Discovery::Auto;
+
+    public function getPath(): string
+    {
+        return self::$contentPath;
+    }
+
+    public function canAccess(Request $request): bool
+    {
+        return self::$allowed;
+    }
+}
 
 beforeEach(function (): void {
     $this->configDir = sys_get_temp_dir().'/plume_vault_test_'.uniqid();
     mkdir($this->configDir);
+    file_put_contents($this->configDir.'/index.md', "# Home\n");
     $this->configPath = $this->configDir.'/config.yml';
     ThemeConfig::write($this->configPath, ['theme' => 'default', 'primary' => 'neutral', 'gray' => 'neutral', 'radius' => 'medium', 'spacing' => 'default', 'dark' => false]);
 
-    $configDir = $this->configDir;
-    $vault = new class($configDir) extends Vault
-    {
-        protected string $prefix = '/test-vault/docs';
+    CustomizerTestVault::$contentPath = $this->configDir;
+    CustomizerTestVault::$allowed = true;
 
-        protected string $layout = 'docs';
-
-        public function __construct(string $path)
-        {
-            $this->path = $path;
-        }
-    };
-
-    Plume::configure()->vaults([]);
-    $config = Plume::getConfiguration();
-    $reflection = new ReflectionProperty($config, 'vaults');
-    $reflection->setValue($config, ['test-vault/docs' => $vault]);
+    app()->forgetInstance(Plume::class);
+    app(Plume::class)->configure()->vaults([CustomizerTestVault::class]);
+    app(Plume::class)->getConfiguration()->boot();
 });
 
 afterEach(function (): void {
-    if (file_exists($this->configPath)) {
-        unlink($this->configPath);
+    foreach (glob($this->configDir.'/*') ?: [] as $file) {
+        unlink($file);
     }
     if (is_dir($this->configDir)) {
         rmdir($this->configDir);
@@ -39,8 +54,7 @@ afterEach(function (): void {
 });
 
 it('updates config file and returns resolved values', function (): void {
-    $response = $this->postJson('/_plume/customizer', [
-        'vault' => 'test-vault/docs',
+    $response = $this->postJson('/test-vault/docs/_plume/customizer', [
         'primary' => 'blue',
         'radius' => 'large',
     ]);
@@ -54,25 +68,23 @@ it('updates config file and returns resolved values', function (): void {
 });
 
 it('returns 422 for invalid radius', function (): void {
-    $response = $this->postJson('/_plume/customizer', [
-        'vault' => 'test-vault/docs',
+    $response = $this->postJson('/test-vault/docs/_plume/customizer', [
         'radius' => 'invalid',
     ]);
 
     $response->assertUnprocessable();
 });
 
-it('returns 422 when vault is missing', function (): void {
-    $response = $this->postJson('/_plume/customizer', [
-        'primary' => 'blue',
-    ]);
+it('refuses a reader the vault turns away', function (): void {
+    CustomizerTestVault::$allowed = false;
 
-    $response->assertUnprocessable();
+    $this->postJson('/test-vault/docs/_plume/customizer', ['primary' => 'blue'])->assertForbidden();
+
+    expect(file_get_contents($this->configPath))->not->toContain('primary: blue');
 });
 
 it('switches preset when theme sent alone', function (): void {
-    $response = $this->postJson('/_plume/customizer', [
-        'vault' => 'test-vault/docs',
+    $response = $this->postJson('/test-vault/docs/_plume/customizer', [
         'theme' => 'ocean',
     ]);
 
@@ -84,16 +96,16 @@ it('switches preset when theme sent alone', function (): void {
 });
 
 it('resets to defaults', function (): void {
-    $this->postJson('/_plume/customizer', ['vault' => 'test-vault/docs', 'primary' => 'red']);
+    $this->postJson('/test-vault/docs/_plume/customizer', ['primary' => 'red']);
 
-    $response = $this->postJson('/_plume/customizer/reset', ['vault' => 'test-vault/docs']);
+    $response = $this->postJson('/test-vault/docs/_plume/customizer/reset');
 
     $response->assertSuccessful();
     $response->assertJsonFragment(['primary' => 'neutral', 'radius' => 'medium']);
 });
 
 it('preserves theme key on reset', function (): void {
-    $response = $this->postJson('/_plume/customizer/reset', ['vault' => 'test-vault/docs']);
+    $response = $this->postJson('/test-vault/docs/_plume/customizer/reset');
 
     $response->assertSuccessful();
 

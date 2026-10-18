@@ -32,10 +32,6 @@ class PlumeServiceProvider extends ServiceProvider
 
         $this->registerBladeDirectives();
 
-        if ($this->app->environment('local', 'testing')) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/customizer.php');
-        }
-
         $this->app->booted(function (): void {
             $plume = app(Plume::class);
             $config = $plume->getConfiguration();

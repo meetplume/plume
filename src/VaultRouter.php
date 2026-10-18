@@ -6,6 +6,7 @@ namespace Meetplume\Plume;
 
 use Illuminate\Support\Facades\Route;
 use Meetplume\Plume\Http\Controllers\ContentAssetController;
+use Meetplume\Plume\Http\Controllers\CustomizerController;
 use Meetplume\Plume\Http\Controllers\DiagnosticsController;
 use Meetplume\Plume\Http\Controllers\SearchIndexController;
 use Meetplume\Plume\Http\Controllers\VaultPageController;
@@ -43,6 +44,7 @@ final class VaultRouter
 
         $this->registerAbsoluteRoutes($vault, $prefix);
         $this->registerDiagnosticsRoute($prefix);
+        $this->registerCustomizerRoutes($prefix);
         $this->registerContentAssetRoute($prefix);
         $this->registerSearchIndexRoute($prefix);
 
@@ -302,6 +304,21 @@ final class VaultRouter
         Route::get(sprintf('%s/_plume', $prefix), DiagnosticsController::class)
             ->defaults('vaultPrefix', $prefix)
             ->name(sprintf('plume.%s._plume', $prefix));
+    }
+
+    private function registerCustomizerRoutes(string $prefix): void
+    {
+        if (! app()->isLocal() && ! app()->runningUnitTests()) {
+            return;
+        }
+
+        Route::post(sprintf('%s/_plume/customizer', $prefix), [CustomizerController::class, 'update'])
+            ->defaults('vaultPrefix', $prefix)
+            ->name(sprintf('plume.%s._plume.customizer', $prefix));
+
+        Route::post(sprintf('%s/_plume/customizer/reset', $prefix), [CustomizerController::class, 'reset'])
+            ->defaults('vaultPrefix', $prefix)
+            ->name(sprintf('plume.%s._plume.customizer.reset', $prefix));
     }
 
     private function registerContentAssetRoute(string $prefix): void
