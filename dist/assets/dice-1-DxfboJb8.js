@@ -1,0 +1,1 @@
+import{c as t}from"./index-BmT1ec6r.js";import"./app-VAgvxNeD.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const e=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",ry:"2",key:"1m3agn"}],["path",{d:"M12 12h.01",key:"1mp3jc"}]],p=t("dice-1",e);export{e as __iconNode,p as default};
