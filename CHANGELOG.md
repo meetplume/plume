@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-10-19
+
 ### Fixed
 
 - Route names use dots where a vault's prefix or a page key has slashes: `plume.docs.users.root` instead of `plume.docs/users.root`. Tools that turn route names into code, such as Wayfinder, generated invalid TypeScript from them. A `route()` call on an old name needs the new one.
