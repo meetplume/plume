@@ -110,13 +110,13 @@ final class VaultRouter
 
         $route = Route::get($pattern, VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name('plume.'.$prefix);
+            ->name($this->routeName($prefix));
 
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
 
-        $this->registerMarkdownRoute($pattern, 'plume.'.$prefix, $prefix, $constraints);
+        $this->registerMarkdownRoute($pattern, $this->routeName($prefix), $prefix, $constraints);
     }
 
     /**
@@ -145,13 +145,13 @@ final class VaultRouter
 
         $route = Route::get(implode('/', $segments), VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name('plume.'.$prefix.'.no-lang');
+            ->name($this->routeName($prefix, 'no-lang'));
 
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
 
-        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-lang', $prefix, $constraints);
+        $this->registerMarkdownRoute(implode('/', $segments), $this->routeName($prefix, 'no-lang'), $prefix, $constraints);
     }
 
     /**
@@ -180,13 +180,13 @@ final class VaultRouter
 
         $route = Route::get(implode('/', $segments), VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name('plume.'.$prefix.'.no-ver');
+            ->name($this->routeName($prefix, 'no-ver'));
 
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
 
-        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-ver', $prefix, $constraints);
+        $this->registerMarkdownRoute(implode('/', $segments), $this->routeName($prefix, 'no-ver'), $prefix, $constraints);
     }
 
     /**
@@ -209,13 +209,13 @@ final class VaultRouter
 
         $route = Route::get(implode('/', $segments), VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name('plume.'.$prefix.'.no-lang-ver');
+            ->name($this->routeName($prefix, 'no-lang-ver'));
 
         foreach ($constraints as $param => $constraint) {
             $route->where($param, $constraint);
         }
 
-        $this->registerMarkdownRoute(implode('/', $segments), 'plume.'.$prefix.'.no-lang-ver', $prefix, $constraints);
+        $this->registerMarkdownRoute(implode('/', $segments), $this->routeName($prefix, 'no-lang-ver'), $prefix, $constraints);
     }
 
     private function registerRootRoute(string $prefix): void
@@ -223,9 +223,9 @@ final class VaultRouter
         Route::get($prefix, VaultPageController::class)
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
-            ->name('plume.'.$prefix.'.root');
+            ->name($this->routeName($prefix, 'root'));
 
-        $this->registerMarkdownRoute($prefix, 'plume.'.$prefix.'.root', $prefix, defaults: ['slug' => '/']);
+        $this->registerMarkdownRoute($prefix, $this->routeName($prefix, 'root'), $prefix, defaults: ['slug' => '/']);
     }
 
     /**
@@ -239,9 +239,9 @@ final class VaultRouter
             ->where('language', implode('|', $languageCodes))
             ->defaults('vaultPrefix', $prefix)
             ->defaults('slug', '/')
-            ->name('plume.'.$prefix.'.root.lang');
+            ->name($this->routeName($prefix, 'root.lang'));
 
-        $this->registerMarkdownRoute($prefix.'/{language}', 'plume.'.$prefix.'.root.lang', $prefix, ['language' => implode('|', $languageCodes)], ['slug' => '/']);
+        $this->registerMarkdownRoute($prefix.'/{language}', $this->routeName($prefix, 'root.lang'), $prefix, ['language' => implode('|', $languageCodes)], ['slug' => '/']);
     }
 
     private function registerAbsoluteRoutes(Vault $vault, string $vaultPrefix): void
@@ -256,10 +256,20 @@ final class VaultRouter
             Route::get($routePath, VaultPageController::class)
                 ->defaults('vaultPrefix', $vaultPrefix)
                 ->defaults('slug', $page->getSlug())
-                ->name('plume.'.$vaultPrefix.'.route.'.$page->key);
+                ->name($this->routeName($vaultPrefix, 'route', $page->key));
 
-            $this->registerMarkdownRoute($routePath, 'plume.'.$vaultPrefix.'.route.'.$page->key, $vaultPrefix, defaults: ['slug' => $page->getSlug()]);
+            $this->registerMarkdownRoute($routePath, $this->routeName($vaultPrefix, 'route', $page->key), $vaultPrefix, defaults: ['slug' => $page->getSlug()]);
         }
+    }
+
+    /**
+     * A route name, with dots where the prefix and page keys have slashes:
+     * `docs/users` gives `plume.docs.users`, which tools that turn route
+     * names into code (Wayfinder, Ziggy) can read.
+     */
+    private function routeName(string ...$parts): string
+    {
+        return 'plume.'.str_replace('/', '.', implode('.', $parts));
     }
 
     /**
@@ -303,7 +313,7 @@ final class VaultRouter
 
         Route::get(sprintf('%s/_plume', $prefix), DiagnosticsController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name(sprintf('plume.%s._plume', $prefix));
+            ->name($this->routeName($prefix, '_plume'));
     }
 
     private function registerCustomizerRoutes(string $prefix): void
@@ -314,11 +324,11 @@ final class VaultRouter
 
         Route::post(sprintf('%s/_plume/customizer', $prefix), [CustomizerController::class, 'update'])
             ->defaults('vaultPrefix', $prefix)
-            ->name(sprintf('plume.%s._plume.customizer', $prefix));
+            ->name($this->routeName($prefix, '_plume.customizer'));
 
         Route::post(sprintf('%s/_plume/customizer/reset', $prefix), [CustomizerController::class, 'reset'])
             ->defaults('vaultPrefix', $prefix)
-            ->name(sprintf('plume.%s._plume.customizer.reset', $prefix));
+            ->name($this->routeName($prefix, '_plume.customizer.reset'));
     }
 
     private function registerContentAssetRoute(string $prefix): void
@@ -326,14 +336,14 @@ final class VaultRouter
         Route::get(sprintf('%s/_content/{path}', $prefix), ContentAssetController::class)
             ->where('path', '.*')
             ->defaults('vaultPrefix', $prefix)
-            ->name(sprintf('plume.%s._content', $prefix));
+            ->name($this->routeName($prefix, '_content'));
     }
 
     private function registerSearchIndexRoute(string $prefix): void
     {
         Route::get(sprintf('%s/_plume/search-index.json', $prefix), SearchIndexController::class)
             ->defaults('vaultPrefix', $prefix)
-            ->name(sprintf('plume.%s._plume.search', $prefix));
+            ->name($this->routeName($prefix, '_plume.search'));
     }
 
     private function anyVersionHasTabs(Vault $vault): bool
