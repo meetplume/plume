@@ -63,6 +63,6 @@ See [Deploying](deploy.md), or [the setup](../getting-started/installation.md#re
 ```
 
 `deploy.md` becomes the URL of the `deploy` page, resolved from the folder of the
-current file; `index.md` becomes its folder's home. A file whose `slug` is overridden
+current file; `index.md`, or `README.md`, becomes its folder's page. A file whose `slug` is overridden
 in its frontmatter keeps its own URL, so link to it by that URL instead.
 

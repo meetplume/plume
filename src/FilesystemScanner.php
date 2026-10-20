@@ -223,8 +223,8 @@ final readonly class FilesystemScanner
 
         $page = Page::make($key)->path($relativePath);
 
-        if ($filename === 'index' && $directory === '.') {
-            $page->slug('/');
+        if ($this->isFolderPage($relativePath)) {
+            $page->slug($directory === '.' ? '/' : $directory);
         }
 
         if (isset($frontmatter['title']) && is_string($frontmatter['title'])) {
@@ -251,6 +251,28 @@ final readonly class FilesystemScanner
     }
 
     /**
+     * A folder's `index.md` is its page, served at the folder's address (the
+     * vault's home for the root folder), and so is its `README.md` when it has
+     * no `index.md`, as on GitHub.
+     */
+    private function isFolderPage(string $relativePath): bool
+    {
+        $filename = pathinfo($relativePath, PATHINFO_FILENAME);
+
+        if ($filename === 'index') {
+            return true;
+        }
+
+        if (strcasecmp($filename, 'readme') !== 0) {
+            return false;
+        }
+
+        $directory = dirname($relativePath);
+
+        return ! is_file($this->fullPath($directory === '.' ? 'index.md' : $directory.'/index.md'));
+    }
+
+    /**
      * @return array<string, mixed>
      */
     private function readFrontmatter(string $filePath): array
@@ -271,9 +293,12 @@ final readonly class FilesystemScanner
     private function sortPages(array $pages): array
     {
         usort($pages, function (Page $a, Page $b): int {
-            // The vault's home (its root index.md) opens its group.
-            if ($a->getSlug() === '/' || $b->getSlug() === '/') {
-                return ($b->getSlug() === '/') <=> ($a->getSlug() === '/');
+            // A folder's page (the vault's home for the root folder) opens its group.
+            $aIsFolderPage = $this->isFolderPage($a->getPath());
+            $bIsFolderPage = $this->isFolderPage($b->getPath());
+
+            if ($aIsFolderPage !== $bIsFolderPage) {
+                return $bIsFolderPage <=> $aIsFolderPage;
             }
 
             $aOrder = $a->getOrder();

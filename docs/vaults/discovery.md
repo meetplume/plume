@@ -94,6 +94,8 @@ group_label: Démarrage      # sets the label of the page's group (defaults to t
 
 ::: note
 - Files and folders prefixed with `_` (e.g. `_draft.md`) are skipped during scanning.
-- A root-level `index.md` is automatically mapped to the vault's home (`/`).
+- A folder's `index.md` is served at the folder's address and opens its group; the root
+  one is the vault's home (`/`). A `README.md` does the same when its folder has no
+  `index.md`, as on GitHub.
 - Pages without an explicit `order` sort alphabetically, after ordered pages.
 :::

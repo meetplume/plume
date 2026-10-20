@@ -50,6 +50,8 @@ const MARKDOWN_LINK = /^(?![a-z][a-z0-9+.-]*:|\/|#)([^?#]*)\.md([?#].*)?$/i;
 /**
  * Points links to sibling Markdown files at their page: `guides/deploy.md`
  * becomes `/docs/guides/deploy`, resolved from the folder of the current file.
+ * A folder's `index.md` or `README.md` is the folder's page: `guides/README.md`
+ * becomes `/docs/guides`.
  */
 function rehypeMarkdownLinks(pageBaseUrl: string) {
     return (tree: HastRoot) => {
@@ -61,7 +63,7 @@ function rehypeMarkdownLinks(pageBaseUrl: string) {
             if (!match) return;
 
             const url = new URL(match[1], `https://plume.invalid${pageBaseUrl.replace(/\/$/, '')}/`);
-            const path = url.pathname.replace(/\/index$/, '') || '/';
+            const path = url.pathname.replace(/\/(index|readme)$/i, '') || '/';
             node.properties.href = path + (match[2] ?? '');
         });
     };

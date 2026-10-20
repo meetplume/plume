@@ -149,3 +149,46 @@ it('puts the vault home first in its group, before pages sorted by name', functi
     array_map(unlink(...), glob($basePath.'/*.md') ?: []);
     rmdir($basePath);
 });
+
+it('serves a folder README.md at the folder address and opens its group with it, as on GitHub', function (): void {
+    $basePath = sys_get_temp_dir().'/plume-scanner-'.uniqid();
+    mkdir($basePath.'/guides', recursive: true);
+    file_put_contents($basePath.'/README.md', "# Handbook\n");
+    file_put_contents($basePath.'/guides/README.md', "# Guides\n");
+    file_put_contents($basePath.'/guides/alpha.md', "# Alpha\n");
+
+    $scanner = new FilesystemScanner($basePath);
+    $slugs = [];
+
+    foreach ($scanner->scanPages() as $page) {
+        $slugs[$page->key] = $page->getSlug();
+    }
+
+    $guides = array_find($scanner->scanNavigation(), fn (NavGroup $group): bool => $group->key === 'guides');
+
+    expect($slugs)->toBe(['README' => '/', 'guides/README' => 'guides', 'guides/alpha' => 'guides/alpha'])
+        ->and(array_map(fn (Page $page): string => $page->key, $guides->getPages()))->toBe(['guides/README', 'guides/alpha']);
+
+    array_map(unlink(...), [...glob($basePath.'/guides/*.md') ?: [], ...glob($basePath.'/*.md') ?: []]);
+    rmdir($basePath.'/guides');
+    rmdir($basePath);
+});
+
+it('keeps index.md as the folder page when the folder also has a README.md', function (): void {
+    $basePath = sys_get_temp_dir().'/plume-scanner-'.uniqid();
+    mkdir($basePath.'/notes', recursive: true);
+    file_put_contents($basePath.'/notes/index.md', "# Notes\n");
+    file_put_contents($basePath.'/notes/README.md', "# About these notes\n");
+
+    $slugs = [];
+
+    foreach (new FilesystemScanner($basePath)->scanPages() as $page) {
+        $slugs[$page->key] = $page->getSlug();
+    }
+
+    expect($slugs)->toBe(['notes/index' => 'notes', 'notes/README' => 'notes/README']);
+
+    array_map(unlink(...), glob($basePath.'/notes/*.md') ?: []);
+    rmdir($basePath.'/notes');
+    rmdir($basePath);
+});
