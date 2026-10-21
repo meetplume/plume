@@ -1,0 +1,1 @@
+import{c as o}from"./index-BtGEteFF.js";import"./app-DatpbPZh.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M22 2 2 22",key:"y4kqgn"}]],p=o("slash",t);export{t as __iconNode,p as default};

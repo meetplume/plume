@@ -1,0 +1,1 @@
+import{c as o}from"./index-BtGEteFF.js";import"./app-DatpbPZh.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"M4 4v16",key:"6qkkli"}]],p=o("tally-1",t);export{t as __iconNode,p as default};
