@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- In Auto and Mapped discovery, a folder's `README.md` is its page when the folder has no `index.md`, as on GitHub: the root one is the vault's home. A folder of docs browsed on GitHub, with its `README.md` as table of contents, is served as it is. Links to a `README.md` point to its folder.
+
+### Changed
+
+- A subfolder's `index.md` is served at the folder's address (`/docs/guides`, was `/docs/guides/index`), where links to it already pointed, and opens its group.
+
 ## [0.11.1] - 2026-10-19
 
 ### Fixed
