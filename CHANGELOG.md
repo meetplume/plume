@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- A Laravel Boost guideline and `plume-development` skill: coding agents learn to scaffold and register a vault, write its pages (frontmatter, callouts, relative links, images), gate access and embed a page in the app. Boost offers them when `meetplume/plume` is selected in `boost:install` or `boost:update`.
+
 ## [0.11.2] - 2026-10-21
 
 ### Added
