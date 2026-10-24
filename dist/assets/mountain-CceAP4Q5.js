@@ -1,0 +1,1 @@
+import{c as o}from"./index-3yI482h3.js";import"./app-BdgHqLCp.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["path",{d:"m8 3 4 8 5-5 5 15H2L8 3z",key:"otkl63"}]],c=o("mountain",t);export{t as __iconNode,c as default};

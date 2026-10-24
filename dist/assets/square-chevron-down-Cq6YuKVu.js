@@ -1,0 +1,1 @@
+import{c as o}from"./index-3yI482h3.js";import"./app-BdgHqLCp.js";import"./react-Ba5Cz7M3.js";/* empty css            */import"./markdown-BESpOmNu.js";const t=[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"m16 10-4 4-4-4",key:"894hmk"}]],m=o("square-chevron-down",t);export{t as __iconNode,m as default};
