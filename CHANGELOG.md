@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - A Laravel Boost guideline and `plume-development` skill: coding agents learn to scaffold and register a vault, write its pages (frontmatter, callouts, relative links, images), gate access and embed a page in the app. Boost offers them when `meetplume/plume` is selected in `boost:install` or `boost:update`.
+- Light and dark images, marked as on GitHub: an image whose address ends with `#gh-light-mode-only` shows only in light mode, one ending with `#gh-dark-mode-only` only in dark mode. A page gives each mode its own screenshot, and the same Markdown shows the right one on GitHub.
 
 ## [0.11.2] - 2026-10-21
 
