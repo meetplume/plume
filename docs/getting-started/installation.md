@@ -45,6 +45,13 @@ Skipping this step is a common cause of "production looks outdated" issues — f
 example the search palette serving a smaller, older index than your local copy.
 :::
 
+## Laravel Boost
+
+Plume ships a guideline and a `plume-development` skill for
+[Laravel Boost](https://github.com/laravel/boost), so that coding agents know how to
+create a vault and write its pages. Select `meetplume/plume` when Boost asks which
+packages to include, in `php artisan boost:install` or `php artisan boost:update`.
+
 ## Next steps
 
 Head to the [Quick Start](/docs/getting-started/quick-start) to scaffold your first
