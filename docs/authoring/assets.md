@@ -53,6 +53,20 @@ in isolation.
 
 :::
 
+## Light and dark images
+
+A screenshot of a light interface glares on a dark page. Give each mode its image,
+and end each address with the mode it is for, as on GitHub:
+
+```md
+![The release panel](images/release-panel.light.png#gh-light-mode-only)
+![The release panel](images/release-panel.dark.png#gh-dark-mode-only)
+```
+
+Plume shows the first one in light mode and the second one in dark mode, and follows
+the reader's switch. GitHub reads the same suffixes, so the Markdown file shows the
+right image there too. An image without a suffix shows in both modes.
+
 ## Links between pages
 
 Link to another page the way you would on GitHub, with the relative path of its
