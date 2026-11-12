@@ -227,6 +227,11 @@ html.dark img[src$='#gh-light-mode-only'] {
     margin-top: 1rem;
 }
 
+/* A table wider than the column scrolls inside its box. */
+.plume-table-scroll {
+    overflow-x: auto;
+}
+
 /* Print the page itself: no header, sidebar, table of contents or footer, the
    article at full width, and no box cut in two between pages. */
 @media print {
@@ -260,6 +265,7 @@ html.dark img[src$='#gh-light-mode-only'] {
         break-after: avoid;
     }
 
+    .plume-table-scroll,
     .expressive-code pre {
         overflow: visible;
         white-space: pre-wrap;
