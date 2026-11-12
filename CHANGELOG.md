@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.4] - 2026-11-12
+
 ### Fixed
 
 - A table wider than the page's column scrolls sideways in its own box, instead of spilling over the table of contents.
