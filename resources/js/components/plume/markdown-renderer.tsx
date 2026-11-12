@@ -24,7 +24,7 @@ import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-di
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { visit } from 'unist-util-visit';
+import { SKIP, visit } from 'unist-util-visit';
 
 function isRelativePath(src: string): boolean {
     return !src.startsWith('/') && !src.startsWith('http://') && !src.startsWith('https://') && !src.startsWith('data:') && !src.startsWith('#');
@@ -40,6 +40,27 @@ function rehypeContentAssets(assetBase: string) {
             if (node.tagName === 'img' && typeof src === 'string' && isRelativePath(src)) {
                 node.properties.src = `${assetBase}/${src}`;
             }
+        });
+    };
+}
+
+/**
+ * Wraps each table in a box that scrolls sideways: a table wider than the
+ * column scrolls in place instead of spilling over the table of contents.
+ */
+function rehypeScrollableTables() {
+    return (tree: HastRoot) => {
+        visit(tree, 'element', (node: Element, index, parent) => {
+            if (node.tagName !== 'table' || !parent || index === undefined) return;
+
+            parent.children[index] = {
+                type: 'element',
+                tagName: 'div',
+                properties: { className: ['plume-table-scroll'] },
+                children: [node],
+            };
+
+            return SKIP;
         });
     };
 }
@@ -208,6 +229,7 @@ export function MarkdownRenderer({ page, className }: MarkdownRendererProps) {
             }
 
             return pipeline
+                .use(rehypeScrollableTables)
                 .use(rehypeSlug)
                 .use(rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] })
                 .use(rehypeStringify);
